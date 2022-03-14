@@ -22,13 +22,13 @@
 #define FTSDF_H_
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/ftimage.h>
 
 /* common properties and function */
 #include "ftsdfcommon.h"
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /**************************************************************************
    *
@@ -37,7 +37,7 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   This struct must be passed to the raster render function
-   *   @FT_Raster_RenderFunc instead of @FT_Raster_Params because the
+   *   @FT_TS_Raster_RenderFunc instead of @FT_TS_Raster_Params because the
    *   rasterizer requires some additional information to render properly.
    *
    * @fields:
@@ -74,22 +74,22 @@ FT_BEGIN_HEADER
    */
   typedef struct  SDF_Raster_Params_
   {
-    FT_Raster_Params  root;
-    FT_UInt           spread;
-    FT_Bool           flip_sign;
-    FT_Bool           flip_y;
-    FT_Bool           overlaps;
+    FT_TS_Raster_Params  root;
+    FT_TS_UInt           spread;
+    FT_TS_Bool           flip_sign;
+    FT_TS_Bool           flip_y;
+    FT_TS_Bool           overlaps;
 
   } SDF_Raster_Params;
 
 
   /* rasterizer to convert outline to SDF */
-  FT_EXPORT_VAR( const FT_Raster_Funcs )  ft_sdf_raster;
+  FT_TS_EXPORT_VAR( const FT_TS_Raster_Funcs )  ft_sdf_raster;
 
   /* rasterizer to convert bitmap to SDF */
-  FT_EXPORT_VAR( const FT_Raster_Funcs )  ft_bitmap_sdf_raster;
+  FT_TS_EXPORT_VAR( const FT_TS_Raster_Funcs )  ft_bitmap_sdf_raster;
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTSDF_H_ */
 

@@ -26,32 +26,32 @@
 
   /* declare an extern to access `ft_outline_glyph_class' globally */
   /* allocated  in `ftglyph.c'                                     */
-  FT_CALLBACK_TABLE const FT_Glyph_Class  ft_outline_glyph_class;
+  FT_TS_CALLBACK_TABLE const FT_TS_Glyph_Class  ft_outline_glyph_class;
 
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_StrokerBorder )
-  FT_Outline_GetInsideBorder( FT_Outline*  outline )
+  FT_TS_EXPORT_DEF( FT_TS_StrokerBorder )
+  FT_TS_Outline_GetInsideBorder( FT_TS_Outline*  outline )
   {
-    FT_Orientation  o = FT_Outline_Get_Orientation( outline );
+    FT_TS_Orientation  o = FT_TS_Outline_Get_Orientation( outline );
 
 
-    return o == FT_ORIENTATION_TRUETYPE ? FT_STROKER_BORDER_RIGHT
-                                        : FT_STROKER_BORDER_LEFT;
+    return o == FT_TS_ORIENTATION_TRUETYPE ? FT_TS_STROKER_BORDER_RIGHT
+                                        : FT_TS_STROKER_BORDER_LEFT;
   }
 
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_StrokerBorder )
-  FT_Outline_GetOutsideBorder( FT_Outline*  outline )
+  FT_TS_EXPORT_DEF( FT_TS_StrokerBorder )
+  FT_TS_Outline_GetOutsideBorder( FT_TS_Outline*  outline )
   {
-    FT_Orientation  o = FT_Outline_Get_Orientation( outline );
+    FT_TS_Orientation  o = FT_TS_Outline_Get_Orientation( outline );
 
 
-    return o == FT_ORIENTATION_TRUETYPE ? FT_STROKER_BORDER_LEFT
-                                        : FT_STROKER_BORDER_RIGHT;
+    return o == FT_TS_ORIENTATION_TRUETYPE ? FT_TS_STROKER_BORDER_LEFT
+                                        : FT_TS_STROKER_BORDER_RIGHT;
   }
 
 
@@ -63,25 +63,25 @@
   /*************************************************************************/
   /*************************************************************************/
 
-#define FT_SMALL_CONIC_THRESHOLD  ( FT_ANGLE_PI / 6 )
-#define FT_SMALL_CUBIC_THRESHOLD  ( FT_ANGLE_PI / 8 )
+#define FT_TS_SMALL_CONIC_THRESHOLD  ( FT_TS_ANGLE_PI / 6 )
+#define FT_TS_SMALL_CUBIC_THRESHOLD  ( FT_TS_ANGLE_PI / 8 )
 
-#define FT_EPSILON  2
+#define FT_TS_EPSILON  2
 
-#define FT_IS_SMALL( x )  ( (x) > -FT_EPSILON && (x) < FT_EPSILON )
+#define FT_TS_IS_SMALL( x )  ( (x) > -FT_TS_EPSILON && (x) < FT_TS_EPSILON )
 
 
-  static FT_Pos
-  ft_pos_abs( FT_Pos  x )
+  static FT_TS_Pos
+  ft_pos_abs( FT_TS_Pos  x )
   {
     return x >= 0 ? x : -x;
   }
 
 
   static void
-  ft_conic_split( FT_Vector*  base )
+  ft_conic_split( FT_TS_Vector*  base )
   {
-    FT_Pos  a, b;
+    FT_TS_Pos  a, b;
 
 
     base[4].x = base[2].x;
@@ -100,14 +100,14 @@
   }
 
 
-  static FT_Bool
-  ft_conic_is_small_enough( FT_Vector*  base,
-                            FT_Angle   *angle_in,
-                            FT_Angle   *angle_out )
+  static FT_TS_Bool
+  ft_conic_is_small_enough( FT_TS_Vector*  base,
+                            FT_TS_Angle   *angle_in,
+                            FT_TS_Angle   *angle_out )
   {
-    FT_Vector  d1, d2;
-    FT_Angle   theta;
-    FT_Int     close1, close2;
+    FT_TS_Vector  d1, d2;
+    FT_TS_Angle   theta;
+    FT_TS_Int     close1, close2;
 
 
     d1.x = base[1].x - base[2].x;
@@ -115,8 +115,8 @@
     d2.x = base[0].x - base[1].x;
     d2.y = base[0].y - base[1].y;
 
-    close1 = FT_IS_SMALL( d1.x ) && FT_IS_SMALL( d1.y );
-    close2 = FT_IS_SMALL( d2.x ) && FT_IS_SMALL( d2.y );
+    close1 = FT_TS_IS_SMALL( d1.x ) && FT_TS_IS_SMALL( d1.y );
+    close2 = FT_TS_IS_SMALL( d2.x ) && FT_TS_IS_SMALL( d2.y );
 
     if ( close1 )
     {
@@ -128,7 +128,7 @@
       else
       {
         *angle_in  =
-        *angle_out = FT_Atan2( d2.x, d2.y );
+        *angle_out = FT_TS_Atan2( d2.x, d2.y );
       }
     }
     else /* !close1 */
@@ -136,25 +136,25 @@
       if ( close2 )
       {
         *angle_in  =
-        *angle_out = FT_Atan2( d1.x, d1.y );
+        *angle_out = FT_TS_Atan2( d1.x, d1.y );
       }
       else
       {
-        *angle_in  = FT_Atan2( d1.x, d1.y );
-        *angle_out = FT_Atan2( d2.x, d2.y );
+        *angle_in  = FT_TS_Atan2( d1.x, d1.y );
+        *angle_out = FT_TS_Atan2( d2.x, d2.y );
       }
     }
 
-    theta = ft_pos_abs( FT_Angle_Diff( *angle_in, *angle_out ) );
+    theta = ft_pos_abs( FT_TS_Angle_Diff( *angle_in, *angle_out ) );
 
-    return FT_BOOL( theta < FT_SMALL_CONIC_THRESHOLD );
+    return FT_TS_BOOL( theta < FT_TS_SMALL_CONIC_THRESHOLD );
   }
 
 
   static void
-  ft_cubic_split( FT_Vector*  base )
+  ft_cubic_split( FT_TS_Vector*  base )
   {
-    FT_Pos  a, b, c;
+    FT_TS_Pos  a, b, c;
 
 
     base[6].x = base[3].x;
@@ -186,23 +186,23 @@
   /* Return the average of `angle1' and `angle2'.            */
   /* This gives correct result even if `angle1' and `angle2' */
   /* have opposite signs.                                    */
-  static FT_Angle
-  ft_angle_mean( FT_Angle  angle1,
-                 FT_Angle  angle2 )
+  static FT_TS_Angle
+  ft_angle_mean( FT_TS_Angle  angle1,
+                 FT_TS_Angle  angle2 )
   {
-    return angle1 + FT_Angle_Diff( angle1, angle2 ) / 2;
+    return angle1 + FT_TS_Angle_Diff( angle1, angle2 ) / 2;
   }
 
 
-  static FT_Bool
-  ft_cubic_is_small_enough( FT_Vector*  base,
-                            FT_Angle   *angle_in,
-                            FT_Angle   *angle_mid,
-                            FT_Angle   *angle_out )
+  static FT_TS_Bool
+  ft_cubic_is_small_enough( FT_TS_Vector*  base,
+                            FT_TS_Angle   *angle_in,
+                            FT_TS_Angle   *angle_mid,
+                            FT_TS_Angle   *angle_out )
   {
-    FT_Vector  d1, d2, d3;
-    FT_Angle   theta1, theta2;
-    FT_Int     close1, close2, close3;
+    FT_TS_Vector  d1, d2, d3;
+    FT_TS_Angle   theta1, theta2;
+    FT_TS_Int     close1, close2, close3;
 
 
     d1.x = base[2].x - base[3].x;
@@ -212,9 +212,9 @@
     d3.x = base[0].x - base[1].x;
     d3.y = base[0].y - base[1].y;
 
-    close1 = FT_IS_SMALL( d1.x ) && FT_IS_SMALL( d1.y );
-    close2 = FT_IS_SMALL( d2.x ) && FT_IS_SMALL( d2.y );
-    close3 = FT_IS_SMALL( d3.x ) && FT_IS_SMALL( d3.y );
+    close1 = FT_TS_IS_SMALL( d1.x ) && FT_TS_IS_SMALL( d1.y );
+    close2 = FT_TS_IS_SMALL( d2.x ) && FT_TS_IS_SMALL( d2.y );
+    close3 = FT_TS_IS_SMALL( d3.x ) && FT_TS_IS_SMALL( d3.y );
 
     if ( close1 )
     {
@@ -229,7 +229,7 @@
         {
           *angle_in  =
           *angle_mid =
-          *angle_out = FT_Atan2( d3.x, d3.y );
+          *angle_out = FT_TS_Atan2( d3.x, d3.y );
         }
       }
       else /* !close2 */
@@ -238,13 +238,13 @@
         {
           *angle_in  =
           *angle_mid =
-          *angle_out = FT_Atan2( d2.x, d2.y );
+          *angle_out = FT_TS_Atan2( d2.x, d2.y );
         }
         else /* !close3 */
         {
           *angle_in  =
-          *angle_mid = FT_Atan2( d2.x, d2.y );
-          *angle_out = FT_Atan2( d3.x, d3.y );
+          *angle_mid = FT_TS_Atan2( d2.x, d2.y );
+          *angle_out = FT_TS_Atan2( d3.x, d3.y );
         }
       }
     }
@@ -256,12 +256,12 @@
         {
           *angle_in  =
           *angle_mid =
-          *angle_out = FT_Atan2( d1.x, d1.y );
+          *angle_out = FT_TS_Atan2( d1.x, d1.y );
         }
         else /* !close3 */
         {
-          *angle_in  = FT_Atan2( d1.x, d1.y );
-          *angle_out = FT_Atan2( d3.x, d3.y );
+          *angle_in  = FT_TS_Atan2( d1.x, d1.y );
+          *angle_out = FT_TS_Atan2( d3.x, d3.y );
           *angle_mid = ft_angle_mean( *angle_in, *angle_out );
         }
       }
@@ -269,24 +269,24 @@
       {
         if ( close3 )
         {
-          *angle_in  = FT_Atan2( d1.x, d1.y );
+          *angle_in  = FT_TS_Atan2( d1.x, d1.y );
           *angle_mid =
-          *angle_out = FT_Atan2( d2.x, d2.y );
+          *angle_out = FT_TS_Atan2( d2.x, d2.y );
         }
         else /* !close3 */
         {
-          *angle_in  = FT_Atan2( d1.x, d1.y );
-          *angle_mid = FT_Atan2( d2.x, d2.y );
-          *angle_out = FT_Atan2( d3.x, d3.y );
+          *angle_in  = FT_TS_Atan2( d1.x, d1.y );
+          *angle_mid = FT_TS_Atan2( d2.x, d2.y );
+          *angle_out = FT_TS_Atan2( d3.x, d3.y );
         }
       }
     }
 
-    theta1 = ft_pos_abs( FT_Angle_Diff( *angle_in,  *angle_mid ) );
-    theta2 = ft_pos_abs( FT_Angle_Diff( *angle_mid, *angle_out ) );
+    theta1 = ft_pos_abs( FT_TS_Angle_Diff( *angle_in,  *angle_mid ) );
+    theta2 = ft_pos_abs( FT_TS_Angle_Diff( *angle_mid, *angle_out ) );
 
-    return FT_BOOL( theta1 < FT_SMALL_CUBIC_THRESHOLD &&
-                    theta2 < FT_SMALL_CUBIC_THRESHOLD );
+    return FT_TS_BOOL( theta1 < FT_TS_SMALL_CUBIC_THRESHOLD &&
+                    theta2 < FT_TS_SMALL_CUBIC_THRESHOLD );
   }
 
 
@@ -298,51 +298,51 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  typedef enum  FT_StrokeTags_
+  typedef enum  FT_TS_StrokeTags_
   {
-    FT_STROKE_TAG_ON    = 1,   /* on-curve point  */
-    FT_STROKE_TAG_CUBIC = 2,   /* cubic off-point */
-    FT_STROKE_TAG_BEGIN = 4,   /* sub-path start  */
-    FT_STROKE_TAG_END   = 8    /* sub-path end    */
+    FT_TS_STROKE_TAG_ON    = 1,   /* on-curve point  */
+    FT_TS_STROKE_TAG_CUBIC = 2,   /* cubic off-point */
+    FT_TS_STROKE_TAG_BEGIN = 4,   /* sub-path start  */
+    FT_TS_STROKE_TAG_END   = 8    /* sub-path end    */
 
-  } FT_StrokeTags;
+  } FT_TS_StrokeTags;
 
-#define  FT_STROKE_TAG_BEGIN_END  ( FT_STROKE_TAG_BEGIN | FT_STROKE_TAG_END )
+#define  FT_TS_STROKE_TAG_BEGIN_END  ( FT_TS_STROKE_TAG_BEGIN | FT_TS_STROKE_TAG_END )
 
-  typedef struct  FT_StrokeBorderRec_
+  typedef struct  FT_TS_StrokeBorderRec_
   {
-    FT_UInt     num_points;
-    FT_UInt     max_points;
-    FT_Vector*  points;
-    FT_Byte*    tags;
-    FT_Bool     movable;  /* TRUE for ends of lineto borders */
-    FT_Int      start;    /* index of current sub-path start point */
-    FT_Memory   memory;
-    FT_Bool     valid;
+    FT_TS_UInt     num_points;
+    FT_TS_UInt     max_points;
+    FT_TS_Vector*  points;
+    FT_TS_Byte*    tags;
+    FT_TS_Bool     movable;  /* TRUE for ends of lineto borders */
+    FT_TS_Int      start;    /* index of current sub-path start point */
+    FT_TS_Memory   memory;
+    FT_TS_Bool     valid;
 
-  } FT_StrokeBorderRec, *FT_StrokeBorder;
+  } FT_TS_StrokeBorderRec, *FT_TS_StrokeBorder;
 
 
-  static FT_Error
-  ft_stroke_border_grow( FT_StrokeBorder  border,
-                         FT_UInt          new_points )
+  static FT_TS_Error
+  ft_stroke_border_grow( FT_TS_StrokeBorder  border,
+                         FT_TS_UInt          new_points )
   {
-    FT_UInt   old_max = border->max_points;
-    FT_UInt   new_max = border->num_points + new_points;
-    FT_Error  error   = FT_Err_Ok;
+    FT_TS_UInt   old_max = border->max_points;
+    FT_TS_UInt   new_max = border->num_points + new_points;
+    FT_TS_Error  error   = FT_TS_Err_Ok;
 
 
     if ( new_max > old_max )
     {
-      FT_UInt    cur_max = old_max;
-      FT_Memory  memory  = border->memory;
+      FT_TS_UInt    cur_max = old_max;
+      FT_TS_Memory  memory  = border->memory;
 
 
       while ( cur_max < new_max )
         cur_max += ( cur_max >> 1 ) + 16;
 
-      if ( FT_RENEW_ARRAY( border->points, old_max, cur_max ) ||
-           FT_RENEW_ARRAY( border->tags,   old_max, cur_max ) )
+      if ( FT_TS_RENEW_ARRAY( border->points, old_max, cur_max ) ||
+           FT_TS_RENEW_ARRAY( border->tags,   old_max, cur_max ) )
         goto Exit;
 
       border->max_points = cur_max;
@@ -354,14 +354,14 @@
 
 
   static void
-  ft_stroke_border_close( FT_StrokeBorder  border,
-                          FT_Bool          reverse )
+  ft_stroke_border_close( FT_TS_StrokeBorder  border,
+                          FT_TS_Bool          reverse )
   {
-    FT_UInt  start = (FT_UInt)border->start;
-    FT_UInt  count = border->num_points;
+    FT_TS_UInt  start = (FT_TS_UInt)border->start;
+    FT_TS_UInt  count = border->num_points;
 
 
-    FT_ASSERT( border->start >= 0 );
+    FT_TS_ASSERT( border->start >= 0 );
 
     /* don't record empty paths! */
     if ( count <= start + 1U )
@@ -378,13 +378,13 @@
       {
         /* reverse the points */
         {
-          FT_Vector*  vec1 = border->points + start + 1;
-          FT_Vector*  vec2 = border->points + count - 1;
+          FT_TS_Vector*  vec1 = border->points + start + 1;
+          FT_TS_Vector*  vec2 = border->points + count - 1;
 
 
           for ( ; vec1 < vec2; vec1++, vec2-- )
           {
-            FT_Vector  tmp;
+            FT_TS_Vector  tmp;
 
 
             tmp   = *vec1;
@@ -395,13 +395,13 @@
 
         /* then the tags */
         {
-          FT_Byte*  tag1 = border->tags + start + 1;
-          FT_Byte*  tag2 = border->tags + count - 1;
+          FT_TS_Byte*  tag1 = border->tags + start + 1;
+          FT_TS_Byte*  tag2 = border->tags + count - 1;
 
 
           for ( ; tag1 < tag2; tag1++, tag2-- )
           {
-            FT_Byte  tmp;
+            FT_TS_Byte  tmp;
 
 
             tmp   = *tag1;
@@ -411,8 +411,8 @@
         }
       }
 
-      border->tags[start    ] |= FT_STROKE_TAG_BEGIN;
-      border->tags[count - 1] |= FT_STROKE_TAG_END;
+      border->tags[start    ] |= FT_TS_STROKE_TAG_BEGIN;
+      border->tags[count - 1] |= FT_TS_STROKE_TAG_END;
     }
 
     border->start   = -1;
@@ -420,15 +420,15 @@
   }
 
 
-  static FT_Error
-  ft_stroke_border_lineto( FT_StrokeBorder  border,
-                           FT_Vector*       to,
-                           FT_Bool          movable )
+  static FT_TS_Error
+  ft_stroke_border_lineto( FT_TS_StrokeBorder  border,
+                           FT_TS_Vector*       to,
+                           FT_TS_Bool          movable )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
-    FT_ASSERT( border->start >= 0 );
+    FT_TS_ASSERT( border->start >= 0 );
 
     if ( border->movable )
     {
@@ -438,21 +438,21 @@
     else
     {
       /* don't add zero-length lineto, but always add moveto */
-      if ( border->num_points > (FT_UInt)border->start                     &&
-           FT_IS_SMALL( border->points[border->num_points - 1].x - to->x ) &&
-           FT_IS_SMALL( border->points[border->num_points - 1].y - to->y ) )
+      if ( border->num_points > (FT_TS_UInt)border->start                     &&
+           FT_TS_IS_SMALL( border->points[border->num_points - 1].x - to->x ) &&
+           FT_TS_IS_SMALL( border->points[border->num_points - 1].y - to->y ) )
         return error;
 
       /* add one point */
       error = ft_stroke_border_grow( border, 1 );
       if ( !error )
       {
-        FT_Vector*  vec = border->points + border->num_points;
-        FT_Byte*    tag = border->tags   + border->num_points;
+        FT_TS_Vector*  vec = border->points + border->num_points;
+        FT_TS_Byte*    tag = border->tags   + border->num_points;
 
 
         vec[0] = *to;
-        tag[0] = FT_STROKE_TAG_ON;
+        tag[0] = FT_TS_STROKE_TAG_ON;
 
         border->num_points += 1;
       }
@@ -462,28 +462,28 @@
   }
 
 
-  static FT_Error
-  ft_stroke_border_conicto( FT_StrokeBorder  border,
-                            FT_Vector*       control,
-                            FT_Vector*       to )
+  static FT_TS_Error
+  ft_stroke_border_conicto( FT_TS_StrokeBorder  border,
+                            FT_TS_Vector*       control,
+                            FT_TS_Vector*       to )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
 
 
-    FT_ASSERT( border->start >= 0 );
+    FT_TS_ASSERT( border->start >= 0 );
 
     error = ft_stroke_border_grow( border, 2 );
     if ( !error )
     {
-      FT_Vector*  vec = border->points + border->num_points;
-      FT_Byte*    tag = border->tags   + border->num_points;
+      FT_TS_Vector*  vec = border->points + border->num_points;
+      FT_TS_Byte*    tag = border->tags   + border->num_points;
 
 
       vec[0] = *control;
       vec[1] = *to;
 
       tag[0] = 0;
-      tag[1] = FT_STROKE_TAG_ON;
+      tag[1] = FT_TS_STROKE_TAG_ON;
 
       border->num_points += 2;
     }
@@ -494,31 +494,31 @@
   }
 
 
-  static FT_Error
-  ft_stroke_border_cubicto( FT_StrokeBorder  border,
-                            FT_Vector*       control1,
-                            FT_Vector*       control2,
-                            FT_Vector*       to )
+  static FT_TS_Error
+  ft_stroke_border_cubicto( FT_TS_StrokeBorder  border,
+                            FT_TS_Vector*       control1,
+                            FT_TS_Vector*       control2,
+                            FT_TS_Vector*       to )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
 
 
-    FT_ASSERT( border->start >= 0 );
+    FT_TS_ASSERT( border->start >= 0 );
 
     error = ft_stroke_border_grow( border, 3 );
     if ( !error )
     {
-      FT_Vector*  vec = border->points + border->num_points;
-      FT_Byte*    tag = border->tags   + border->num_points;
+      FT_TS_Vector*  vec = border->points + border->num_points;
+      FT_TS_Byte*    tag = border->tags   + border->num_points;
 
 
       vec[0] = *control1;
       vec[1] = *control2;
       vec[2] = *to;
 
-      tag[0] = FT_STROKE_TAG_CUBIC;
-      tag[1] = FT_STROKE_TAG_CUBIC;
-      tag[2] = FT_STROKE_TAG_ON;
+      tag[0] = FT_TS_STROKE_TAG_CUBIC;
+      tag[1] = FT_TS_STROKE_TAG_CUBIC;
+      tag[2] = FT_TS_STROKE_TAG_ON;
 
       border->num_points += 3;
     }
@@ -529,35 +529,35 @@
   }
 
 
-#define FT_ARC_CUBIC_ANGLE  ( FT_ANGLE_PI / 2 )
+#define FT_TS_ARC_CUBIC_ANGLE  ( FT_TS_ANGLE_PI / 2 )
 
 
-  static FT_Error
-  ft_stroke_border_arcto( FT_StrokeBorder  border,
-                          FT_Vector*       center,
-                          FT_Fixed         radius,
-                          FT_Angle         angle_start,
-                          FT_Angle         angle_diff )
+  static FT_TS_Error
+  ft_stroke_border_arcto( FT_TS_StrokeBorder  border,
+                          FT_TS_Vector*       center,
+                          FT_TS_Fixed         radius,
+                          FT_TS_Angle         angle_start,
+                          FT_TS_Angle         angle_diff )
   {
-    FT_Fixed   coef;
-    FT_Vector  a0, a1, a2, a3;
-    FT_Int     i, arcs = 1;
-    FT_Error   error = FT_Err_Ok;
+    FT_TS_Fixed   coef;
+    FT_TS_Vector  a0, a1, a2, a3;
+    FT_TS_Int     i, arcs = 1;
+    FT_TS_Error   error = FT_TS_Err_Ok;
 
 
     /* number of cubic arcs to draw */
-    while (  angle_diff > FT_ARC_CUBIC_ANGLE * arcs ||
-            -angle_diff > FT_ARC_CUBIC_ANGLE * arcs )
+    while (  angle_diff > FT_TS_ARC_CUBIC_ANGLE * arcs ||
+            -angle_diff > FT_TS_ARC_CUBIC_ANGLE * arcs )
       arcs++;
 
     /* control tangents */
-    coef  = FT_Tan( angle_diff / ( 4 * arcs ) );
+    coef  = FT_TS_Tan( angle_diff / ( 4 * arcs ) );
     coef += coef / 3;
 
     /* compute start and first control point */
-    FT_Vector_From_Polar( &a0, radius, angle_start );
-    a1.x = FT_MulFix( -a0.y, coef );
-    a1.y = FT_MulFix(  a0.x, coef );
+    FT_TS_Vector_From_Polar( &a0, radius, angle_start );
+    a1.x = FT_TS_MulFix( -a0.y, coef );
+    a1.y = FT_TS_MulFix(  a0.x, coef );
 
     a0.x += center->x;
     a0.y += center->y;
@@ -567,10 +567,10 @@
     for ( i = 1; i <= arcs; i++ )
     {
       /* compute end and second control point */
-      FT_Vector_From_Polar( &a3, radius,
+      FT_TS_Vector_From_Polar( &a3, radius,
                             angle_start + i * angle_diff / arcs );
-      a2.x = FT_MulFix(  a3.y, coef );
-      a2.y = FT_MulFix( -a3.x, coef );
+      a2.x = FT_TS_MulFix(  a3.y, coef );
+      a2.y = FT_TS_MulFix( -a3.x, coef );
 
       a3.x += center->x;
       a3.y += center->y;
@@ -591,15 +591,15 @@
   }
 
 
-  static FT_Error
-  ft_stroke_border_moveto( FT_StrokeBorder  border,
-                           FT_Vector*       to )
+  static FT_TS_Error
+  ft_stroke_border_moveto( FT_TS_StrokeBorder  border,
+                           FT_TS_Vector*       to )
   {
     /* close current open path if any ? */
     if ( border->start >= 0 )
       ft_stroke_border_close( border, FALSE );
 
-    border->start = (FT_Int)border->num_points;
+    border->start = (FT_TS_Int)border->num_points;
     border->movable = FALSE;
 
     return ft_stroke_border_lineto( border, to, FALSE );
@@ -607,8 +607,8 @@
 
 
   static void
-  ft_stroke_border_init( FT_StrokeBorder  border,
-                         FT_Memory        memory )
+  ft_stroke_border_init( FT_TS_StrokeBorder  border,
+                         FT_TS_Memory        memory )
   {
     border->memory = memory;
     border->points = NULL;
@@ -622,7 +622,7 @@
 
 
   static void
-  ft_stroke_border_reset( FT_StrokeBorder  border )
+  ft_stroke_border_reset( FT_TS_StrokeBorder  border )
   {
     border->num_points = 0;
     border->start      = -1;
@@ -631,13 +631,13 @@
 
 
   static void
-  ft_stroke_border_done( FT_StrokeBorder  border )
+  ft_stroke_border_done( FT_TS_StrokeBorder  border )
   {
-    FT_Memory  memory = border->memory;
+    FT_TS_Memory  memory = border->memory;
 
 
-    FT_FREE( border->points );
-    FT_FREE( border->tags );
+    FT_TS_FREE( border->points );
+    FT_TS_FREE( border->tags );
 
     border->num_points = 0;
     border->max_points = 0;
@@ -646,24 +646,24 @@
   }
 
 
-  static FT_Error
-  ft_stroke_border_get_counts( FT_StrokeBorder  border,
-                               FT_UInt         *anum_points,
-                               FT_UInt         *anum_contours )
+  static FT_TS_Error
+  ft_stroke_border_get_counts( FT_TS_StrokeBorder  border,
+                               FT_TS_UInt         *anum_points,
+                               FT_TS_UInt         *anum_contours )
   {
-    FT_Error  error        = FT_Err_Ok;
-    FT_UInt   num_points   = 0;
-    FT_UInt   num_contours = 0;
+    FT_TS_Error  error        = FT_TS_Err_Ok;
+    FT_TS_UInt   num_points   = 0;
+    FT_TS_UInt   num_contours = 0;
 
-    FT_UInt     count      = border->num_points;
-    FT_Vector*  point      = border->points;
-    FT_Byte*    tags       = border->tags;
-    FT_Int      in_contour = 0;
+    FT_TS_UInt     count      = border->num_points;
+    FT_TS_Vector*  point      = border->points;
+    FT_TS_Byte*    tags       = border->tags;
+    FT_TS_Int      in_contour = 0;
 
 
     for ( ; count > 0; count--, num_points++, point++, tags++ )
     {
-      if ( tags[0] & FT_STROKE_TAG_BEGIN )
+      if ( tags[0] & FT_TS_STROKE_TAG_BEGIN )
       {
         if ( in_contour != 0 )
           goto Fail;
@@ -673,7 +673,7 @@
       else if ( in_contour == 0 )
         goto Fail;
 
-      if ( tags[0] & FT_STROKE_TAG_END )
+      if ( tags[0] & FT_TS_STROKE_TAG_END )
       {
         in_contour = 0;
         num_contours++;
@@ -698,44 +698,44 @@
 
 
   static void
-  ft_stroke_border_export( FT_StrokeBorder  border,
-                           FT_Outline*      outline )
+  ft_stroke_border_export( FT_TS_StrokeBorder  border,
+                           FT_TS_Outline*      outline )
   {
     /* copy point locations */
     if ( border->num_points )
-      FT_ARRAY_COPY( outline->points + outline->n_points,
+      FT_TS_ARRAY_COPY( outline->points + outline->n_points,
                      border->points,
                      border->num_points );
 
     /* copy tags */
     {
-      FT_UInt   count = border->num_points;
-      FT_Byte*  read  = border->tags;
-      FT_Byte*  write = (FT_Byte*)outline->tags + outline->n_points;
+      FT_TS_UInt   count = border->num_points;
+      FT_TS_Byte*  read  = border->tags;
+      FT_TS_Byte*  write = (FT_TS_Byte*)outline->tags + outline->n_points;
 
 
       for ( ; count > 0; count--, read++, write++ )
       {
-        if ( *read & FT_STROKE_TAG_ON )
-          *write = FT_CURVE_TAG_ON;
-        else if ( *read & FT_STROKE_TAG_CUBIC )
-          *write = FT_CURVE_TAG_CUBIC;
+        if ( *read & FT_TS_STROKE_TAG_ON )
+          *write = FT_TS_CURVE_TAG_ON;
+        else if ( *read & FT_TS_STROKE_TAG_CUBIC )
+          *write = FT_TS_CURVE_TAG_CUBIC;
         else
-          *write = FT_CURVE_TAG_CONIC;
+          *write = FT_TS_CURVE_TAG_CONIC;
       }
     }
 
     /* copy contours */
     {
-      FT_UInt    count = border->num_points;
-      FT_Byte*   tags  = border->tags;
-      FT_Short*  write = outline->contours + outline->n_contours;
-      FT_Short   idx   = (FT_Short)outline->n_points;
+      FT_TS_UInt    count = border->num_points;
+      FT_TS_Byte*   tags  = border->tags;
+      FT_TS_Short*  write = outline->contours + outline->n_contours;
+      FT_TS_Short   idx   = (FT_TS_Short)outline->n_points;
 
 
       for ( ; count > 0; count--, tags++, idx++ )
       {
-        if ( *tags & FT_STROKE_TAG_END )
+        if ( *tags & FT_TS_STROKE_TAG_END )
         {
           *write++ = idx;
           outline->n_contours++;
@@ -745,7 +745,7 @@
 
     outline->n_points += (short)border->num_points;
 
-    FT_ASSERT( FT_Outline_Check( outline ) == 0 );
+    FT_TS_ASSERT( FT_TS_Outline_Check( outline ) == 0 );
   }
 
 
@@ -757,53 +757,53 @@
   /*************************************************************************/
   /*************************************************************************/
 
-#define FT_SIDE_TO_ROTATE( s )   ( FT_ANGLE_PI2 - (s) * FT_ANGLE_PI )
+#define FT_TS_SIDE_TO_ROTATE( s )   ( FT_TS_ANGLE_PI2 - (s) * FT_TS_ANGLE_PI )
 
-  typedef struct  FT_StrokerRec_
+  typedef struct  FT_TS_StrokerRec_
   {
-    FT_Angle             angle_in;             /* direction into curr join */
-    FT_Angle             angle_out;            /* direction out of join  */
-    FT_Vector            center;               /* current position */
-    FT_Fixed             line_length;          /* length of last lineto */
-    FT_Bool              first_point;          /* is this the start? */
-    FT_Bool              subpath_open;         /* is the subpath open? */
-    FT_Angle             subpath_angle;        /* subpath start direction */
-    FT_Vector            subpath_start;        /* subpath start position */
-    FT_Fixed             subpath_line_length;  /* subpath start lineto len */
-    FT_Bool              handle_wide_strokes;  /* use wide strokes logic? */
+    FT_TS_Angle             angle_in;             /* direction into curr join */
+    FT_TS_Angle             angle_out;            /* direction out of join  */
+    FT_TS_Vector            center;               /* current position */
+    FT_TS_Fixed             line_length;          /* length of last lineto */
+    FT_TS_Bool              first_point;          /* is this the start? */
+    FT_TS_Bool              subpath_open;         /* is the subpath open? */
+    FT_TS_Angle             subpath_angle;        /* subpath start direction */
+    FT_TS_Vector            subpath_start;        /* subpath start position */
+    FT_TS_Fixed             subpath_line_length;  /* subpath start lineto len */
+    FT_TS_Bool              handle_wide_strokes;  /* use wide strokes logic? */
 
-    FT_Stroker_LineCap   line_cap;
-    FT_Stroker_LineJoin  line_join;
-    FT_Stroker_LineJoin  line_join_saved;
-    FT_Fixed             miter_limit;
-    FT_Fixed             radius;
+    FT_TS_Stroker_LineCap   line_cap;
+    FT_TS_Stroker_LineJoin  line_join;
+    FT_TS_Stroker_LineJoin  line_join_saved;
+    FT_TS_Fixed             miter_limit;
+    FT_TS_Fixed             radius;
 
-    FT_StrokeBorderRec   borders[2];
-    FT_Library           library;
+    FT_TS_StrokeBorderRec   borders[2];
+    FT_TS_Library           library;
 
-  } FT_StrokerRec;
+  } FT_TS_StrokerRec;
 
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_New( FT_Library   library,
-                  FT_Stroker  *astroker )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_New( FT_TS_Library   library,
+                  FT_TS_Stroker  *astroker )
   {
-    FT_Error    error;           /* assigned in FT_NEW */
-    FT_Memory   memory;
-    FT_Stroker  stroker = NULL;
+    FT_TS_Error    error;           /* assigned in FT_TS_NEW */
+    FT_TS_Memory   memory;
+    FT_TS_Stroker  stroker = NULL;
 
 
     if ( !library )
-      return FT_THROW( Invalid_Library_Handle );
+      return FT_TS_THROW( Invalid_Library_Handle );
 
     if ( !astroker )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     memory = library->memory;
 
-    if ( !FT_NEW( stroker ) )
+    if ( !FT_TS_NEW( stroker ) )
     {
       stroker->library = library;
 
@@ -819,12 +819,12 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Stroker_Set( FT_Stroker           stroker,
-                  FT_Fixed             radius,
-                  FT_Stroker_LineCap   line_cap,
-                  FT_Stroker_LineJoin  line_join,
-                  FT_Fixed             miter_limit )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Stroker_Set( FT_TS_Stroker           stroker,
+                  FT_TS_Fixed             radius,
+                  FT_TS_Stroker_LineCap   line_cap,
+                  FT_TS_Stroker_LineJoin  line_join,
+                  FT_TS_Fixed             miter_limit )
   {
     if ( !stroker )
       return;
@@ -842,14 +842,14 @@
     /* line join style can be temporarily changed when stroking curves */
     stroker->line_join_saved = line_join;
 
-    FT_Stroker_Rewind( stroker );
+    FT_TS_Stroker_Rewind( stroker );
   }
 
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Stroker_Rewind( FT_Stroker  stroker )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Stroker_Rewind( FT_TS_Stroker  stroker )
   {
     if ( stroker )
     {
@@ -861,38 +861,38 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Stroker_Done( FT_Stroker  stroker )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Stroker_Done( FT_TS_Stroker  stroker )
   {
     if ( stroker )
     {
-      FT_Memory  memory = stroker->library->memory;
+      FT_TS_Memory  memory = stroker->library->memory;
 
 
       ft_stroke_border_done( &stroker->borders[0] );
       ft_stroke_border_done( &stroker->borders[1] );
 
       stroker->library = NULL;
-      FT_FREE( stroker );
+      FT_TS_FREE( stroker );
     }
   }
 
 
   /* create a circular arc at a corner or cap */
-  static FT_Error
-  ft_stroker_arcto( FT_Stroker  stroker,
-                    FT_Int      side )
+  static FT_TS_Error
+  ft_stroker_arcto( FT_TS_Stroker  stroker,
+                    FT_TS_Int      side )
   {
-    FT_Angle         total, rotate;
-    FT_Fixed         radius = stroker->radius;
-    FT_Error         error  = FT_Err_Ok;
-    FT_StrokeBorder  border = stroker->borders + side;
+    FT_TS_Angle         total, rotate;
+    FT_TS_Fixed         radius = stroker->radius;
+    FT_TS_Error         error  = FT_TS_Err_Ok;
+    FT_TS_StrokeBorder  border = stroker->borders + side;
 
 
-    rotate = FT_SIDE_TO_ROTATE( side );
+    rotate = FT_TS_SIDE_TO_ROTATE( side );
 
-    total = FT_Angle_Diff( stroker->angle_in, stroker->angle_out );
-    if ( total == FT_ANGLE_PI )
+    total = FT_TS_Angle_Diff( stroker->angle_in, stroker->angle_out );
+    if ( total == FT_TS_ANGLE_PI )
       total = -rotate * 2;
 
     error = ft_stroke_border_arcto( border,
@@ -906,41 +906,41 @@
 
 
   /* add a cap at the end of an opened path */
-  static FT_Error
-  ft_stroker_cap( FT_Stroker  stroker,
-                  FT_Angle    angle,
-                  FT_Int      side )
+  static FT_TS_Error
+  ft_stroker_cap( FT_TS_Stroker  stroker,
+                  FT_TS_Angle    angle,
+                  FT_TS_Int      side )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
-    if ( stroker->line_cap == FT_STROKER_LINECAP_ROUND )
+    if ( stroker->line_cap == FT_TS_STROKER_LINECAP_ROUND )
     {
       /* add a round cap */
       stroker->angle_in  = angle;
-      stroker->angle_out = angle + FT_ANGLE_PI;
+      stroker->angle_out = angle + FT_TS_ANGLE_PI;
 
       error = ft_stroker_arcto( stroker, side );
     }
     else
     {
       /* add a square or butt cap */
-      FT_Vector        middle, delta;
-      FT_Fixed         radius = stroker->radius;
-      FT_StrokeBorder  border = stroker->borders + side;
+      FT_TS_Vector        middle, delta;
+      FT_TS_Fixed         radius = stroker->radius;
+      FT_TS_StrokeBorder  border = stroker->borders + side;
 
 
       /* compute middle point and first angle point */
-      FT_Vector_From_Polar( &middle, radius, angle );
+      FT_TS_Vector_From_Polar( &middle, radius, angle );
       delta.x = side ?  middle.y : -middle.y;
       delta.y = side ? -middle.x :  middle.x;
 
-      if ( stroker->line_cap == FT_STROKER_LINECAP_SQUARE )
+      if ( stroker->line_cap == FT_TS_STROKER_LINECAP_SQUARE )
       {
         middle.x += stroker->center.x;
         middle.y += stroker->center.y;
       }
-      else  /* FT_STROKER_LINECAP_BUTT */
+      else  /* FT_TS_STROKER_LINECAP_BUTT */
       {
         middle.x  = stroker->center.x;
         middle.y  = stroker->center.y;
@@ -966,23 +966,23 @@
 
 
   /* process an inside corner, i.e. compute intersection */
-  static FT_Error
-  ft_stroker_inside( FT_Stroker  stroker,
-                     FT_Int      side,
-                     FT_Fixed    line_length )
+  static FT_TS_Error
+  ft_stroker_inside( FT_TS_Stroker  stroker,
+                     FT_TS_Int      side,
+                     FT_TS_Fixed    line_length )
   {
-    FT_StrokeBorder  border = stroker->borders + side;
-    FT_Angle         phi, theta, rotate;
-    FT_Fixed         length;
-    FT_Vector        sigma = { 0, 0 };
-    FT_Vector        delta;
-    FT_Error         error = FT_Err_Ok;
-    FT_Bool          intersect;          /* use intersection of lines? */
+    FT_TS_StrokeBorder  border = stroker->borders + side;
+    FT_TS_Angle         phi, theta, rotate;
+    FT_TS_Fixed         length;
+    FT_TS_Vector        sigma = { 0, 0 };
+    FT_TS_Vector        delta;
+    FT_TS_Error         error = FT_TS_Err_Ok;
+    FT_TS_Bool          intersect;          /* use intersection of lines? */
 
 
-    rotate = FT_SIDE_TO_ROTATE( side );
+    rotate = FT_TS_SIDE_TO_ROTATE( side );
 
-    theta = FT_Angle_Diff( stroker->angle_in, stroker->angle_out ) / 2;
+    theta = FT_TS_Angle_Diff( stroker->angle_in, stroker->angle_out ) / 2;
 
     /* Only intersect borders if between two lineto's and both */
     /* lines are long enough (line_length is zero for curves). */
@@ -993,21 +993,21 @@
     else
     {
       /* compute minimum required length of lines */
-      FT_Fixed  min_length;
+      FT_TS_Fixed  min_length;
 
 
-      FT_Vector_Unit( &sigma, theta );
+      FT_TS_Vector_Unit( &sigma, theta );
       min_length =
-        ft_pos_abs( FT_MulDiv( stroker->radius, sigma.y, sigma.x ) );
+        ft_pos_abs( FT_TS_MulDiv( stroker->radius, sigma.y, sigma.x ) );
 
-      intersect = FT_BOOL( min_length                         &&
+      intersect = FT_TS_BOOL( min_length                         &&
                            stroker->line_length >= min_length &&
                            line_length          >= min_length );
     }
 
     if ( !intersect )
     {
-      FT_Vector_From_Polar( &delta, stroker->radius,
+      FT_TS_Vector_From_Polar( &delta, stroker->radius,
                             stroker->angle_out + rotate );
       delta.x += stroker->center.x;
       delta.y += stroker->center.y;
@@ -1019,9 +1019,9 @@
       /* compute median angle */
       phi = stroker->angle_in + theta + rotate;
 
-      length = FT_DivFix( stroker->radius, sigma.x );
+      length = FT_TS_DivFix( stroker->radius, sigma.x );
 
-      FT_Vector_From_Polar( &delta, length, phi );
+      FT_TS_Vector_From_Polar( &delta, length, phi );
       delta.x += stroker->center.x;
       delta.y += stroker->center.y;
     }
@@ -1033,52 +1033,52 @@
 
 
   /* process an outside corner, i.e. compute bevel/miter/round */
-  static FT_Error
-  ft_stroker_outside( FT_Stroker  stroker,
-                      FT_Int      side,
-                      FT_Fixed    line_length )
+  static FT_TS_Error
+  ft_stroker_outside( FT_TS_Stroker  stroker,
+                      FT_TS_Int      side,
+                      FT_TS_Fixed    line_length )
   {
-    FT_StrokeBorder  border = stroker->borders + side;
-    FT_Error         error;
-    FT_Angle         rotate;
+    FT_TS_StrokeBorder  border = stroker->borders + side;
+    FT_TS_Error         error;
+    FT_TS_Angle         rotate;
 
 
-    if ( stroker->line_join == FT_STROKER_LINEJOIN_ROUND )
+    if ( stroker->line_join == FT_TS_STROKER_LINEJOIN_ROUND )
       error = ft_stroker_arcto( stroker, side );
     else
     {
       /* this is a mitered (pointed) or beveled (truncated) corner */
-      FT_Fixed   radius = stroker->radius;
-      FT_Vector  sigma = { 0, 0 };
-      FT_Angle   theta = 0, phi = 0;
-      FT_Bool    bevel, fixed_bevel;
+      FT_TS_Fixed   radius = stroker->radius;
+      FT_TS_Vector  sigma = { 0, 0 };
+      FT_TS_Angle   theta = 0, phi = 0;
+      FT_TS_Bool    bevel, fixed_bevel;
 
 
-      rotate = FT_SIDE_TO_ROTATE( side );
+      rotate = FT_TS_SIDE_TO_ROTATE( side );
 
       bevel =
-        FT_BOOL( stroker->line_join == FT_STROKER_LINEJOIN_BEVEL );
+        FT_TS_BOOL( stroker->line_join == FT_TS_STROKER_LINEJOIN_BEVEL );
 
       fixed_bevel =
-        FT_BOOL( stroker->line_join != FT_STROKER_LINEJOIN_MITER_VARIABLE );
+        FT_TS_BOOL( stroker->line_join != FT_TS_STROKER_LINEJOIN_MITER_VARIABLE );
 
       /* check miter limit first */
       if ( !bevel )
       {
-        theta = FT_Angle_Diff( stroker->angle_in, stroker->angle_out ) / 2;
+        theta = FT_TS_Angle_Diff( stroker->angle_in, stroker->angle_out ) / 2;
 
-        if ( theta == FT_ANGLE_PI2 )
+        if ( theta == FT_TS_ANGLE_PI2 )
           theta = -rotate;
 
         phi    = stroker->angle_in + theta + rotate;
 
-        FT_Vector_From_Polar( &sigma, stroker->miter_limit, theta );
+        FT_TS_Vector_From_Polar( &sigma, stroker->miter_limit, theta );
 
         /* is miter limit exceeded? */
         if ( sigma.x < 0x10000L )
         {
           /* don't create variable bevels for very small deviations; */
-          /* FT_Sin(x) = 0 for x <= 57                               */
+          /* FT_TS_Sin(x) = 0 for x <= 57                               */
           if ( fixed_bevel || ft_pos_abs( theta ) > 57 )
             bevel = TRUE;
         }
@@ -1089,11 +1089,11 @@
         if ( fixed_bevel )
         {
           /* the outer corners are simply joined together */
-          FT_Vector  delta;
+          FT_TS_Vector  delta;
 
 
           /* add bevel */
-          FT_Vector_From_Polar( &delta,
+          FT_TS_Vector_From_Polar( &delta,
                                 radius,
                                 stroker->angle_out + rotate );
           delta.x += stroker->center.x;
@@ -1105,18 +1105,18 @@
         else /* variable bevel or clipped miter */
         {
           /* the miter is truncated */
-          FT_Vector  middle, delta;
-          FT_Fixed   coef;
+          FT_TS_Vector  middle, delta;
+          FT_TS_Fixed   coef;
 
 
           /* compute middle point and first angle point */
-          FT_Vector_From_Polar( &middle,
-                                FT_MulFix( radius, stroker->miter_limit ),
+          FT_TS_Vector_From_Polar( &middle,
+                                FT_TS_MulFix( radius, stroker->miter_limit ),
                                 phi );
 
-          coef    = FT_DivFix(  0x10000L - sigma.x, sigma.y );
-          delta.x = FT_MulFix(  middle.y, coef );
-          delta.y = FT_MulFix( -middle.x, coef );
+          coef    = FT_TS_DivFix(  0x10000L - sigma.x, sigma.y );
+          delta.x = FT_TS_MulFix(  middle.y, coef );
+          delta.y = FT_TS_MulFix( -middle.x, coef );
 
           middle.x += stroker->center.x;
           middle.y += stroker->center.y;
@@ -1139,7 +1139,7 @@
           /* (line_length is zero for curves)                     */
           if ( line_length == 0 )
           {
-            FT_Vector_From_Polar( &delta,
+            FT_TS_Vector_From_Polar( &delta,
                                   radius,
                                   stroker->angle_out + rotate );
 
@@ -1152,13 +1152,13 @@
       }
       else /* this is a miter (intersection) */
       {
-        FT_Fixed   length;
-        FT_Vector  delta;
+        FT_TS_Fixed   length;
+        FT_TS_Vector  delta;
 
 
-        length = FT_MulDiv( stroker->radius, stroker->miter_limit, sigma.x );
+        length = FT_TS_MulDiv( stroker->radius, stroker->miter_limit, sigma.x );
 
-        FT_Vector_From_Polar( &delta, length, phi );
+        FT_TS_Vector_From_Polar( &delta, length, phi );
         delta.x += stroker->center.x;
         delta.y += stroker->center.y;
 
@@ -1170,7 +1170,7 @@
         /* (line_length is zero for curves)                */
         if ( line_length == 0 )
         {
-          FT_Vector_From_Polar( &delta,
+          FT_TS_Vector_From_Polar( &delta,
                                 stroker->radius,
                                 stroker->angle_out + rotate );
           delta.x += stroker->center.x;
@@ -1186,16 +1186,16 @@
   }
 
 
-  static FT_Error
-  ft_stroker_process_corner( FT_Stroker  stroker,
-                             FT_Fixed    line_length )
+  static FT_TS_Error
+  ft_stroker_process_corner( FT_TS_Stroker  stroker,
+                             FT_TS_Fixed    line_length )
   {
-    FT_Error  error = FT_Err_Ok;
-    FT_Angle  turn;
-    FT_Int    inside_side;
+    FT_TS_Error  error = FT_TS_Err_Ok;
+    FT_TS_Angle  turn;
+    FT_TS_Int    inside_side;
 
 
-    turn = FT_Angle_Diff( stroker->angle_in, stroker->angle_out );
+    turn = FT_TS_Angle_Diff( stroker->angle_in, stroker->angle_out );
 
     /* no specific corner processing is required if the turn is 0 */
     if ( turn == 0 )
@@ -1220,19 +1220,19 @@
 
   /* add two points to the left and right borders corresponding to the */
   /* start of the subpath                                              */
-  static FT_Error
-  ft_stroker_subpath_start( FT_Stroker  stroker,
-                            FT_Angle    start_angle,
-                            FT_Fixed    line_length )
+  static FT_TS_Error
+  ft_stroker_subpath_start( FT_TS_Stroker  stroker,
+                            FT_TS_Angle    start_angle,
+                            FT_TS_Fixed    line_length )
   {
-    FT_Vector        delta;
-    FT_Vector        point;
-    FT_Error         error;
-    FT_StrokeBorder  border;
+    FT_TS_Vector        delta;
+    FT_TS_Vector        point;
+    FT_TS_Error         error;
+    FT_TS_StrokeBorder  border;
 
 
-    FT_Vector_From_Polar( &delta, stroker->radius,
-                          start_angle + FT_ANGLE_PI2 );
+    FT_TS_Vector_From_Polar( &delta, stroker->radius,
+                          start_angle + FT_TS_ANGLE_PI2 );
 
     point.x = stroker->center.x + delta.x;
     point.y = stroker->center.y + delta.y;
@@ -1261,20 +1261,20 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_LineTo( FT_Stroker  stroker,
-                     FT_Vector*  to )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_LineTo( FT_TS_Stroker  stroker,
+                     FT_TS_Vector*  to )
   {
-    FT_Error         error = FT_Err_Ok;
-    FT_StrokeBorder  border;
-    FT_Vector        delta;
-    FT_Angle         angle;
-    FT_Int           side;
-    FT_Fixed         line_length;
+    FT_TS_Error         error = FT_TS_Err_Ok;
+    FT_TS_StrokeBorder  border;
+    FT_TS_Vector        delta;
+    FT_TS_Angle         angle;
+    FT_TS_Int           side;
+    FT_TS_Fixed         line_length;
 
 
     if ( !stroker || !to )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     delta.x = to->x - stroker->center.x;
     delta.y = to->y - stroker->center.y;
@@ -1284,10 +1284,10 @@
        goto Exit;
 
     /* compute length of line */
-    line_length = FT_Vector_Length( &delta );
+    line_length = FT_TS_Vector_Length( &delta );
 
-    angle = FT_Atan2( delta.x, delta.y );
-    FT_Vector_From_Polar( &delta, stroker->radius, angle + FT_ANGLE_PI2 );
+    angle = FT_TS_Atan2( delta.x, delta.y );
+    FT_TS_Vector_From_Polar( &delta, stroker->radius, angle + FT_TS_ANGLE_PI2 );
 
     /* process corner if necessary */
     if ( stroker->first_point )
@@ -1311,7 +1311,7 @@
     /* now add a line segment to both the `inside' and `outside' paths */
     for ( border = stroker->borders, side = 1; side >= 0; side--, border++ )
     {
-      FT_Vector  point;
+      FT_TS_Vector  point;
 
 
       point.x = to->x + delta.x;
@@ -1337,30 +1337,30 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_ConicTo( FT_Stroker  stroker,
-                      FT_Vector*  control,
-                      FT_Vector*  to )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_ConicTo( FT_TS_Stroker  stroker,
+                      FT_TS_Vector*  control,
+                      FT_TS_Vector*  to )
   {
-    FT_Error    error = FT_Err_Ok;
-    FT_Vector   bez_stack[34];
-    FT_Vector*  arc;
-    FT_Vector*  limit = bez_stack + 30;
-    FT_Bool     first_arc = TRUE;
+    FT_TS_Error    error = FT_TS_Err_Ok;
+    FT_TS_Vector   bez_stack[34];
+    FT_TS_Vector*  arc;
+    FT_TS_Vector*  limit = bez_stack + 30;
+    FT_TS_Bool     first_arc = TRUE;
 
 
     if ( !stroker || !control || !to )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* if all control points are coincident, this is a no-op; */
     /* avoid creating a spurious corner                       */
-    if ( FT_IS_SMALL( stroker->center.x - control->x ) &&
-         FT_IS_SMALL( stroker->center.y - control->y ) &&
-         FT_IS_SMALL( control->x        - to->x      ) &&
-         FT_IS_SMALL( control->y        - to->y      ) )
+    if ( FT_TS_IS_SMALL( stroker->center.x - control->x ) &&
+         FT_TS_IS_SMALL( stroker->center.y - control->y ) &&
+         FT_TS_IS_SMALL( control->x        - to->x      ) &&
+         FT_TS_IS_SMALL( control->y        - to->y      ) )
     {
        stroker->center = *to;
        goto Exit;
@@ -1373,7 +1373,7 @@
 
     while ( arc >= bez_stack )
     {
-      FT_Angle  angle_in, angle_out;
+      FT_TS_Angle  angle_in, angle_out;
 
 
       /* initialize with current direction */
@@ -1403,14 +1403,14 @@
           error = ft_stroker_process_corner( stroker, 0 );
         }
       }
-      else if ( ft_pos_abs( FT_Angle_Diff( stroker->angle_in, angle_in ) ) >
-                  FT_SMALL_CONIC_THRESHOLD / 4                             )
+      else if ( ft_pos_abs( FT_TS_Angle_Diff( stroker->angle_in, angle_in ) ) >
+                  FT_TS_SMALL_CONIC_THRESHOLD / 4                             )
       {
         /* if the deviation from one arc to the next is too great, */
         /* add a round corner                                      */
         stroker->center    = arc[2];
         stroker->angle_out = angle_in;
-        stroker->line_join = FT_STROKER_LINEJOIN_ROUND;
+        stroker->line_join = FT_TS_STROKER_LINEJOIN_ROUND;
 
         error = ft_stroker_process_corner( stroker, 0 );
 
@@ -1424,74 +1424,74 @@
       /* the arc's angle is small enough; we can add it directly to each */
       /* border                                                          */
       {
-        FT_Vector        ctrl, end;
-        FT_Angle         theta, phi, rotate, alpha0 = 0;
-        FT_Fixed         length;
-        FT_StrokeBorder  border;
-        FT_Int           side;
+        FT_TS_Vector        ctrl, end;
+        FT_TS_Angle         theta, phi, rotate, alpha0 = 0;
+        FT_TS_Fixed         length;
+        FT_TS_StrokeBorder  border;
+        FT_TS_Int           side;
 
 
-        theta  = FT_Angle_Diff( angle_in, angle_out ) / 2;
+        theta  = FT_TS_Angle_Diff( angle_in, angle_out ) / 2;
         phi    = angle_in + theta;
-        length = FT_DivFix( stroker->radius, FT_Cos( theta ) );
+        length = FT_TS_DivFix( stroker->radius, FT_TS_Cos( theta ) );
 
         /* compute direction of original arc */
         if ( stroker->handle_wide_strokes )
-          alpha0 = FT_Atan2( arc[0].x - arc[2].x, arc[0].y - arc[2].y );
+          alpha0 = FT_TS_Atan2( arc[0].x - arc[2].x, arc[0].y - arc[2].y );
 
         for ( border = stroker->borders, side = 0;
               side <= 1;
               side++, border++ )
         {
-          rotate = FT_SIDE_TO_ROTATE( side );
+          rotate = FT_TS_SIDE_TO_ROTATE( side );
 
           /* compute control point */
-          FT_Vector_From_Polar( &ctrl, length, phi + rotate );
+          FT_TS_Vector_From_Polar( &ctrl, length, phi + rotate );
           ctrl.x += arc[1].x;
           ctrl.y += arc[1].y;
 
           /* compute end point */
-          FT_Vector_From_Polar( &end, stroker->radius, angle_out + rotate );
+          FT_TS_Vector_From_Polar( &end, stroker->radius, angle_out + rotate );
           end.x += arc[0].x;
           end.y += arc[0].y;
 
           if ( stroker->handle_wide_strokes )
           {
-            FT_Vector  start;
-            FT_Angle   alpha1;
+            FT_TS_Vector  start;
+            FT_TS_Angle   alpha1;
 
 
             /* determine whether the border radius is greater than the */
             /* radius of curvature of the original arc                 */
             start = border->points[border->num_points - 1];
 
-            alpha1 = FT_Atan2( end.x - start.x, end.y - start.y );
+            alpha1 = FT_TS_Atan2( end.x - start.x, end.y - start.y );
 
             /* is the direction of the border arc opposite to */
             /* that of the original arc? */
-            if ( ft_pos_abs( FT_Angle_Diff( alpha0, alpha1 ) ) >
-                   FT_ANGLE_PI / 2                             )
+            if ( ft_pos_abs( FT_TS_Angle_Diff( alpha0, alpha1 ) ) >
+                   FT_TS_ANGLE_PI / 2                             )
             {
-              FT_Angle   beta, gamma;
-              FT_Vector  bvec, delta;
-              FT_Fixed   blen, sinA, sinB, alen;
+              FT_TS_Angle   beta, gamma;
+              FT_TS_Vector  bvec, delta;
+              FT_TS_Fixed   blen, sinA, sinB, alen;
 
 
               /* use the sine rule to find the intersection point */
-              beta  = FT_Atan2( arc[2].x - start.x, arc[2].y - start.y );
-              gamma = FT_Atan2( arc[0].x - end.x,   arc[0].y - end.y );
+              beta  = FT_TS_Atan2( arc[2].x - start.x, arc[2].y - start.y );
+              gamma = FT_TS_Atan2( arc[0].x - end.x,   arc[0].y - end.y );
 
               bvec.x = end.x - start.x;
               bvec.y = end.y - start.y;
 
-              blen = FT_Vector_Length( &bvec );
+              blen = FT_TS_Vector_Length( &bvec );
 
-              sinA = ft_pos_abs( FT_Sin( alpha1 - gamma ) );
-              sinB = ft_pos_abs( FT_Sin( beta - gamma ) );
+              sinA = ft_pos_abs( FT_TS_Sin( alpha1 - gamma ) );
+              sinB = ft_pos_abs( FT_TS_Sin( beta - gamma ) );
 
-              alen = FT_MulDiv( blen, sinA, sinB );
+              alen = FT_TS_MulDiv( blen, sinA, sinB );
 
-              FT_Vector_From_Polar( &delta, alen, beta );
+              FT_TS_Vector_From_Polar( &delta, alen, beta );
               delta.x += start.x;
               delta.y += start.y;
 
@@ -1539,33 +1539,33 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_CubicTo( FT_Stroker  stroker,
-                      FT_Vector*  control1,
-                      FT_Vector*  control2,
-                      FT_Vector*  to )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_CubicTo( FT_TS_Stroker  stroker,
+                      FT_TS_Vector*  control1,
+                      FT_TS_Vector*  control2,
+                      FT_TS_Vector*  to )
   {
-    FT_Error    error = FT_Err_Ok;
-    FT_Vector   bez_stack[37];
-    FT_Vector*  arc;
-    FT_Vector*  limit = bez_stack + 32;
-    FT_Bool     first_arc = TRUE;
+    FT_TS_Error    error = FT_TS_Err_Ok;
+    FT_TS_Vector   bez_stack[37];
+    FT_TS_Vector*  arc;
+    FT_TS_Vector*  limit = bez_stack + 32;
+    FT_TS_Bool     first_arc = TRUE;
 
 
     if ( !stroker || !control1 || !control2 || !to )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* if all control points are coincident, this is a no-op; */
     /* avoid creating a spurious corner */
-    if ( FT_IS_SMALL( stroker->center.x - control1->x ) &&
-         FT_IS_SMALL( stroker->center.y - control1->y ) &&
-         FT_IS_SMALL( control1->x       - control2->x ) &&
-         FT_IS_SMALL( control1->y       - control2->y ) &&
-         FT_IS_SMALL( control2->x       - to->x       ) &&
-         FT_IS_SMALL( control2->y       - to->y       ) )
+    if ( FT_TS_IS_SMALL( stroker->center.x - control1->x ) &&
+         FT_TS_IS_SMALL( stroker->center.y - control1->y ) &&
+         FT_TS_IS_SMALL( control1->x       - control2->x ) &&
+         FT_TS_IS_SMALL( control1->y       - control2->y ) &&
+         FT_TS_IS_SMALL( control2->x       - to->x       ) &&
+         FT_TS_IS_SMALL( control2->y       - to->y       ) )
     {
        stroker->center = *to;
        goto Exit;
@@ -1579,7 +1579,7 @@
 
     while ( arc >= bez_stack )
     {
-      FT_Angle  angle_in, angle_mid, angle_out;
+      FT_TS_Angle  angle_in, angle_mid, angle_out;
 
 
       /* initialize with current direction */
@@ -1610,14 +1610,14 @@
           error = ft_stroker_process_corner( stroker, 0 );
         }
       }
-      else if ( ft_pos_abs( FT_Angle_Diff( stroker->angle_in, angle_in ) ) >
-                  FT_SMALL_CUBIC_THRESHOLD / 4                             )
+      else if ( ft_pos_abs( FT_TS_Angle_Diff( stroker->angle_in, angle_in ) ) >
+                  FT_TS_SMALL_CUBIC_THRESHOLD / 4                             )
       {
         /* if the deviation from one arc to the next is too great, */
         /* add a round corner                                      */
         stroker->center    = arc[3];
         stroker->angle_out = angle_in;
-        stroker->line_join = FT_STROKER_LINEJOIN_ROUND;
+        stroker->line_join = FT_TS_STROKER_LINEJOIN_ROUND;
 
         error = ft_stroker_process_corner( stroker, 0 );
 
@@ -1631,81 +1631,81 @@
       /* the arc's angle is small enough; we can add it directly to each */
       /* border                                                          */
       {
-        FT_Vector        ctrl1, ctrl2, end;
-        FT_Angle         theta1, phi1, theta2, phi2, rotate, alpha0 = 0;
-        FT_Fixed         length1, length2;
-        FT_StrokeBorder  border;
-        FT_Int           side;
+        FT_TS_Vector        ctrl1, ctrl2, end;
+        FT_TS_Angle         theta1, phi1, theta2, phi2, rotate, alpha0 = 0;
+        FT_TS_Fixed         length1, length2;
+        FT_TS_StrokeBorder  border;
+        FT_TS_Int           side;
 
 
-        theta1  = FT_Angle_Diff( angle_in,  angle_mid ) / 2;
-        theta2  = FT_Angle_Diff( angle_mid, angle_out ) / 2;
+        theta1  = FT_TS_Angle_Diff( angle_in,  angle_mid ) / 2;
+        theta2  = FT_TS_Angle_Diff( angle_mid, angle_out ) / 2;
         phi1    = ft_angle_mean( angle_in,  angle_mid );
         phi2    = ft_angle_mean( angle_mid, angle_out );
-        length1 = FT_DivFix( stroker->radius, FT_Cos( theta1 ) );
-        length2 = FT_DivFix( stroker->radius, FT_Cos( theta2 ) );
+        length1 = FT_TS_DivFix( stroker->radius, FT_TS_Cos( theta1 ) );
+        length2 = FT_TS_DivFix( stroker->radius, FT_TS_Cos( theta2 ) );
 
         /* compute direction of original arc */
         if ( stroker->handle_wide_strokes )
-          alpha0 = FT_Atan2( arc[0].x - arc[3].x, arc[0].y - arc[3].y );
+          alpha0 = FT_TS_Atan2( arc[0].x - arc[3].x, arc[0].y - arc[3].y );
 
         for ( border = stroker->borders, side = 0;
               side <= 1;
               side++, border++ )
         {
-          rotate = FT_SIDE_TO_ROTATE( side );
+          rotate = FT_TS_SIDE_TO_ROTATE( side );
 
           /* compute control points */
-          FT_Vector_From_Polar( &ctrl1, length1, phi1 + rotate );
+          FT_TS_Vector_From_Polar( &ctrl1, length1, phi1 + rotate );
           ctrl1.x += arc[2].x;
           ctrl1.y += arc[2].y;
 
-          FT_Vector_From_Polar( &ctrl2, length2, phi2 + rotate );
+          FT_TS_Vector_From_Polar( &ctrl2, length2, phi2 + rotate );
           ctrl2.x += arc[1].x;
           ctrl2.y += arc[1].y;
 
           /* compute end point */
-          FT_Vector_From_Polar( &end, stroker->radius, angle_out + rotate );
+          FT_TS_Vector_From_Polar( &end, stroker->radius, angle_out + rotate );
           end.x += arc[0].x;
           end.y += arc[0].y;
 
           if ( stroker->handle_wide_strokes )
           {
-            FT_Vector  start;
-            FT_Angle   alpha1;
+            FT_TS_Vector  start;
+            FT_TS_Angle   alpha1;
 
 
             /* determine whether the border radius is greater than the */
             /* radius of curvature of the original arc                 */
             start = border->points[border->num_points - 1];
 
-            alpha1 = FT_Atan2( end.x - start.x, end.y - start.y );
+            alpha1 = FT_TS_Atan2( end.x - start.x, end.y - start.y );
 
             /* is the direction of the border arc opposite to */
             /* that of the original arc? */
-            if ( ft_pos_abs( FT_Angle_Diff( alpha0, alpha1 ) ) >
-                   FT_ANGLE_PI / 2                             )
+            if ( ft_pos_abs( FT_TS_Angle_Diff( alpha0, alpha1 ) ) >
+                   FT_TS_ANGLE_PI / 2                             )
             {
-              FT_Angle   beta, gamma;
-              FT_Vector  bvec, delta;
-              FT_Fixed   blen, sinA, sinB, alen;
+              FT_TS_Angle   beta, gamma;
+              FT_TS_Vector  bvec, delta;
+              FT_TS_Fixed   blen, sinA, sinB, alen;
 
 
               /* use the sine rule to find the intersection point */
-              beta  = FT_Atan2( arc[3].x - start.x, arc[3].y - start.y );
-              gamma = FT_Atan2( arc[0].x - end.x,   arc[0].y - end.y );
+              beta  = FT_TS_Atan2( arc[3].x - start.x, arc[3].y - start.y );
+              gamma = FT_TS_Atan2( arc[0].x - end.x,   arc[0].y - end.y );
 
               bvec.x = end.x - start.x;
               bvec.y = end.y - start.y;
 
-              blen = FT_Vector_Length( &bvec );
+              blen = FT_TS_Vector_Length( &bvec );
 
-              sinA = ft_pos_abs( FT_Sin( alpha1 - gamma ) );
-              sinB = ft_pos_abs( FT_Sin( beta - gamma ) );
+              sinA = ft_pos_abs( FT_TS_Sin( alpha1 - gamma ) );
+              sinB = ft_pos_abs( FT_TS_Sin( beta - gamma ) );
 
-              alen = FT_MulDiv( blen, sinA, sinB );
+              alen = FT_TS_MulDiv( blen, sinA, sinB );
 
-              FT_Vector_From_Polar( &delta, alen, beta );
+              FT_TS_Vector_From_Polar( &delta, alen, beta );
               delta.x += start.x;
               delta.y += start.y;
 
@@ -1756,17 +1756,17 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_BeginSubPath( FT_Stroker  stroker,
-                           FT_Vector*  to,
-                           FT_Bool     open )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_BeginSubPath( FT_TS_Stroker  stroker,
+                           FT_TS_Vector*  to,
+                           FT_TS_Bool     open )
   {
     if ( !stroker || !to )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     /* We cannot process the first point, because there is not enough      */
     /* information regarding its corner/cap.  The latter will be processed */
-    /* in the `FT_Stroker_EndSubPath' routine.                             */
+    /* in the `FT_TS_Stroker_EndSubPath' routine.                             */
     /*                                                                     */
     stroker->first_point  = TRUE;
     stroker->center       = *to;
@@ -1778,43 +1778,43 @@
     /* be created, because round & miter joins and round & square caps    */
     /* cover the negative sector created with wide strokes.               */
     stroker->handle_wide_strokes =
-      FT_BOOL( stroker->line_join != FT_STROKER_LINEJOIN_ROUND  ||
+      FT_TS_BOOL( stroker->line_join != FT_TS_STROKER_LINEJOIN_ROUND  ||
                ( stroker->subpath_open                        &&
-                 stroker->line_cap == FT_STROKER_LINECAP_BUTT ) );
+                 stroker->line_cap == FT_TS_STROKER_LINECAP_BUTT ) );
 
     /* record the subpath start point for each border */
     stroker->subpath_start = *to;
 
     stroker->angle_in = 0;
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
-  static FT_Error
-  ft_stroker_add_reverse_left( FT_Stroker  stroker,
-                               FT_Bool     open )
+  static FT_TS_Error
+  ft_stroker_add_reverse_left( FT_TS_Stroker  stroker,
+                               FT_TS_Bool     open )
   {
-    FT_StrokeBorder  right = stroker->borders + 0;
-    FT_StrokeBorder  left  = stroker->borders + 1;
-    FT_Int           new_points;
-    FT_Error         error = FT_Err_Ok;
+    FT_TS_StrokeBorder  right = stroker->borders + 0;
+    FT_TS_StrokeBorder  left  = stroker->borders + 1;
+    FT_TS_Int           new_points;
+    FT_TS_Error         error = FT_TS_Err_Ok;
 
 
-    FT_ASSERT( left->start >= 0 );
+    FT_TS_ASSERT( left->start >= 0 );
 
-    new_points = (FT_Int)left->num_points - left->start;
+    new_points = (FT_TS_Int)left->num_points - left->start;
     if ( new_points > 0 )
     {
-      error = ft_stroke_border_grow( right, (FT_UInt)new_points );
+      error = ft_stroke_border_grow( right, (FT_TS_UInt)new_points );
       if ( error )
         goto Exit;
 
       {
-        FT_Vector*  dst_point = right->points + right->num_points;
-        FT_Byte*    dst_tag   = right->tags   + right->num_points;
-        FT_Vector*  src_point = left->points  + left->num_points - 1;
-        FT_Byte*    src_tag   = left->tags    + left->num_points - 1;
+        FT_TS_Vector*  dst_point = right->points + right->num_points;
+        FT_TS_Byte*    dst_tag   = right->tags   + right->num_points;
+        FT_TS_Vector*  src_point = left->points  + left->num_points - 1;
+        FT_TS_Byte*    src_tag   = left->tags    + left->num_points - 1;
 
 
         while ( src_point >= left->points + left->start )
@@ -1823,17 +1823,17 @@
           *dst_tag   = *src_tag;
 
           if ( open )
-            dst_tag[0] &= ~FT_STROKE_TAG_BEGIN_END;
+            dst_tag[0] &= ~FT_TS_STROKE_TAG_BEGIN_END;
           else
           {
-            FT_Byte  ttag =
-                       (FT_Byte)( dst_tag[0] & FT_STROKE_TAG_BEGIN_END );
+            FT_TS_Byte  ttag =
+                       (FT_TS_Byte)( dst_tag[0] & FT_TS_STROKE_TAG_BEGIN_END );
 
 
             /* switch begin/end tags if necessary */
-            if ( ttag == FT_STROKE_TAG_BEGIN ||
-                 ttag == FT_STROKE_TAG_END   )
-              dst_tag[0] ^= FT_STROKE_TAG_BEGIN_END;
+            if ( ttag == FT_TS_STROKE_TAG_BEGIN ||
+                 ttag == FT_TS_STROKE_TAG_END   )
+              dst_tag[0] ^= FT_TS_STROKE_TAG_BEGIN_END;
           }
 
           src_point--;
@@ -1843,8 +1843,8 @@
         }
       }
 
-      left->num_points   = (FT_UInt)left->start;
-      right->num_points += (FT_UInt)new_points;
+      left->num_points   = (FT_TS_UInt)left->start;
+      right->num_points += (FT_TS_UInt)new_points;
 
       right->movable = FALSE;
       left->movable  = FALSE;
@@ -1858,21 +1858,21 @@
   /* documentation is in ftstroke.h */
 
   /* there's a lot of magic in this function! */
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_EndSubPath( FT_Stroker  stroker )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_EndSubPath( FT_TS_Stroker  stroker )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     if ( !stroker )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( stroker->subpath_open )
     {
-      FT_StrokeBorder  right = stroker->borders;
+      FT_TS_StrokeBorder  right = stroker->borders;
 
 
       /* All right, this is an opened path, we need to add a cap between */
@@ -1890,7 +1890,7 @@
       /* now add the final cap */
       stroker->center = stroker->subpath_start;
       error = ft_stroker_cap( stroker,
-                              stroker->subpath_angle + FT_ANGLE_PI, 0 );
+                              stroker->subpath_angle + FT_TS_ANGLE_PI, 0 );
       if ( error )
         goto Exit;
 
@@ -1901,10 +1901,10 @@
     else
     {
       /* close the path if needed */
-      if ( !FT_IS_SMALL( stroker->center.x - stroker->subpath_start.x ) ||
-           !FT_IS_SMALL( stroker->center.y - stroker->subpath_start.y ) )
+      if ( !FT_TS_IS_SMALL( stroker->center.x - stroker->subpath_start.x ) ||
+           !FT_TS_IS_SMALL( stroker->center.y - stroker->subpath_start.y ) )
       {
-         error = FT_Stroker_LineTo( stroker, &stroker->subpath_start );
+         error = FT_TS_Stroker_LineTo( stroker, &stroker->subpath_start );
          if ( error )
            goto Exit;
       }
@@ -1929,19 +1929,19 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_GetBorderCounts( FT_Stroker        stroker,
-                              FT_StrokerBorder  border,
-                              FT_UInt          *anum_points,
-                              FT_UInt          *anum_contours )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_GetBorderCounts( FT_TS_Stroker        stroker,
+                              FT_TS_StrokerBorder  border,
+                              FT_TS_UInt          *anum_points,
+                              FT_TS_UInt          *anum_contours )
   {
-    FT_UInt   num_points = 0, num_contours = 0;
-    FT_Error  error;
+    FT_TS_UInt   num_points = 0, num_contours = 0;
+    FT_TS_Error  error;
 
 
     if ( !stroker || border > 1 )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -1960,19 +1960,19 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_GetCounts( FT_Stroker  stroker,
-                        FT_UInt    *anum_points,
-                        FT_UInt    *anum_contours )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_GetCounts( FT_TS_Stroker  stroker,
+                        FT_TS_UInt    *anum_points,
+                        FT_TS_UInt    *anum_contours )
   {
-    FT_UInt   count1, count2, num_points   = 0;
-    FT_UInt   count3, count4, num_contours = 0;
-    FT_Error  error;
+    FT_TS_UInt   count1, count2, num_points   = 0;
+    FT_TS_UInt   count3, count4, num_contours = 0;
+    FT_TS_Error  error;
 
 
     if ( !stroker )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -2002,18 +2002,18 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Stroker_ExportBorder( FT_Stroker        stroker,
-                           FT_StrokerBorder  border,
-                           FT_Outline*       outline )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Stroker_ExportBorder( FT_TS_Stroker        stroker,
+                           FT_TS_StrokerBorder  border,
+                           FT_TS_Outline*       outline )
   {
     if ( !stroker || !outline )
       return;
 
-    if ( border == FT_STROKER_BORDER_LEFT  ||
-         border == FT_STROKER_BORDER_RIGHT )
+    if ( border == FT_TS_STROKER_BORDER_LEFT  ||
+         border == FT_TS_STROKER_BORDER_RIGHT )
     {
-      FT_StrokeBorder  sborder = & stroker->borders[border];
+      FT_TS_StrokeBorder  sborder = & stroker->borders[border];
 
 
       if ( sborder->valid )
@@ -2024,57 +2024,57 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Stroker_Export( FT_Stroker   stroker,
-                     FT_Outline*  outline )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Stroker_Export( FT_TS_Stroker   stroker,
+                     FT_TS_Outline*  outline )
   {
-    FT_Stroker_ExportBorder( stroker, FT_STROKER_BORDER_LEFT, outline );
-    FT_Stroker_ExportBorder( stroker, FT_STROKER_BORDER_RIGHT, outline );
+    FT_TS_Stroker_ExportBorder( stroker, FT_TS_STROKER_BORDER_LEFT, outline );
+    FT_TS_Stroker_ExportBorder( stroker, FT_TS_STROKER_BORDER_RIGHT, outline );
   }
 
 
   /* documentation is in ftstroke.h */
 
   /*
-   * The following is very similar to FT_Outline_Decompose, except
+   * The following is very similar to FT_TS_Outline_Decompose, except
    * that we do support opened paths, and do not scale the outline.
    */
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stroker_ParseOutline( FT_Stroker   stroker,
-                           FT_Outline*  outline,
-                           FT_Bool      opened )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stroker_ParseOutline( FT_TS_Stroker   stroker,
+                           FT_TS_Outline*  outline,
+                           FT_TS_Bool      opened )
   {
-    FT_Vector   v_last;
-    FT_Vector   v_control;
-    FT_Vector   v_start;
+    FT_TS_Vector   v_last;
+    FT_TS_Vector   v_control;
+    FT_TS_Vector   v_start;
 
-    FT_Vector*  point;
-    FT_Vector*  limit;
+    FT_TS_Vector*  point;
+    FT_TS_Vector*  limit;
     char*       tags;
 
-    FT_Error    error;
+    FT_TS_Error    error;
 
-    FT_Int      n;         /* index of contour in outline     */
-    FT_UInt     first;     /* index of first point in contour */
-    FT_Int      tag;       /* current point's state           */
+    FT_TS_Int      n;         /* index of contour in outline     */
+    FT_TS_UInt     first;     /* index of first point in contour */
+    FT_TS_Int      tag;       /* current point's state           */
 
 
     if ( !outline )
-      return FT_THROW( Invalid_Outline );
+      return FT_TS_THROW( Invalid_Outline );
 
     if ( !stroker )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
-    FT_Stroker_Rewind( stroker );
+    FT_TS_Stroker_Rewind( stroker );
 
     first = 0;
 
     for ( n = 0; n < outline->n_contours; n++ )
     {
-      FT_UInt  last;  /* index of last point in contour */
+      FT_TS_UInt  last;  /* index of last point in contour */
 
 
-      last  = (FT_UInt)outline->contours[n];
+      last  = (FT_TS_UInt)outline->contours[n];
       limit = outline->points + last;
 
       /* skip empty points; we don't stroke these */
@@ -2091,17 +2091,17 @@
 
       point = outline->points + first;
       tags  = outline->tags   + first;
-      tag   = FT_CURVE_TAG( tags[0] );
+      tag   = FT_TS_CURVE_TAG( tags[0] );
 
       /* A contour cannot start with a cubic control point! */
-      if ( tag == FT_CURVE_TAG_CUBIC )
+      if ( tag == FT_TS_CURVE_TAG_CUBIC )
         goto Invalid_Outline;
 
       /* check first point to determine origin */
-      if ( tag == FT_CURVE_TAG_CONIC )
+      if ( tag == FT_TS_CURVE_TAG_CONIC )
       {
         /* First point is conic control.  Yes, this happens. */
-        if ( FT_CURVE_TAG( outline->tags[last] ) == FT_CURVE_TAG_ON )
+        if ( FT_TS_CURVE_TAG( outline->tags[last] ) == FT_TS_CURVE_TAG_ON )
         {
           /* start at last point if it is on the curve */
           v_start = v_last;
@@ -2118,7 +2118,7 @@
         tags--;
       }
 
-      error = FT_Stroker_BeginSubPath( stroker, &v_start, opened );
+      error = FT_TS_Stroker_BeginSubPath( stroker, &v_start, opened );
       if ( error )
         goto Exit;
 
@@ -2127,55 +2127,55 @@
         point++;
         tags++;
 
-        tag = FT_CURVE_TAG( tags[0] );
+        tag = FT_TS_CURVE_TAG( tags[0] );
         switch ( tag )
         {
-        case FT_CURVE_TAG_ON:  /* emit a single line_to */
+        case FT_TS_CURVE_TAG_ON:  /* emit a single line_to */
           {
-            FT_Vector  vec;
+            FT_TS_Vector  vec;
 
 
             vec.x = point->x;
             vec.y = point->y;
 
-            error = FT_Stroker_LineTo( stroker, &vec );
+            error = FT_TS_Stroker_LineTo( stroker, &vec );
             if ( error )
               goto Exit;
             continue;
           }
 
-        case FT_CURVE_TAG_CONIC:  /* consume conic arcs */
+        case FT_TS_CURVE_TAG_CONIC:  /* consume conic arcs */
           v_control.x = point->x;
           v_control.y = point->y;
 
         Do_Conic:
           if ( point < limit )
           {
-            FT_Vector  vec;
-            FT_Vector  v_middle;
+            FT_TS_Vector  vec;
+            FT_TS_Vector  v_middle;
 
 
             point++;
             tags++;
-            tag = FT_CURVE_TAG( tags[0] );
+            tag = FT_TS_CURVE_TAG( tags[0] );
 
             vec = point[0];
 
-            if ( tag == FT_CURVE_TAG_ON )
+            if ( tag == FT_TS_CURVE_TAG_ON )
             {
-              error = FT_Stroker_ConicTo( stroker, &v_control, &vec );
+              error = FT_TS_Stroker_ConicTo( stroker, &v_control, &vec );
               if ( error )
                 goto Exit;
               continue;
             }
 
-            if ( tag != FT_CURVE_TAG_CONIC )
+            if ( tag != FT_TS_CURVE_TAG_CONIC )
               goto Invalid_Outline;
 
             v_middle.x = ( v_control.x + vec.x ) / 2;
             v_middle.y = ( v_control.y + vec.y ) / 2;
 
-            error = FT_Stroker_ConicTo( stroker, &v_control, &v_middle );
+            error = FT_TS_Stroker_ConicTo( stroker, &v_control, &v_middle );
             if ( error )
               goto Exit;
 
@@ -2183,16 +2183,16 @@
             goto Do_Conic;
           }
 
-          error = FT_Stroker_ConicTo( stroker, &v_control, &v_start );
+          error = FT_TS_Stroker_ConicTo( stroker, &v_control, &v_start );
           goto Close;
 
-        default:  /* FT_CURVE_TAG_CUBIC */
+        default:  /* FT_TS_CURVE_TAG_CUBIC */
           {
-            FT_Vector  vec1, vec2;
+            FT_TS_Vector  vec1, vec2;
 
 
             if ( point + 1 > limit                             ||
-                 FT_CURVE_TAG( tags[1] ) != FT_CURVE_TAG_CUBIC )
+                 FT_TS_CURVE_TAG( tags[1] ) != FT_TS_CURVE_TAG_CUBIC )
               goto Invalid_Outline;
 
             point += 2;
@@ -2203,18 +2203,18 @@
 
             if ( point <= limit )
             {
-              FT_Vector  vec;
+              FT_TS_Vector  vec;
 
 
               vec = point[0];
 
-              error = FT_Stroker_CubicTo( stroker, &vec1, &vec2, &vec );
+              error = FT_TS_Stroker_CubicTo( stroker, &vec1, &vec2, &vec );
               if ( error )
                 goto Exit;
               continue;
             }
 
-            error = FT_Stroker_CubicTo( stroker, &vec1, &vec2, &v_start );
+            error = FT_TS_Stroker_CubicTo( stroker, &vec1, &vec2, &v_start );
             goto Close;
           }
         }
@@ -2227,7 +2227,7 @@
       /* don't try to end the path if no segments have been generated */
       if ( !stroker->first_point )
       {
-        error = FT_Stroker_EndSubPath( stroker );
+        error = FT_TS_Stroker_EndSubPath( stroker );
         if ( error )
           goto Exit;
       }
@@ -2235,25 +2235,25 @@
       first = last + 1;
     }
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
 
   Exit:
     return error;
 
   Invalid_Outline:
-    return FT_THROW( Invalid_Outline );
+    return FT_TS_THROW( Invalid_Outline );
   }
 
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Glyph_Stroke( FT_Glyph    *pglyph,
-                   FT_Stroker   stroker,
-                   FT_Bool      destroy )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Glyph_Stroke( FT_TS_Glyph    *pglyph,
+                   FT_TS_Stroker   stroker,
+                   FT_TS_Bool      destroy )
   {
-    FT_Error  error = FT_ERR( Invalid_Argument );
-    FT_Glyph  glyph = NULL;
+    FT_TS_Error  error = FT_TS_ERR( Invalid_Argument );
+    FT_TS_Glyph  glyph = NULL;
 
 
     if ( !pglyph )
@@ -2264,10 +2264,10 @@
       goto Exit;
 
     {
-      FT_Glyph  copy;
+      FT_TS_Glyph  copy;
 
 
-      error = FT_Glyph_Copy( glyph, &copy );
+      error = FT_TS_Glyph_Copy( glyph, &copy );
       if ( error )
         goto Exit;
 
@@ -2275,22 +2275,22 @@
     }
 
     {
-      FT_OutlineGlyph  oglyph  = (FT_OutlineGlyph)glyph;
-      FT_Outline*      outline = &oglyph->outline;
-      FT_UInt          num_points, num_contours;
+      FT_TS_OutlineGlyph  oglyph  = (FT_TS_OutlineGlyph)glyph;
+      FT_TS_Outline*      outline = &oglyph->outline;
+      FT_TS_UInt          num_points, num_contours;
 
 
-      error = FT_Stroker_ParseOutline( stroker, outline, FALSE );
+      error = FT_TS_Stroker_ParseOutline( stroker, outline, FALSE );
       if ( error )
         goto Fail;
 
-      FT_Stroker_GetCounts( stroker, &num_points, &num_contours );
+      FT_TS_Stroker_GetCounts( stroker, &num_points, &num_contours );
 
-      FT_Outline_Done( glyph->library, outline );
+      FT_TS_Outline_Done( glyph->library, outline );
 
-      error = FT_Outline_New( glyph->library,
+      error = FT_TS_Outline_New( glyph->library,
                               num_points,
-                              (FT_Int)num_contours,
+                              (FT_TS_Int)num_contours,
                               outline );
       if ( error )
         goto Fail;
@@ -2298,17 +2298,17 @@
       outline->n_points   = 0;
       outline->n_contours = 0;
 
-      FT_Stroker_Export( stroker, outline );
+      FT_TS_Stroker_Export( stroker, outline );
     }
 
     if ( destroy )
-      FT_Done_Glyph( *pglyph );
+      FT_TS_Done_Glyph( *pglyph );
 
     *pglyph = glyph;
     goto Exit;
 
   Fail:
-    FT_Done_Glyph( glyph );
+    FT_TS_Done_Glyph( glyph );
     glyph = NULL;
 
     if ( !destroy )
@@ -2321,14 +2321,14 @@
 
   /* documentation is in ftstroke.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Glyph_StrokeBorder( FT_Glyph    *pglyph,
-                         FT_Stroker   stroker,
-                         FT_Bool      inside,
-                         FT_Bool      destroy )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Glyph_StrokeBorder( FT_TS_Glyph    *pglyph,
+                         FT_TS_Stroker   stroker,
+                         FT_TS_Bool      inside,
+                         FT_TS_Bool      destroy )
   {
-    FT_Error  error = FT_ERR( Invalid_Argument );
-    FT_Glyph  glyph = NULL;
+    FT_TS_Error  error = FT_TS_ERR( Invalid_Argument );
+    FT_TS_Glyph  glyph = NULL;
 
 
     if ( !pglyph )
@@ -2339,10 +2339,10 @@
       goto Exit;
 
     {
-      FT_Glyph  copy;
+      FT_TS_Glyph  copy;
 
 
-      error = FT_Glyph_Copy( glyph, &copy );
+      error = FT_TS_Glyph_Copy( glyph, &copy );
       if ( error )
         goto Exit;
 
@@ -2350,33 +2350,33 @@
     }
 
     {
-      FT_OutlineGlyph   oglyph  = (FT_OutlineGlyph)glyph;
-      FT_StrokerBorder  border;
-      FT_Outline*       outline = &oglyph->outline;
-      FT_UInt           num_points, num_contours;
+      FT_TS_OutlineGlyph   oglyph  = (FT_TS_OutlineGlyph)glyph;
+      FT_TS_StrokerBorder  border;
+      FT_TS_Outline*       outline = &oglyph->outline;
+      FT_TS_UInt           num_points, num_contours;
 
 
-      border = FT_Outline_GetOutsideBorder( outline );
+      border = FT_TS_Outline_GetOutsideBorder( outline );
       if ( inside )
       {
-        if ( border == FT_STROKER_BORDER_LEFT )
-          border = FT_STROKER_BORDER_RIGHT;
+        if ( border == FT_TS_STROKER_BORDER_LEFT )
+          border = FT_TS_STROKER_BORDER_RIGHT;
         else
-          border = FT_STROKER_BORDER_LEFT;
+          border = FT_TS_STROKER_BORDER_LEFT;
       }
 
-      error = FT_Stroker_ParseOutline( stroker, outline, FALSE );
+      error = FT_TS_Stroker_ParseOutline( stroker, outline, FALSE );
       if ( error )
         goto Fail;
 
-      FT_Stroker_GetBorderCounts( stroker, border,
+      FT_TS_Stroker_GetBorderCounts( stroker, border,
                                   &num_points, &num_contours );
 
-      FT_Outline_Done( glyph->library, outline );
+      FT_TS_Outline_Done( glyph->library, outline );
 
-      error = FT_Outline_New( glyph->library,
+      error = FT_TS_Outline_New( glyph->library,
                               num_points,
-                              (FT_Int)num_contours,
+                              (FT_TS_Int)num_contours,
                               outline );
       if ( error )
         goto Fail;
@@ -2384,17 +2384,17 @@
       outline->n_points   = 0;
       outline->n_contours = 0;
 
-      FT_Stroker_ExportBorder( stroker, border, outline );
+      FT_TS_Stroker_ExportBorder( stroker, border, outline );
     }
 
     if ( destroy )
-      FT_Done_Glyph( *pglyph );
+      FT_TS_Done_Glyph( *pglyph );
 
     *pglyph = glyph;
     goto Exit;
 
   Fail:
-    FT_Done_Glyph( glyph );
+    FT_TS_Done_Glyph( glyph );
     glyph = NULL;
 
     if ( !destroy )

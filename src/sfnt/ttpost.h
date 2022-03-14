@@ -22,23 +22,23 @@
 
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/internal/tttypes.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_get_ps_name( TT_Face      face,
-                       FT_UInt      idx,
-                       FT_String**  PSname );
+                       FT_TS_UInt      idx,
+                       FT_TS_String**  PSname );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   tt_face_free_ps_names( TT_Face  face );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTPOST_H_ */
 

@@ -22,10 +22,10 @@
 #include <freetype/internal/compiler-macros.h>
 #include "ftcmru.h"
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 #define FTC_FACE_ID_HASH( i )                                  \
-         ( ( (FT_Offset)(i) >> 3 ) ^ ( (FT_Offset)(i) << 7 ) )
+         ( ( (FT_TS_Offset)(i) >> 3 ) ^ ( (FT_TS_Offset)(i) << 7 ) )
 
   /* handle to cache object */
   typedef struct FTC_CacheRec_*  FTC_Cache;
@@ -59,9 +59,9 @@ FT_BEGIN_HEADER
   {
     FTC_MruNodeRec  mru;          /* circular mru list pointer           */
     FTC_Node        link;         /* used for hashing                    */
-    FT_Offset       hash;         /* used for hashing too                */
-    FT_UShort       cache_index;  /* index of cache the node belongs to  */
-    FT_Short        ref_count;    /* reference count for this node       */
+    FT_TS_Offset       hash;         /* used for hashing too                */
+    FT_TS_UShort       cache_index;  /* index of cache the node belongs to  */
+    FT_TS_Short        ref_count;    /* reference count for this node       */
 
   } FTC_NodeRec;
 
@@ -79,9 +79,9 @@ FT_BEGIN_HEADER
               ? ( ( hash ) & ( ( cache )->mask * 2 + 1 ) )        \
               : ( ( hash ) &   ( cache )->mask ) ) )
 #else
-  FT_LOCAL( FTC_Node* )
+  FT_TS_LOCAL( FTC_Node* )
   ftc_get_top_node_for_hash( FTC_Cache  cache,
-                             FT_Offset  hash );
+                             FT_TS_Offset  hash );
 #define FTC_NODE_TOP_FOR_HASH( cache, hash )             \
         ftc_get_top_node_for_hash( ( cache ), ( hash ) )
 #endif
@@ -96,28 +96,28 @@ FT_BEGIN_HEADER
   /*************************************************************************/
 
   /* initialize a new cache node */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*FTC_Node_NewFunc)( FTC_Node    *pnode,
-                       FT_Pointer   query,
+                       FT_TS_Pointer   query,
                        FTC_Cache    cache );
 
-  typedef FT_Offset
+  typedef FT_TS_Offset
   (*FTC_Node_WeightFunc)( FTC_Node   node,
                           FTC_Cache  cache );
 
   /* compare a node to a given key pair */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   (*FTC_Node_CompareFunc)( FTC_Node    node,
-                           FT_Pointer  key,
+                           FT_TS_Pointer  key,
                            FTC_Cache   cache,
-                           FT_Bool*    list_changed );
+                           FT_TS_Bool*    list_changed );
 
 
   typedef void
   (*FTC_Node_FreeFunc)( FTC_Node   node,
                         FTC_Cache  cache );
 
-  typedef FT_Error
+  typedef FT_TS_Error
   (*FTC_Cache_InitFunc)( FTC_Cache  cache );
 
   typedef void
@@ -132,7 +132,7 @@ FT_BEGIN_HEADER
     FTC_Node_CompareFunc  node_remove_faceid;
     FTC_Node_FreeFunc     node_free;
 
-    FT_Offset             cache_size;
+    FT_TS_Offset             cache_size;
     FTC_Cache_InitFunc    cache_init;
     FTC_Cache_DoneFunc    cache_done;
 
@@ -142,16 +142,16 @@ FT_BEGIN_HEADER
   /* each cache really implements a dynamic hash table to manage its nodes */
   typedef struct  FTC_CacheRec_
   {
-    FT_UFast           p;
-    FT_UFast           mask;
-    FT_Long            slack;
+    FT_TS_UFast           p;
+    FT_TS_UFast           mask;
+    FT_TS_Long            slack;
     FTC_Node*          buckets;
 
     FTC_CacheClassRec  clazz;       /* local copy, for speed  */
 
     FTC_Manager        manager;
-    FT_Memory          memory;
-    FT_UInt            index;       /* in manager's table     */
+    FT_TS_Memory          memory;
+    FT_TS_UInt            index;       /* in manager's table     */
 
     FTC_CacheClass     org_class;   /* original class pointer */
 
@@ -163,11 +163,11 @@ FT_BEGIN_HEADER
 
 
   /* default cache initialize */
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   FTC_Cache_Init( FTC_Cache  cache );
 
   /* default cache finalizer */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   FTC_Cache_Done( FTC_Cache  cache );
 
   /* Call this function to look up the cache.  If no corresponding
@@ -177,17 +177,17 @@ FT_BEGIN_HEADER
    */
 
 #ifndef FTC_INLINE
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   FTC_Cache_Lookup( FTC_Cache   cache,
-                    FT_Offset   hash,
-                    FT_Pointer  query,
+                    FT_TS_Offset   hash,
+                    FT_TS_Pointer  query,
                     FTC_Node   *anode );
 #endif
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   FTC_Cache_NewNode( FTC_Cache   cache,
-                     FT_Offset   hash,
-                     FT_Pointer  query,
+                     FT_TS_Offset   hash,
+                     FT_TS_Pointer  query,
                      FTC_Node   *anode );
 
   /* Remove all nodes that relate to a given face_id.  This is useful
@@ -200,7 +200,7 @@ FT_BEGIN_HEADER
    * in further lookup requests, and will be flushed on demand from
    * the cache normally when its reference count reaches 0.
    */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   FTC_Cache_RemoveFaceID( FTC_Cache   cache,
                           FTC_FaceID  face_id );
 
@@ -208,15 +208,15 @@ FT_BEGIN_HEADER
 #ifdef FTC_INLINE
 
 #define FTC_CACHE_LOOKUP_CMP( cache, nodecmp, hash, query, node, error ) \
-  FT_BEGIN_STMNT                                                         \
+  FT_TS_BEGIN_STMNT                                                         \
     FTC_Node             *_bucket, *_pnode, _node;                       \
     FTC_Cache             _cache   = FTC_CACHE(cache);                   \
-    FT_Offset             _hash    = (FT_Offset)(hash);                  \
+    FT_TS_Offset             _hash    = (FT_TS_Offset)(hash);                  \
     FTC_Node_CompareFunc  _nodcomp = (FTC_Node_CompareFunc)(nodecmp);    \
-    FT_Bool               _list_changed = FALSE;                         \
+    FT_TS_Bool               _list_changed = FALSE;                         \
                                                                          \
                                                                          \
-    error = FT_Err_Ok;                                                   \
+    error = FT_TS_Err_Ok;                                                   \
     node  = NULL;                                                        \
                                                                          \
     /* Go to the `top' node of the list sharing same masked hash */      \
@@ -247,7 +247,7 @@ FT_BEGIN_HEADER
       {                                                                  \
         if ( !*_pnode )                                                  \
         {                                                                \
-          FT_ERROR(( "FTC_CACHE_LOOKUP_CMP: oops!!! node missing\n" ));  \
+          FT_TS_ERROR(( "FTC_CACHE_LOOKUP_CMP: oops!!! node missing\n" ));  \
           goto NewNode_;                                                 \
         }                                                                \
         else                                                             \
@@ -280,15 +280,15 @@ FT_BEGIN_HEADER
                                                                          \
   Ok_:                                                                   \
     node = _node;                                                        \
-  FT_END_STMNT
+  FT_TS_END_STMNT
 
 #else /* !FTC_INLINE */
 
 #define FTC_CACHE_LOOKUP_CMP( cache, nodecmp, hash, query, node, error ) \
-  FT_BEGIN_STMNT                                                         \
+  FT_TS_BEGIN_STMNT                                                         \
     error = FTC_Cache_Lookup( FTC_CACHE( cache ), hash, query,           \
                               (FTC_Node*)&(node) );                      \
-  FT_END_STMNT
+  FT_TS_END_STMNT
 
 #endif /* !FTC_INLINE */
 
@@ -312,21 +312,21 @@ FT_BEGIN_HEADER
 #define FTC_CACHE_TRYLOOP( cache )                           \
   {                                                          \
     FTC_Manager  _try_manager = FTC_CACHE( cache )->manager; \
-    FT_UInt      _try_count   = 4;                           \
+    FT_TS_UInt      _try_count   = 4;                           \
                                                              \
                                                              \
     for (;;)                                                 \
     {                                                        \
-      FT_UInt  _try_done;
+      FT_TS_UInt  _try_done;
 
 
 #define FTC_CACHE_TRYLOOP_END( list_changed )                     \
-      if ( !error || FT_ERR_NEQ( error, Out_Of_Memory ) )         \
+      if ( !error || FT_TS_ERR_NEQ( error, Out_Of_Memory ) )         \
         break;                                                    \
                                                                   \
       _try_done = FTC_Manager_FlushN( _try_manager, _try_count ); \
       if ( _try_done > 0 && list_changed != NULL )                \
-        *(FT_Bool*)( list_changed ) = TRUE;                       \
+        *(FT_TS_Bool*)( list_changed ) = TRUE;                       \
                                                                   \
       if ( _try_done == 0 )                                       \
         break;                                                    \
@@ -343,7 +343,7 @@ FT_BEGIN_HEADER
 
  /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* FTCCACHE_H_ */

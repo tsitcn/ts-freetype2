@@ -27,17 +27,17 @@
 #include "aferrors.h"
 
 
-  static FT_Error
+  static FT_TS_Error
   af_indic_metrics_init( AF_CJKMetrics  metrics,
-                         FT_Face        face )
+                         FT_TS_Face        face )
   {
     /* skip blue zone init in CJK routines */
-    FT_CharMap  oldmap = face->charmap;
+    FT_TS_CharMap  oldmap = face->charmap;
 
 
     metrics->units_per_em = face->units_per_EM;
 
-    if ( FT_Select_Charmap( face, FT_ENCODING_UNICODE ) )
+    if ( FT_TS_Select_Charmap( face, FT_TS_ENCODING_UNICODE ) )
       face->charmap = NULL;
     else
     {
@@ -49,9 +49,9 @@
       af_cjk_metrics_check_digits( metrics, face );
     }
 
-    FT_Set_Charmap( face, oldmap );
+    FT_TS_Set_Charmap( face, oldmap );
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
@@ -64,7 +64,7 @@
   }
 
 
-  static FT_Error
+  static FT_TS_Error
   af_indic_hints_init( AF_GlyphHints  hints,
                        AF_CJKMetrics  metrics )
   {
@@ -73,10 +73,10 @@
   }
 
 
-  static FT_Error
-  af_indic_hints_apply( FT_UInt        glyph_index,
+  static FT_TS_Error
+  af_indic_hints_apply( FT_TS_UInt        glyph_index,
                         AF_GlyphHints  hints,
-                        FT_Outline*    outline,
+                        FT_TS_Outline*    outline,
                         AF_CJKMetrics  metrics )
   {
     /* use CJK routines */
@@ -89,8 +89,8 @@
 
   static void
   af_indic_get_standard_widths( AF_CJKMetrics  metrics,
-                                FT_Pos*        stdHW,
-                                FT_Pos*        stdVW )
+                                FT_TS_Pos*        stdHW,
+                                FT_TS_Pos*        stdVW )
   {
     if ( stdHW )
       *stdHW = metrics->axis[AF_DIMENSION_VERT].standard_width;

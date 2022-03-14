@@ -20,14 +20,14 @@
 #include <freetype/internal/tttypes.h>
 
 
-  FT_EXPORT_DEF( FT_Int )
-  FT_Get_Gasp( FT_Face  face,
-               FT_UInt  ppem )
+  FT_TS_EXPORT_DEF( FT_TS_Int )
+  FT_TS_Get_Gasp( FT_TS_Face  face,
+               FT_TS_UInt  ppem )
   {
-    FT_Int  result = FT_GASP_NO_TABLE;
+    FT_TS_Int  result = FT_TS_GASP_NO_TABLE;
 
 
-    if ( face && FT_IS_SFNT( face ) )
+    if ( face && FT_TS_IS_SFNT( face ) )
     {
       TT_Face  ttface = (TT_Face)face;
 

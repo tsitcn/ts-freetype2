@@ -23,7 +23,7 @@
 #include "afhints.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* the `indic' writing system */
@@ -33,7 +33,7 @@ FT_BEGIN_HEADER
 
 /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFINDIC_H_ */
 

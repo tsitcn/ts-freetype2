@@ -45,7 +45,7 @@
 #include <freetype/internal/ftdebug.h>
 
 
-#ifdef FT_DEBUG_LEVEL_ERROR
+#ifdef FT_TS_DEBUG_LEVEL_ERROR
 
 #include <stdarg.h>
 #include <stdlib.h>
@@ -72,8 +72,8 @@
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( void )
-  FT_Message( const char*  fmt,
+  FT_TS_BASE_DEF( void )
+  FT_TS_Message( const char*  fmt,
               ... )
   {
     static char  buf[8192];
@@ -91,8 +91,8 @@
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( void )
-  FT_Panic( const char*  fmt,
+  FT_TS_BASE_DEF( void )
+  FT_TS_Panic( const char*  fmt,
             ... )
   {
     static char  buf[8192];
@@ -110,8 +110,8 @@
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( int )
-  FT_Throw( FT_Error     error,
+  FT_TS_BASE_DEF( int )
+  FT_TS_Throw( FT_TS_Error     error,
             int          line,
             const char*  file )
   {
@@ -122,20 +122,20 @@
              file,
              line,
              error,
-             FT_Error_String( error ) );
+             FT_TS_Error_String( error ) );
 #else
-    FT_UNUSED( error );
-    FT_UNUSED( line );
-    FT_UNUSED( file );
+    FT_TS_UNUSED( error );
+    FT_TS_UNUSED( line );
+    FT_TS_UNUSED( file );
 #endif
 
     return 0;
   }
 
-#endif /* FT_DEBUG_LEVEL_ERROR */
+#endif /* FT_TS_DEBUG_LEVEL_ERROR */
 
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
 
   /* array of trace levels, initialized to 0; */
   /* this gets adjusted at run-time           */
@@ -149,7 +149,7 @@
   int*  ft_trace_levels;
 
   /* define array of trace toggle names */
-#define FT_TRACE_DEF( x )  #x ,
+#define FT_TS_TRACE_DEF( x )  #x ,
 
   static const char*  ft_trace_toggles[trace_count + 1] =
   {
@@ -157,13 +157,13 @@
     NULL
   };
 
-#undef FT_TRACE_DEF
+#undef FT_TS_TRACE_DEF
 
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( FT_Int )
-  FT_Trace_Get_Count( void )
+  FT_TS_BASE_DEF( FT_TS_Int )
+  FT_TS_Trace_Get_Count( void )
   {
     return trace_count;
   }
@@ -171,10 +171,10 @@
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( const char * )
-  FT_Trace_Get_Name( FT_Int  idx )
+  FT_TS_BASE_DEF( const char * )
+  FT_TS_Trace_Get_Name( FT_TS_Int  idx )
   {
-    int  max = FT_Trace_Get_Count();
+    int  max = FT_TS_Trace_Get_Count();
 
 
     if ( idx < max )
@@ -186,8 +186,8 @@
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( void )
-  FT_Trace_Disable( void )
+  FT_TS_BASE_DEF( void )
+  FT_TS_Trace_Disable( void )
   {
     ft_trace_levels = ft_trace_levels_disabled;
   }
@@ -195,8 +195,8 @@
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( void )
-  FT_Trace_Enable( void )
+  FT_TS_BASE_DEF( void )
+  FT_TS_Trace_Enable( void )
   {
     ft_trace_levels = ft_trace_levels_enabled;
   }
@@ -220,7 +220,7 @@
    * The level must be between 0 and 7; 0 means quiet (except for serious
    * runtime errors), and 7 means _very_ verbose.
    */
-  FT_BASE_DEF( void )
+  FT_TS_BASE_DEF( void )
   ft_debug_init( void )
   {
     /* Windows Mobile doesn't have environment API:           */
@@ -255,8 +255,8 @@
 
         if ( *p == ':' && p > q )
         {
-          FT_Int  n, i, len = (FT_Int)( p - q );
-          FT_Int  level = -1, found = -1;
+          FT_TS_Int  n, i, len = (FT_TS_Int)( p - q );
+          FT_TS_Int  level = -1, found = -1;
 
 
           for ( n = 0; n < trace_count; n++ )
@@ -305,34 +305,34 @@
   }
 
 
-#else  /* !FT_DEBUG_LEVEL_TRACE */
+#else  /* !FT_TS_DEBUG_LEVEL_TRACE */
 
 
-  FT_BASE_DEF( void )
+  FT_TS_BASE_DEF( void )
   ft_debug_init( void )
   {
     /* nothing */
   }
 
 
-  FT_BASE_DEF( FT_Int )
-  FT_Trace_Get_Count( void )
+  FT_TS_BASE_DEF( FT_TS_Int )
+  FT_TS_Trace_Get_Count( void )
   {
     return 0;
   }
 
 
-  FT_BASE_DEF( const char * )
-  FT_Trace_Get_Name( FT_Int  idx )
+  FT_TS_BASE_DEF( const char * )
+  FT_TS_Trace_Get_Name( FT_TS_Int  idx )
   {
-    FT_UNUSED( idx );
+    FT_TS_UNUSED( idx );
 
     return NULL;
   }
 
 
-  FT_BASE_DEF( void )
-  FT_Trace_Disable( void )
+  FT_TS_BASE_DEF( void )
+  FT_TS_Trace_Disable( void )
   {
     /* nothing */
   }
@@ -340,14 +340,14 @@
 
   /* documentation is in ftdebug.h */
 
-  FT_BASE_DEF( void )
-  FT_Trace_Enable( void )
+  FT_TS_BASE_DEF( void )
+  FT_TS_Trace_Enable( void )
   {
     /* nothing */
   }
 
 
-#endif /* !FT_DEBUG_LEVEL_TRACE */
+#endif /* !FT_TS_DEBUG_LEVEL_TRACE */
 
 
 /* END */

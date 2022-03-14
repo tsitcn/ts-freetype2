@@ -24,14 +24,14 @@
 #include "ftcglyph.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 #define FTC_SBIT_ITEMS_PER_NODE  16
 
   typedef struct  FTC_SNodeRec_
   {
     FTC_GNodeRec  gnode;
-    FT_UInt       count;
+    FT_TS_UInt       count;
     FTC_SBitRec   sbits[FTC_SBIT_ITEMS_PER_NODE];
 
   } FTC_SNodeRec, *FTC_SNode;
@@ -41,15 +41,15 @@ FT_BEGIN_HEADER
 #define FTC_SNODE_GINDEX( x )  FTC_GNODE( x )->gindex
 #define FTC_SNODE_FAMILY( x )  FTC_GNODE( x )->family
 
-  typedef FT_UInt
+  typedef FT_TS_UInt
   (*FTC_SFamily_GetCountFunc)( FTC_Family   family,
                                FTC_Manager  manager );
 
-  typedef FT_Error
+  typedef FT_TS_Error
   (*FTC_SFamily_LoadGlyphFunc)( FTC_Family   family,
-                                FT_UInt      gindex,
+                                FT_TS_UInt      gindex,
                                 FTC_Manager  manager,
-                                FT_Face     *aface );
+                                FT_TS_Face     *aface );
 
   typedef struct  FTC_SFamilyClassRec_
   {
@@ -67,34 +67,34 @@ FT_BEGIN_HEADER
           FTC_SFAMILY_CLASS( FTC_CACHE_GCACHE_CLASS( x )->family_class )
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   FTC_SNode_Free( FTC_SNode  snode,
                   FTC_Cache  cache );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   FTC_SNode_New( FTC_SNode   *psnode,
                  FTC_GQuery   gquery,
                  FTC_Cache    cache );
 
 #if 0
-  FT_LOCAL( FT_ULong )
+  FT_TS_LOCAL( FT_TS_ULong )
   FTC_SNode_Weight( FTC_SNode  inode );
 #endif
 
 
 #ifdef FTC_INLINE
 
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   FTC_SNode_Compare( FTC_SNode   snode,
                      FTC_GQuery  gquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed);
+                     FT_TS_Bool*    list_changed);
 
 #endif
 
   /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTCSBITS_H_ */
 

@@ -30,8 +30,8 @@
 #ifndef FT2BUILD_H_
 #define FT2BUILD_H_
 
-#define FT_CONFIG_MODULES_H  <ftmodule.h>
-#define FT_CONFIG_OPTIONS_H  <ftoption.h>
+#define FT_TS_CONFIG_MODULES_H  <ftmodule.h>
+#define FT_TS_CONFIG_OPTIONS_H  <ftoption.h>
 
 #include <freetype/config/ftheader.h>
 

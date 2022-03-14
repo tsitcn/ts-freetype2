@@ -23,31 +23,31 @@
 #include <freetype/ftmodapi.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
-   * This is the `extended' FT_Module structure that holds the
+   * This is the `extended' FT_TS_Module structure that holds the
    * autofitter's global data.
    */
 
   typedef struct  AF_ModuleRec_
   {
-    FT_ModuleRec  root;
+    FT_TS_ModuleRec  root;
 
-    FT_UInt       fallback_style;
-    FT_UInt       default_script;
-    FT_Bool       no_stem_darkening;
-    FT_Int        darken_params[8];
+    FT_TS_UInt       fallback_style;
+    FT_TS_UInt       default_script;
+    FT_TS_Bool       no_stem_darkening;
+    FT_TS_Int        darken_params[8];
 
   } AF_ModuleRec, *AF_Module;
 
 
-FT_DECLARE_AUTOHINTER_INTERFACE( af_autofitter_interface )
-FT_DECLARE_MODULE( autofit_module_class )
+FT_TS_DECLARE_AUTOHINTER_INTERFACE( af_autofitter_interface )
+FT_TS_DECLARE_MODULE( autofit_module_class )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFMODULE_H_ */
 

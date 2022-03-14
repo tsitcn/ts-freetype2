@@ -23,21 +23,21 @@
 #include <freetype/internal/psaux.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   afm_parser_init( AFM_Parser  parser,
-                   FT_Memory   memory,
-                   FT_Byte*    base,
-                   FT_Byte*    limit );
+                   FT_TS_Memory   memory,
+                   FT_TS_Byte*    base,
+                   FT_TS_Byte*    limit );
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   afm_parser_done( AFM_Parser  parser );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   afm_parser_parse( AFM_Parser  parser );
 
 
@@ -58,10 +58,10 @@ FT_BEGIN_HEADER
     union
     {
       char*     s;
-      FT_Fixed  f;
-      FT_Int    i;
-      FT_UInt   u;
-      FT_Bool   b;
+      FT_TS_Fixed  f;
+      FT_TS_Int    i;
+      FT_TS_UInt   u;
+      FT_TS_Bool   b;
 
     } u;
 
@@ -69,18 +69,18 @@ FT_BEGIN_HEADER
 
 #define  AFM_MAX_ARGUMENTS  5
 
-  FT_LOCAL( FT_Int )
+  FT_TS_LOCAL( FT_TS_Int )
   afm_parser_read_vals( AFM_Parser  parser,
                         AFM_Value   vals,
-                        FT_Int      n );
+                        FT_TS_Int      n );
 
   /* read the next key from the next line or column */
-  FT_LOCAL( char* )
+  FT_TS_LOCAL( char* )
   afm_parser_next_key( AFM_Parser  parser,
-                       FT_Bool     line,
-                       FT_Offset*  len );
+                       FT_TS_Bool     line,
+                       FT_TS_Offset*  len );
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFMPARSE_H_ */
 

@@ -23,25 +23,25 @@
 #include <freetype/ftwinfnt.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-#define FT_SERVICE_ID_WINFNT  "winfonts"
+#define FT_TS_SERVICE_ID_WINFNT  "winfonts"
 
-  typedef FT_Error
-  (*FT_WinFnt_GetHeaderFunc)( FT_Face               face,
-                              FT_WinFNT_HeaderRec  *aheader );
+  typedef FT_TS_Error
+  (*FT_TS_WinFnt_GetHeaderFunc)( FT_TS_Face               face,
+                              FT_TS_WinFNT_HeaderRec  *aheader );
 
 
-  FT_DEFINE_SERVICE( WinFnt )
+  FT_TS_DEFINE_SERVICE( WinFnt )
   {
-    FT_WinFnt_GetHeaderFunc  get_header;
+    FT_TS_WinFnt_GetHeaderFunc  get_header;
   };
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVWINFNT_H_ */

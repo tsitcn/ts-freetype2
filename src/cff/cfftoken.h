@@ -16,8 +16,8 @@
  */
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  CFF_FontRecDictRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  CFF_FontRecDictRec
 
 #undef  CFFCODE
 #define CFFCODE       CFF_CODE_TOPDICT
@@ -75,8 +75,8 @@
 #endif
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  CFF_PrivateRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  CFF_PrivateRec
 #undef  CFFCODE
 #define CFFCODE       CFF_CODE_PRIVATE
 
@@ -102,8 +102,8 @@
   CFF_FIELD_NUM       ( 21,    nominal_width,          "nominalWidthX" )
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  CFF_FontRecDictRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  CFF_FontRecDictRec
 #undef  CFFCODE
 #define CFFCODE       CFF2_CODE_TOPDICT
 
@@ -115,8 +115,8 @@
   CFF_FIELD_CALLBACK( 25,    maxstack,             "maxstack" )
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  CFF_FontRecDictRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  CFF_FontRecDictRec
 #undef  CFFCODE
 #define CFFCODE       CFF2_CODE_FONTDICT
 
@@ -124,8 +124,8 @@
   CFF_FIELD_CALLBACK( 0x107, font_matrix,  "FontMatrix" )
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  CFF_PrivateRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  CFF_PrivateRec
 #undef  CFFCODE
 #define CFFCODE       CFF2_CODE_PRIVATE
 

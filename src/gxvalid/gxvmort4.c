@@ -31,20 +31,20 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmort
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmort
 
 
   static void
-  gxv_mort_subtable_type4_lookupval_validate( FT_UShort            glyph,
+  gxv_mort_subtable_type4_lookupval_validate( FT_TS_UShort            glyph,
                                               GXV_LookupValueCPtr  value_p,
                                               GXV_Validator        gxvalid )
   {
-    FT_UNUSED( glyph );
+    FT_TS_UNUSED( glyph );
 
     gxv_glyphid_validate( value_p->u, gxvalid );
   }
@@ -78,36 +78,36 @@
 
   static GXV_LookupValueDesc
   gxv_mort_subtable_type4_lookupfmt4_transit(
-    FT_UShort            relative_gindex,
+    FT_TS_UShort            relative_gindex,
     GXV_LookupValueCPtr  base_value_p,
-    FT_Bytes             lookuptbl_limit,
+    FT_TS_Bytes             lookuptbl_limit,
     GXV_Validator        gxvalid )
   {
-    FT_Bytes             p;
-    FT_Bytes             limit;
-    FT_UShort            offset;
+    FT_TS_Bytes             p;
+    FT_TS_Bytes             limit;
+    FT_TS_UShort            offset;
     GXV_LookupValueDesc  value;
 
     /* XXX: check range? */
-    offset = (FT_UShort)( base_value_p->u +
-                          relative_gindex * sizeof ( FT_UShort ) );
+    offset = (FT_TS_UShort)( base_value_p->u +
+                          relative_gindex * sizeof ( FT_TS_UShort ) );
 
     p     = gxvalid->lookuptbl_head + offset;
     limit = lookuptbl_limit;
 
     GXV_LIMIT_CHECK( 2 );
-    value.u = FT_NEXT_USHORT( p );
+    value.u = FT_TS_NEXT_USHORT( p );
 
     return value;
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_mort_subtable_type4_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL_DEF( void )
+  gxv_mort_subtable_type4_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
 
     GXV_NAME_ENTER( "mort chain subtable type4 "

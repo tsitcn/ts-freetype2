@@ -26,7 +26,7 @@
 #include <freetype/t1tables.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*************************************************************************/
@@ -39,17 +39,17 @@ FT_BEGIN_HEADER
 
   typedef struct PSH_GlobalsRec_*  PSH_Globals;
 
-  typedef FT_Error
-  (*PSH_Globals_NewFunc)( FT_Memory     memory,
+  typedef FT_TS_Error
+  (*PSH_Globals_NewFunc)( FT_TS_Memory     memory,
                           T1_Private*   private_dict,
                           PSH_Globals*  aglobals );
 
   typedef void
   (*PSH_Globals_SetScaleFunc)( PSH_Globals  globals,
-                               FT_Fixed     x_scale,
-                               FT_Fixed     y_scale,
-                               FT_Fixed     x_delta,
-                               FT_Fixed     y_delta );
+                               FT_TS_Fixed     x_scale,
+                               FT_TS_Fixed     y_scale,
+                               FT_TS_Fixed     x_delta,
+                               FT_TS_Fixed     y_delta );
 
   typedef void
   (*PSH_Globals_DestroyFunc)( PSH_Globals  globals );
@@ -176,8 +176,8 @@ FT_BEGIN_HEADER
    */
   typedef void
   (*T1_Hints_SetStemFunc)( T1_Hints   hints,
-                           FT_UInt    dimension,
-                           FT_Fixed*  coords );
+                           FT_TS_UInt    dimension,
+                           FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
@@ -210,8 +210,8 @@ FT_BEGIN_HEADER
    */
   typedef void
   (*T1_Hints_SetStem3Func)( T1_Hints   hints,
-                            FT_UInt    dimension,
-                            FT_Fixed*  coords );
+                            FT_TS_UInt    dimension,
+                            FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
@@ -234,7 +234,7 @@ FT_BEGIN_HEADER
    */
   typedef void
   (*T1_Hints_ResetFunc)( T1_Hints  hints,
-                         FT_UInt   end_point );
+                         FT_TS_UInt   end_point );
 
 
   /**************************************************************************
@@ -261,9 +261,9 @@ FT_BEGIN_HEADER
    *   recording session.
    *
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*T1_Hints_CloseFunc)( T1_Hints  hints,
-                         FT_UInt   end_point );
+                         FT_TS_UInt   end_point );
 
 
   /**************************************************************************
@@ -300,11 +300,11 @@ FT_BEGIN_HEADER
    *   must correspond to the same font as the glyph.
    *
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*T1_Hints_ApplyFunc)( T1_Hints        hints,
-                         FT_Outline*     outline,
+                         FT_TS_Outline*     outline,
                          PSH_Globals     globals,
-                         FT_Render_Mode  hint_mode );
+                         FT_TS_Render_Mode  hint_mode );
 
 
   /**************************************************************************
@@ -463,9 +463,9 @@ FT_BEGIN_HEADER
    */
   typedef void
   (*T2_Hints_StemsFunc)( T2_Hints   hints,
-                         FT_UInt    dimension,
-                         FT_Int     count,
-                         FT_Fixed*  coordinates );
+                         FT_TS_UInt    dimension,
+                         FT_TS_Int     count,
+                         FT_TS_Fixed*  coordinates );
 
 
   /**************************************************************************
@@ -505,9 +505,9 @@ FT_BEGIN_HEADER
    */
   typedef void
   (*T2_Hints_MaskFunc)( T2_Hints        hints,
-                        FT_UInt         end_point,
-                        FT_UInt         bit_count,
-                        const FT_Byte*  bytes );
+                        FT_TS_UInt         end_point,
+                        FT_TS_UInt         bit_count,
+                        const FT_TS_Byte*  bytes );
 
 
   /**************************************************************************
@@ -547,8 +547,8 @@ FT_BEGIN_HEADER
    */
   typedef void
   (*T2_Hints_CounterFunc)( T2_Hints        hints,
-                           FT_UInt         bit_count,
-                           const FT_Byte*  bytes );
+                           FT_TS_UInt         bit_count,
+                           const FT_TS_Byte*  bytes );
 
 
   /**************************************************************************
@@ -575,9 +575,9 @@ FT_BEGIN_HEADER
    *   recording session.
    *
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*T2_Hints_CloseFunc)( T2_Hints  hints,
-                         FT_UInt   end_point );
+                         FT_TS_UInt   end_point );
 
 
   /**************************************************************************
@@ -613,11 +613,11 @@ FT_BEGIN_HEADER
    *   must correspond to the same font than the glyph.
    *
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*T2_Hints_ApplyFunc)( T2_Hints        hints,
-                         FT_Outline*     outline,
+                         FT_TS_Outline*     outline,
                          PSH_Globals     globals,
-                         FT_Render_Mode  hint_mode );
+                         FT_TS_Render_Mode  hint_mode );
 
 
   /**************************************************************************
@@ -669,16 +669,16 @@ FT_BEGIN_HEADER
 
   typedef struct  PSHinter_Interface_
   {
-    PSH_Globals_Funcs  (*get_globals_funcs)( FT_Module  module );
-    T1_Hints_Funcs     (*get_t1_funcs)     ( FT_Module  module );
-    T2_Hints_Funcs     (*get_t2_funcs)     ( FT_Module  module );
+    PSH_Globals_Funcs  (*get_globals_funcs)( FT_TS_Module  module );
+    T1_Hints_Funcs     (*get_t1_funcs)     ( FT_TS_Module  module );
+    T2_Hints_Funcs     (*get_t2_funcs)     ( FT_TS_Module  module );
 
   } PSHinter_Interface;
 
   typedef PSHinter_Interface*  PSHinter_Service;
 
 
-#define FT_DEFINE_PSHINTER_INTERFACE(        \
+#define FT_TS_DEFINE_PSHINTER_INTERFACE(        \
           class_,                            \
           get_globals_funcs_,                \
           get_t1_funcs_,                     \
@@ -691,7 +691,7 @@ FT_BEGIN_HEADER
   };
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* PSHINTS_H_ */
 

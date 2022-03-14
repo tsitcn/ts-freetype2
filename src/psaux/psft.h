@@ -36,8 +36,8 @@
  */
 
 
-#ifndef PSFT_H_
-#define PSFT_H_
+#ifndef PSFT_TS_H_
+#define PSFT_TS_H_
 
 
 #include <freetype/internal/compiler-macros.h>
@@ -53,89 +53,89 @@
 #include <freetype/internal/psaux.h>    /* for PS_Decoder */
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cf2_decoder_parse_charstrings( PS_Decoder*  decoder,
-                                 FT_Byte*     charstring_base,
-                                 FT_ULong     charstring_len );
+                                 FT_TS_Byte*     charstring_base,
+                                 FT_TS_ULong     charstring_len );
 
-  FT_LOCAL( CFF_SubFont )
+  FT_TS_LOCAL( CFF_SubFont )
   cf2_getSubfont( PS_Decoder*  decoder );
 
-  FT_LOCAL( CFF_VStore )
+  FT_TS_LOCAL( CFF_VStore )
   cf2_getVStore( PS_Decoder*  decoder );
 
-  FT_LOCAL( FT_UInt )
+  FT_TS_LOCAL( FT_TS_UInt )
   cf2_getMaxstack( PS_Decoder*  decoder );
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cf2_getNormalizedVector( PS_Decoder*  decoder,
                            CF2_UInt    *len,
-                           FT_Fixed*   *vec );
+                           FT_TS_Fixed*   *vec );
 #endif
 
-  FT_LOCAL( CF2_Fixed )
+  FT_TS_LOCAL( CF2_Fixed )
   cf2_getPpemY( PS_Decoder*  decoder );
-  FT_LOCAL( CF2_Fixed )
+  FT_TS_LOCAL( CF2_Fixed )
   cf2_getStdVW( PS_Decoder*  decoder );
-  FT_LOCAL( CF2_Fixed )
+  FT_TS_LOCAL( CF2_Fixed )
   cf2_getStdHW( PS_Decoder*  decoder );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_getBlueMetrics( PS_Decoder*  decoder,
                       CF2_Fixed*   blueScale,
                       CF2_Fixed*   blueShift,
                       CF2_Fixed*   blueFuzz );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_getBlueValues( PS_Decoder*  decoder,
                      size_t*      count,
-                     FT_Pos*     *data );
-  FT_LOCAL( void )
+                     FT_TS_Pos*     *data );
+  FT_TS_LOCAL( void )
   cf2_getOtherBlues( PS_Decoder*  decoder,
                      size_t*      count,
-                     FT_Pos*     *data );
-  FT_LOCAL( void )
+                     FT_TS_Pos*     *data );
+  FT_TS_LOCAL( void )
   cf2_getFamilyBlues( PS_Decoder*  decoder,
                       size_t*      count,
-                      FT_Pos*     *data );
-  FT_LOCAL( void )
+                      FT_TS_Pos*     *data );
+  FT_TS_LOCAL( void )
   cf2_getFamilyOtherBlues( PS_Decoder*  decoder,
                            size_t*      count,
-                           FT_Pos*     *data );
+                           FT_TS_Pos*     *data );
 
-  FT_LOCAL( CF2_Int )
+  FT_TS_LOCAL( CF2_Int )
   cf2_getLanguageGroup( PS_Decoder*  decoder );
 
-  FT_LOCAL( CF2_Int )
+  FT_TS_LOCAL( CF2_Int )
   cf2_initGlobalRegionBuffer( PS_Decoder*  decoder,
                               CF2_Int      subrNum,
                               CF2_Buffer   buf );
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cf2_getSeacComponent( PS_Decoder*  decoder,
                         CF2_Int      code,
                         CF2_Buffer   buf );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_freeSeacComponent( PS_Decoder*  decoder,
                          CF2_Buffer   buf );
-  FT_LOCAL( CF2_Int )
+  FT_TS_LOCAL( CF2_Int )
   cf2_initLocalRegionBuffer( PS_Decoder*  decoder,
                              CF2_Int      subrNum,
                              CF2_Buffer   buf );
 
-  FT_LOCAL( CF2_Fixed )
+  FT_TS_LOCAL( CF2_Fixed )
   cf2_getDefaultWidthX( PS_Decoder*  decoder );
-  FT_LOCAL( CF2_Fixed )
+  FT_TS_LOCAL( CF2_Fixed )
   cf2_getNominalWidthX( PS_Decoder*  decoder );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cf2_getT1SeacComponent( PS_Decoder*  decoder,
-                          FT_UInt      glyph_index,
+                          FT_TS_UInt      glyph_index,
                           CF2_Buffer   buf );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_freeT1SeacComponent( PS_Decoder*  decoder,
                            CF2_Buffer   buf );
 
@@ -152,16 +152,16 @@ FT_BEGIN_HEADER
   } CF2_OutlineRec, *CF2_Outline;
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_outline_reset( CF2_Outline  outline );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_outline_close( CF2_Outline  outline );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
-#endif /* PSFT_H_ */
+#endif /* PSFT_TS_H_ */
 
 
 /* END */

@@ -23,12 +23,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  otvjstf
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  otvjstf
 
 
 #define JstfPriorityFunc  otv_JstfPriority_validate
@@ -39,12 +39,12 @@
   /* sets otvalid->extra1 (counter)           */
 
   static void
-  otv_JstfPriority_validate( FT_Bytes       table,
+  otv_JstfPriority_validate( FT_TS_Bytes       table,
                              OTV_Validator  otvalid )
   {
-    FT_Bytes  p = table;
-    FT_UInt   table_size;
-    FT_UInt   gsub_lookup_count, gpos_lookup_count;
+    FT_TS_Bytes  p = table;
+    FT_TS_UInt   table_size;
+    FT_TS_UInt   gsub_lookup_count, gpos_lookup_count;
 
     OTV_OPTIONAL_TABLE( ShrinkageEnableGSUB  );
     OTV_OPTIONAL_TABLE( ShrinkageDisableGSUB );
@@ -145,12 +145,12 @@
   /* sets otvalid->func1 (otv_JstfPriority_validate) */
 
   static void
-  otv_JstfScript_validate( FT_Bytes       table,
+  otv_JstfScript_validate( FT_TS_Bytes       table,
                            OTV_Validator  otvalid )
   {
-    FT_Bytes  p = table;
-    FT_UInt   table_size;
-    FT_UInt   JstfLangSysCount;
+    FT_TS_Bytes  p = table;
+    FT_TS_UInt   table_size;
+    FT_TS_UInt   JstfLangSysCount;
 
     OTV_OPTIONAL_TABLE( ExtGlyph );
     OTV_OPTIONAL_TABLE( DefJstfLangSys );
@@ -161,7 +161,7 @@
     OTV_LIMIT_CHECK( 6 );
     OTV_OPTIONAL_OFFSET( ExtGlyph );
     OTV_OPTIONAL_OFFSET( DefJstfLangSys );
-    JstfLangSysCount = FT_NEXT_USHORT( p );
+    JstfLangSysCount = FT_TS_NEXT_USHORT( p );
 
     OTV_TRACE(( " (JstfLangSysCount = %d)\n", JstfLangSysCount ));
 
@@ -190,7 +190,7 @@
     {
       p += 4;       /* skip JstfLangSysTag */
 
-      OTV_RUN( table + FT_NEXT_USHORT( p ), otvalid );
+      OTV_RUN( table + FT_TS_NEXT_USHORT( p ), otvalid );
     }
 
     OTV_EXIT;
@@ -201,33 +201,33 @@
   /* sets otvalid->extra2 (GPOS lookup count) */
   /* sets otvalid->glyph_count                */
 
-  FT_LOCAL_DEF( void )
-  otv_JSTF_validate( FT_Bytes      table,
-                     FT_Bytes      gsub,
-                     FT_Bytes      gpos,
-                     FT_UInt       glyph_count,
-                     FT_Validator  ftvalid )
+  FT_TS_LOCAL_DEF( void )
+  otv_JSTF_validate( FT_TS_Bytes      table,
+                     FT_TS_Bytes      gsub,
+                     FT_TS_Bytes      gpos,
+                     FT_TS_UInt       glyph_count,
+                     FT_TS_Validator  ftvalid )
   {
     OTV_ValidatorRec  otvalidrec;
     OTV_Validator     otvalid = &otvalidrec;
-    FT_Bytes          p     = table;
-    FT_UInt           JstfScriptCount;
+    FT_TS_Bytes          p     = table;
+    FT_TS_UInt           JstfScriptCount;
 
 
     otvalid->root = ftvalid;
 
 
-    FT_TRACE3(( "validating JSTF table\n" ));
+    FT_TS_TRACE3(( "validating JSTF table\n" ));
     OTV_INIT;
 
     OTV_LIMIT_CHECK( 6 );
 
-    if ( FT_NEXT_ULONG( p ) != 0x10000UL )      /* Version */
-      FT_INVALID_FORMAT;
+    if ( FT_TS_NEXT_ULONG( p ) != 0x10000UL )      /* Version */
+      FT_TS_INVALID_FORMAT;
 
-    JstfScriptCount = FT_NEXT_USHORT( p );
+    JstfScriptCount = FT_TS_NEXT_USHORT( p );
 
-    FT_TRACE3(( " (JstfScriptCount = %d)\n", JstfScriptCount ));
+    FT_TS_TRACE3(( " (JstfScriptCount = %d)\n", JstfScriptCount ));
 
     OTV_LIMIT_CHECK( JstfScriptCount * 6 );
 
@@ -249,10 +249,10 @@
       p += 4;       /* skip JstfScriptTag */
 
       /* JstfScript */
-      otv_JstfScript_validate( table + FT_NEXT_USHORT( p ), otvalid );
+      otv_JstfScript_validate( table + FT_TS_NEXT_USHORT( p ), otvalid );
     }
 
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
   }
 
 

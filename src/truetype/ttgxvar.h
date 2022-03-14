@@ -23,7 +23,7 @@
 #include "ttobjs.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
@@ -39,8 +39,8 @@ FT_BEGIN_HEADER
    */
   typedef struct  GX_AVarCorrespondenceRec_
   {
-    FT_Fixed  fromCoord;
-    FT_Fixed  toCoord;
+    FT_TS_Fixed  fromCoord;
+    FT_TS_Fixed  toCoord;
 
   } GX_AVarCorrespondenceRec_, *GX_AVarCorrespondence;
 
@@ -56,7 +56,7 @@ FT_BEGIN_HEADER
    */
   typedef struct  GX_AVarSegmentRec_
   {
-    FT_UShort              pairCount;
+    FT_TS_UShort              pairCount;
     GX_AVarCorrespondence  correspondence; /* array with pairCount entries */
 
   } GX_AVarSegmentRec, *GX_AVarSegment;
@@ -64,11 +64,11 @@ FT_BEGIN_HEADER
 
   typedef struct  GX_ItemVarDataRec_
   {
-    FT_UInt    itemCount;      /* number of delta sets per item         */
-    FT_UInt    regionIdxCount; /* number of region indices in this data */
-    FT_UInt*   regionIndices;  /* array of `regionCount' indices;       */
+    FT_TS_UInt    itemCount;      /* number of delta sets per item         */
+    FT_TS_UInt    regionIdxCount; /* number of region indices in this data */
+    FT_TS_UInt*   regionIndices;  /* array of `regionCount' indices;       */
                                /* these index `varRegionList'           */
-    FT_Short*  deltaSet;       /* array of `itemCount' deltas           */
+    FT_TS_Short*  deltaSet;       /* array of `itemCount' deltas           */
                                /* use `innerIndex' for this array       */
 
   } GX_ItemVarDataRec, *GX_ItemVarData;
@@ -77,9 +77,9 @@ FT_BEGIN_HEADER
   /* contribution of one axis to a region */
   typedef struct  GX_AxisCoordsRec_
   {
-    FT_Fixed  startCoord;
-    FT_Fixed  peakCoord;      /* zero means no effect (factor = 1) */
-    FT_Fixed  endCoord;
+    FT_TS_Fixed  startCoord;
+    FT_TS_Fixed  peakCoord;      /* zero means no effect (factor = 1) */
+    FT_TS_Fixed  endCoord;
 
   } GX_AxisCoordsRec, *GX_AxisCoords;
 
@@ -94,11 +94,11 @@ FT_BEGIN_HEADER
   /* item variation store */
   typedef struct  GX_ItemVarStoreRec_
   {
-    FT_UInt         dataCount;
+    FT_TS_UInt         dataCount;
     GX_ItemVarData  varData;            /* array of dataCount records;     */
                                         /* use `outerIndex' for this array */
-    FT_UShort     axisCount;
-    FT_UInt       regionCount;          /* total number of regions defined */
+    FT_TS_UShort     axisCount;
+    FT_TS_UInt       regionCount;          /* total number of regions defined */
     GX_VarRegion  varRegionList;
 
   } GX_ItemVarStoreRec, *GX_ItemVarStore;
@@ -106,9 +106,9 @@ FT_BEGIN_HEADER
 
   typedef struct  GX_DeltaSetIdxMapRec_
   {
-    FT_ULong  mapCount;
-    FT_UInt*  outerIndex;               /* indices to item var data */
-    FT_UInt*  innerIndex;               /* indices to delta set     */
+    FT_TS_ULong  mapCount;
+    FT_TS_UInt*  outerIndex;               /* indices to item var data */
+    FT_TS_UInt*  innerIndex;               /* indices to delta set     */
 
   } GX_DeltaSetIdxMapRec, *GX_DeltaSetIdxMap;
 
@@ -138,54 +138,54 @@ FT_BEGIN_HEADER
   } GX_HVVarTableRec, *GX_HVVarTable;
 
 
-#define MVAR_TAG_GASP_0  FT_MAKE_TAG( 'g', 's', 'p', '0' )
-#define MVAR_TAG_GASP_1  FT_MAKE_TAG( 'g', 's', 'p', '1' )
-#define MVAR_TAG_GASP_2  FT_MAKE_TAG( 'g', 's', 'p', '2' )
-#define MVAR_TAG_GASP_3  FT_MAKE_TAG( 'g', 's', 'p', '3' )
-#define MVAR_TAG_GASP_4  FT_MAKE_TAG( 'g', 's', 'p', '4' )
-#define MVAR_TAG_GASP_5  FT_MAKE_TAG( 'g', 's', 'p', '5' )
-#define MVAR_TAG_GASP_6  FT_MAKE_TAG( 'g', 's', 'p', '6' )
-#define MVAR_TAG_GASP_7  FT_MAKE_TAG( 'g', 's', 'p', '7' )
-#define MVAR_TAG_GASP_8  FT_MAKE_TAG( 'g', 's', 'p', '8' )
-#define MVAR_TAG_GASP_9  FT_MAKE_TAG( 'g', 's', 'p', '9' )
+#define MVAR_TAG_GASP_0  FT_TS_MAKE_TAG( 'g', 's', 'p', '0' )
+#define MVAR_TAG_GASP_1  FT_TS_MAKE_TAG( 'g', 's', 'p', '1' )
+#define MVAR_TAG_GASP_2  FT_TS_MAKE_TAG( 'g', 's', 'p', '2' )
+#define MVAR_TAG_GASP_3  FT_TS_MAKE_TAG( 'g', 's', 'p', '3' )
+#define MVAR_TAG_GASP_4  FT_TS_MAKE_TAG( 'g', 's', 'p', '4' )
+#define MVAR_TAG_GASP_5  FT_TS_MAKE_TAG( 'g', 's', 'p', '5' )
+#define MVAR_TAG_GASP_6  FT_TS_MAKE_TAG( 'g', 's', 'p', '6' )
+#define MVAR_TAG_GASP_7  FT_TS_MAKE_TAG( 'g', 's', 'p', '7' )
+#define MVAR_TAG_GASP_8  FT_TS_MAKE_TAG( 'g', 's', 'p', '8' )
+#define MVAR_TAG_GASP_9  FT_TS_MAKE_TAG( 'g', 's', 'p', '9' )
 
-#define MVAR_TAG_CPHT  FT_MAKE_TAG( 'c', 'p', 'h', 't' )
-#define MVAR_TAG_HASC  FT_MAKE_TAG( 'h', 'a', 's', 'c' )
-#define MVAR_TAG_HCLA  FT_MAKE_TAG( 'h', 'c', 'l', 'a' )
-#define MVAR_TAG_HCLD  FT_MAKE_TAG( 'h', 'c', 'l', 'd' )
-#define MVAR_TAG_HCOF  FT_MAKE_TAG( 'h', 'c', 'o', 'f' )
-#define MVAR_TAG_HCRN  FT_MAKE_TAG( 'h', 'c', 'r', 'n' )
-#define MVAR_TAG_HCRS  FT_MAKE_TAG( 'h', 'c', 'r', 's' )
-#define MVAR_TAG_HDSC  FT_MAKE_TAG( 'h', 'd', 's', 'c' )
-#define MVAR_TAG_HLGP  FT_MAKE_TAG( 'h', 'l', 'g', 'p' )
-#define MVAR_TAG_SBXO  FT_MAKE_TAG( 's', 'b', 'x', 'o' )
-#define MVAR_TAG_SBXS  FT_MAKE_TAG( 's', 'b', 'x', 's' )
-#define MVAR_TAG_SBYO  FT_MAKE_TAG( 's', 'b', 'y', 'o' )
-#define MVAR_TAG_SBYS  FT_MAKE_TAG( 's', 'b', 'y', 's' )
-#define MVAR_TAG_SPXO  FT_MAKE_TAG( 's', 'p', 'x', 'o' )
-#define MVAR_TAG_SPXS  FT_MAKE_TAG( 's', 'p', 'x', 's' )
-#define MVAR_TAG_SPYO  FT_MAKE_TAG( 's', 'p', 'y', 'o' )
-#define MVAR_TAG_SPYS  FT_MAKE_TAG( 's', 'p', 'y', 's' )
-#define MVAR_TAG_STRO  FT_MAKE_TAG( 's', 't', 'r', 'o' )
-#define MVAR_TAG_STRS  FT_MAKE_TAG( 's', 't', 'r', 's' )
-#define MVAR_TAG_UNDO  FT_MAKE_TAG( 'u', 'n', 'd', 'o' )
-#define MVAR_TAG_UNDS  FT_MAKE_TAG( 'u', 'n', 'd', 's' )
-#define MVAR_TAG_VASC  FT_MAKE_TAG( 'v', 'a', 's', 'c' )
-#define MVAR_TAG_VCOF  FT_MAKE_TAG( 'v', 'c', 'o', 'f' )
-#define MVAR_TAG_VCRN  FT_MAKE_TAG( 'v', 'c', 'r', 'n' )
-#define MVAR_TAG_VCRS  FT_MAKE_TAG( 'v', 'c', 'r', 's' )
-#define MVAR_TAG_VDSC  FT_MAKE_TAG( 'v', 'd', 's', 'c' )
-#define MVAR_TAG_VLGP  FT_MAKE_TAG( 'v', 'l', 'g', 'p' )
-#define MVAR_TAG_XHGT  FT_MAKE_TAG( 'x', 'h', 'g', 't' )
+#define MVAR_TAG_CPHT  FT_TS_MAKE_TAG( 'c', 'p', 'h', 't' )
+#define MVAR_TAG_HASC  FT_TS_MAKE_TAG( 'h', 'a', 's', 'c' )
+#define MVAR_TAG_HCLA  FT_TS_MAKE_TAG( 'h', 'c', 'l', 'a' )
+#define MVAR_TAG_HCLD  FT_TS_MAKE_TAG( 'h', 'c', 'l', 'd' )
+#define MVAR_TAG_HCOF  FT_TS_MAKE_TAG( 'h', 'c', 'o', 'f' )
+#define MVAR_TAG_HCRN  FT_TS_MAKE_TAG( 'h', 'c', 'r', 'n' )
+#define MVAR_TAG_HCRS  FT_TS_MAKE_TAG( 'h', 'c', 'r', 's' )
+#define MVAR_TAG_HDSC  FT_TS_MAKE_TAG( 'h', 'd', 's', 'c' )
+#define MVAR_TAG_HLGP  FT_TS_MAKE_TAG( 'h', 'l', 'g', 'p' )
+#define MVAR_TAG_SBXO  FT_TS_MAKE_TAG( 's', 'b', 'x', 'o' )
+#define MVAR_TAG_SBXS  FT_TS_MAKE_TAG( 's', 'b', 'x', 's' )
+#define MVAR_TAG_SBYO  FT_TS_MAKE_TAG( 's', 'b', 'y', 'o' )
+#define MVAR_TAG_SBYS  FT_TS_MAKE_TAG( 's', 'b', 'y', 's' )
+#define MVAR_TAG_SPXO  FT_TS_MAKE_TAG( 's', 'p', 'x', 'o' )
+#define MVAR_TAG_SPXS  FT_TS_MAKE_TAG( 's', 'p', 'x', 's' )
+#define MVAR_TAG_SPYO  FT_TS_MAKE_TAG( 's', 'p', 'y', 'o' )
+#define MVAR_TAG_SPYS  FT_TS_MAKE_TAG( 's', 'p', 'y', 's' )
+#define MVAR_TAG_STRO  FT_TS_MAKE_TAG( 's', 't', 'r', 'o' )
+#define MVAR_TAG_STRS  FT_TS_MAKE_TAG( 's', 't', 'r', 's' )
+#define MVAR_TAG_UNDO  FT_TS_MAKE_TAG( 'u', 'n', 'd', 'o' )
+#define MVAR_TAG_UNDS  FT_TS_MAKE_TAG( 'u', 'n', 'd', 's' )
+#define MVAR_TAG_VASC  FT_TS_MAKE_TAG( 'v', 'a', 's', 'c' )
+#define MVAR_TAG_VCOF  FT_TS_MAKE_TAG( 'v', 'c', 'o', 'f' )
+#define MVAR_TAG_VCRN  FT_TS_MAKE_TAG( 'v', 'c', 'r', 'n' )
+#define MVAR_TAG_VCRS  FT_TS_MAKE_TAG( 'v', 'c', 'r', 's' )
+#define MVAR_TAG_VDSC  FT_TS_MAKE_TAG( 'v', 'd', 's', 'c' )
+#define MVAR_TAG_VLGP  FT_TS_MAKE_TAG( 'v', 'l', 'g', 'p' )
+#define MVAR_TAG_XHGT  FT_TS_MAKE_TAG( 'x', 'h', 'g', 't' )
 
 
   typedef struct  GX_ValueRec_
   {
-    FT_ULong   tag;
-    FT_UShort  outerIndex;
-    FT_UShort  innerIndex;
+    FT_TS_ULong   tag;
+    FT_TS_UShort  outerIndex;
+    FT_TS_UShort  innerIndex;
 
-    FT_Short  unmodified;  /* values are either FT_Short or FT_UShort */
+    FT_TS_Short  unmodified;  /* values are either FT_TS_Short or FT_TS_UShort */
 
   } GX_ValueRec, *GX_Value;
 
@@ -200,7 +200,7 @@ FT_BEGIN_HEADER
    */
   typedef struct  GX_MVarTableRec_
   {
-    FT_UShort  valueCount;
+    FT_TS_UShort  valueCount;
 
     GX_ItemVarStoreRec  itemStore;        /* Item Variation Store  */
     GX_Value            values;           /* Value Records         */
@@ -299,38 +299,38 @@ FT_BEGIN_HEADER
    */
   typedef struct  GX_BlendRec_
   {
-    FT_UInt         num_axis;
-    FT_Fixed*       coords;
-    FT_Fixed*       normalizedcoords;
+    FT_TS_UInt         num_axis;
+    FT_TS_Fixed*       coords;
+    FT_TS_Fixed*       normalizedcoords;
 
-    FT_MM_Var*      mmvar;
-    FT_Offset       mmvar_len;
+    FT_TS_MM_Var*      mmvar;
+    FT_TS_Offset       mmvar_len;
 
-    FT_Fixed*       normalized_stylecoords;
+    FT_TS_Fixed*       normalized_stylecoords;
                       /* normalized_stylecoords[num_namedstyles][num_axis] */
 
-    FT_Bool         avar_loaded;
+    FT_TS_Bool         avar_loaded;
     GX_AVarSegment  avar_segment;                /* avar_segment[num_axis] */
 
-    FT_Bool         hvar_loaded;
-    FT_Bool         hvar_checked;
-    FT_Error        hvar_error;
+    FT_TS_Bool         hvar_loaded;
+    FT_TS_Bool         hvar_checked;
+    FT_TS_Error        hvar_error;
     GX_HVVarTable   hvar_table;
 
-    FT_Bool         vvar_loaded;
-    FT_Bool         vvar_checked;
-    FT_Error        vvar_error;
+    FT_TS_Bool         vvar_loaded;
+    FT_TS_Bool         vvar_checked;
+    FT_TS_Error        vvar_error;
     GX_HVVarTable   vvar_table;
 
     GX_MVarTable    mvar_table;
 
-    FT_UInt         tuplecount;
-    FT_Fixed*       tuplecoords;      /* tuplecoords[tuplecount][num_axis] */
+    FT_TS_UInt         tuplecount;
+    FT_TS_Fixed*       tuplecoords;      /* tuplecoords[tuplecount][num_axis] */
 
-    FT_UInt         gv_glyphcnt;
-    FT_ULong*       glyphoffsets;         /* glyphoffsets[gv_glyphcnt + 1] */
+    FT_TS_UInt         gv_glyphcnt;
+    FT_TS_ULong*       glyphoffsets;         /* glyphoffsets[gv_glyphcnt + 1] */
 
-    FT_ULong        gvar_size;
+    FT_TS_ULong        gvar_size;
 
   } GX_BlendRec;
 
@@ -372,79 +372,79 @@ FT_BEGIN_HEADER
   } GX_TupleIndexFlags;
 
 
-#define TTAG_wght  FT_MAKE_TAG( 'w', 'g', 'h', 't' )
-#define TTAG_wdth  FT_MAKE_TAG( 'w', 'd', 't', 'h' )
-#define TTAG_opsz  FT_MAKE_TAG( 'o', 'p', 's', 'z' )
-#define TTAG_slnt  FT_MAKE_TAG( 's', 'l', 'n', 't' )
+#define TTAG_wght  FT_TS_MAKE_TAG( 'w', 'g', 'h', 't' )
+#define TTAG_wdth  FT_TS_MAKE_TAG( 'w', 'd', 't', 'h' )
+#define TTAG_opsz  FT_TS_MAKE_TAG( 'o', 'p', 's', 'z' )
+#define TTAG_slnt  FT_TS_MAKE_TAG( 's', 'l', 'n', 't' )
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Set_MM_Blend( TT_Face    face,
-                   FT_UInt    num_coords,
-                   FT_Fixed*  coords );
+                   FT_TS_UInt    num_coords,
+                   FT_TS_Fixed*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Get_MM_Blend( TT_Face    face,
-                   FT_UInt    num_coords,
-                   FT_Fixed*  coords );
+                   FT_TS_UInt    num_coords,
+                   FT_TS_Fixed*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Set_Var_Design( TT_Face    face,
-                     FT_UInt    num_coords,
-                     FT_Fixed*  coords );
+                     FT_TS_UInt    num_coords,
+                     FT_TS_Fixed*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Get_MM_Var( TT_Face      face,
-                 FT_MM_Var*  *master );
+                 FT_TS_MM_Var*  *master );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Get_Var_Design( TT_Face    face,
-                     FT_UInt    num_coords,
-                     FT_Fixed*  coords );
+                     FT_TS_UInt    num_coords,
+                     FT_TS_Fixed*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Set_Named_Instance( TT_Face  face,
-                         FT_UInt  instance_index );
+                         FT_TS_UInt  instance_index );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_vary_cvt( TT_Face    face,
-                    FT_Stream  stream );
+                    FT_TS_Stream  stream );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Vary_Apply_Glyph_Deltas( TT_Face      face,
-                              FT_UInt      glyph_index,
-                              FT_Outline*  outline,
-                              FT_Vector*   unrounded,
-                              FT_UInt      n_points );
+                              FT_TS_UInt      glyph_index,
+                              FT_TS_Outline*  outline,
+                              FT_TS_Vector*   unrounded,
+                              FT_TS_UInt      n_points );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_hadvance_adjust( TT_Face  face,
-                      FT_UInt  gindex,
-                      FT_Int  *adelta );
+                      FT_TS_UInt  gindex,
+                      FT_TS_Int  *adelta );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_vadvance_adjust( TT_Face  face,
-                      FT_UInt  gindex,
-                      FT_Int  *adelta );
+                      FT_TS_UInt  gindex,
+                      FT_TS_Int  *adelta );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   tt_apply_mvar( TT_Face  face );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_get_var_blend( TT_Face      face,
-                    FT_UInt     *num_coords,
-                    FT_Fixed*   *coords,
-                    FT_Fixed*   *normalizedcoords,
-                    FT_MM_Var*  *mm_var );
+                    FT_TS_UInt     *num_coords,
+                    FT_TS_Fixed*   *coords,
+                    FT_TS_Fixed*   *normalizedcoords,
+                    FT_TS_MM_Var*  *mm_var );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   tt_done_blend( TT_Face  face );
 
 #endif /* TT_CONFIG_OPTION_GX_VAR_SUPPORT */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* TTGXVAR_H_ */

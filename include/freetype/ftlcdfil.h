@@ -30,7 +30,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /**************************************************************************
    *
@@ -45,7 +45,7 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   FreeType provides two alternative subpixel rendering technologies.
-   *   Should you define `FT_CONFIG_OPTION_SUBPIXEL_RENDERING` in your
+   *   Should you define `FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING` in your
    *   `ftoption.h` file, this enables ClearType-style rendering.
    *   Otherwise, Harmony LCD rendering is enabled.  These technologies are
    *   controlled differently and API described below, although always
@@ -76,9 +76,9 @@ FT_BEGIN_HEADER
    *   forgiving of non-ideal gamma curves of a screen (and viewing angles),
    *   beveled filters are fuzzier but more tolerant.
    *
-   *   Use the @FT_Library_SetLcdFilter or @FT_Library_SetLcdFilterWeights
+   *   Use the @FT_TS_Library_SetLcdFilter or @FT_TS_Library_SetLcdFilterWeights
    *   API to specify a low-pass filter, which is then applied to
-   *   subpixel-rendered bitmaps generated through @FT_Render_Glyph.
+   *   subpixel-rendered bitmaps generated through @FT_TS_Render_Glyph.
    *
    *   Harmony LCD rendering is suitable to panels with any regular subpixel
    *   structure, not just monitors with 3 color striped subpixels, as long
@@ -93,9 +93,9 @@ FT_BEGIN_HEADER
    *   {0, 0}, {1/3, 0}} for standard RGB striped panel or {{-1/6, 1/4},
    *   {-1/6, -1/4}, {1/3, 0}} for a certain PenTile panel.
    *
-   *   Use the @FT_Library_SetLcdGeometry API to specify subpixel positions.
+   *   Use the @FT_TS_Library_SetLcdGeometry API to specify subpixel positions.
    *   If one follows the RGB order convention, the same order applies to the
-   *   resulting @FT_PIXEL_MODE_LCD and @FT_PIXEL_MODE_LCD_V bitmaps.  Note,
+   *   resulting @FT_TS_PIXEL_MODE_LCD and @FT_TS_PIXEL_MODE_LCD_V bitmaps.  Note,
    *   however, that the coordinate frame for the latter must be rotated
    *   clockwise.  Harmony with default LCD geometry is equivalent to
    *   ClearType with light filter.
@@ -103,16 +103,16 @@ FT_BEGIN_HEADER
    *   As a result of ClearType filtering or Harmony shifts, the resulting
    *   dimensions of LCD bitmaps can be slightly wider or taller than the
    *   dimensions the original outline with regard to the pixel grid.
-   *   For example, for @FT_RENDER_MODE_LCD, the filter adds 2~subpixels to
+   *   For example, for @FT_TS_RENDER_MODE_LCD, the filter adds 2~subpixels to
    *   the left, and 2~subpixels to the right.  The bitmap offset values are
    *   adjusted accordingly, so clients shouldn't need to modify their layout
    *   and glyph positioning code when enabling the filter.
    *
    *   The ClearType and Harmony rendering is applicable to glyph bitmaps
-   *   rendered through @FT_Render_Glyph, @FT_Load_Glyph, @FT_Load_Char, and
-   *   @FT_Glyph_To_Bitmap, when @FT_RENDER_MODE_LCD or @FT_RENDER_MODE_LCD_V
-   *   is specified.  This API does not control @FT_Outline_Render and
-   *   @FT_Outline_Get_Bitmap.
+   *   rendered through @FT_TS_Render_Glyph, @FT_TS_Load_Glyph, @FT_TS_Load_Char, and
+   *   @FT_TS_Glyph_To_Bitmap, when @FT_TS_RENDER_MODE_LCD or @FT_TS_RENDER_MODE_LCD_V
+   *   is specified.  This API does not control @FT_TS_Outline_Render and
+   *   @FT_TS_Outline_Get_Bitmap.
    *
    *   The described algorithms can completely remove color artefacts when
    *   combined with gamma-corrected alpha blending in linear space.  Each of
@@ -125,26 +125,26 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *   FT_LcdFilter
+   *   FT_TS_LcdFilter
    *
    * @description:
    *   A list of values to identify various types of LCD filters.
    *
    * @values:
-   *   FT_LCD_FILTER_NONE ::
+   *   FT_TS_LCD_FILTER_NONE ::
    *     Do not perform filtering.  When used with subpixel rendering, this
    *     results in sometimes severe color fringes.
    *
-   *   FT_LCD_FILTER_DEFAULT ::
+   *   FT_TS_LCD_FILTER_DEFAULT ::
    *     This is a beveled, normalized, and color-balanced five-tap filter
    *     with weights of [0x08 0x4D 0x56 0x4D 0x08] in 1/256th units.
    *
-   *   FT_LCD_FILTER_LIGHT ::
+   *   FT_TS_LCD_FILTER_LIGHT ::
    *     this is a boxy, normalized, and color-balanced three-tap filter with
    *     weights of [0x00 0x55 0x56 0x55 0x00] in 1/256th units.
    *
-   *   FT_LCD_FILTER_LEGACY ::
-   *   FT_LCD_FILTER_LEGACY1 ::
+   *   FT_TS_LCD_FILTER_LEGACY ::
+   *   FT_TS_LCD_FILTER_LEGACY1 ::
    *     This filter corresponds to the original libXft color filter.  It
    *     provides high contrast output but can exhibit really bad color
    *     fringes if glyphs are not extremely well hinted to the pixel grid.
@@ -154,30 +154,30 @@ FT_BEGIN_HEADER
    *     different enumeration, sometimes incorrectly forwarded to FreeType.
    *
    * @since:
-   *   2.3.0 (`FT_LCD_FILTER_LEGACY1` since 2.6.2)
+   *   2.3.0 (`FT_TS_LCD_FILTER_LEGACY1` since 2.6.2)
    */
-  typedef enum  FT_LcdFilter_
+  typedef enum  FT_TS_LcdFilter_
   {
-    FT_LCD_FILTER_NONE    = 0,
-    FT_LCD_FILTER_DEFAULT = 1,
-    FT_LCD_FILTER_LIGHT   = 2,
-    FT_LCD_FILTER_LEGACY1 = 3,
-    FT_LCD_FILTER_LEGACY  = 16,
+    FT_TS_LCD_FILTER_NONE    = 0,
+    FT_TS_LCD_FILTER_DEFAULT = 1,
+    FT_TS_LCD_FILTER_LIGHT   = 2,
+    FT_TS_LCD_FILTER_LEGACY1 = 3,
+    FT_TS_LCD_FILTER_LEGACY  = 16,
 
-    FT_LCD_FILTER_MAX   /* do not remove */
+    FT_TS_LCD_FILTER_MAX   /* do not remove */
 
-  } FT_LcdFilter;
+  } FT_TS_LcdFilter;
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Library_SetLcdFilter
+   *   FT_TS_Library_SetLcdFilter
    *
    * @description:
    *   This function is used to change filter applied to LCD decimated
-   *   bitmaps, like the ones used when calling @FT_Render_Glyph with
-   *   @FT_RENDER_MODE_LCD or @FT_RENDER_MODE_LCD_V.
+   *   bitmaps, like the ones used when calling @FT_TS_Render_Glyph with
+   *   @FT_TS_RENDER_MODE_LCD or @FT_TS_RENDER_MODE_LCD_V.
    *
    * @input:
    *   library ::
@@ -186,39 +186,39 @@ FT_BEGIN_HEADER
    *   filter ::
    *     The filter type.
    *
-   *     You can use @FT_LCD_FILTER_NONE here to disable this feature, or
-   *     @FT_LCD_FILTER_DEFAULT to use a default filter that should work well
+   *     You can use @FT_TS_LCD_FILTER_NONE here to disable this feature, or
+   *     @FT_TS_LCD_FILTER_DEFAULT to use a default filter that should work well
    *     on most LCD screens.
    *
    * @return:
    *   FreeType error code.  0~means success.
    *
    * @note:
-   *   Since 2.10.3 the LCD filtering is enabled with @FT_LCD_FILTER_DEFAULT.
+   *   Since 2.10.3 the LCD filtering is enabled with @FT_TS_LCD_FILTER_DEFAULT.
    *   It is no longer necessary to call this function explicitly except
    *   to choose a different filter or disable filtering altogether with
-   *   @FT_LCD_FILTER_NONE.
+   *   @FT_TS_LCD_FILTER_NONE.
    *
-   *   This function does nothing but returns `FT_Err_Unimplemented_Feature`
-   *   if the configuration macro `FT_CONFIG_OPTION_SUBPIXEL_RENDERING` is
+   *   This function does nothing but returns `FT_TS_Err_Unimplemented_Feature`
+   *   if the configuration macro `FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING` is
    *   not defined in your build of the library.
    *
    * @since:
    *   2.3.0
    */
-  FT_EXPORT( FT_Error )
-  FT_Library_SetLcdFilter( FT_Library    library,
-                           FT_LcdFilter  filter );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Library_SetLcdFilter( FT_TS_Library    library,
+                           FT_TS_LcdFilter  filter );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Library_SetLcdFilterWeights
+   *   FT_TS_Library_SetLcdFilterWeights
    *
    * @description:
    *   This function can be used to enable LCD filter with custom weights,
-   *   instead of using presets in @FT_Library_SetLcdFilter.
+   *   instead of using presets in @FT_TS_Library_SetLcdFilter.
    *
    * @input:
    *   library ::
@@ -232,43 +232,43 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0~means success.
    *
    * @note:
-   *   This function does nothing but returns `FT_Err_Unimplemented_Feature`
-   *   if the configuration macro `FT_CONFIG_OPTION_SUBPIXEL_RENDERING` is
+   *   This function does nothing but returns `FT_TS_Err_Unimplemented_Feature`
+   *   if the configuration macro `FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING` is
    *   not defined in your build of the library.
    *
-   *   LCD filter weights can also be set per face using @FT_Face_Properties
-   *   with @FT_PARAM_TAG_LCD_FILTER_WEIGHTS.
+   *   LCD filter weights can also be set per face using @FT_TS_Face_Properties
+   *   with @FT_TS_PARAM_TAG_LCD_FILTER_WEIGHTS.
    *
    * @since:
    *   2.4.0
    */
-  FT_EXPORT( FT_Error )
-  FT_Library_SetLcdFilterWeights( FT_Library      library,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Library_SetLcdFilterWeights( FT_TS_Library      library,
                                   unsigned char  *weights );
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_LcdFiveTapFilter
+   *   FT_TS_LcdFiveTapFilter
    *
    * @description:
    *   A typedef for passing the five LCD filter weights to
-   *   @FT_Face_Properties within an @FT_Parameter structure.
+   *   @FT_TS_Face_Properties within an @FT_TS_Parameter structure.
    *
    * @since:
    *   2.8
    *
    */
-#define FT_LCD_FILTER_FIVE_TAPS  5
+#define FT_TS_LCD_FILTER_FIVE_TAPS  5
 
-  typedef FT_Byte  FT_LcdFiveTapFilter[FT_LCD_FILTER_FIVE_TAPS];
+  typedef FT_TS_Byte  FT_TS_LcdFiveTapFilter[FT_TS_LCD_FILTER_FIVE_TAPS];
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Library_SetLcdGeometry
+   *   FT_TS_Library_SetLcdGeometry
    *
    * @description:
    *   This function can be used to modify default positions of color
@@ -300,22 +300,22 @@ FT_BEGIN_HEADER
    *
    *   - {{-11, 16}, {-11, -16}, {22, 0}} is a certain PenTile arrangement.
    *
-   *   This function does nothing and returns `FT_Err_Unimplemented_Feature`
+   *   This function does nothing and returns `FT_TS_Err_Unimplemented_Feature`
    *   in the context of ClearType-style subpixel rendering when
-   *   `FT_CONFIG_OPTION_SUBPIXEL_RENDERING` is defined in your build of the
+   *   `FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING` is defined in your build of the
    *   library.
    *
    * @since:
    *   2.10.0
    */
-  FT_EXPORT( FT_Error )
-  FT_Library_SetLcdGeometry( FT_Library  library,
-                             FT_Vector   sub[3] );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Library_SetLcdGeometry( FT_TS_Library  library,
+                             FT_TS_Vector   sub[3] );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTLCDFIL_H_ */
 

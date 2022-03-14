@@ -35,7 +35,7 @@
 #include <freetype/internal/fthash.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
 /* Imported from bdfP.h */
@@ -194,11 +194,11 @@ FT_BEGIN_HEADER
 
     unsigned short   bpp;            /* Bits per pixel.                     */
 
-    FT_Memory        memory;
+    FT_TS_Memory        memory;
 
     bdf_property_t*  user_props;
     unsigned long    nuser_props;
-    FT_HashRec       proptbl;
+    FT_TS_HashRec       proptbl;
 
   } bdf_font_t;
 
@@ -230,25 +230,25 @@ FT_BEGIN_HEADER
    *
    */
 
-  FT_LOCAL( FT_Error )
-  bdf_load_font( FT_Stream       stream,
-                 FT_Memory       memory,
+  FT_TS_LOCAL( FT_TS_Error )
+  bdf_load_font( FT_TS_Stream       stream,
+                 FT_TS_Memory       memory,
                  bdf_options_t*  opts,
                  bdf_font_t*    *font );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   bdf_free_font( bdf_font_t*  font );
 
-  FT_LOCAL( bdf_property_t * )
+  FT_TS_LOCAL( bdf_property_t * )
   bdf_get_property( char*        name,
                     bdf_font_t*  font );
 
-  FT_LOCAL( bdf_property_t * )
+  FT_TS_LOCAL( bdf_property_t * )
   bdf_get_font_property( bdf_font_t*  font,
                          const char*  name );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* BDF_H_ */

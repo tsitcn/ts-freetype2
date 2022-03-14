@@ -31,22 +31,22 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmorx
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmorx
 
 
   typedef struct  GXV_morx_subtable_type2_StateOptRec_
   {
-    FT_ULong  ligActionTable;
-    FT_ULong  componentTable;
-    FT_ULong  ligatureTable;
-    FT_ULong  ligActionTable_length;
-    FT_ULong  componentTable_length;
-    FT_ULong  ligatureTable_length;
+    FT_TS_ULong  ligActionTable;
+    FT_TS_ULong  componentTable;
+    FT_TS_ULong  ligatureTable;
+    FT_TS_ULong  ligActionTable_length;
+    FT_TS_ULong  componentTable_length;
+    FT_TS_ULong  ligatureTable_length;
 
   }  GXV_morx_subtable_type2_StateOptRec,
     *GXV_morx_subtable_type2_StateOptRecData;
@@ -57,20 +57,20 @@
 
 
   static void
-  gxv_morx_subtable_type2_opttable_load( FT_Bytes       table,
-                                         FT_Bytes       limit,
+  gxv_morx_subtable_type2_opttable_load( FT_TS_Bytes       table,
+                                         FT_TS_Bytes       limit,
                                          GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
     GXV_morx_subtable_type2_StateOptRecData  optdata =
       (GXV_morx_subtable_type2_StateOptRecData)gxvalid->xstatetable.optdata;
 
 
     GXV_LIMIT_CHECK( 4 + 4 + 4 );
-    optdata->ligActionTable = FT_NEXT_ULONG( p );
-    optdata->componentTable = FT_NEXT_ULONG( p );
-    optdata->ligatureTable  = FT_NEXT_ULONG( p );
+    optdata->ligActionTable = FT_TS_NEXT_ULONG( p );
+    optdata->componentTable = FT_TS_NEXT_ULONG( p );
+    optdata->ligatureTable  = FT_TS_NEXT_ULONG( p );
 
     GXV_TRACE(( "offset to ligActionTable=0x%08lx\n",
                 optdata->ligActionTable ));
@@ -82,18 +82,18 @@
 
 
   static void
-  gxv_morx_subtable_type2_subtable_setup( FT_ULong       table_size,
-                                          FT_ULong       classTable,
-                                          FT_ULong       stateArray,
-                                          FT_ULong       entryTable,
-                                          FT_ULong*      classTable_length_p,
-                                          FT_ULong*      stateArray_length_p,
-                                          FT_ULong*      entryTable_length_p,
+  gxv_morx_subtable_type2_subtable_setup( FT_TS_ULong       table_size,
+                                          FT_TS_ULong       classTable,
+                                          FT_TS_ULong       stateArray,
+                                          FT_TS_ULong       entryTable,
+                                          FT_TS_ULong*      classTable_length_p,
+                                          FT_TS_ULong*      stateArray_length_p,
+                                          FT_TS_ULong*      entryTable_length_p,
                                           GXV_Validator  gxvalid )
   {
-    FT_ULong   o[6];
-    FT_ULong*  l[6];
-    FT_ULong   buff[7];
+    FT_TS_ULong   o[6];
+    FT_TS_ULong*  l[6];
+    FT_TS_ULong   buff[7];
 
     GXV_morx_subtable_type2_StateOptRecData  optdata =
       (GXV_morx_subtable_type2_StateOptRecData)gxvalid->xstatetable.optdata;
@@ -141,46 +141,46 @@
 
   static void
   gxv_morx_subtable_type2_ligActionIndex_validate(
-    FT_Bytes       table,
-    FT_UShort      ligActionIndex,
+    FT_TS_Bytes       table,
+    FT_TS_UShort      ligActionIndex,
     GXV_Validator  gxvalid )
   {
     /* access ligActionTable */
     GXV_morx_subtable_type2_StateOptRecData optdata =
       (GXV_morx_subtable_type2_StateOptRecData)gxvalid->xstatetable.optdata;
 
-    FT_Bytes lat_base  = table + optdata->ligActionTable;
-    FT_Bytes p         = lat_base +
+    FT_TS_Bytes lat_base  = table + optdata->ligActionTable;
+    FT_TS_Bytes p         = lat_base +
                          ligActionIndex * GXV_MORX_LIGACTION_ENTRY_SIZE;
-    FT_Bytes lat_limit = lat_base + optdata->ligActionTable;
+    FT_TS_Bytes lat_limit = lat_base + optdata->ligActionTable;
 
 
     if ( p < lat_base )
     {
       GXV_TRACE(( "p < lat_base (%ld byte rewind)\n", lat_base - p ));
-      FT_INVALID_OFFSET;
+      FT_TS_INVALID_OFFSET;
     }
     else if ( lat_limit < p )
     {
       GXV_TRACE(( "lat_limit < p (%ld byte overrun)\n", p - lat_limit ));
-      FT_INVALID_OFFSET;
+      FT_TS_INVALID_OFFSET;
     }
 
     {
       /* validate entry in ligActionTable */
-      FT_ULong   lig_action;
+      FT_TS_ULong   lig_action;
 #ifdef GXV_LOAD_UNUSED_VARS
-      FT_UShort  last;
-      FT_UShort  store;
+      FT_TS_UShort  last;
+      FT_TS_UShort  store;
 #endif
-      FT_ULong   offset;
-      FT_Long    gid_limit;
+      FT_TS_ULong   offset;
+      FT_TS_Long    gid_limit;
 
 
-      lig_action = FT_NEXT_ULONG( p );
+      lig_action = FT_TS_NEXT_ULONG( p );
 #ifdef GXV_LOAD_UNUSED_VARS
-      last       = (FT_UShort)( ( lig_action >> 31 ) & 1 );
-      store      = (FT_UShort)( ( lig_action >> 30 ) & 1 );
+      last       = (FT_TS_UShort)( ( lig_action >> 31 ) & 1 );
+      store      = (FT_TS_UShort)( ( lig_action >> 30 ) & 1 );
 #endif
 
       offset = lig_action & 0x3FFFFFFFUL;
@@ -190,7 +190,7 @@
       if ( ( offset & 0x3FFF0000UL ) == 0x3FFF0000UL )
       { /* negative offset */
         gid_limit = gxvalid->face->num_glyphs -
-                    (FT_Long)( offset & 0x0000FFFFUL );
+                    (FT_TS_Long)( offset & 0x0000FFFFUL );
         if ( gid_limit > 0 )
           return;
 
@@ -198,56 +198,56 @@
                     " too negative offset moving all GID"
                     " below defined range: 0x%04lx\n",
                     offset & 0xFFFFU ));
-        GXV_SET_ERR_IF_PARANOID( FT_INVALID_OFFSET );
+        GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_OFFSET );
       }
       else if ( ( offset & 0x3FFF0000UL ) == 0x00000000UL )
       { /* positive offset */
-        if ( (FT_Long)offset < gxvalid->face->num_glyphs )
+        if ( (FT_TS_Long)offset < gxvalid->face->num_glyphs )
           return;
 
         GXV_TRACE(( "ligature action table includes"
                     " too large offset moving all GID"
                     " over defined range: 0x%04lx\n",
                     offset & 0xFFFFU ));
-        GXV_SET_ERR_IF_PARANOID( FT_INVALID_OFFSET );
+        GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_OFFSET );
       }
 
       GXV_TRACE(( "ligature action table includes"
                   " invalid offset to add to 16-bit GID:"
                   " 0x%08lx\n", offset ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_OFFSET );
+      GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_OFFSET );
     }
   }
 
 
   static void
   gxv_morx_subtable_type2_entry_validate(
-    FT_UShort                       state,
-    FT_UShort                       flags,
+    FT_TS_UShort                       state,
+    FT_TS_UShort                       flags,
     GXV_StateTable_GlyphOffsetCPtr  glyphOffset_p,
-    FT_Bytes                        table,
-    FT_Bytes                        limit,
+    FT_TS_Bytes                        table,
+    FT_TS_Bytes                        limit,
     GXV_Validator                   gxvalid )
   {
 #ifdef GXV_LOAD_UNUSED_VARS
-    FT_UShort  setComponent;
-    FT_UShort  dontAdvance;
-    FT_UShort  performAction;
+    FT_TS_UShort  setComponent;
+    FT_TS_UShort  dontAdvance;
+    FT_TS_UShort  performAction;
 #endif
-    FT_UShort  reserved;
-    FT_UShort  ligActionIndex;
+    FT_TS_UShort  reserved;
+    FT_TS_UShort  ligActionIndex;
 
-    FT_UNUSED( state );
-    FT_UNUSED( limit );
+    FT_TS_UNUSED( state );
+    FT_TS_UNUSED( limit );
 
 
 #ifdef GXV_LOAD_UNUSED_VARS
-    setComponent   = (FT_UShort)( ( flags >> 15 ) & 1 );
-    dontAdvance    = (FT_UShort)( ( flags >> 14 ) & 1 );
-    performAction  = (FT_UShort)( ( flags >> 13 ) & 1 );
+    setComponent   = (FT_TS_UShort)( ( flags >> 15 ) & 1 );
+    dontAdvance    = (FT_TS_UShort)( ( flags >> 14 ) & 1 );
+    performAction  = (FT_TS_UShort)( ( flags >> 13 ) & 1 );
 #endif
 
-    reserved       = (FT_UShort)( flags & 0x1FFF );
+    reserved       = (FT_TS_UShort)( flags & 0x1FFF );
     ligActionIndex = glyphOffset_p->u;
 
     if ( reserved > 0 )
@@ -260,14 +260,14 @@
 
 
   static void
-  gxv_morx_subtable_type2_ligatureTable_validate( FT_Bytes       table,
+  gxv_morx_subtable_type2_ligatureTable_validate( FT_TS_Bytes       table,
                                                   GXV_Validator  gxvalid )
   {
     GXV_morx_subtable_type2_StateOptRecData  optdata =
       (GXV_morx_subtable_type2_StateOptRecData)gxvalid->xstatetable.optdata;
 
-    FT_Bytes p     = table + optdata->ligatureTable;
-    FT_Bytes limit = table + optdata->ligatureTable
+    FT_TS_Bytes p     = table + optdata->ligatureTable;
+    FT_TS_Bytes limit = table + optdata->ligatureTable
                            + optdata->ligatureTable_length;
 
 
@@ -278,13 +278,13 @@
       /* Apple does not give specification of ligatureTable format */
       while ( p < limit )
       {
-        FT_UShort  lig_gid;
+        FT_TS_UShort  lig_gid;
 
 
         GXV_LIMIT_CHECK( 2 );
-        lig_gid = FT_NEXT_USHORT( p );
+        lig_gid = FT_TS_NEXT_USHORT( p );
         if ( lig_gid < gxvalid->face->num_glyphs )
-          GXV_SET_ERR_IF_PARANOID( FT_INVALID_GLYPH_ID );
+          GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_GLYPH_ID );
       }
     }
 
@@ -292,12 +292,12 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_morx_subtable_type2_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL_DEF( void )
+  gxv_morx_subtable_type2_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
     GXV_morx_subtable_type2_StateOptRec  lig_rec;
 

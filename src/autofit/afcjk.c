@@ -39,12 +39,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  afcjk
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  afcjk
 
 
   /*************************************************************************/
@@ -59,19 +59,19 @@
   /* Basically the Latin version with AF_CJKMetrics */
   /* to replace AF_LatinMetrics.                    */
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   af_cjk_metrics_init_widths( AF_CJKMetrics  metrics,
-                              FT_Face        face )
+                              FT_TS_Face        face )
   {
     /* scan the array of segments in each direction */
     AF_GlyphHintsRec  hints[1];
 
 
-    FT_TRACE5(( "\n" ));
-    FT_TRACE5(( "cjk standard widths computation (style `%s')\n",
+    FT_TS_TRACE5(( "\n" ));
+    FT_TS_TRACE5(( "cjk standard widths computation (style `%s')\n",
                 af_style_names[metrics->root.style_class->style] ));
-    FT_TRACE5(( "===================================================\n" ));
-    FT_TRACE5(( "\n" ));
+    FT_TS_TRACE5(( "===================================================\n" ));
+    FT_TS_TRACE5(( "\n" ));
 
     af_glyph_hints_init( hints, face->memory );
 
@@ -79,8 +79,8 @@
     metrics->axis[AF_DIMENSION_VERT].width_count = 0;
 
     {
-      FT_Error          error;
-      FT_ULong          glyph_index;
+      FT_TS_Error          error;
+      FT_TS_ULong          glyph_index;
       int               dim;
       AF_CJKMetricsRec  dummy[1];
       AF_Scaler         scaler = &dummy->root.scaler;
@@ -90,22 +90,22 @@
 
       /* If HarfBuzz is not available, we need a pointer to a single */
       /* unsigned long value.                                        */
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
       void*     shaper_buf;
 #else
-      FT_ULong  shaper_buf_;
+      FT_TS_ULong  shaper_buf_;
       void*     shaper_buf = &shaper_buf_;
 #endif
 
       const char*  p;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
-      FT_ULong  ch = 0;
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
+      FT_TS_ULong  ch = 0;
 #endif
 
       p = script_class->standard_charstring;
 
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
       shaper_buf = af_shaper_buf_create( face );
 #endif
 
@@ -116,7 +116,7 @@
       {
         unsigned int  num_idx;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
         const char*  p_old;
 #endif
 
@@ -124,7 +124,7 @@
         while ( *p == ' ' )
           p++;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
         p_old = p;
         GET_UTF8_CHAR( ch, p_old );
 #endif
@@ -152,14 +152,14 @@
       if ( !glyph_index )
         goto Exit;
 
-      FT_TRACE5(( "standard character: U+%04lX (glyph index %ld)\n",
+      FT_TS_TRACE5(( "standard character: U+%04lX (glyph index %ld)\n",
                   ch, glyph_index ));
 
-      error = FT_Load_Glyph( face, glyph_index, FT_LOAD_NO_SCALE );
+      error = FT_TS_Load_Glyph( face, glyph_index, FT_TS_LOAD_NO_SCALE );
       if ( error || face->glyph->outline.n_points <= 0 )
         goto Exit;
 
-      FT_ZERO( dummy );
+      FT_TS_ZERO( dummy );
 
       dummy->units_per_em = metrics->units_per_em;
 
@@ -169,7 +169,7 @@
       scaler->y_delta = 0;
 
       scaler->face        = face;
-      scaler->render_mode = FT_RENDER_MODE_NORMAL;
+      scaler->render_mode = FT_TS_RENDER_MODE_NORMAL;
       scaler->flags       = 0;
 
       af_glyph_hints_rescale( hints, (AF_StyleMetrics)dummy );
@@ -183,7 +183,7 @@
         AF_CJKAxis    axis    = &metrics->axis[dim];
         AF_AxisHints  axhints = &hints->axis[dim];
         AF_Segment    seg, limit, link;
-        FT_UInt       num_widths = 0;
+        FT_TS_UInt       num_widths = 0;
 
 
         error = af_latin_hints_compute_segments( hints,
@@ -212,7 +212,7 @@
           /* we only consider stem segments there! */
           if ( link && link->link == seg && link > seg )
           {
-            FT_Pos  dist;
+            FT_TS_Pos  dist;
 
 
             dist = seg->pos - link->pos;
@@ -235,7 +235,7 @@
       for ( dim = 0; dim < AF_DIMENSION_MAX; dim++ )
       {
         AF_CJKAxis  axis = &metrics->axis[dim];
-        FT_Pos      stdw;
+        FT_TS_Pos      stdw;
 
 
         stdw = ( axis->width_count > 0 ) ? axis->widths[0].org
@@ -246,26 +246,26 @@
         axis->standard_width          = stdw;
         axis->extra_light             = 0;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
         {
-          FT_UInt  i;
+          FT_TS_UInt  i;
 
 
-          FT_TRACE5(( "%s widths:\n",
+          FT_TS_TRACE5(( "%s widths:\n",
                       dim == AF_DIMENSION_VERT ? "horizontal"
                                                : "vertical" ));
 
-          FT_TRACE5(( "  %ld (standard)", axis->standard_width ));
+          FT_TS_TRACE5(( "  %ld (standard)", axis->standard_width ));
           for ( i = 1; i < axis->width_count; i++ )
-            FT_TRACE5(( " %ld", axis->widths[i].org ));
+            FT_TS_TRACE5(( " %ld", axis->widths[i].org ));
 
-          FT_TRACE5(( "\n" ));
+          FT_TS_TRACE5(( "\n" ));
         }
 #endif
       }
     }
 
-    FT_TRACE5(( "\n" ));
+    FT_TS_TRACE5(( "\n" ));
 
     af_glyph_hints_done( hints );
   }
@@ -275,20 +275,20 @@
 
   static void
   af_cjk_metrics_init_blues( AF_CJKMetrics  metrics,
-                             FT_Face        face )
+                             FT_TS_Face        face )
   {
-    FT_Pos      fills[AF_BLUE_STRING_MAX_LEN];
-    FT_Pos      flats[AF_BLUE_STRING_MAX_LEN];
+    FT_TS_Pos      fills[AF_BLUE_STRING_MAX_LEN];
+    FT_TS_Pos      flats[AF_BLUE_STRING_MAX_LEN];
 
-    FT_UInt     num_fills;
-    FT_UInt     num_flats;
+    FT_TS_UInt     num_fills;
+    FT_TS_UInt     num_flats;
 
-    FT_Bool     fill;
+    FT_TS_Bool     fill;
 
     AF_CJKBlue  blue;
-    FT_Error    error;
+    FT_TS_Error    error;
     AF_CJKAxis  axis;
-    FT_Outline  outline;
+    FT_TS_Outline  outline;
 
     AF_StyleClass  sc = metrics->root.style_class;
 
@@ -297,10 +297,10 @@
 
     /* If HarfBuzz is not available, we need a pointer to a single */
     /* unsigned long value.                                        */
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
     void*     shaper_buf;
 #else
-    FT_ULong  shaper_buf_;
+    FT_TS_ULong  shaper_buf_;
     void*     shaper_buf = &shaper_buf_;
 #endif
 
@@ -309,19 +309,19 @@
     /* style's entry in the `af_blue_stringset' array, computing its */
     /* extremum points (depending on the string properties)          */
 
-    FT_TRACE5(( "cjk blue zones computation\n" ));
-    FT_TRACE5(( "==========================\n" ));
-    FT_TRACE5(( "\n" ));
+    FT_TS_TRACE5(( "cjk blue zones computation\n" ));
+    FT_TS_TRACE5(( "==========================\n" ));
+    FT_TS_TRACE5(( "\n" ));
 
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
     shaper_buf = af_shaper_buf_create( face );
 #endif
 
     for ( ; bs->string != AF_BLUE_STRING_MAX; bs++ )
     {
       const char*  p = &af_blue_strings[bs->string];
-      FT_Pos*      blue_ref;
-      FT_Pos*      blue_shoot;
+      FT_TS_Pos*      blue_ref;
+      FT_TS_Pos*      blue_shoot;
 
 
       if ( AF_CJK_IS_HORIZ_BLUE( bs ) )
@@ -329,49 +329,49 @@
       else
         axis = &metrics->axis[AF_DIMENSION_VERT];
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
       {
-        FT_String*  cjk_blue_name[4] =
+        FT_TS_String*  cjk_blue_name[4] =
         {
-          (FT_String*)"bottom",    /* --   , --  */
-          (FT_String*)"top",       /* --   , TOP */
-          (FT_String*)"left",      /* HORIZ, --  */
-          (FT_String*)"right"      /* HORIZ, TOP */
+          (FT_TS_String*)"bottom",    /* --   , --  */
+          (FT_TS_String*)"top",       /* --   , TOP */
+          (FT_TS_String*)"left",      /* HORIZ, --  */
+          (FT_TS_String*)"right"      /* HORIZ, TOP */
         };
 
 
-        FT_TRACE5(( "blue zone %d (%s):\n",
+        FT_TS_TRACE5(( "blue zone %d (%s):\n",
                     axis->blue_count,
                     cjk_blue_name[AF_CJK_IS_HORIZ_BLUE( bs ) |
                                   AF_CJK_IS_TOP_BLUE( bs )   ] ));
       }
-#endif /* FT_DEBUG_LEVEL_TRACE */
+#endif /* FT_TS_DEBUG_LEVEL_TRACE */
 
       num_fills = 0;
       num_flats = 0;
 
       fill = 1;  /* start with characters that define fill values */
-      FT_TRACE5(( "  [overshoot values]\n" ));
+      FT_TS_TRACE5(( "  [overshoot values]\n" ));
 
       while ( *p )
       {
-        FT_ULong    glyph_index;
-        FT_Pos      best_pos;       /* same as points.y or points.x, resp. */
-        FT_Int      best_point;
-        FT_Vector*  points;
+        FT_TS_ULong    glyph_index;
+        FT_TS_Pos      best_pos;       /* same as points.y or points.x, resp. */
+        FT_TS_Int      best_point;
+        FT_TS_Vector*  points;
 
         unsigned int  num_idx;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
         const char*  p_old;
-        FT_ULong     ch;
+        FT_TS_ULong     ch;
 #endif
 
 
         while ( *p == ' ' )
           p++;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
         p_old = p;
         GET_UTF8_CHAR( ch, p_old );
 #endif
@@ -380,7 +380,7 @@
         if ( *p == '|' )
         {
           fill = 0;
-          FT_TRACE5(( "  [reference values]\n" ));
+          FT_TS_TRACE5(( "  [reference values]\n" ));
           p++;
           continue;
         }
@@ -398,15 +398,15 @@
                                           NULL );
         if ( glyph_index == 0 )
         {
-          FT_TRACE5(( "  U+%04lX unavailable\n", ch ));
+          FT_TS_TRACE5(( "  U+%04lX unavailable\n", ch ));
           continue;
         }
 
-        error   = FT_Load_Glyph( face, glyph_index, FT_LOAD_NO_SCALE );
+        error   = FT_TS_Load_Glyph( face, glyph_index, FT_TS_LOAD_NO_SCALE );
         outline = face->glyph->outline;
         if ( error || outline.n_points <= 2 )
         {
-          FT_TRACE5(( "  U+%04lX contains no (usable) outlines\n", ch ));
+          FT_TS_TRACE5(( "  U+%04lX contains no (usable) outlines\n", ch ));
           continue;
         }
 
@@ -416,14 +416,14 @@
         best_pos   = 0;  /* make compiler happy */
 
         {
-          FT_Int  nn;
-          FT_Int  first = 0;
-          FT_Int  last  = -1;
+          FT_TS_Int  nn;
+          FT_TS_Int  first = 0;
+          FT_TS_Int  last  = -1;
 
 
           for ( nn = 0; nn < outline.n_contours; first = last + 1, nn++ )
           {
-            FT_Int  pp;
+            FT_TS_Int  pp;
 
 
             last = outline.contours[nn];
@@ -478,7 +478,7 @@
             }
           }
 
-          FT_TRACE5(( "  U+%04lX: best_pos = %5ld\n", ch, best_pos ));
+          FT_TS_TRACE5(( "  U+%04lX: best_pos = %5ld\n", ch, best_pos ));
         }
 
         if ( fill )
@@ -494,7 +494,7 @@
          * we couldn't find a single glyph to compute this blue zone,
          * we will simply ignore it then
          */
-        FT_TRACE5(( "  empty\n" ));
+        FT_TS_TRACE5(( "  empty\n" ));
         continue;
       }
 
@@ -530,9 +530,9 @@
       /* vice versa for bottom/left                        */
       if ( *blue_shoot != *blue_ref )
       {
-        FT_Pos   ref       = *blue_ref;
-        FT_Pos   shoot     = *blue_shoot;
-        FT_Bool  under_ref = FT_BOOL( shoot < ref );
+        FT_TS_Pos   ref       = *blue_ref;
+        FT_TS_Pos   shoot     = *blue_shoot;
+        FT_TS_Bool  under_ref = FT_TS_BOOL( shoot < ref );
 
 
         /* AF_CJK_IS_TOP_BLUE covers `right' and `top' */
@@ -541,7 +541,7 @@
           *blue_ref   =
           *blue_shoot = ( shoot + ref ) / 2;
 
-          FT_TRACE5(( "  [reference smaller than overshoot,"
+          FT_TS_TRACE5(( "  [reference smaller than overshoot,"
                       " taking mean value]\n" ));
         }
       }
@@ -550,14 +550,14 @@
       if ( AF_CJK_IS_TOP_BLUE( bs ) )
         blue->flags |= AF_CJK_BLUE_TOP;
 
-      FT_TRACE5(( "    -> reference = %ld\n", *blue_ref ));
-      FT_TRACE5(( "       overshoot = %ld\n", *blue_shoot ));
+      FT_TS_TRACE5(( "    -> reference = %ld\n", *blue_ref ));
+      FT_TS_TRACE5(( "       overshoot = %ld\n", *blue_shoot ));
 
     } /* end for loop */
 
     af_shaper_buf_destroy( face, shaper_buf );
 
-    FT_TRACE5(( "\n" ));
+    FT_TS_TRACE5(( "\n" ));
 
     return;
   }
@@ -565,19 +565,19 @@
 
   /* Basically the Latin version with type AF_CJKMetrics for metrics. */
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   af_cjk_metrics_check_digits( AF_CJKMetrics  metrics,
-                               FT_Face        face )
+                               FT_TS_Face        face )
   {
-    FT_Bool   started = 0, same_width = 1;
-    FT_Fixed  advance = 0, old_advance = 0;
+    FT_TS_Bool   started = 0, same_width = 1;
+    FT_TS_Fixed  advance = 0, old_advance = 0;
 
     /* If HarfBuzz is not available, we need a pointer to a single */
     /* unsigned long value.                                        */
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
     void*     shaper_buf;
 #else
-    FT_ULong  shaper_buf_;
+    FT_TS_ULong  shaper_buf_;
     void*     shaper_buf = &shaper_buf_;
 #endif
 
@@ -588,13 +588,13 @@
 
     p = digits;
 
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
     shaper_buf = af_shaper_buf_create( face );
 #endif
 
     while ( *p )
     {
-      FT_ULong      glyph_index;
+      FT_TS_ULong      glyph_index;
       unsigned int  num_idx;
 
 
@@ -634,24 +634,24 @@
 
   /* Initialize global metrics. */
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   af_cjk_metrics_init( AF_CJKMetrics  metrics,
-                       FT_Face        face )
+                       FT_TS_Face        face )
   {
-    FT_CharMap  oldmap = face->charmap;
+    FT_TS_CharMap  oldmap = face->charmap;
 
 
     metrics->units_per_em = face->units_per_EM;
 
-    if ( !FT_Select_Charmap( face, FT_ENCODING_UNICODE ) )
+    if ( !FT_TS_Select_Charmap( face, FT_TS_ENCODING_UNICODE ) )
     {
       af_cjk_metrics_init_widths( metrics, face );
       af_cjk_metrics_init_blues( metrics, face );
       af_cjk_metrics_check_digits( metrics, face );
     }
 
-    FT_Set_Charmap( face, oldmap );
-    return FT_Err_Ok;
+    FT_TS_Set_Charmap( face, oldmap );
+    return FT_TS_Err_Ok;
   }
 
 
@@ -663,10 +663,10 @@
                             AF_Scaler      scaler,
                             AF_Dimension   dim )
   {
-    FT_Fixed    scale;
-    FT_Pos      delta;
+    FT_TS_Fixed    scale;
+    FT_TS_Pos      delta;
     AF_CJKAxis  axis;
-    FT_UInt     nn;
+    FT_TS_UInt     nn;
 
 
     if ( dim == AF_DIMENSION_HORZ )
@@ -695,33 +695,33 @@
     for ( nn = 0; nn < axis->blue_count; nn++ )
     {
       AF_CJKBlue  blue = &axis->blues[nn];
-      FT_Pos      dist;
+      FT_TS_Pos      dist;
 
 
-      blue->ref.cur   = FT_MulFix( blue->ref.org, scale ) + delta;
+      blue->ref.cur   = FT_TS_MulFix( blue->ref.org, scale ) + delta;
       blue->ref.fit   = blue->ref.cur;
-      blue->shoot.cur = FT_MulFix( blue->shoot.org, scale ) + delta;
+      blue->shoot.cur = FT_TS_MulFix( blue->shoot.org, scale ) + delta;
       blue->shoot.fit = blue->shoot.cur;
       blue->flags    &= ~AF_CJK_BLUE_ACTIVE;
 
       /* a blue zone is only active if it is less than 3/4 pixels tall */
-      dist = FT_MulFix( blue->ref.org - blue->shoot.org, scale );
+      dist = FT_TS_MulFix( blue->ref.org - blue->shoot.org, scale );
       if ( dist <= 48 && dist >= -48 )
       {
-        FT_Pos  delta1, delta2;
+        FT_TS_Pos  delta1, delta2;
 
 
-        blue->ref.fit  = FT_PIX_ROUND( blue->ref.cur );
+        blue->ref.fit  = FT_TS_PIX_ROUND( blue->ref.cur );
 
         /* shoot is under shoot for cjk */
-        delta1 = FT_DivFix( blue->ref.fit, scale ) - blue->shoot.org;
+        delta1 = FT_TS_DivFix( blue->ref.fit, scale ) - blue->shoot.org;
         delta2 = delta1;
         if ( delta1 < 0 )
           delta2 = -delta2;
 
-        delta2 = FT_MulFix( delta2, scale );
+        delta2 = FT_TS_MulFix( delta2, scale );
 
-        FT_TRACE5(( "delta: %ld", delta1 ));
+        FT_TS_TRACE5(( "delta: %ld", delta1 ));
         if ( delta2 < 32 )
           delta2 = 0;
 #if 0
@@ -729,20 +729,20 @@
           delta2 = 32 + ( ( ( delta2 - 32 ) + 16 ) & ~31 );
 #endif
         else
-          delta2 = FT_PIX_ROUND( delta2 );
-        FT_TRACE5(( "/%ld\n", delta2 ));
+          delta2 = FT_TS_PIX_ROUND( delta2 );
+        FT_TS_TRACE5(( "/%ld\n", delta2 ));
 
         if ( delta1 < 0 )
           delta2 = -delta2;
 
         blue->shoot.fit = blue->ref.fit - delta2;
 
-        FT_TRACE5(( ">> active cjk blue zone %c%d[%ld/%ld]:\n",
+        FT_TS_TRACE5(( ">> active cjk blue zone %c%d[%ld/%ld]:\n",
                     ( dim == AF_DIMENSION_HORZ ) ? 'H' : 'V',
                     nn, blue->ref.org, blue->shoot.org ));
-        FT_TRACE5(( "     ref:   cur=%.2f fit=%.2f\n",
+        FT_TS_TRACE5(( "     ref:   cur=%.2f fit=%.2f\n",
                     blue->ref.cur / 64.0, blue->ref.fit / 64.0 ));
-        FT_TRACE5(( "     shoot: cur=%.2f fit=%.2f\n",
+        FT_TS_TRACE5(( "     shoot: cur=%.2f fit=%.2f\n",
                     blue->shoot.cur / 64.0, blue->shoot.fit / 64.0 ));
 
         blue->flags |= AF_CJK_BLUE_ACTIVE;
@@ -753,7 +753,7 @@
 
   /* Scale global values in both directions. */
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   af_cjk_metrics_scale( AF_CJKMetrics  metrics,
                         AF_Scaler      scaler )
   {
@@ -769,10 +769,10 @@
   /* Extract standard_width from writing system/script specific */
   /* metrics class.                                             */
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   af_cjk_get_standard_widths( AF_CJKMetrics  metrics,
-                              FT_Pos*        stdHW,
-                              FT_Pos*        stdVW )
+                              FT_TS_Pos*        stdHW,
+                              FT_TS_Pos*        stdVW )
   {
     if ( stdHW )
       *stdHW = metrics->axis[AF_DIMENSION_VERT].standard_width;
@@ -793,14 +793,14 @@
 
   /* Walk over all contours and compute its segments. */
 
-  static FT_Error
+  static FT_TS_Error
   af_cjk_hints_compute_segments( AF_GlyphHints  hints,
                                  AF_Dimension   dim )
   {
     AF_AxisHints  axis          = &hints->axis[dim];
     AF_Segment    segments      = axis->segments;
-    AF_Segment    segment_limit = FT_OFFSET( segments, axis->num_segments );
-    FT_Error      error;
+    AF_Segment    segment_limit = FT_TS_OFFSET( segments, axis->num_segments );
+    FT_TS_Error      error;
     AF_Segment    seg;
 
 
@@ -814,8 +814,8 @@
     {
       AF_Point  pt   = seg->first;
       AF_Point  last = seg->last;
-      FT_UInt   f0   = pt->flags & AF_FLAG_CONTROL;
-      FT_UInt   f1;
+      FT_TS_UInt   f0   = pt->flags & AF_FLAG_CONTROL;
+      FT_TS_UInt   f1;
 
 
       seg->flags &= ~AF_EDGE_ROUND;
@@ -833,7 +833,7 @@
       }
     }
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
@@ -846,15 +846,15 @@
     AF_Segment    segment_limit = segments + axis->num_segments;
     AF_Direction  major_dir     = axis->major_dir;
     AF_Segment    seg1, seg2;
-    FT_Pos        len_threshold;
-    FT_Pos        dist_threshold;
+    FT_TS_Pos        len_threshold;
+    FT_TS_Pos        dist_threshold;
 
 
     len_threshold = AF_LATIN_CONSTANT( hints->metrics, 8 );
 
     dist_threshold = ( dim == AF_DIMENSION_HORZ ) ? hints->x_scale
                                                   : hints->y_scale;
-    dist_threshold = FT_DivFix( 64 * 3, dist_threshold );
+    dist_threshold = FT_TS_DivFix( 64 * 3, dist_threshold );
 
     /* now compare each segment to the others */
     for ( seg1 = segments; seg1 < segment_limit; seg1++ )
@@ -865,16 +865,16 @@
       for ( seg2 = segments; seg2 < segment_limit; seg2++ )
         if ( seg2 != seg1 && seg1->dir + seg2->dir == 0 )
         {
-          FT_Pos  dist = seg2->pos - seg1->pos;
+          FT_TS_Pos  dist = seg2->pos - seg1->pos;
 
 
           if ( dist < 0 )
             continue;
 
           {
-            FT_Pos  min = seg1->min_coord;
-            FT_Pos  max = seg1->max_coord;
-            FT_Pos  len;
+            FT_TS_Pos  min = seg1->min_coord;
+            FT_TS_Pos  max = seg1->max_coord;
+            FT_TS_Pos  len;
 
 
             if ( min < seg2->min_coord )
@@ -995,21 +995,21 @@
   }
 
 
-  static FT_Error
+  static FT_TS_Error
   af_cjk_hints_compute_edges( AF_GlyphHints  hints,
                               AF_Dimension   dim )
   {
     AF_AxisHints  axis   = &hints->axis[dim];
-    FT_Error      error  = FT_Err_Ok;
-    FT_Memory     memory = hints->memory;
+    FT_TS_Error      error  = FT_TS_Err_Ok;
+    FT_TS_Memory     memory = hints->memory;
     AF_CJKAxis    laxis  = &((AF_CJKMetrics)hints->metrics)->axis[dim];
 
     AF_Segment    segments      = axis->segments;
     AF_Segment    segment_limit = segments + axis->num_segments;
     AF_Segment    seg;
 
-    FT_Fixed      scale;
-    FT_Pos        edge_distance_threshold;
+    FT_TS_Fixed      scale;
+    FT_TS_Pos        edge_distance_threshold;
 
 
     axis->num_edges = 0;
@@ -1033,25 +1033,25 @@
      *
      */
 
-    edge_distance_threshold = FT_MulFix( laxis->edge_distance_threshold,
+    edge_distance_threshold = FT_TS_MulFix( laxis->edge_distance_threshold,
                                          scale );
     if ( edge_distance_threshold > 64 / 4 )
-      edge_distance_threshold = FT_DivFix( 64 / 4, scale );
+      edge_distance_threshold = FT_TS_DivFix( 64 / 4, scale );
     else
       edge_distance_threshold = laxis->edge_distance_threshold;
 
     for ( seg = segments; seg < segment_limit; seg++ )
     {
       AF_Edge  found = NULL;
-      FT_Pos   best  = 0xFFFFU;
-      FT_Int   ee;
+      FT_TS_Pos   best  = 0xFFFFU;
+      FT_TS_Int   ee;
 
 
       /* look for an edge corresponding to the segment */
       for ( ee = 0; ee < axis->num_edges; ee++ )
       {
         AF_Edge  edge = axis->edges + ee;
-        FT_Pos   dist;
+        FT_TS_Pos   dist;
 
 
         if ( edge->dir != seg->dir )
@@ -1071,7 +1071,7 @@
           if ( link )
           {
             AF_Segment  seg1  = edge->first;
-            FT_Pos      dist2 = 0;
+            FT_TS_Pos      dist2 = 0;
 
 
             do
@@ -1111,13 +1111,13 @@
           goto Exit;
 
         /* add the segment to the new edge's list */
-        FT_ZERO( edge );
+        FT_TS_ZERO( edge );
 
         edge->first    = seg;
         edge->last     = seg;
         edge->dir      = seg->dir;
         edge->fpos     = seg->pos;
-        edge->opos     = FT_MulFix( seg->pos, scale );
+        edge->opos     = FT_TS_MulFix( seg->pos, scale );
         edge->pos      = edge->opos;
         seg->edge_next = seg;
       }
@@ -1172,8 +1172,8 @@
       /* now compute each edge properties */
       for ( edge = edges; edge < edge_limit; edge++ )
       {
-        FT_Int  is_round    = 0;  /* does it contain round segments?    */
-        FT_Int  is_straight = 0;  /* does it contain straight segments? */
+        FT_TS_Int  is_round    = 0;  /* does it contain round segments?    */
+        FT_TS_Int  is_straight = 0;  /* does it contain straight segments? */
 
 
         seg = edge->first;
@@ -1182,7 +1182,7 @@
 
         do
         {
-          FT_Bool  is_serif;
+          FT_TS_Bool  is_serif;
 
 
           /* check for roundness of segment */
@@ -1193,7 +1193,7 @@
 
           /* check for links -- if seg->serif is set, then seg->link must */
           /* be ignored                                                   */
-          is_serif = FT_BOOL( seg->serif && seg->serif->edge != edge );
+          is_serif = FT_TS_BOOL( seg->serif && seg->serif->edge != edge );
 
           if ( seg->link || is_serif )
           {
@@ -1212,8 +1212,8 @@
 
             if ( edge2 )
             {
-              FT_Pos  edge_delta;
-              FT_Pos  seg_delta;
+              FT_TS_Pos  edge_delta;
+              FT_TS_Pos  seg_delta;
 
 
               edge_delta = edge->fpos - edge2->fpos;
@@ -1264,11 +1264,11 @@
 
   /* Detect segments and edges for given dimension. */
 
-  static FT_Error
+  static FT_TS_Error
   af_cjk_hints_detect_features( AF_GlyphHints  hints,
                                 AF_Dimension   dim )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
 
 
     error = af_cjk_hints_compute_segments( hints, dim );
@@ -1293,12 +1293,12 @@
     AF_Edge       edge       = axis->edges;
     AF_Edge       edge_limit = edge + axis->num_edges;
     AF_CJKAxis    cjk        = &metrics->axis[dim];
-    FT_Fixed      scale      = cjk->scale;
-    FT_Pos        best_dist0;  /* initial threshold */
+    FT_TS_Fixed      scale      = cjk->scale;
+    FT_TS_Pos        best_dist0;  /* initial threshold */
 
 
     /* compute the initial threshold as a fraction of the EM size */
-    best_dist0 = FT_MulFix( metrics->units_per_em / 40, scale );
+    best_dist0 = FT_TS_MulFix( metrics->units_per_em / 40, scale );
 
     if ( best_dist0 > 64 / 2 ) /* maximum 1/2 pixel */
       best_dist0 = 64 / 2;
@@ -1312,15 +1312,15 @@
 
     for ( ; edge < edge_limit; edge++ )
     {
-      FT_UInt   bb;
+      FT_TS_UInt   bb;
       AF_Width  best_blue = NULL;
-      FT_Pos    best_dist = best_dist0;
+      FT_TS_Pos    best_dist = best_dist0;
 
 
       for ( bb = 0; bb < cjk->blue_count; bb++ )
       {
         AF_CJKBlue  blue = cjk->blues + bb;
-        FT_Bool     is_top_right_blue, is_major_dir;
+        FT_TS_Bool     is_top_right_blue, is_major_dir;
 
 
         /* skip inactive blue zones (i.e., those that are too small) */
@@ -1332,22 +1332,22 @@
         /*                                                                 */
         /* of course, that's for TrueType                                  */
         is_top_right_blue =
-          (FT_Byte)( ( blue->flags & AF_CJK_BLUE_TOP ) != 0 );
+          (FT_TS_Byte)( ( blue->flags & AF_CJK_BLUE_TOP ) != 0 );
         is_major_dir =
-          FT_BOOL( edge->dir == axis->major_dir );
+          FT_TS_BOOL( edge->dir == axis->major_dir );
 
         /* if it is a top zone, the edge must be against the major    */
         /* direction; if it is a bottom zone, it must be in the major */
         /* direction                                                  */
         if ( is_top_right_blue ^ is_major_dir )
         {
-          FT_Pos    dist;
+          FT_TS_Pos    dist;
           AF_Width  compare;
 
 
           /* Compare the edge to the closest blue zone type */
-          if ( FT_ABS( edge->fpos - blue->ref.org ) >
-               FT_ABS( edge->fpos - blue->shoot.org ) )
+          if ( FT_TS_ABS( edge->fpos - blue->ref.org ) >
+               FT_TS_ABS( edge->fpos - blue->shoot.org ) )
             compare = &blue->shoot;
           else
             compare = &blue->ref;
@@ -1356,7 +1356,7 @@
           if ( dist < 0 )
             dist = -dist;
 
-          dist = FT_MulFix( dist, scale );
+          dist = FT_TS_MulFix( dist, scale );
           if ( dist < best_dist )
           {
             best_dist = dist;
@@ -1373,12 +1373,12 @@
 
   /* Initalize hinting engine. */
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   af_cjk_hints_init( AF_GlyphHints  hints,
                      AF_CJKMetrics  metrics )
   {
-    FT_Render_Mode  mode;
-    FT_UInt32       scaler_flags, other_flags;
+    FT_TS_Render_Mode  mode;
+    FT_TS_UInt32       scaler_flags, other_flags;
 
 
     af_glyph_hints_rescale( hints, (AF_StyleMetrics)metrics );
@@ -1402,23 +1402,23 @@
      * We snap the width of vertical stems for the monochrome and
      * horizontal LCD rendering targets only.
      */
-    if ( mode == FT_RENDER_MODE_MONO || mode == FT_RENDER_MODE_LCD )
+    if ( mode == FT_TS_RENDER_MODE_MONO || mode == FT_TS_RENDER_MODE_LCD )
       other_flags |= AF_LATIN_HINTS_HORZ_SNAP;
 
     /*
      * We snap the width of horizontal stems for the monochrome and
      * vertical LCD rendering targets only.
      */
-    if ( mode == FT_RENDER_MODE_MONO || mode == FT_RENDER_MODE_LCD_V )
+    if ( mode == FT_TS_RENDER_MODE_MONO || mode == FT_TS_RENDER_MODE_LCD_V )
       other_flags |= AF_LATIN_HINTS_VERT_SNAP;
 
     /*
      * We adjust stems to full pixels unless in `light' or `lcd' mode.
      */
-    if ( mode != FT_RENDER_MODE_LIGHT && mode != FT_RENDER_MODE_LCD )
+    if ( mode != FT_TS_RENDER_MODE_LIGHT && mode != FT_TS_RENDER_MODE_LCD )
       other_flags |= AF_LATIN_HINTS_STEM_ADJUST;
 
-    if ( mode == FT_RENDER_MODE_MONO )
+    if ( mode == FT_TS_RENDER_MODE_MONO )
       other_flags |= AF_LATIN_HINTS_MONO;
 
     scaler_flags |= AF_SCALER_FLAG_NO_ADVANCE;
@@ -1426,7 +1426,7 @@
     hints->scaler_flags = scaler_flags;
     hints->other_flags  = other_flags;
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
@@ -1441,21 +1441,21 @@
   /* Snap a given width in scaled coordinates to one of the */
   /* current standard widths.                               */
 
-  static FT_Pos
+  static FT_TS_Pos
   af_cjk_snap_width( AF_Width  widths,
-                     FT_UInt   count,
-                     FT_Pos    width )
+                     FT_TS_UInt   count,
+                     FT_TS_Pos    width )
   {
-    FT_UInt  n;
-    FT_Pos   best      = 64 + 32 + 2;
-    FT_Pos   reference = width;
-    FT_Pos   scaled;
+    FT_TS_UInt  n;
+    FT_TS_Pos   best      = 64 + 32 + 2;
+    FT_TS_Pos   reference = width;
+    FT_TS_Pos   scaled;
 
 
     for ( n = 0; n < count; n++ )
     {
-      FT_Pos  w;
-      FT_Pos  dist;
+      FT_TS_Pos  w;
+      FT_TS_Pos  dist;
 
 
       w = widths[n].cur;
@@ -1469,7 +1469,7 @@
       }
     }
 
-    scaled = FT_PIX_ROUND( reference );
+    scaled = FT_TS_PIX_ROUND( reference );
 
     if ( width >= reference )
     {
@@ -1490,21 +1490,21 @@
   /* There is a lot of voodoo in this function; changing the hard-coded  */
   /* parameters influence the whole hinting process.                     */
 
-  static FT_Pos
+  static FT_TS_Pos
   af_cjk_compute_stem_width( AF_GlyphHints  hints,
                              AF_Dimension   dim,
-                             FT_Pos         width,
-                             FT_UInt        base_flags,
-                             FT_UInt        stem_flags )
+                             FT_TS_Pos         width,
+                             FT_TS_UInt        base_flags,
+                             FT_TS_UInt        stem_flags )
   {
     AF_CJKMetrics  metrics  = (AF_CJKMetrics)hints->metrics;
     AF_CJKAxis     axis     = &metrics->axis[dim];
-    FT_Pos         dist     = width;
-    FT_Int         sign     = 0;
-    FT_Bool        vertical = FT_BOOL( dim == AF_DIMENSION_VERT );
+    FT_TS_Pos         dist     = width;
+    FT_TS_Int         sign     = 0;
+    FT_TS_Bool        vertical = FT_TS_BOOL( dim == AF_DIMENSION_VERT );
 
-    FT_UNUSED( base_flags );
-    FT_UNUSED( stem_flags );
+    FT_TS_UNUSED( base_flags );
+    FT_TS_UNUSED( stem_flags );
 
 
     if ( !AF_LATIN_HINTS_DO_STEM_ADJUST( hints ) )
@@ -1523,7 +1523,7 @@
 
       if ( axis->width_count > 0 )
       {
-        if ( FT_ABS( dist - axis->widths[0].cur ) < 40 )
+        if ( FT_TS_ABS( dist - axis->widths[0].cur ) < 40 )
         {
           dist = axis->widths[0].cur;
           if ( dist < 48 )
@@ -1537,7 +1537,7 @@
         dist += ( 54 - dist ) / 2;
       else if ( dist < 3 * 64 )
       {
-        FT_Pos  delta;
+        FT_TS_Pos  delta;
 
 
         delta  = dist & 63;
@@ -1617,16 +1617,16 @@
                             AF_Edge        base_edge,
                             AF_Edge        stem_edge )
   {
-    FT_Pos  dist = stem_edge->opos - base_edge->opos;
+    FT_TS_Pos  dist = stem_edge->opos - base_edge->opos;
 
-    FT_Pos  fitted_width = af_cjk_compute_stem_width( hints, dim, dist,
+    FT_TS_Pos  fitted_width = af_cjk_compute_stem_width( hints, dim, dist,
                                                       base_edge->flags,
                                                       stem_edge->flags );
 
 
     stem_edge->pos = base_edge->pos + fitted_width;
 
-    FT_TRACE5(( "  CJKLINK: edge %ld @%d (opos=%.2f) linked to %.2f,"
+    FT_TS_TRACE5(( "  CJKLINK: edge %ld @%d (opos=%.2f) linked to %.2f,"
                 " dist was %.2f, now %.2f\n",
                 stem_edge - hints->axis[dim].edges, stem_edge->fpos,
                 stem_edge->opos / 64.0, stem_edge->pos / 64.0,
@@ -1642,7 +1642,7 @@
                            AF_Edge        base,
                            AF_Edge        serif )
   {
-    FT_UNUSED( hints );
+    FT_TS_UNUSED( hints );
 
     serif->pos = base->pos + ( serif->opos - base->opos );
   }
@@ -1664,18 +1664,18 @@
 #define AF_LIGHT_MODE_MAX_DELTA_ABS  14
 
 
-  static FT_Pos
+  static FT_TS_Pos
   af_hint_normal_stem( AF_GlyphHints  hints,
                        AF_Edge        edge,
                        AF_Edge        edge2,
-                       FT_Pos         anchor,
+                       FT_TS_Pos         anchor,
                        AF_Dimension   dim )
   {
-    FT_Pos  org_len, cur_len, org_center;
-    FT_Pos  cur_pos1, cur_pos2;
-    FT_Pos  d_off1, u_off1, d_off2, u_off2, delta;
-    FT_Pos  offset;
-    FT_Pos  threshold = 64;
+    FT_TS_Pos  org_len, cur_len, org_center;
+    FT_TS_Pos  cur_pos1, cur_pos2;
+    FT_TS_Pos  d_off1, u_off1, d_off2, u_off2, delta;
+    FT_TS_Pos  offset;
+    FT_TS_Pos  threshold = 64;
 
 
     if ( !AF_LATIN_HINTS_DO_STEM_ADJUST( hints ) )
@@ -1705,8 +1705,8 @@
     org_center = ( edge->opos + edge2->opos ) / 2 + anchor;
     cur_pos1   = org_center - cur_len / 2;
     cur_pos2   = cur_pos1 + cur_len;
-    d_off1     = cur_pos1 - FT_PIX_FLOOR( cur_pos1 );
-    d_off2     = cur_pos2 - FT_PIX_FLOOR( cur_pos2 );
+    d_off1     = cur_pos1 - FT_TS_PIX_FLOOR( cur_pos1 );
+    d_off2     = cur_pos2 - FT_TS_PIX_FLOOR( cur_pos2 );
     u_off1     = 64 - d_off1;
     u_off2     = 64 - d_off2;
     delta      = 0;
@@ -1756,7 +1756,7 @@
     if ( d_off2 <= u_off2 )
       u_off2 = -d_off2;
 
-    if ( FT_ABS( u_off1 ) <= FT_ABS( u_off2 ) )
+    if ( FT_TS_ABS( u_off1 ) <= FT_TS_ABS( u_off2 ) )
       delta = u_off1;
     else
       delta = u_off2;
@@ -1799,20 +1799,20 @@
     AF_AxisHints  axis       = &hints->axis[dim];
     AF_Edge       edges      = axis->edges;
     AF_Edge       edge_limit = edges + axis->num_edges;
-    FT_PtrDist    n_edges;
+    FT_TS_PtrDist    n_edges;
     AF_Edge       edge;
     AF_Edge       anchor   = NULL;
-    FT_Pos        delta    = 0;
-    FT_Int        skipped  = 0;
-    FT_Bool       has_last_stem = FALSE;
-    FT_Pos        last_stem_pos = 0;
+    FT_TS_Pos        delta    = 0;
+    FT_TS_Int        skipped  = 0;
+    FT_TS_Bool       has_last_stem = FALSE;
+    FT_TS_Pos        last_stem_pos = 0;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
-    FT_UInt       num_actions = 0;
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
+    FT_TS_UInt       num_actions = 0;
 #endif
 
 
-    FT_TRACE5(( "cjk %s edge hinting (style `%s')\n",
+    FT_TS_TRACE5(( "cjk %s edge hinting (style `%s')\n",
                 dim == AF_DIMENSION_VERT ? "horizontal" : "vertical",
                 af_style_names[hints->metrics->style_class->style] ));
 
@@ -1847,8 +1847,8 @@
         if ( !edge1 )
           continue;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
-        FT_TRACE5(( "  CJKBLUE: edge %ld @%d (opos=%.2f) snapped to %.2f,"
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
+        FT_TS_TRACE5(( "  CJKBLUE: edge %ld @%d (opos=%.2f) snapped to %.2f,"
                     " was %.2f\n",
                     edge1 - edges, edge1->fpos, edge1->opos / 64.0,
                     blue->fit / 64.0, edge1->pos / 64.0 ));
@@ -1864,7 +1864,7 @@
           af_cjk_align_linked_edge( hints, dim, edge1, edge2 );
           edge2->flags |= AF_EDGE_DONE;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
           num_actions++;
 #endif
         }
@@ -1912,12 +1912,12 @@
       /* this should not happen, but it's better to be safe */
       if ( edge2->blue_edge )
       {
-        FT_TRACE5(( "ASSERTION FAILED for edge %ld\n", edge2-edges ));
+        FT_TS_TRACE5(( "ASSERTION FAILED for edge %ld\n", edge2-edges ));
 
         af_cjk_align_linked_edge( hints, dim, edge2, edge );
         edge->flags |= AF_EDGE_DONE;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
         num_actions++;
 #endif
 
@@ -1929,7 +1929,7 @@
         af_cjk_align_linked_edge( hints, dim, edge2, edge );
         edge->flags |= AF_EDGE_DONE;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
         num_actions++;
 #endif
 
@@ -1951,8 +1951,8 @@
           AF_Edge     left  = edge;
           AF_Edge     right = edge_limit - 1;
           AF_EdgeRec  left1, left2, right1, right2;
-          FT_Pos      target, center1, center2;
-          FT_Pos      delta1, delta2, d1, d2;
+          FT_TS_Pos      target, center1, center2;
+          FT_TS_Pos      delta1, delta2, d1, d2;
 
 
           while ( right > left && !right->link )
@@ -1992,7 +1992,7 @@
             d1 = center1 - target;
             d2 = center2 - target;
 
-            if ( FT_ABS( d2 ) < FT_ABS( d1 ) )
+            if ( FT_TS_ABS( d2 ) < FT_TS_ABS( d1 ) )
             {
               left->pos       = left1.pos;
               left->link->pos = left2.pos;
@@ -2054,7 +2054,7 @@
     if ( dim == AF_DIMENSION_HORZ && ( n_edges == 6 || n_edges == 12 ) )
     {
       AF_Edge  edge1, edge2, edge3;
-      FT_Pos   dist1, dist2, span;
+      FT_TS_Pos   dist1, dist2, span;
 
 
       if ( n_edges == 6 )
@@ -2152,7 +2152,7 @@
             edge->pos = before->pos;
           else
             edge->pos = before->pos +
-                        FT_MulDiv( edge->fpos - before->fpos,
+                        FT_TS_MulDiv( edge->fpos - before->fpos,
                                    after->pos - before->pos,
                                    after->fpos - before->fpos );
         }
@@ -2161,10 +2161,10 @@
 
   Exit:
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
     if ( !num_actions )
-      FT_TRACE5(( "  (none)\n" ));
-    FT_TRACE5(( "\n" ));
+      FT_TS_TRACE5(( "  (none)\n" ));
+    FT_TS_TRACE5(( "\n" ));
 #endif
 
     return;
@@ -2179,10 +2179,10 @@
     AF_Edge       edges      = axis->edges;
     AF_Edge       edge_limit = edges + axis->num_edges;
     AF_Edge       edge;
-    FT_Bool       snapping;
+    FT_TS_Bool       snapping;
 
 
-    snapping = FT_BOOL( ( dim == AF_DIMENSION_HORZ             &&
+    snapping = FT_TS_BOOL( ( dim == AF_DIMENSION_HORZ             &&
                           AF_LATIN_HINTS_DO_HORZ_SNAP( hints ) )  ||
                         ( dim == AF_DIMENSION_VERT             &&
                           AF_LATIN_HINTS_DO_VERT_SNAP( hints ) )  );
@@ -2226,7 +2226,7 @@
       }
       else
       {
-        FT_Pos  delta = edge->pos - edge->opos;
+        FT_TS_Pos  delta = edge->pos - edge->opos;
 
 
         do
@@ -2263,17 +2263,17 @@
 
   /* Apply the complete hinting algorithm to a CJK glyph. */
 
-  FT_LOCAL_DEF( FT_Error )
-  af_cjk_hints_apply( FT_UInt        glyph_index,
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  af_cjk_hints_apply( FT_TS_UInt        glyph_index,
                       AF_GlyphHints  hints,
-                      FT_Outline*    outline,
+                      FT_TS_Outline*    outline,
                       AF_CJKMetrics  metrics )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
     int       dim;
 
-    FT_UNUSED( metrics );
-    FT_UNUSED( glyph_index );
+    FT_TS_UNUSED( metrics );
+    FT_TS_UNUSED( glyph_index );
 
 
     error = af_glyph_hints_reload( hints, outline );

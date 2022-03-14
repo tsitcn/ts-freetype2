@@ -17,10 +17,10 @@
 
 
 #include <ft2build.h>
-#include FT_CONFIG_OPTIONS_H
+#include FT_TS_CONFIG_OPTIONS_H
 
 
-#ifdef FT_DEBUG_LOGGING
+#ifdef FT_TS_DEBUG_LOGGING
 #define DLG_STATIC
 #include "dlg.c"
 #else

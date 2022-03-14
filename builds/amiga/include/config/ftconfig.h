@@ -5,7 +5,7 @@
 /*    Amiga-specific configuration file (specification only).              */
 /*                                                                         */
 /*  Copyright (C) 2005-2021 by                                             */
-/*  Werner Lemberg and Detlef Würkner.                                     */
+/*  Werner Lemberg and Detlef Wï¿½rkner.                                     */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
 /*  modified, and distributed under the terms of the FreeType project      */
@@ -20,16 +20,16 @@
  * with Amiga-specific changes. When the compiler searches this directory
  * before the default directory, we can do some modifications.
  *
- * Here we must change FT_EXPORT_DEF so that SAS/C does
+ * Here we must change FT_TS_EXPORT_DEF so that SAS/C does
  * generate the needed XDEFs.
  */
 
 #if 0
-#define FT_EXPORT_DEF( x )  extern  x
+#define FT_TS_EXPORT_DEF( x )  extern  x
 #endif
 
-#undef FT_EXPORT_DEF
-#define FT_EXPORT_DEF( x )  x
+#undef FT_TS_EXPORT_DEF
+#define FT_TS_EXPORT_DEF( x )  x
 
 /* Now include the original file */
 #ifndef __MORPHOS__

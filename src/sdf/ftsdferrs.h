@@ -25,9 +25,9 @@
 
 #undef FTERRORS_H_
 
-#undef  FT_ERR_PREFIX
-#define FT_ERR_PREFIX  Sdf_Err_
-#define FT_ERR_BASE    FT_Mod_Err_Sdf
+#undef  FT_TS_ERR_PREFIX
+#define FT_TS_ERR_PREFIX  Sdf_Err_
+#define FT_TS_ERR_BASE    FT_TS_Mod_Err_Sdf
 
 #include <freetype/fterrors.h>
 

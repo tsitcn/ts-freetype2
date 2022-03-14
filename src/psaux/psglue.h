@@ -47,7 +47,7 @@
 #include "psread.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* rendering parameters */
@@ -101,10 +101,10 @@ FT_BEGIN_HEADER
 
   typedef struct  CF2_CallbackParamsRec_
   {
-    FT_Vector  pt0;
-    FT_Vector  pt1;
-    FT_Vector  pt2;
-    FT_Vector  pt3;
+    FT_TS_Vector  pt0;
+    FT_TS_Vector  pt1;
+    FT_TS_Vector  pt2;
+    FT_TS_Vector  pt3;
 
     CF2_Int  op;
 
@@ -130,12 +130,12 @@ FT_BEGIN_HEADER
 
     CF2_Int  windingMomentum;    /* for winding order detection */
 
-    FT_Memory  memory;
-    FT_Error*  error;
+    FT_TS_Memory  memory;
+    FT_TS_Error*  error;
   };
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSGLUE_H_ */

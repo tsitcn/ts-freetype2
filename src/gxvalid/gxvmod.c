@@ -38,34 +38,34 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmodule
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmodule
 
 
-  static FT_Error
-  gxv_load_table( FT_Face             face,
-                  FT_Tag              tag,
-                  FT_Byte* volatile*  table,
-                  FT_ULong*           table_len )
+  static FT_TS_Error
+  gxv_load_table( FT_TS_Face             face,
+                  FT_TS_Tag              tag,
+                  FT_TS_Byte* volatile*  table,
+                  FT_TS_ULong*           table_len )
   {
-    FT_Error   error;
-    FT_Memory  memory = FT_FACE_MEMORY( face );
+    FT_TS_Error   error;
+    FT_TS_Memory  memory = FT_TS_FACE_MEMORY( face );
 
 
-    error = FT_Load_Sfnt_Table( face, tag, 0, NULL, table_len );
-    if ( FT_ERR_EQ( error, Table_Missing ) )
-      return FT_Err_Ok;
+    error = FT_TS_Load_Sfnt_Table( face, tag, 0, NULL, table_len );
+    if ( FT_TS_ERR_EQ( error, Table_Missing ) )
+      return FT_TS_Err_Ok;
     if ( error )
       goto Exit;
 
-    if ( FT_QALLOC( *table, *table_len ) )
+    if ( FT_TS_QALLOC( *table, *table_len ) )
       goto Exit;
 
-    error = FT_Load_Sfnt_Table( face, tag, 0, *table, table_len );
+    error = FT_TS_Load_Sfnt_Table( face, tag, 0, *table, table_len );
 
   Exit:
     return error;
@@ -73,52 +73,52 @@
 
 
 #define GXV_TABLE_DECL( _sfnt )                     \
-          FT_Byte* volatile  _sfnt          = NULL; \
-          FT_ULong            len_ ## _sfnt = 0
+          FT_TS_Byte* volatile  _sfnt          = NULL; \
+          FT_TS_ULong            len_ ## _sfnt = 0
 
 #define GXV_TABLE_LOAD( _sfnt )                                       \
-          FT_BEGIN_STMNT                                              \
-            if ( ( FT_VALIDATE_ ## _sfnt ## _INDEX < table_count ) && \
-                 ( gx_flags & FT_VALIDATE_ ## _sfnt )            )    \
+          FT_TS_BEGIN_STMNT                                              \
+            if ( ( FT_TS_VALIDATE_ ## _sfnt ## _INDEX < table_count ) && \
+                 ( gx_flags & FT_TS_VALIDATE_ ## _sfnt )            )    \
             {                                                         \
               error = gxv_load_table( face, TTAG_ ## _sfnt,           \
                                       &_sfnt, &len_ ## _sfnt );       \
               if ( error )                                            \
                 goto Exit;                                            \
             }                                                         \
-          FT_END_STMNT
+          FT_TS_END_STMNT
 
 #define GXV_TABLE_VALIDATE( _sfnt )                                    \
-          FT_BEGIN_STMNT                                               \
+          FT_TS_BEGIN_STMNT                                               \
             if ( _sfnt )                                               \
             {                                                          \
               ft_validator_init( &valid, _sfnt, _sfnt + len_ ## _sfnt, \
-                                 FT_VALIDATE_DEFAULT );                \
+                                 FT_TS_VALIDATE_DEFAULT );                \
               if ( ft_setjmp( valid.jump_buffer ) == 0 )               \
                 gxv_ ## _sfnt ## _validate( _sfnt, face, &valid );     \
               error = valid.error;                                     \
               if ( error )                                             \
                 goto Exit;                                             \
             }                                                          \
-          FT_END_STMNT
+          FT_TS_END_STMNT
 
 #define GXV_TABLE_SET( _sfnt )                                        \
-          if ( FT_VALIDATE_ ## _sfnt ## _INDEX < table_count )        \
-            tables[FT_VALIDATE_ ## _sfnt ## _INDEX] = (FT_Bytes)_sfnt
+          if ( FT_TS_VALIDATE_ ## _sfnt ## _INDEX < table_count )        \
+            tables[FT_TS_VALIDATE_ ## _sfnt ## _INDEX] = (FT_TS_Bytes)_sfnt
 
 
-  static FT_Error
-  gxv_validate( FT_Face   face,
-                FT_UInt   gx_flags,
-                FT_Bytes  tables[FT_VALIDATE_GX_LENGTH],
-                FT_UInt   table_count )
+  static FT_TS_Error
+  gxv_validate( FT_TS_Face   face,
+                FT_TS_UInt   gx_flags,
+                FT_TS_Bytes  tables[FT_TS_VALIDATE_GX_LENGTH],
+                FT_TS_UInt   table_count )
   {
-    FT_Memory volatile        memory = FT_FACE_MEMORY( face );
+    FT_TS_Memory volatile        memory = FT_TS_FACE_MEMORY( face );
 
-    FT_Error                  error = FT_Err_Ok;
-    FT_ValidatorRec volatile  valid;
+    FT_TS_Error                  error = FT_TS_Err_Ok;
+    FT_TS_ValidatorRec volatile  valid;
 
-    FT_UInt  i;
+    FT_TS_UInt  i;
 
 
     GXV_TABLE_DECL( feat );
@@ -174,37 +174,37 @@
   Exit:
     if ( error )
     {
-      FT_FREE( feat );
-      FT_FREE( bsln );
-      FT_FREE( trak );
-      FT_FREE( just );
-      FT_FREE( mort );
-      FT_FREE( morx );
-      FT_FREE( kern );
-      FT_FREE( opbd );
-      FT_FREE( prop );
-      FT_FREE( lcar );
+      FT_TS_FREE( feat );
+      FT_TS_FREE( bsln );
+      FT_TS_FREE( trak );
+      FT_TS_FREE( just );
+      FT_TS_FREE( mort );
+      FT_TS_FREE( morx );
+      FT_TS_FREE( kern );
+      FT_TS_FREE( opbd );
+      FT_TS_FREE( prop );
+      FT_TS_FREE( lcar );
     }
 
     return error;
   }
 
 
-  static FT_Error
-  classic_kern_validate( FT_Face    face,
-                         FT_UInt    ckern_flags,
-                         FT_Bytes*  ckern_table )
+  static FT_TS_Error
+  classic_kern_validate( FT_TS_Face    face,
+                         FT_TS_UInt    ckern_flags,
+                         FT_TS_Bytes*  ckern_table )
   {
-    FT_Memory volatile        memory = FT_FACE_MEMORY( face );
+    FT_TS_Memory volatile        memory = FT_TS_FACE_MEMORY( face );
 
-    FT_Byte* volatile         ckern     = NULL;
-    FT_ULong                  len_ckern = 0;
+    FT_TS_Byte* volatile         ckern     = NULL;
+    FT_TS_ULong                  len_ckern = 0;
 
     /* without volatile on `error' GCC 4.1.1. emits:                         */
     /*  warning: variable 'error' might be clobbered by 'longjmp' or 'vfork' */
     /* this warning seems spurious but ---                                   */
-    FT_Error volatile         error;
-    FT_ValidatorRec volatile  valid;
+    FT_TS_Error volatile         error;
+    FT_TS_ValidatorRec volatile  valid;
 
 
     *ckern_table = NULL;
@@ -216,10 +216,10 @@
     if ( ckern )
     {
       ft_validator_init( &valid, ckern, ckern + len_ckern,
-                         FT_VALIDATE_DEFAULT );
+                         FT_TS_VALIDATE_DEFAULT );
       if ( ft_setjmp( valid.jump_buffer ) == 0 )
         gxv_kern_validate_classic( ckern, face,
-                                   ckern_flags & FT_VALIDATE_CKERN, &valid );
+                                   ckern_flags & FT_TS_VALIDATE_CKERN, &valid );
       error = valid.error;
       if ( error )
         goto Exit;
@@ -229,59 +229,59 @@
 
   Exit:
     if ( error )
-      FT_FREE( ckern );
+      FT_TS_FREE( ckern );
 
     return error;
   }
 
 
   static
-  const FT_Service_GXvalidateRec  gxvalid_interface =
+  const FT_TS_Service_GXvalidateRec  gxvalid_interface =
   {
     gxv_validate              /* validate */
   };
 
 
   static
-  const FT_Service_CKERNvalidateRec  ckernvalid_interface =
+  const FT_TS_Service_CKERNvalidateRec  ckernvalid_interface =
   {
     classic_kern_validate     /* validate */
   };
 
 
   static
-  const FT_ServiceDescRec  gxvalid_services[] =
+  const FT_TS_ServiceDescRec  gxvalid_services[] =
   {
-    { FT_SERVICE_ID_GX_VALIDATE,          &gxvalid_interface },
-    { FT_SERVICE_ID_CLASSICKERN_VALIDATE, &ckernvalid_interface },
+    { FT_TS_SERVICE_ID_GX_VALIDATE,          &gxvalid_interface },
+    { FT_TS_SERVICE_ID_CLASSICKERN_VALIDATE, &ckernvalid_interface },
     { NULL, NULL }
   };
 
 
-  static FT_Pointer
-  gxvalid_get_service( FT_Module    module,
+  static FT_TS_Pointer
+  gxvalid_get_service( FT_TS_Module    module,
                        const char*  service_id )
   {
-    FT_UNUSED( module );
+    FT_TS_UNUSED( module );
 
     return ft_service_list_lookup( gxvalid_services, service_id );
   }
 
 
-  FT_CALLBACK_TABLE_DEF
-  const FT_Module_Class  gxv_module_class =
+  FT_TS_CALLBACK_TABLE_DEF
+  const FT_TS_Module_Class  gxv_module_class =
   {
     0,
-    sizeof ( FT_ModuleRec ),
+    sizeof ( FT_TS_ModuleRec ),
     "gxvalid",
     0x10000L,
     0x20000L,
 
     NULL,              /* module-specific interface */
 
-    (FT_Module_Constructor)NULL,                /* module_init   */
-    (FT_Module_Destructor) NULL,                /* module_done   */
-    (FT_Module_Requester)  gxvalid_get_service  /* get_interface */
+    (FT_TS_Module_Constructor)NULL,                /* module_init   */
+    (FT_TS_Module_Destructor) NULL,                /* module_done   */
+    (FT_TS_Module_Requester)  gxvalid_get_service  /* get_interface */
   };
 
 

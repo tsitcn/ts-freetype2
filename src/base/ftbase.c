@@ -16,7 +16,7 @@
  */
 
 
-#define  FT_MAKE_OPTION_SINGLE_OBJECT
+#define  FT_TS_MAKE_OPTION_SINGLE_OBJECT
 
 #include "ftadvanc.c"
 #include "ftcalc.c"

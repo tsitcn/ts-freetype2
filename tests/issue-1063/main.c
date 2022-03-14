@@ -7,8 +7,8 @@
 int
 main( void )
 {
-  FT_Library  library;
-  FT_Face     face = NULL;
+  FT_TS_Library  library;
+  FT_TS_Face     face = NULL;
 
   /*
    * We assume that `FREETYPE_TESTS_DATA_DIR` was set by `meson test`.
@@ -25,17 +25,17 @@ main( void )
             testdata_dir ? testdata_dir : "../tests/data",
             "As.I.Lay.Dying.ttf" );
 
-  FT_Init_FreeType( &library );
-  if ( FT_New_Face( library, filepath, 0, &face ) != 0 )
+  FT_TS_Init_FreeType( &library );
+  if ( FT_TS_New_Face( library, filepath, 0, &face ) != 0 )
   {
     fprintf( stderr, "Could not open file: %s\n", filepath );
     return 1;
   }
 
-  for ( FT_ULong  i = 59; i < 171; i++ )
+  for ( FT_TS_ULong  i = 59; i < 171; i++ )
   {
-    FT_UInt   gid  = FT_Get_Char_Index( face, i );
-    FT_Error  code = FT_Load_Glyph( face, gid, FT_LOAD_DEFAULT );
+    FT_TS_UInt   gid  = FT_TS_Get_Char_Index( face, i );
+    FT_TS_Error  code = FT_TS_Load_Glyph( face, gid, FT_TS_LOAD_DEFAULT );
 
 
     if ( code )

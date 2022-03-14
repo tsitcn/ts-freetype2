@@ -54,23 +54,23 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /* Embolden a glyph by a 'reasonable' value (which is highly a matter of */
   /* taste).  This function is actually a convenience function, providing  */
-  /* a wrapper for @FT_Outline_Embolden and @FT_Bitmap_Embolden.           */
+  /* a wrapper for @FT_TS_Outline_Embolden and @FT_TS_Bitmap_Embolden.           */
   /*                                                                       */
   /* For emboldened outlines the height, width, and advance metrics are    */
   /* increased by the strength of the emboldening -- this even affects     */
   /* mono-width fonts!                                                     */
   /*                                                                       */
-  /* You can also call @FT_Outline_Get_CBox to get precise values.         */
-  FT_EXPORT( void )
-  FT_GlyphSlot_Embolden( FT_GlyphSlot  slot );
+  /* You can also call @FT_TS_Outline_Get_CBox to get precise values.         */
+  FT_TS_EXPORT( void )
+  FT_TS_GlyphSlot_Embolden( FT_TS_GlyphSlot  slot );
 
   /* Slant an outline glyph to the right by about 12 degrees. */
-  FT_EXPORT( void )
-  FT_GlyphSlot_Oblique( FT_GlyphSlot  slot );
+  FT_TS_EXPORT( void )
+  FT_TS_GlyphSlot_Oblique( FT_TS_GlyphSlot  slot );
 
   /* */
 
@@ -81,32 +81,32 @@ FT_BEGIN_HEADER
   /**
    * Italic a slot for LTR or TTB
    */
-  FT_EXPORT( void )
-  FT_GlyphSlot_Oblique_Direction( FT_GlyphSlot  slot, float oblique, int flags);
+  FT_TS_EXPORT( void )
+  FT_TS_GlyphSlot_Oblique_Direction( FT_TS_GlyphSlot  slot, float oblique, int flags);
 
   /**
    * Transform a slot.
    */
-  FT_EXPORT( void )
-  FT_GlyphSlot_Transform( FT_GlyphSlot  slot);
+  FT_TS_EXPORT( void )
+  FT_TS_GlyphSlot_Transform( FT_TS_GlyphSlot  slot);
 
   /**
    * From pMatrix get degree.
    */
-  FT_EXPORT( int )
-  FT_GlyphSlot_Get_Matrix_Degree(FT_Matrix* pMatrix);
+  FT_TS_EXPORT( int )
+  FT_TS_GlyphSlot_Get_Matrix_Degree(FT_TS_Matrix* pMatrix);
 
   /**
    * Embolden or slim a slot.
    */
-  FT_EXPORT( void )
-  FT_GlyphSlot_Weight(   FT_GlyphSlot  slot, float weight_x, float weight_y, int flags );
+  FT_TS_EXPORT( void )
+  FT_TS_GlyphSlot_Weight(   FT_TS_GlyphSlot  slot, float weight_x, float weight_y, int flags );
 
 /**
  TSIT }}}}}}}}}}
  */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTSYNTH_H_ */
 

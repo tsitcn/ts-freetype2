@@ -22,7 +22,7 @@
 #include "ttobjs.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -48,39 +48,39 @@ FT_BEGIN_HEADER
    */
 
   /* Rounding function */
-  typedef FT_F26Dot6
+  typedef FT_TS_F26Dot6
   (*TT_Round_Func)( TT_ExecContext  exc,
-                    FT_F26Dot6      distance,
-                    FT_Int          color );
+                    FT_TS_F26Dot6      distance,
+                    FT_TS_Int          color );
 
   /* Point displacement along the freedom vector routine */
   typedef void
   (*TT_Move_Func)( TT_ExecContext  exc,
                    TT_GlyphZone    zone,
-                   FT_UShort       point,
-                   FT_F26Dot6      distance );
+                   FT_TS_UShort       point,
+                   FT_TS_F26Dot6      distance );
 
   /* Distance projection along one of the projection vectors */
-  typedef FT_F26Dot6
+  typedef FT_TS_F26Dot6
   (*TT_Project_Func)( TT_ExecContext  exc,
-                      FT_Pos          dx,
-                      FT_Pos          dy );
+                      FT_TS_Pos          dx,
+                      FT_TS_Pos          dy );
 
   /* getting current ppem.  Take care of non-square pixels if necessary */
-  typedef FT_Long
+  typedef FT_TS_Long
   (*TT_Cur_Ppem_Func)( TT_ExecContext  exc );
 
   /* reading a cvt value.  Take care of non-square pixels if necessary */
-  typedef FT_F26Dot6
+  typedef FT_TS_F26Dot6
   (*TT_Get_CVT_Func)( TT_ExecContext  exc,
-                      FT_ULong        idx );
+                      FT_TS_ULong        idx );
 
   /* setting or moving a cvt value.  Take care of non-square pixels  */
   /* if necessary                                                    */
   typedef void
   (*TT_Set_CVT_Func)( TT_ExecContext  exc,
-                      FT_ULong        idx,
-                      FT_F26Dot6      value );
+                      FT_TS_ULong        idx,
+                      FT_TS_F26Dot6      value );
 
 
   /**************************************************************************
@@ -89,9 +89,9 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_CallRec_
   {
-    FT_Int   Caller_Range;
-    FT_Long  Caller_IP;
-    FT_Long  Cur_Count;
+    FT_TS_Int   Caller_Range;
+    FT_TS_Long  Caller_IP;
+    FT_TS_Long  Cur_Count;
 
     TT_DefRecord  *Def; /* either FDEF or IDEF */
 
@@ -112,9 +112,9 @@ FT_BEGIN_HEADER
   typedef struct  SPH_TweakRule_
   {
     const char      family[SPH_MAX_NAME_SIZE];
-    const FT_UInt   ppem;
+    const FT_TS_UInt   ppem;
     const char      style[SPH_MAX_NAME_SIZE];
-    const FT_ULong  glyph;
+    const FT_TS_ULong  glyph;
 
   } SPH_TweakRule;
 
@@ -122,10 +122,10 @@ FT_BEGIN_HEADER
   typedef struct  SPH_ScaleRule_
   {
     const char      family[SPH_MAX_NAME_SIZE];
-    const FT_UInt   ppem;
+    const FT_TS_UInt   ppem;
     const char      style[SPH_MAX_NAME_SIZE];
-    const FT_ULong  glyph;
-    const FT_ULong  scale;
+    const FT_TS_ULong  glyph;
+    const FT_TS_ULong  scale;
 
   } SPH_ScaleRule;
 
@@ -152,19 +152,19 @@ FT_BEGIN_HEADER
   {
     TT_Face            face;       /* ! */
     TT_Size            size;       /* ! */
-    FT_Memory          memory;
+    FT_TS_Memory          memory;
 
     /* instructions state */
 
-    FT_Error           error;      /* last execution error */
+    FT_TS_Error           error;      /* last execution error */
 
-    FT_Long            top;        /* @ top of exec. stack */
+    FT_TS_Long            top;        /* @ top of exec. stack */
 
-    FT_Long            stackSize;  /* ! size of exec. stack */
-    FT_Long*           stack;      /* ! current exec. stack */
+    FT_TS_Long            stackSize;  /* ! size of exec. stack */
+    FT_TS_Long*           stack;      /* ! current exec. stack */
 
-    FT_Long            args;
-    FT_Long            new_top;    /* new top after exec. */
+    FT_TS_Long            args;
+    FT_TS_Long            new_top;    /* new top after exec. */
 
     TT_GlyphZoneRec    zp0,        /* @! zone records */
                        zp1,        /* @!              */
@@ -172,75 +172,75 @@ FT_BEGIN_HEADER
                        pts,        /*  !              */
                        twilight;   /*  !              */
 
-    FT_Long            pointSize;  /* ! in 26.6 format */
-    FT_Size_Metrics    metrics;    /* !                */
+    FT_TS_Long            pointSize;  /* ! in 26.6 format */
+    FT_TS_Size_Metrics    metrics;    /* !                */
     TT_Size_Metrics    tt_metrics; /* ! size metrics   */
 
     TT_GraphicsState   GS;         /* !@ current graphics state */
 
-    FT_Int             iniRange;  /* initial code range number   */
-    FT_Int             curRange;  /* current code range number   */
-    FT_Byte*           code;      /* current code range          */
-    FT_Long            IP;        /* current instruction pointer */
-    FT_Long            codeSize;  /* size of current range       */
+    FT_TS_Int             iniRange;  /* initial code range number   */
+    FT_TS_Int             curRange;  /* current code range number   */
+    FT_TS_Byte*           code;      /* current code range          */
+    FT_TS_Long            IP;        /* current instruction pointer */
+    FT_TS_Long            codeSize;  /* size of current range       */
 
-    FT_Byte            opcode;    /* current opcode              */
-    FT_Int             length;    /* length of current opcode    */
+    FT_TS_Byte            opcode;    /* current opcode              */
+    FT_TS_Int             length;    /* length of current opcode    */
 
-    FT_Bool            step_ins;  /* true if the interpreter must */
+    FT_TS_Bool            step_ins;  /* true if the interpreter must */
                                   /* increment IP after ins. exec */
-    FT_ULong           cvtSize;   /* ! */
-    FT_Long*           cvt;       /* ! */
-    FT_ULong           glyfCvtSize;
-    FT_Long*           glyfCvt;   /* cvt working copy for glyph */
-    FT_Long*           origCvt;
+    FT_TS_ULong           cvtSize;   /* ! */
+    FT_TS_Long*           cvt;       /* ! */
+    FT_TS_ULong           glyfCvtSize;
+    FT_TS_Long*           glyfCvt;   /* cvt working copy for glyph */
+    FT_TS_Long*           origCvt;
 
-    FT_UInt            glyphSize; /* ! glyph instructions buffer size */
-    FT_Byte*           glyphIns;  /* ! glyph instructions buffer      */
+    FT_TS_UInt            glyphSize; /* ! glyph instructions buffer size */
+    FT_TS_Byte*           glyphIns;  /* ! glyph instructions buffer      */
 
-    FT_UInt            numFDefs;  /* ! number of function defs         */
-    FT_UInt            maxFDefs;  /* ! maximum number of function defs */
+    FT_TS_UInt            numFDefs;  /* ! number of function defs         */
+    FT_TS_UInt            maxFDefs;  /* ! maximum number of function defs */
     TT_DefArray        FDefs;     /*   table of FDefs entries          */
 
-    FT_UInt            numIDefs;  /* ! number of instruction defs */
-    FT_UInt            maxIDefs;  /* ! maximum number of ins defs */
+    FT_TS_UInt            numIDefs;  /* ! number of instruction defs */
+    FT_TS_UInt            maxIDefs;  /* ! maximum number of ins defs */
     TT_DefArray        IDefs;     /*   table of IDefs entries     */
 
-    FT_UInt            maxFunc;   /* ! maximum function index    */
-    FT_UInt            maxIns;    /* ! maximum instruction index */
+    FT_TS_UInt            maxFunc;   /* ! maximum function index    */
+    FT_TS_UInt            maxIns;    /* ! maximum instruction index */
 
-    FT_Int             callTop,    /* @ top of call stack during execution */
+    FT_TS_Int             callTop,    /* @ top of call stack during execution */
                        callSize;   /*   size of call stack                 */
     TT_CallStack       callStack;  /*   call stack                         */
 
-    FT_UShort          maxPoints;    /* capacity of this context's `pts' */
-    FT_Short           maxContours;  /* record, expressed in points and  */
+    FT_TS_UShort          maxPoints;    /* capacity of this context's `pts' */
+    FT_TS_Short           maxContours;  /* record, expressed in points and  */
                                      /* contours.                        */
 
     TT_CodeRangeTable  codeRangeTable;  /* ! table of valid code ranges */
                                         /*   useful for the debugger    */
 
-    FT_UShort          storeSize;    /* ! size of current storage */
-    FT_Long*           storage;      /* ! storage area            */
-    FT_UShort          glyfStoreSize;
-    FT_Long*           glyfStorage;  /* storage working copy for glyph */
-    FT_Long*           origStorage;
+    FT_TS_UShort          storeSize;    /* ! size of current storage */
+    FT_TS_Long*           storage;      /* ! storage area            */
+    FT_TS_UShort          glyfStoreSize;
+    FT_TS_Long*           glyfStorage;  /* storage working copy for glyph */
+    FT_TS_Long*           origStorage;
 
-    FT_F26Dot6         period;     /* values used for the */
-    FT_F26Dot6         phase;      /* `SuperRounding'     */
-    FT_F26Dot6         threshold;
+    FT_TS_F26Dot6         period;     /* values used for the */
+    FT_TS_F26Dot6         phase;      /* `SuperRounding'     */
+    FT_TS_F26Dot6         threshold;
 
-    FT_Bool            instruction_trap; /* ! If `True', the interpreter   */
+    FT_TS_Bool            instruction_trap; /* ! If `True', the interpreter   */
                                          /*   exits after each instruction */
 
     TT_GraphicsState   default_GS;       /* graphics state resulting from   */
                                          /* the prep program                */
-    FT_Bool            is_composite;     /* true if the glyph is composite  */
-    FT_Bool            pedantic_hinting; /* true if pedantic interpretation */
+    FT_TS_Bool            is_composite;     /* true if the glyph is composite  */
+    FT_TS_Bool            pedantic_hinting; /* true if pedantic interpretation */
 
     /* latest interpreter additions */
 
-    FT_Long            F_dot_P;    /* dot product of freedom and projection */
+    FT_TS_Long            F_dot_P;    /* dot product of freedom and projection */
                                    /* vectors                               */
     TT_Round_Func      func_round; /* current rounding function             */
 
@@ -257,7 +257,7 @@ FT_BEGIN_HEADER
     TT_Set_CVT_Func    func_write_cvt; /* write a cvt entry (in pixels) */
     TT_Set_CVT_Func    func_move_cvt;  /* incr a cvt entry (in pixels)  */
 
-    FT_Bool            grayscale;      /* bi-level hinting and */
+    FT_TS_Bool            grayscale;      /* bi-level hinting and */
                                        /* grayscale rendering  */
 
 #ifdef TT_SUPPORT_SUBPIXEL_HINTING_MINIMAL
@@ -371,26 +371,26 @@ FT_BEGIN_HEADER
      *
      */
 
-    /* Using v40 implies subpixel hinting, unless FT_RENDER_MODE_MONO has been
+    /* Using v40 implies subpixel hinting, unless FT_TS_RENDER_MODE_MONO has been
      * requested.  Used to detect interpreter */
     /* version switches.  `_lean' to differentiate from the Infinality */
     /* `subpixel_hinting', which is managed differently.               */
-    FT_Bool            subpixel_hinting_lean;
+    FT_TS_Bool            subpixel_hinting_lean;
 
     /* Long side of a LCD subpixel is vertical (e.g., screen is rotated). */
     /* `_lean' to differentiate from the Infinality `vertical_lcd', which */
     /* is managed differently.                                            */
-    FT_Bool            vertical_lcd_lean;
+    FT_TS_Bool            vertical_lcd_lean;
 
     /* Default to backward compatibility mode in v40 interpreter.  If   */
     /* this is false, it implies the interpreter is in v35 or in native */
     /* ClearType mode.                                                  */
-    FT_Bool            backward_compatibility;
+    FT_TS_Bool            backward_compatibility;
 
     /* Useful for detecting and denying post-IUP trickery that is usually */
     /* used to fix pixel patterns (`superhinting').                       */
-    FT_Bool            iupx_called;
-    FT_Bool            iupy_called;
+    FT_TS_Bool            iupx_called;
+    FT_TS_Bool            iupy_called;
 
     /* ClearType hinting and grayscale rendering, as used by Universal */
     /* Windows Platform apps (Windows 8 and above).  Like the standard */
@@ -398,37 +398,37 @@ FT_BEGIN_HEADER
     /* resolution on the x axis.  Different from bi-level hinting and  */
     /* grayscale rendering, the old mode from Win9x days that roughly  */
     /* adheres to the physical pixel grid on both axes.                */
-    FT_Bool            grayscale_cleartype;
+    FT_TS_Bool            grayscale_cleartype;
 #endif /* TT_SUPPORT_SUBPIXEL_HINTING_MINIMAL */
 
 #ifdef TT_SUPPORT_SUBPIXEL_HINTING_INFINALITY
     TT_Round_Func      func_round_sphn;   /* subpixel rounding function */
 
-    FT_Bool            subpixel_hinting;  /* Using subpixel hinting?       */
-    FT_Bool            ignore_x_mode;     /* Standard rendering mode for   */
+    FT_TS_Bool            subpixel_hinting;  /* Using subpixel hinting?       */
+    FT_TS_Bool            ignore_x_mode;     /* Standard rendering mode for   */
                                           /* subpixel hinting.  On if gray */
                                           /* or subpixel hinting is on.    */
 
     /* The following 6 aren't fully implemented but here for MS rasterizer */
     /* compatibility.                                                      */
-    FT_Bool            compatible_widths;     /* compatible widths?        */
-    FT_Bool            symmetrical_smoothing; /* symmetrical_smoothing?    */
-    FT_Bool            bgr;                   /* bgr instead of rgb?       */
-    FT_Bool            vertical_lcd;          /* long side of LCD subpixel */
+    FT_TS_Bool            compatible_widths;     /* compatible widths?        */
+    FT_TS_Bool            symmetrical_smoothing; /* symmetrical_smoothing?    */
+    FT_TS_Bool            bgr;                   /* bgr instead of rgb?       */
+    FT_TS_Bool            vertical_lcd;          /* long side of LCD subpixel */
                                               /* rectangles is horizontal  */
-    FT_Bool            subpixel_positioned;   /* subpixel positioned       */
+    FT_TS_Bool            subpixel_positioned;   /* subpixel positioned       */
                                               /* (DirectWrite ClearType)?  */
-    FT_Bool            gray_cleartype;        /* ClearType hinting but     */
+    FT_TS_Bool            gray_cleartype;        /* ClearType hinting but     */
                                               /* grayscale rendering       */
 
-    FT_Int             rasterizer_version;    /* MS rasterizer version     */
+    FT_TS_Int             rasterizer_version;    /* MS rasterizer version     */
 
-    FT_Bool            iup_called;            /* IUP called for glyph?     */
+    FT_TS_Bool            iup_called;            /* IUP called for glyph?     */
 
-    FT_ULong           sph_tweak_flags;       /* flags to control          */
+    FT_TS_ULong           sph_tweak_flags;       /* flags to control          */
                                               /* hint tweaks               */
 
-    FT_ULong           sph_in_func_flags;     /* flags to indicate if in   */
+    FT_TS_ULong           sph_in_func_flags;     /* flags to indicate if in   */
                                               /* special functions         */
 
 #endif /* TT_SUPPORT_SUBPIXEL_HINTING_INFINALITY */
@@ -436,10 +436,10 @@ FT_BEGIN_HEADER
     /* We maintain two counters (in addition to the instruction counter) */
     /* that act as loop detectors for LOOPCALL and jump opcodes with     */
     /* negative arguments.                                               */
-    FT_ULong           loopcall_counter;
-    FT_ULong           loopcall_counter_max;
-    FT_ULong           neg_jump_counter;
-    FT_ULong           neg_jump_counter_max;
+    FT_TS_ULong           loopcall_counter;
+    FT_TS_ULong           loopcall_counter_max;
+    FT_TS_ULong           neg_jump_counter;
+    FT_TS_ULong           neg_jump_counter_max;
 
   } TT_ExecContextRec;
 
@@ -448,28 +448,28 @@ FT_BEGIN_HEADER
 
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   TT_Goto_CodeRange( TT_ExecContext  exec,
-                     FT_Int          range,
-                     FT_Long         IP );
+                     FT_TS_Int          range,
+                     FT_TS_Long         IP );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   TT_Set_CodeRange( TT_ExecContext  exec,
-                    FT_Int          range,
+                    FT_TS_Int          range,
                     void*           base,
-                    FT_Long         length );
+                    FT_TS_Long         length );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   TT_Clear_CodeRange( TT_ExecContext  exec,
-                      FT_Int          range );
+                      FT_TS_Int          range );
 
 
-  FT_LOCAL( FT_Error )
-  Update_Max( FT_Memory  memory,
-              FT_ULong*  size,
-              FT_ULong   multiplier,
+  FT_TS_LOCAL( FT_TS_Error )
+  Update_Max( FT_TS_Memory  memory,
+              FT_TS_ULong*  size,
+              FT_TS_ULong   multiplier,
               void*      _pbuff,
-              FT_ULong   new_max );
+              FT_TS_ULong   new_max );
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
 
@@ -493,24 +493,24 @@ FT_BEGIN_HEADER
    *   Only the glyph loader and debugger should call this function.
    *   (And right now only the glyph loader uses it.)
    */
-  FT_EXPORT( TT_ExecContext )
+  FT_TS_EXPORT( TT_ExecContext )
   TT_New_Context( TT_Driver  driver );
 
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   TT_Done_Context( TT_ExecContext  exec );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Load_Context( TT_ExecContext  exec,
                    TT_Face         face,
                    TT_Size         size );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   TT_Save_Context( TT_ExecContext  exec,
                    TT_Size         ins );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   TT_Run_Context( TT_ExecContext  exec );
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
@@ -537,11 +537,11 @@ FT_BEGIN_HEADER
    *   This function is publicly exported because it is directly
    *   invoked by the TrueType debugger.
    */
-  FT_EXPORT( FT_Error )
+  FT_TS_EXPORT( FT_TS_Error )
   TT_RunIns( TT_ExecContext  exec );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTINTERP_H_ */
 

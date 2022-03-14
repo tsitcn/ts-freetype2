@@ -25,7 +25,7 @@
 #include <freetype/internal/psaux.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -68,28 +68,28 @@ FT_BEGIN_HEADER
   typedef struct  CID_Parser_
   {
     PS_ParserRec  root;
-    FT_Stream     stream;
+    FT_TS_Stream     stream;
 
-    FT_Byte*      postscript;
-    FT_ULong      postscript_len;
+    FT_TS_Byte*      postscript;
+    FT_TS_ULong      postscript_len;
 
-    FT_ULong      data_offset;
+    FT_TS_ULong      data_offset;
 
-    FT_ULong      binary_length;
+    FT_TS_ULong      binary_length;
 
     CID_FaceInfo  cid;
-    FT_UInt       num_dict;
+    FT_TS_UInt       num_dict;
 
   } CID_Parser;
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cid_parser_new( CID_Parser*    parser,
-                  FT_Stream      stream,
-                  FT_Memory      memory,
+                  FT_TS_Stream      stream,
+                  FT_TS_Memory      memory,
                   PSAux_Service  psaux );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cid_parser_done( CID_Parser*  parser );
 
 
@@ -122,7 +122,7 @@ FT_BEGIN_HEADER
           (p)->root.funcs.load_field_table( &(p)->root, f, o, 0, 0 )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* CIDPARSE_H_ */
 

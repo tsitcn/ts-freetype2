@@ -20,15 +20,15 @@
 #define OTVGPOS_H_
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( void )
-  otv_GPOS_subtable_validate( FT_Bytes       table,
+  FT_TS_LOCAL( void )
+  otv_GPOS_subtable_validate( FT_TS_Bytes       table,
                               OTV_Validator  valid );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* OTVGPOS_H_ */
 

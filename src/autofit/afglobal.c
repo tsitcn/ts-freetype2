@@ -25,12 +25,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  afglobal
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  afglobal
 
 
 #include "aferrors.h"
@@ -66,7 +66,7 @@
 #define WRITING_SYSTEM( ws, WS )               \
           &af_ ## ws ## _writing_system_class,
 
-  FT_LOCAL_ARRAY_DEF( AF_WritingSystemClass )
+  FT_TS_LOCAL_ARRAY_DEF( AF_WritingSystemClass )
   af_writing_system_classes[] =
   {
 
@@ -80,7 +80,7 @@
 #define SCRIPT( s, S, d, h, H, ss )   \
           &af_ ## s ## _script_class,
 
-  FT_LOCAL_ARRAY_DEF( AF_ScriptClass )
+  FT_TS_LOCAL_ARRAY_DEF( AF_ScriptClass )
   af_script_classes[] =
   {
 
@@ -94,7 +94,7 @@
 #define STYLE( s, S, d, ws, sc, ss, c ) \
           &af_ ## s ## _style_class,
 
-  FT_LOCAL_ARRAY_DEF( AF_StyleClass )
+  FT_TS_LOCAL_ARRAY_DEF( AF_StyleClass )
   af_style_classes[] =
   {
 
@@ -104,12 +104,12 @@
   };
 
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
 
 #undef  STYLE
 #define STYLE( s, S, d, ws, sc, ss, c )  #s,
 
-  FT_LOCAL_ARRAY_DEF( char* )
+  FT_TS_LOCAL_ARRAY_DEF( char* )
   af_style_names[] =
   {
 
@@ -117,35 +117,35 @@
 
   };
 
-#endif /* FT_DEBUG_LEVEL_TRACE */
+#endif /* FT_TS_DEBUG_LEVEL_TRACE */
 
 
   /* Compute the style index of each glyph within a given face. */
 
-  static FT_Error
+  static FT_TS_Error
   af_face_globals_compute_style_coverage( AF_FaceGlobals  globals )
   {
-    FT_Error    error;
-    FT_Face     face        = globals->face;
-    FT_CharMap  old_charmap = face->charmap;
-    FT_UShort*  gstyles     = globals->glyph_styles;
-    FT_UInt     ss;
-    FT_UInt     i;
-    FT_UInt     dflt        = ~0U; /* a non-valid value */
+    FT_TS_Error    error;
+    FT_TS_Face     face        = globals->face;
+    FT_TS_CharMap  old_charmap = face->charmap;
+    FT_TS_UShort*  gstyles     = globals->glyph_styles;
+    FT_TS_UInt     ss;
+    FT_TS_UInt     i;
+    FT_TS_UInt     dflt        = ~0U; /* a non-valid value */
 
 
     /* the value AF_STYLE_UNASSIGNED means `uncovered glyph' */
-    for ( i = 0; i < (FT_UInt)globals->glyph_count; i++ )
+    for ( i = 0; i < (FT_TS_UInt)globals->glyph_count; i++ )
       gstyles[i] = AF_STYLE_UNASSIGNED;
 
-    error = FT_Select_Charmap( face, FT_ENCODING_UNICODE );
+    error = FT_TS_Select_Charmap( face, FT_TS_ENCODING_UNICODE );
     if ( error )
     {
       /*
        * Ignore this error; we simply use the fallback style.
        * XXX: Shouldn't we rather disable hinting?
        */
-      error = FT_Err_Ok;
+      error = FT_TS_Err_Ok;
       goto Exit;
     }
 
@@ -168,7 +168,7 @@
        */
       if ( style_class->coverage == AF_COVERAGE_DEFAULT )
       {
-        if ( (FT_UInt)style_class->script ==
+        if ( (FT_TS_UInt)style_class->script ==
              globals->module->default_script )
           dflt = ss;
 
@@ -176,27 +176,27 @@
               range->first != 0;
               range++ )
         {
-          FT_ULong  charcode = range->first;
-          FT_UInt   gindex;
+          FT_TS_ULong  charcode = range->first;
+          FT_TS_UInt   gindex;
 
 
-          gindex = FT_Get_Char_Index( face, charcode );
+          gindex = FT_TS_Get_Char_Index( face, charcode );
 
           if ( gindex != 0                                                &&
-               gindex < (FT_ULong)globals->glyph_count                    &&
+               gindex < (FT_TS_ULong)globals->glyph_count                    &&
                ( gstyles[gindex] & AF_STYLE_MASK ) == AF_STYLE_UNASSIGNED )
-            gstyles[gindex] = (FT_UShort)ss;
+            gstyles[gindex] = (FT_TS_UShort)ss;
 
           for (;;)
           {
-            charcode = FT_Get_Next_Char( face, charcode, &gindex );
+            charcode = FT_TS_Get_Next_Char( face, charcode, &gindex );
 
             if ( gindex == 0 || charcode > range->last )
               break;
 
-            if ( gindex < (FT_ULong)globals->glyph_count                    &&
+            if ( gindex < (FT_TS_ULong)globals->glyph_count                    &&
                  ( gstyles[gindex] & AF_STYLE_MASK ) == AF_STYLE_UNASSIGNED )
-              gstyles[gindex] = (FT_UShort)ss;
+              gstyles[gindex] = (FT_TS_UShort)ss;
           }
         }
 
@@ -205,26 +205,26 @@
               range->first != 0;
               range++ )
         {
-          FT_ULong  charcode = range->first;
-          FT_UInt   gindex;
+          FT_TS_ULong  charcode = range->first;
+          FT_TS_UInt   gindex;
 
 
-          gindex = FT_Get_Char_Index( face, charcode );
+          gindex = FT_TS_Get_Char_Index( face, charcode );
 
           if ( gindex != 0                                          &&
-               gindex < (FT_ULong)globals->glyph_count              &&
-               ( gstyles[gindex] & AF_STYLE_MASK ) == (FT_UShort)ss )
+               gindex < (FT_TS_ULong)globals->glyph_count              &&
+               ( gstyles[gindex] & AF_STYLE_MASK ) == (FT_TS_UShort)ss )
             gstyles[gindex] |= AF_NONBASE;
 
           for (;;)
           {
-            charcode = FT_Get_Next_Char( face, charcode, &gindex );
+            charcode = FT_TS_Get_Next_Char( face, charcode, &gindex );
 
             if ( gindex == 0 || charcode > range->last )
               break;
 
-            if ( gindex < (FT_ULong)globals->glyph_count              &&
-                 ( gstyles[gindex] & AF_STYLE_MASK ) == (FT_UShort)ss )
+            if ( gindex < (FT_TS_ULong)globals->glyph_count              &&
+                 ( gstyles[gindex] & AF_STYLE_MASK ) == (FT_TS_UShort)ss )
               gstyles[gindex] |= AF_NONBASE;
           }
         }
@@ -252,10 +252,10 @@
     /* mark ASCII digits */
     for ( i = 0x30; i <= 0x39; i++ )
     {
-      FT_UInt  gindex = FT_Get_Char_Index( face, i );
+      FT_TS_UInt  gindex = FT_TS_Get_Char_Index( face, i );
 
 
-      if ( gindex != 0 && gindex < (FT_ULong)globals->glyph_count )
+      if ( gindex != 0 && gindex < (FT_TS_ULong)globals->glyph_count )
         gstyles[gindex] |= AF_DIGIT;
     }
 
@@ -266,7 +266,7 @@
      */
     if ( globals->module->fallback_style != AF_STYLE_UNASSIGNED )
     {
-      FT_Long  nn;
+      FT_TS_Long  nn;
 
 
       for ( nn = 0; nn < globals->glyph_count; nn++ )
@@ -279,57 +279,57 @@
       }
     }
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
 
-    FT_TRACE4(( "\n" ));
-    FT_TRACE4(( "style coverage\n" ));
-    FT_TRACE4(( "==============\n" ));
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "style coverage\n" ));
+    FT_TS_TRACE4(( "==============\n" ));
+    FT_TS_TRACE4(( "\n" ));
 
     for ( ss = 0; af_style_classes[ss]; ss++ )
     {
       AF_StyleClass  style_class = af_style_classes[ss];
-      FT_UInt        count       = 0;
-      FT_Long        idx;
+      FT_TS_UInt        count       = 0;
+      FT_TS_Long        idx;
 
 
-      FT_TRACE4(( "%s:\n", af_style_names[style_class->style] ));
+      FT_TS_TRACE4(( "%s:\n", af_style_names[style_class->style] ));
 
       for ( idx = 0; idx < globals->glyph_count; idx++ )
       {
         if ( ( gstyles[idx] & AF_STYLE_MASK ) == style_class->style )
         {
           if ( !( count % 10 ) )
-            FT_TRACE4(( " " ));
+            FT_TS_TRACE4(( " " ));
 
-          FT_TRACE4(( " %ld", idx ));
+          FT_TS_TRACE4(( " %ld", idx ));
           count++;
 
           if ( !( count % 10 ) )
-            FT_TRACE4(( "\n" ));
+            FT_TS_TRACE4(( "\n" ));
         }
       }
 
       if ( !count )
-        FT_TRACE4(( "  (none)\n" ));
+        FT_TS_TRACE4(( "  (none)\n" ));
       if ( count % 10 )
-        FT_TRACE4(( "\n" ));
+        FT_TS_TRACE4(( "\n" ));
     }
 
-#endif /* FT_DEBUG_LEVEL_TRACE */
+#endif /* FT_TS_DEBUG_LEVEL_TRACE */
 
-    FT_Set_Charmap( face, old_charmap );
+    FT_TS_Set_Charmap( face, old_charmap );
     return error;
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  af_face_globals_new( FT_Face          face,
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  af_face_globals_new( FT_TS_Face          face,
                        AF_FaceGlobals  *aglobals,
                        AF_Module        module )
   {
-    FT_Error        error;
-    FT_Memory       memory;
+    FT_TS_Error        error;
+    FT_TS_Memory       memory;
     AF_FaceGlobals  globals = NULL;
 
 
@@ -337,15 +337,15 @@
 
     /* we allocate an AF_FaceGlobals structure together */
     /* with the glyph_styles array                      */
-    if ( FT_ALLOC( globals,
+    if ( FT_TS_ALLOC( globals,
                    sizeof ( *globals ) +
-                     (FT_ULong)face->num_glyphs * sizeof ( FT_UShort ) ) )
+                     (FT_TS_ULong)face->num_glyphs * sizeof ( FT_TS_UShort ) ) )
       goto Exit;
 
     globals->face                      = face;
     globals->glyph_count               = face->num_glyphs;
     /* right after the globals structure come the glyph styles */
-    globals->glyph_styles              = (FT_UShort*)( globals + 1 );
+    globals->glyph_styles              = (FT_TS_UShort*)( globals + 1 );
     globals->module                    = module;
     globals->stem_darkening_for_ppem   = 0;
     globals->darken_x                  = 0;
@@ -354,7 +354,7 @@
     globals->standard_horizontal_width = 0;
     globals->scale_down_factor         = 0;
 
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
     globals->hb_font = hb_ft_font_create( face, NULL );
     globals->hb_buf  = hb_buffer_create();
 #endif
@@ -374,13 +374,13 @@
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   af_face_globals_free( AF_FaceGlobals  globals )
   {
     if ( globals )
     {
-      FT_Memory  memory = globals->face->memory;
-      FT_UInt    nn;
+      FT_TS_Memory  memory = globals->face->memory;
+      FT_TS_UInt    nn;
 
 
       for ( nn = 0; nn < AF_STYLE_MAX; nn++ )
@@ -396,26 +396,26 @@
           if ( writing_system_class->style_metrics_done )
             writing_system_class->style_metrics_done( globals->metrics[nn] );
 
-          FT_FREE( globals->metrics[nn] );
+          FT_TS_FREE( globals->metrics[nn] );
         }
       }
 
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
       hb_font_destroy( globals->hb_font );
       hb_buffer_destroy( globals->hb_buf );
 #endif
 
       /* no need to free `globals->glyph_styles'; */
       /* it is part of the `globals' array        */
-      FT_FREE( globals );
+      FT_TS_FREE( globals );
     }
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   af_face_globals_get_metrics( AF_FaceGlobals    globals,
-                               FT_UInt           gindex,
-                               FT_UInt           options,
+                               FT_TS_UInt           gindex,
+                               FT_TS_UInt           options,
                                AF_StyleMetrics  *ametrics )
   {
     AF_StyleMetrics  metrics = NULL;
@@ -424,12 +424,12 @@
     AF_WritingSystemClass  writing_system_class;
     AF_StyleClass          style_class;
 
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
-    if ( gindex >= (FT_ULong)globals->glyph_count )
+    if ( gindex >= (FT_TS_ULong)globals->glyph_count )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -448,10 +448,10 @@
     if ( !metrics )
     {
       /* create the global metrics object if necessary */
-      FT_Memory  memory = globals->face->memory;
+      FT_TS_Memory  memory = globals->face->memory;
 
 
-      if ( FT_ALLOC( metrics, writing_system_class->style_metrics_size ) )
+      if ( FT_TS_ALLOC( metrics, writing_system_class->style_metrics_size ) )
         goto Exit;
 
       metrics->style_class = style_class;
@@ -466,7 +466,7 @@
           if ( writing_system_class->style_metrics_done )
             writing_system_class->style_metrics_done( metrics );
 
-          FT_FREE( metrics );
+          FT_TS_FREE( metrics );
 
           /* internal error code -1 indicates   */
           /* that no blue zones have been found */
@@ -477,7 +477,7 @@
             /* IMPORTANT: Clear the error code, see
              * https://gitlab.freedesktop.org/freetype/freetype/-/issues/1063
              */
-            error = FT_Err_Ok;
+            error = FT_TS_Err_Ok;
             goto Again;
           }
 
@@ -495,14 +495,14 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Bool )
+  FT_TS_LOCAL_DEF( FT_TS_Bool )
   af_face_globals_is_digit( AF_FaceGlobals  globals,
-                            FT_UInt         gindex )
+                            FT_TS_UInt         gindex )
   {
-    if ( gindex < (FT_ULong)globals->glyph_count )
-      return FT_BOOL( globals->glyph_styles[gindex] & AF_DIGIT );
+    if ( gindex < (FT_TS_ULong)globals->glyph_count )
+      return FT_TS_BOOL( globals->glyph_styles[gindex] & AF_DIGIT );
 
-    return FT_BOOL( 0 );
+    return FT_TS_BOOL( 0 );
   }
 
 

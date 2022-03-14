@@ -23,11 +23,11 @@
 #include <freetype/ftmodapi.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_DECLARE_MODULE( sfnt_module_class )
+  FT_TS_DECLARE_MODULE( sfnt_module_class )
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SFDRIVER_H_ */
 

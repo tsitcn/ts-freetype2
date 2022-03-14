@@ -23,28 +23,28 @@
 #include "t1objs.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Compute_Max_Advance( T1_Face  face,
-                          FT_Pos*  max_advance );
+                          FT_TS_Pos*  max_advance );
 
-  FT_LOCAL( FT_Error )
-  T1_Get_Advances( FT_Face    face,
-                   FT_UInt    first,
-                   FT_UInt    count,
-                   FT_Int32   load_flags,
-                   FT_Fixed*  advances );
+  FT_TS_LOCAL( FT_TS_Error )
+  T1_Get_Advances( FT_TS_Face    face,
+                   FT_TS_UInt    first,
+                   FT_TS_UInt    count,
+                   FT_TS_Int32   load_flags,
+                   FT_TS_Fixed*  advances );
 
-  FT_LOCAL( FT_Error )
-  T1_Load_Glyph( FT_GlyphSlot  glyph,
-                 FT_Size       size,
-                 FT_UInt       glyph_index,
-                 FT_Int32      load_flags );
+  FT_TS_LOCAL( FT_TS_Error )
+  T1_Load_Glyph( FT_TS_GlyphSlot  glyph,
+                 FT_TS_Size       size,
+                 FT_TS_UInt       glyph_index,
+                 FT_TS_Int32      load_flags );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* T1GLOAD_H_ */
 

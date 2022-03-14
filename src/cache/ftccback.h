@@ -25,67 +25,67 @@
 #include "ftcglyph.h"
 #include "ftcsbits.h"
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   ftc_inode_free( FTC_Node   inode,
                   FTC_Cache  cache );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   ftc_inode_new( FTC_Node   *pinode,
-                 FT_Pointer  gquery,
+                 FT_TS_Pointer  gquery,
                  FTC_Cache   cache );
 
-  FT_LOCAL( FT_Offset )
+  FT_TS_LOCAL( FT_TS_Offset )
   ftc_inode_weight( FTC_Node   inode,
                     FTC_Cache  cache );
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   ftc_snode_free( FTC_Node   snode,
                   FTC_Cache  cache );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   ftc_snode_new( FTC_Node   *psnode,
-                 FT_Pointer  gquery,
+                 FT_TS_Pointer  gquery,
                  FTC_Cache   cache );
 
-  FT_LOCAL( FT_Offset )
+  FT_TS_LOCAL( FT_TS_Offset )
   ftc_snode_weight( FTC_Node   snode,
                     FTC_Cache  cache );
 
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   ftc_snode_compare( FTC_Node    snode,
-                     FT_Pointer  gquery,
+                     FT_TS_Pointer  gquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed );
+                     FT_TS_Bool*    list_changed );
 
 
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   ftc_gnode_compare( FTC_Node    gnode,
-                     FT_Pointer  gquery,
+                     FT_TS_Pointer  gquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed );
+                     FT_TS_Bool*    list_changed );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   ftc_gcache_init( FTC_Cache  cache );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   ftc_gcache_done( FTC_Cache  cache );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   ftc_cache_init( FTC_Cache  cache );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   ftc_cache_done( FTC_Cache  cache );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   ftc_node_destroy( FTC_Node     node,
                     FTC_Manager  manager );
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTCCBACK_H_ */
 

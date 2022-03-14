@@ -28,7 +28,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -54,7 +54,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *  FT_Get_Font_Format
+   *  FT_TS_Get_Font_Format
    *
    * @description:
    *  Return a string describing the format of a given face.  Possible values
@@ -71,21 +71,21 @@ FT_BEGIN_HEADER
    *  Font format string.  `NULL` in case of error.
    *
    * @note:
-   *  A deprecated name for the same function is `FT_Get_X11_Font_Format`.
+   *  A deprecated name for the same function is `FT_TS_Get_X11_Font_Format`.
    */
-  FT_EXPORT( const char* )
-  FT_Get_Font_Format( FT_Face  face );
+  FT_TS_EXPORT( const char* )
+  FT_TS_Get_Font_Format( FT_TS_Face  face );
 
 
   /* deprecated */
-  FT_EXPORT( const char* )
-  FT_Get_X11_Font_Format( FT_Face  face );
+  FT_TS_EXPORT( const char* )
+  FT_TS_Get_X11_Font_Format( FT_TS_Face  face );
 
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTFNTFMT_H_ */
 

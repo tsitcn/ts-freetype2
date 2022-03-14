@@ -22,24 +22,24 @@
 
   /* documentation is in fterrors.h */
 
-  FT_EXPORT_DEF( const char* )
-  FT_Error_String( FT_Error  error_code )
+  FT_TS_EXPORT_DEF( const char* )
+  FT_TS_Error_String( FT_TS_Error  error_code )
   {
     if ( error_code <  0                                ||
-         error_code >= FT_ERR_CAT( FT_ERR_PREFIX, Max ) )
+         error_code >= FT_TS_ERR_CAT( FT_TS_ERR_PREFIX, Max ) )
       return NULL;
 
-#if defined( FT_CONFIG_OPTION_ERROR_STRINGS ) || \
-    defined( FT_DEBUG_LEVEL_ERROR )
+#if defined( FT_TS_CONFIG_OPTION_ERROR_STRINGS ) || \
+    defined( FT_TS_DEBUG_LEVEL_ERROR )
 
 #undef FTERRORS_H_
-#define FT_ERROR_START_LIST     switch ( FT_ERROR_BASE( error_code ) ) {
-#define FT_ERRORDEF( e, v, s )    case v: return s;
-#define FT_ERROR_END_LIST       }
+#define FT_TS_ERROR_START_LIST     switch ( FT_TS_ERROR_BASE( error_code ) ) {
+#define FT_TS_ERRORDEF( e, v, s )    case v: return s;
+#define FT_TS_ERROR_END_LIST       }
 
 #include <freetype/fterrors.h>
 
-#endif /* defined( FT_CONFIG_OPTION_ERROR_STRINGS ) || ... */
+#endif /* defined( FT_TS_CONFIG_OPTION_ERROR_STRINGS ) || ... */
 
     return NULL;
   }

@@ -36,36 +36,36 @@
 #include <freetype/ftsnames.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( void )
-  gxv_morx_subtable_type0_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_morx_subtable_type0_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_morx_subtable_type1_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_morx_subtable_type1_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_morx_subtable_type2_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_morx_subtable_type2_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_morx_subtable_type4_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_morx_subtable_type4_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_morx_subtable_type5_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_morx_subtable_type5_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* GXVMORX_H_ */
 

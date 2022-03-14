@@ -28,7 +28,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -52,7 +52,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_CID_Registry_Ordering_Supplement
+   *    FT_TS_Get_CID_Registry_Ordering_Supplement
    *
    * @description:
    *    Retrieve the Registry/Ordering/Supplement triple (also known as the
@@ -82,21 +82,21 @@ FT_BEGIN_HEADER
    * @since:
    *    2.3.6
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_CID_Registry_Ordering_Supplement( FT_Face       face,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_CID_Registry_Ordering_Supplement( FT_TS_Face       face,
                                            const char*  *registry,
                                            const char*  *ordering,
-                                           FT_Int       *supplement );
+                                           FT_TS_Int       *supplement );
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_CID_Is_Internally_CID_Keyed
+   *    FT_TS_Get_CID_Is_Internally_CID_Keyed
    *
    * @description:
    *    Retrieve the type of the input face, CID keyed or not.  In contrast
-   *    to the @FT_IS_CID_KEYED macro this function returns successfully also
+   *    to the @FT_TS_IS_CID_KEYED macro this function returns successfully also
    *    for CID-keyed fonts in an SFNT wrapper.
    *
    * @input:
@@ -105,7 +105,7 @@ FT_BEGIN_HEADER
    *
    * @output:
    *    is_cid ::
-   *      The type of the face as an @FT_Bool.
+   *      The type of the face as an @FT_TS_Bool.
    *
    * @return:
    *    FreeType error code.  0~means success.
@@ -117,15 +117,15 @@ FT_BEGIN_HEADER
    * @since:
    *    2.3.9
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_CID_Is_Internally_CID_Keyed( FT_Face   face,
-                                      FT_Bool  *is_cid );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_CID_Is_Internally_CID_Keyed( FT_TS_Face   face,
+                                      FT_TS_Bool  *is_cid );
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_CID_From_Glyph_Index
+   *    FT_TS_Get_CID_From_Glyph_Index
    *
    * @description:
    *    Retrieve the CID of the input glyph index.
@@ -139,7 +139,7 @@ FT_BEGIN_HEADER
    *
    * @output:
    *    cid ::
-   *      The CID as an @FT_UInt.
+   *      The CID as an @FT_TS_UInt.
    *
    * @return:
    *    FreeType error code.  0~means success.
@@ -151,15 +151,15 @@ FT_BEGIN_HEADER
    * @since:
    *    2.3.9
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_CID_From_Glyph_Index( FT_Face   face,
-                               FT_UInt   glyph_index,
-                               FT_UInt  *cid );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_CID_From_Glyph_Index( FT_TS_Face   face,
+                               FT_TS_UInt   glyph_index,
+                               FT_TS_UInt  *cid );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTCID_H_ */
 

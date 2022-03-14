@@ -23,26 +23,26 @@
 
   /* documentation is in ftcid.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Get_CID_Registry_Ordering_Supplement( FT_Face       face,
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Get_CID_Registry_Ordering_Supplement( FT_TS_Face       face,
                                            const char*  *registry,
                                            const char*  *ordering,
-                                           FT_Int       *supplement)
+                                           FT_TS_Int       *supplement)
   {
-    FT_Error     error;
+    FT_TS_Error     error;
     const char*  r = NULL;
     const char*  o = NULL;
-    FT_Int       s = 0;
+    FT_TS_Int       s = 0;
 
 
-    error = FT_ERR( Invalid_Argument );
+    error = FT_TS_ERR( Invalid_Argument );
 
     if ( face )
     {
-      FT_Service_CID  service;
+      FT_TS_Service_CID  service;
 
 
-      FT_FACE_FIND_SERVICE( face, service, CID );
+      FT_TS_FACE_FIND_SERVICE( face, service, CID );
 
       if ( service && service->get_ros )
         error = service->get_ros( face, &r, &o, &s );
@@ -61,20 +61,20 @@
   }
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Get_CID_Is_Internally_CID_Keyed( FT_Face   face,
-                                      FT_Bool  *is_cid )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Get_CID_Is_Internally_CID_Keyed( FT_TS_Face   face,
+                                      FT_TS_Bool  *is_cid )
   {
-    FT_Error  error = FT_ERR( Invalid_Argument );
-    FT_Bool   ic = 0;
+    FT_TS_Error  error = FT_TS_ERR( Invalid_Argument );
+    FT_TS_Bool   ic = 0;
 
 
     if ( face )
     {
-      FT_Service_CID  service;
+      FT_TS_Service_CID  service;
 
 
-      FT_FACE_FIND_SERVICE( face, service, CID );
+      FT_TS_FACE_FIND_SERVICE( face, service, CID );
 
       if ( service && service->get_is_cid )
         error = service->get_is_cid( face, &ic);
@@ -87,21 +87,21 @@
   }
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Get_CID_From_Glyph_Index( FT_Face   face,
-                               FT_UInt   glyph_index,
-                               FT_UInt  *cid )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Get_CID_From_Glyph_Index( FT_TS_Face   face,
+                               FT_TS_UInt   glyph_index,
+                               FT_TS_UInt  *cid )
   {
-    FT_Error  error = FT_ERR( Invalid_Argument );
-    FT_UInt   c = 0;
+    FT_TS_Error  error = FT_TS_ERR( Invalid_Argument );
+    FT_TS_UInt   c = 0;
 
 
     if ( face )
     {
-      FT_Service_CID  service;
+      FT_TS_Service_CID  service;
 
 
-      FT_FACE_FIND_SERVICE( face, service, CID );
+      FT_TS_FACE_FIND_SERVICE( face, service, CID );
 
       if ( service && service->get_cid_from_glyph_index )
         error = service->get_cid_from_glyph_index( face, glyph_index, &c);

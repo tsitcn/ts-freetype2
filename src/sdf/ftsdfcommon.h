@@ -29,11 +29,11 @@
 #define FTSDFCOMMON_H_
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/internal/ftobjs.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -72,19 +72,19 @@ FT_BEGIN_HEADER
    */
 
   /* convert int to 26.6 fixed-point   */
-#define FT_INT_26D6( x )   ( x * 64 )
+#define FT_TS_INT_26D6( x )   ( x * 64 )
   /* convert int to 16.16 fixed-point  */
-#define FT_INT_16D16( x )  ( x * 65536 )
+#define FT_TS_INT_16D16( x )  ( x * 65536 )
   /* convert 26.6 to 16.16 fixed-point */
-#define FT_26D6_16D16( x ) ( x * 1024 )
+#define FT_TS_26D6_16D16( x ) ( x * 1024 )
 
 
   /* Convenience macro to call a function; it  */
   /* jumps to label `Exit` if an error occurs. */
-#define FT_CALL( x ) do                          \
+#define FT_TS_CALL( x ) do                          \
                      {                           \
                        error = ( x );            \
-                       if ( error != FT_Err_Ok ) \
+                       if ( error != FT_TS_Err_Ok ) \
                          goto Exit;              \
                      } while ( 0 )
 
@@ -97,10 +97,10 @@ FT_BEGIN_HEADER
    * there is a risk of overflow.
    */
 #if USE_SQUARED_DISTANCES
-#define VECTOR_LENGTH_16D16( v )  ( FT_MulFix( v.x, v.x ) + \
-                                    FT_MulFix( v.y, v.y ) )
+#define VECTOR_LENGTH_16D16( v )  ( FT_TS_MulFix( v.x, v.x ) + \
+                                    FT_TS_MulFix( v.y, v.y ) )
 #else
-#define VECTOR_LENGTH_16D16( v )  FT_Vector_Length( &v )
+#define VECTOR_LENGTH_16D16( v )  FT_TS_Vector_Length( &v )
 #endif
 
 
@@ -110,28 +110,28 @@ FT_BEGIN_HEADER
    *
    */
 
-  typedef FT_Vector FT_26D6_Vec;   /* with 26.6 fixed-point components  */
-  typedef FT_Vector FT_16D16_Vec;  /* with 16.16 fixed-point components */
+  typedef FT_TS_Vector FT_TS_26D6_Vec;   /* with 26.6 fixed-point components  */
+  typedef FT_TS_Vector FT_TS_16D16_Vec;  /* with 16.16 fixed-point components */
 
-  typedef FT_Fixed  FT_16D16;      /* 16.16 fixed-point representation  */
-  typedef FT_Fixed  FT_26D6;       /* 26.6 fixed-point representation   */
-  typedef FT_Byte   FT_SDFFormat;  /* format to represent SDF data      */
+  typedef FT_TS_Fixed  FT_TS_16D16;      /* 16.16 fixed-point representation  */
+  typedef FT_TS_Fixed  FT_TS_26D6;       /* 26.6 fixed-point representation   */
+  typedef FT_TS_Byte   FT_TS_SDFFormat;  /* format to represent SDF data      */
 
-  typedef FT_BBox   FT_CBox;       /* control box of a curve            */
-
-
-  FT_LOCAL( FT_16D16 )
-  square_root( FT_16D16  val );
-
-  FT_LOCAL( FT_SDFFormat )
-  map_fixed_to_sdf( FT_16D16  dist,
-                    FT_16D16  max_value );
-
-  FT_LOCAL( FT_SDFFormat )
-  invert_sign( FT_SDFFormat  dist );
+  typedef FT_TS_BBox   FT_TS_CBox;       /* control box of a curve            */
 
 
-FT_END_HEADER
+  FT_TS_LOCAL( FT_TS_16D16 )
+  square_root( FT_TS_16D16  val );
+
+  FT_TS_LOCAL( FT_TS_SDFFormat )
+  map_fixed_to_sdf( FT_TS_16D16  dist,
+                    FT_TS_16D16  max_value );
+
+  FT_TS_LOCAL( FT_TS_SDFFormat )
+  invert_sign( FT_TS_SDFFormat  dist );
+
+
+FT_TS_END_HEADER
 
 #endif /* FTSDFCOMMON_H_ */
 

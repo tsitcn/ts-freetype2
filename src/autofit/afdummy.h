@@ -23,7 +23,7 @@
 #include "aftypes.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /* A dummy writing system used when no hinting should be performed. */
 
@@ -31,7 +31,7 @@ FT_BEGIN_HEADER
 
 /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* AFDUMMY_H_ */

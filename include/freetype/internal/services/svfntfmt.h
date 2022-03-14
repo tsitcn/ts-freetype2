@@ -22,7 +22,7 @@
 #include <freetype/internal/ftserv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
@@ -31,22 +31,22 @@ FT_BEGIN_HEADER
    * simple constant string pointer.
    */
 
-#define FT_SERVICE_ID_FONT_FORMAT  "font-format"
+#define FT_TS_SERVICE_ID_FONT_FORMAT  "font-format"
 
-#define FT_FONT_FORMAT_TRUETYPE  "TrueType"
-#define FT_FONT_FORMAT_TYPE_1    "Type 1"
-#define FT_FONT_FORMAT_BDF       "BDF"
-#define FT_FONT_FORMAT_PCF       "PCF"
-#define FT_FONT_FORMAT_TYPE_42   "Type 42"
-#define FT_FONT_FORMAT_CID       "CID Type 1"
-#define FT_FONT_FORMAT_CFF       "CFF"
-#define FT_FONT_FORMAT_PFR       "PFR"
-#define FT_FONT_FORMAT_WINFNT    "Windows FNT"
+#define FT_TS_FONT_FORMAT_TRUETYPE  "TrueType"
+#define FT_TS_FONT_FORMAT_TYPE_1    "Type 1"
+#define FT_TS_FONT_FORMAT_BDF       "BDF"
+#define FT_TS_FONT_FORMAT_PCF       "PCF"
+#define FT_TS_FONT_FORMAT_TYPE_42   "Type 42"
+#define FT_TS_FONT_FORMAT_CID       "CID Type 1"
+#define FT_TS_FONT_FORMAT_CFF       "CFF"
+#define FT_TS_FONT_FORMAT_PFR       "PFR"
+#define FT_TS_FONT_FORMAT_WINFNT    "Windows FNT"
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVFNTFMT_H_ */

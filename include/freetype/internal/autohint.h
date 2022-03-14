@@ -73,22 +73,22 @@
 #include <freetype/freetype.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  typedef struct FT_AutoHinterRec_  *FT_AutoHinter;
+  typedef struct FT_TS_AutoHinterRec_  *FT_TS_AutoHinter;
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_AutoHinter_GlobalGetFunc
+   *   FT_TS_AutoHinter_GlobalGetFunc
    *
    * @description:
    *   Retrieve the global hints computed for a given face object.  The
    *   resulting data is dissociated from the face and will survive a call to
-   *   FT_Done_Face().  It must be discarded through the API
-   *   FT_AutoHinter_GlobalDoneFunc().
+   *   FT_TS_Done_Face().  It must be discarded through the API
+   *   FT_TS_AutoHinter_GlobalDoneFunc().
    *
    * @input:
    *   hinter ::
@@ -105,8 +105,8 @@ FT_BEGIN_HEADER
    *     The size in bytes of the global hints.
    */
   typedef void
-  (*FT_AutoHinter_GlobalGetFunc)( FT_AutoHinter  hinter,
-                                  FT_Face        face,
+  (*FT_TS_AutoHinter_GlobalGetFunc)( FT_TS_AutoHinter  hinter,
+                                  FT_TS_Face        face,
                                   void**         global_hints,
                                   long*          global_len );
 
@@ -114,11 +114,11 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @functype:
-   *   FT_AutoHinter_GlobalDoneFunc
+   *   FT_TS_AutoHinter_GlobalDoneFunc
    *
    * @description:
    *   Discard the global hints retrieved through
-   *   FT_AutoHinter_GlobalGetFunc().  This is the only way these hints are
+   *   FT_TS_AutoHinter_GlobalGetFunc().  This is the only way these hints are
    *   freed from memory.
    *
    * @input:
@@ -129,14 +129,14 @@ FT_BEGIN_HEADER
    *     A pointer to retrieved global hints to discard.
    */
   typedef void
-  (*FT_AutoHinter_GlobalDoneFunc)( FT_AutoHinter  hinter,
+  (*FT_TS_AutoHinter_GlobalDoneFunc)( FT_TS_AutoHinter  hinter,
                                    void*          global );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_AutoHinter_GlobalResetFunc
+   *   FT_TS_AutoHinter_GlobalResetFunc
    *
    * @description:
    *   This function is used to recompute the global metrics in a given font.
@@ -151,14 +151,14 @@ FT_BEGIN_HEADER
    *     A handle to the face.
    */
   typedef void
-  (*FT_AutoHinter_GlobalResetFunc)( FT_AutoHinter  hinter,
-                                    FT_Face        face );
+  (*FT_TS_AutoHinter_GlobalResetFunc)( FT_TS_AutoHinter  hinter,
+                                    FT_TS_Face        face );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_AutoHinter_GlyphLoadFunc
+   *   FT_TS_AutoHinter_GlyphLoadFunc
    *
    * @description:
    *   This function is used to load, scale, and automatically hint a glyph
@@ -178,46 +178,46 @@ FT_BEGIN_HEADER
    *   This function is capable of loading composite glyphs by hinting each
    *   sub-glyph independently (which improves quality).
    *
-   *   It will call the font driver with @FT_Load_Glyph, with
-   *   @FT_LOAD_NO_SCALE set.
+   *   It will call the font driver with @FT_TS_Load_Glyph, with
+   *   @FT_TS_LOAD_NO_SCALE set.
    */
-  typedef FT_Error
-  (*FT_AutoHinter_GlyphLoadFunc)( FT_AutoHinter  hinter,
-                                  FT_GlyphSlot   slot,
-                                  FT_Size        size,
-                                  FT_UInt        glyph_index,
-                                  FT_Int32       load_flags );
+  typedef FT_TS_Error
+  (*FT_TS_AutoHinter_GlyphLoadFunc)( FT_TS_AutoHinter  hinter,
+                                  FT_TS_GlyphSlot   slot,
+                                  FT_TS_Size        size,
+                                  FT_TS_UInt        glyph_index,
+                                  FT_TS_Int32       load_flags );
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_AutoHinter_InterfaceRec
+   *   FT_TS_AutoHinter_InterfaceRec
    *
    * @description:
    *   The auto-hinter module's interface.
    */
-  typedef struct  FT_AutoHinter_InterfaceRec_
+  typedef struct  FT_TS_AutoHinter_InterfaceRec_
   {
-    FT_AutoHinter_GlobalResetFunc  reset_face;
-    FT_AutoHinter_GlobalGetFunc    get_global_hints;
-    FT_AutoHinter_GlobalDoneFunc   done_global_hints;
-    FT_AutoHinter_GlyphLoadFunc    load_glyph;
+    FT_TS_AutoHinter_GlobalResetFunc  reset_face;
+    FT_TS_AutoHinter_GlobalGetFunc    get_global_hints;
+    FT_TS_AutoHinter_GlobalDoneFunc   done_global_hints;
+    FT_TS_AutoHinter_GlyphLoadFunc    load_glyph;
 
-  } FT_AutoHinter_InterfaceRec, *FT_AutoHinter_Interface;
+  } FT_TS_AutoHinter_InterfaceRec, *FT_TS_AutoHinter_Interface;
 
 
-#define FT_DECLARE_AUTOHINTER_INTERFACE( class_ )            \
-  FT_CALLBACK_TABLE const FT_AutoHinter_InterfaceRec  class_;
+#define FT_TS_DECLARE_AUTOHINTER_INTERFACE( class_ )            \
+  FT_TS_CALLBACK_TABLE const FT_TS_AutoHinter_InterfaceRec  class_;
 
-#define FT_DEFINE_AUTOHINTER_INTERFACE(       \
+#define FT_TS_DEFINE_AUTOHINTER_INTERFACE(       \
           class_,                             \
           reset_face_,                        \
           get_global_hints_,                  \
           done_global_hints_,                 \
           load_glyph_ )                       \
-  FT_CALLBACK_TABLE_DEF                       \
-  const FT_AutoHinter_InterfaceRec  class_ =  \
+  FT_TS_CALLBACK_TABLE_DEF                       \
+  const FT_TS_AutoHinter_InterfaceRec  class_ =  \
   {                                           \
     reset_face_,                              \
     get_global_hints_,                        \
@@ -226,7 +226,7 @@ FT_BEGIN_HEADER
   };
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AUTOHINT_H_ */
 

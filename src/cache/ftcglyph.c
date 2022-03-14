@@ -2,7 +2,7 @@
  *
  * ftcglyph.c
  *
- *   FreeType Glyph Image (FT_Glyph) cache (body).
+ *   FreeType Glyph Image (FT_TS_Glyph) cache (body).
  *
  * Copyright (C) 2000-2021 by
  * David Turner, Robert Wilhelm, and Werner Lemberg.
@@ -26,9 +26,9 @@
 
 
   /* create a new chunk node, setting its cache index and ref count */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   FTC_GNode_Init( FTC_GNode   gnode,
-                  FT_UInt     gindex,
+                  FT_TS_UInt     gindex,
                   FTC_Family  family )
   {
     gnode->family = family;
@@ -37,7 +37,7 @@
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   FTC_GNode_UnselectFamily( FTC_GNode  gnode,
                             FTC_Cache  cache )
   {
@@ -50,7 +50,7 @@
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   FTC_GNode_Done( FTC_GNode  gnode,
                   FTC_Cache  cache )
   {
@@ -61,31 +61,31 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Bool )
+  FT_TS_LOCAL_DEF( FT_TS_Bool )
   ftc_gnode_compare( FTC_Node    ftcgnode,
-                     FT_Pointer  ftcgquery,
+                     FT_TS_Pointer  ftcgquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed )
+                     FT_TS_Bool*    list_changed )
   {
     FTC_GNode   gnode  = (FTC_GNode)ftcgnode;
     FTC_GQuery  gquery = (FTC_GQuery)ftcgquery;
-    FT_UNUSED( cache );
+    FT_TS_UNUSED( cache );
 
 
     if ( list_changed )
       *list_changed = FALSE;
-    return FT_BOOL( gnode->family == gquery->family &&
+    return FT_TS_BOOL( gnode->family == gquery->family &&
                     gnode->gindex == gquery->gindex );
   }
 
 
 #ifdef FTC_INLINE
 
-  FT_LOCAL_DEF( FT_Bool )
+  FT_TS_LOCAL_DEF( FT_TS_Bool )
   FTC_GNode_Compare( FTC_GNode   gnode,
                      FTC_GQuery  gquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed )
+                     FT_TS_Bool*    list_changed )
   {
     return ftc_gnode_compare( FTC_NODE( gnode ), gquery,
                               cache, list_changed );
@@ -101,7 +101,7 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   FTC_Family_Init( FTC_Family  family,
                    FTC_Cache   cache )
   {
@@ -114,11 +114,11 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   ftc_gcache_init( FTC_Cache  ftccache )
   {
     FTC_GCache  cache = (FTC_GCache)ftccache;
-    FT_Error    error;
+    FT_TS_Error    error;
 
 
     error = FTC_Cache_Init( FTC_CACHE( cache ) );
@@ -139,7 +139,7 @@
 
 #if 0
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   FTC_GCache_Init( FTC_GCache  cache )
   {
     return ftc_gcache_init( FTC_CACHE( cache ) );
@@ -148,7 +148,7 @@
 #endif /* 0 */
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   ftc_gcache_done( FTC_Cache  ftccache )
   {
     FTC_GCache  cache = (FTC_GCache)ftccache;
@@ -161,7 +161,7 @@
 
 #if 0
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   FTC_GCache_Done( FTC_GCache  cache )
   {
     ftc_gcache_done( FTC_CACHE( cache ) );
@@ -170,7 +170,7 @@
 #endif /* 0 */
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   FTC_GCache_New( FTC_Manager       manager,
                   FTC_GCacheClass   clazz,
                   FTC_GCache       *acache )
@@ -182,14 +182,14 @@
 
 #ifndef FTC_INLINE
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   FTC_GCache_Lookup( FTC_GCache   cache,
-                     FT_Offset    hash,
-                     FT_UInt      gindex,
+                     FT_TS_Offset    hash,
+                     FT_TS_UInt      gindex,
                      FTC_GQuery   query,
                      FTC_Node    *anode )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
 
 
     query->gindex = gindex;

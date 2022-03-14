@@ -46,7 +46,7 @@
 #include "psblues.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
 #define CF2_OPERAND_STACK_SIZE  48
@@ -62,11 +62,11 @@ FT_BEGIN_HEADER
   /* typedef is in `cf2glue.h' */
   struct  CF2_FontRec_
   {
-    FT_Memory  memory;
-    FT_Error   error;     /* shared error for this instance */
+    FT_TS_Memory  memory;
+    FT_TS_Error   error;     /* shared error for this instance */
 
-    FT_Bool             isT1;
-    FT_Bool             isCFF2;
+    FT_TS_Bool             isT1;
+    FT_TS_Bool             isCFF2;
     CF2_RenderingFlags  renderingFlags;
 
     /* variables that depend on Transform:  */
@@ -82,7 +82,7 @@ FT_BEGIN_HEADER
     CFF_BlendRec  blend;            /* cached charstring blend vector  */
     CF2_UInt      vsindex;          /* current vsindex                 */
     CF2_UInt      lenNDV;           /* current length NDV or zero      */
-    FT_Fixed*     NDV;              /* ptr to current NDV or NULL      */
+    FT_TS_Fixed*     NDV;              /* ptr to current NDV or NULL      */
 
     CF2_Int  unitsPerEm;
 
@@ -96,12 +96,12 @@ FT_BEGIN_HEADER
                                               /* top font or subfont   */
 
     /* these flags can vary from one call to the next */
-    FT_Bool  hinted;
-    FT_Bool  darkened;       /* true if stemDarkened or synthetic bold */
+    FT_TS_Bool  hinted;
+    FT_TS_Bool  darkened;       /* true if stemDarkened or synthetic bold */
                              /* i.e. darkenX != 0 || darkenY != 0      */
-    FT_Bool  stemDarkened;
+    FT_TS_Bool  stemDarkened;
 
-    FT_Int  darkenParams[8];              /* 1000 unit character space */
+    FT_TS_Int  darkenParams[8];              /* 1000 unit character space */
 
     /* variables that depend on both FontDict and Transform */
     CF2_Fixed  stdVW;     /* in character space; depends on dict entry */
@@ -109,23 +109,23 @@ FT_BEGIN_HEADER
     CF2_Fixed  darkenX;                    /* character space units    */
     CF2_Fixed  darkenY;                    /* depends on transform     */
                                            /* and private dict (StdVW) */
-    FT_Bool  reverseWinding;               /* darken assuming          */
+    FT_TS_Bool  reverseWinding;               /* darken assuming          */
                                            /* counterclockwise winding */
 
     CF2_BluesRec  blues;                         /* computed zone data */
 
-    FT_Service_CFFLoad  cffload;           /* pointer to cff functions */
+    FT_TS_Service_CFFLoad  cffload;           /* pointer to cff functions */
   };
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cf2_getGlyphOutline( CF2_Font           font,
                        CF2_Buffer         charstring,
                        const CF2_Matrix*  transform,
                        CF2_F16Dot16*      glyphWidth );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSFONT_H_ */

@@ -23,7 +23,7 @@
 #include "aflatin.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* the CJK-specific writing system */
@@ -65,29 +65,29 @@ FT_BEGIN_HEADER
   {
     AF_WidthRec  ref;
     AF_WidthRec  shoot; /* undershoot */
-    FT_UInt      flags;
+    FT_TS_UInt      flags;
 
   } AF_CJKBlueRec, *AF_CJKBlue;
 
 
   typedef struct  AF_CJKAxisRec_
   {
-    FT_Fixed       scale;
-    FT_Pos         delta;
+    FT_TS_Fixed       scale;
+    FT_TS_Pos         delta;
 
-    FT_UInt        width_count;                   /* number of used widths */
+    FT_TS_UInt        width_count;                   /* number of used widths */
     AF_WidthRec    widths[AF_CJK_MAX_WIDTHS];     /* widths array          */
-    FT_Pos         edge_distance_threshold;     /* used for creating edges */
-    FT_Pos         standard_width;           /* the default stem thickness */
-    FT_Bool        extra_light;           /* is standard width very light? */
+    FT_TS_Pos         edge_distance_threshold;     /* used for creating edges */
+    FT_TS_Pos         standard_width;           /* the default stem thickness */
+    FT_TS_Bool        extra_light;           /* is standard width very light? */
 
     /* used for horizontal metrics too for CJK */
-    FT_Bool        control_overshoot;
-    FT_UInt        blue_count;
+    FT_TS_Bool        control_overshoot;
+    FT_TS_UInt        blue_count;
     AF_CJKBlueRec  blues[AF_BLUE_STRINGSET_MAX];
 
-    FT_Fixed       org_scale;
-    FT_Pos         org_delta;
+    FT_TS_Fixed       org_scale;
+    FT_TS_Pos         org_delta;
 
   } AF_CJKAxisRec, *AF_CJKAxis;
 
@@ -95,45 +95,45 @@ FT_BEGIN_HEADER
   typedef struct  AF_CJKMetricsRec_
   {
     AF_StyleMetricsRec  root;
-    FT_UInt             units_per_em;
+    FT_TS_UInt             units_per_em;
     AF_CJKAxisRec       axis[AF_DIMENSION_MAX];
 
   } AF_CJKMetricsRec, *AF_CJKMetrics;
 
 
 #ifdef AF_CONFIG_OPTION_CJK
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_cjk_metrics_init( AF_CJKMetrics  metrics,
-                       FT_Face        face );
+                       FT_TS_Face        face );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_cjk_metrics_scale( AF_CJKMetrics  metrics,
                         AF_Scaler      scaler );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_cjk_hints_init( AF_GlyphHints  hints,
                      AF_CJKMetrics  metrics );
 
-  FT_LOCAL( FT_Error )
-  af_cjk_hints_apply( FT_UInt        glyph_index,
+  FT_TS_LOCAL( FT_TS_Error )
+  af_cjk_hints_apply( FT_TS_UInt        glyph_index,
                       AF_GlyphHints  hints,
-                      FT_Outline*    outline,
+                      FT_TS_Outline*    outline,
                       AF_CJKMetrics  metrics );
 
   /* shared; called from afindic.c */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_cjk_metrics_check_digits( AF_CJKMetrics  metrics,
-                               FT_Face        face );
+                               FT_TS_Face        face );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_cjk_metrics_init_widths( AF_CJKMetrics  metrics,
-                              FT_Face        face );
+                              FT_TS_Face        face );
 #endif /* AF_CONFIG_OPTION_CJK */
 
 
 /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFCJK_H_ */
 

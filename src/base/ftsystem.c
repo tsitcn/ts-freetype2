@@ -26,7 +26,7 @@
 
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/internal/ftdebug.h>
 #include <freetype/internal/ftstream.h>
 #include <freetype/ftsystem.h>
@@ -67,11 +67,11 @@
    * @Return:
    *   The address of newly allocated block.
    */
-  FT_CALLBACK_DEF( void* )
-  ft_alloc( FT_Memory  memory,
+  FT_TS_CALLBACK_DEF( void* )
+  ft_alloc( FT_TS_Memory  memory,
             long       size )
   {
-    FT_UNUSED( memory );
+    FT_TS_UNUSED( memory );
 
     return ft_smalloc( (size_t)size );
   }
@@ -101,14 +101,14 @@
    * @Return:
    *   The address of the reallocated memory block.
    */
-  FT_CALLBACK_DEF( void* )
-  ft_realloc( FT_Memory  memory,
+  FT_TS_CALLBACK_DEF( void* )
+  ft_realloc( FT_TS_Memory  memory,
               long       cur_size,
               long       new_size,
               void*      block )
   {
-    FT_UNUSED( memory );
-    FT_UNUSED( cur_size );
+    FT_TS_UNUSED( memory );
+    FT_TS_UNUSED( cur_size );
 
     return ft_srealloc( block, (size_t)new_size );
   }
@@ -129,11 +129,11 @@
    *   block ::
    *     The address of block in memory to be freed.
    */
-  FT_CALLBACK_DEF( void )
-  ft_free( FT_Memory  memory,
+  FT_TS_CALLBACK_DEF( void )
+  ft_free( FT_TS_Memory  memory,
            void*      block )
   {
-    FT_UNUSED( memory );
+    FT_TS_UNUSED( memory );
 
     ft_sfree( block );
   }
@@ -145,20 +145,20 @@
    *
    */
 
-#ifndef FT_CONFIG_OPTION_DISABLE_STREAM_SUPPORT
+#ifndef FT_TS_CONFIG_OPTION_DISABLE_STREAM_SUPPORT
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  io
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  io
 
   /* We use the macro STREAM_FILE for convenience to extract the       */
   /* system-specific stream handle from a given FreeType stream object */
-#define STREAM_FILE( stream )  ( (FT_FILE*)stream->descriptor.pointer )
+#define STREAM_FILE( stream )  ( (FT_TS_FILE*)stream->descriptor.pointer )
 
 
   /**************************************************************************
@@ -173,8 +173,8 @@
    *   stream ::
    *     A pointer to the stream object.
    */
-  FT_CALLBACK_DEF( void )
-  ft_ansi_stream_close( FT_Stream  stream )
+  FT_TS_CALLBACK_DEF( void )
+  ft_ansi_stream_close( FT_TS_Stream  stream )
   {
     ft_fclose( STREAM_FILE( stream ) );
 
@@ -210,13 +210,13 @@
    *   the function is used for seeking), a non-zero return value
    *   indicates an error.
    */
-  FT_CALLBACK_DEF( unsigned long )
-  ft_ansi_stream_io( FT_Stream       stream,
+  FT_TS_CALLBACK_DEF( unsigned long )
+  ft_ansi_stream_io( FT_TS_Stream       stream,
                      unsigned long   offset,
                      unsigned char*  buffer,
                      unsigned long   count )
   {
-    FT_FILE*  file;
+    FT_TS_FILE*  file;
 
 
     if ( !count && offset > stream->size )
@@ -233,15 +233,15 @@
 
   /* documentation is in ftstream.h */
 
-  FT_BASE_DEF( FT_Error )
-  FT_Stream_Open( FT_Stream    stream,
+  FT_TS_BASE_DEF( FT_TS_Error )
+  FT_TS_Stream_Open( FT_TS_Stream    stream,
                   const char*  filepathname )
   {
-    FT_FILE*  file;
+    FT_TS_FILE*  file;
 
 
     if ( !stream )
-      return FT_THROW( Invalid_Stream_Handle );
+      return FT_TS_THROW( Invalid_Stream_Handle );
 
     stream->descriptor.pointer = NULL;
     stream->pathname.pointer   = (char*)filepathname;
@@ -253,20 +253,20 @@
     file = ft_fopen( filepathname, "rb" );
     if ( !file )
     {
-      FT_ERROR(( "FT_Stream_Open:"
+      FT_TS_ERROR(( "FT_TS_Stream_Open:"
                  " could not open `%s'\n", filepathname ));
 
-      return FT_THROW( Cannot_Open_Resource );
+      return FT_TS_THROW( Cannot_Open_Resource );
     }
 
     ft_fseek( file, 0, SEEK_END );
     stream->size = (unsigned long)ft_ftell( file );
     if ( !stream->size )
     {
-      FT_ERROR(( "FT_Stream_Open:" ));
-      FT_ERROR(( " opened `%s' but zero-sized\n", filepathname ));
+      FT_TS_ERROR(( "FT_TS_Stream_Open:" ));
+      FT_TS_ERROR(( " opened `%s' but zero-sized\n", filepathname ));
       ft_fclose( file );
-      return FT_THROW( Cannot_Open_Stream );
+      return FT_TS_THROW( Cannot_Open_Stream );
     }
     ft_fseek( file, 0, SEEK_SET );
 
@@ -274,42 +274,42 @@
     stream->read  = ft_ansi_stream_io;
     stream->close = ft_ansi_stream_close;
 
-    FT_TRACE1(( "FT_Stream_Open:" ));
-    FT_TRACE1(( " opened `%s' (%ld bytes) successfully\n",
+    FT_TS_TRACE1(( "FT_TS_Stream_Open:" ));
+    FT_TS_TRACE1(( " opened `%s' (%ld bytes) successfully\n",
                 filepathname, stream->size ));
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
-#endif /* !FT_CONFIG_OPTION_DISABLE_STREAM_SUPPORT */
+#endif /* !FT_TS_CONFIG_OPTION_DISABLE_STREAM_SUPPORT */
 
-#ifdef FT_DEBUG_MEMORY
+#ifdef FT_TS_DEBUG_MEMORY
 
-  extern FT_Int
-  ft_mem_debug_init( FT_Memory  memory );
+  extern FT_TS_Int
+  ft_mem_debug_init( FT_TS_Memory  memory );
 
   extern void
-  ft_mem_debug_done( FT_Memory  memory );
+  ft_mem_debug_done( FT_TS_Memory  memory );
 
 #endif
 
 
   /* documentation is in ftobjs.h */
 
-  FT_BASE_DEF( FT_Memory )
-  FT_New_Memory( void )
+  FT_TS_BASE_DEF( FT_TS_Memory )
+  FT_TS_New_Memory( void )
   {
-    FT_Memory  memory;
+    FT_TS_Memory  memory;
 
 
-    memory = (FT_Memory)ft_smalloc( sizeof ( *memory ) );
+    memory = (FT_TS_Memory)ft_smalloc( sizeof ( *memory ) );
     if ( memory )
     {
       memory->user    = NULL;
       memory->alloc   = ft_alloc;
       memory->realloc = ft_realloc;
       memory->free    = ft_free;
-#ifdef FT_DEBUG_MEMORY
+#ifdef FT_TS_DEBUG_MEMORY
       ft_mem_debug_init( memory );
 #endif
     }
@@ -320,10 +320,10 @@
 
   /* documentation is in ftobjs.h */
 
-  FT_BASE_DEF( void )
-  FT_Done_Memory( FT_Memory  memory )
+  FT_TS_BASE_DEF( void )
+  FT_TS_Done_Memory( FT_TS_Memory  memory )
   {
-#ifdef FT_DEBUG_MEMORY
+#ifdef FT_TS_DEBUG_MEMORY
     ft_mem_debug_done( memory );
 #endif
     ft_sfree( memory );

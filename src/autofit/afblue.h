@@ -23,7 +23,7 @@
 #define AFBLUE_H_
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* an auxiliary macro to decode a UTF-8 character -- since we only use */
@@ -34,7 +34,7 @@ FT_BEGIN_HEADER
             ch = (unsigned char)*p++;               \
             if ( ch >= 0x80 )                       \
             {                                       \
-              FT_UInt  len_;                        \
+              FT_TS_UInt  len_;                        \
                                                     \
                                                     \
               if ( ch < 0xE0 )                      \
@@ -296,7 +296,7 @@ FT_BEGIN_HEADER
   } AF_Blue_String;
 
 
-  FT_LOCAL_ARRAY( char )
+  FT_TS_LOCAL_ARRAY( char )
   af_blue_strings[];
 
 
@@ -410,17 +410,17 @@ FT_BEGIN_HEADER
   typedef struct  AF_Blue_StringRec_
   {
     AF_Blue_String  string;
-    FT_UShort       properties;
+    FT_TS_UShort       properties;
 
   } AF_Blue_StringRec;
 
 
-  FT_LOCAL_ARRAY( AF_Blue_StringRec )
+  FT_TS_LOCAL_ARRAY( AF_Blue_StringRec )
   af_blue_stringsets[];
 
 /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* AFBLUE_H_ */

@@ -22,7 +22,7 @@
 
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -47,7 +47,7 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   A list of valid values for the `platform_id` identifier code in
-   *   @FT_CharMapRec and @FT_SfntName structures.
+   *   @FT_TS_CharMapRec and @FT_TS_SfntName structures.
    *
    * @values:
    *   TT_PLATFORM_APPLE_UNICODE ::
@@ -79,7 +79,7 @@ FT_BEGIN_HEADER
    *
    *   TT_PLATFORM_ADOBE ::
    *     This value isn't part of any font format specification, but is used
-   *     by FreeType to report Adobe-specific charmaps in an @FT_CharMapRec
+   *     by FreeType to report Adobe-specific charmaps in an @FT_TS_CharMapRec
    *     structure.  See @TT_ADOBE_ID_XXX.
    */
 
@@ -216,28 +216,28 @@ FT_BEGIN_HEADER
    *
    * @values:
    *   TT_MS_ID_SYMBOL_CS ::
-   *     Microsoft symbol encoding.  See @FT_ENCODING_MS_SYMBOL.
+   *     Microsoft symbol encoding.  See @FT_TS_ENCODING_MS_SYMBOL.
    *
    *   TT_MS_ID_UNICODE_CS ::
-   *     Microsoft WGL4 charmap, matching Unicode.  See @FT_ENCODING_UNICODE.
+   *     Microsoft WGL4 charmap, matching Unicode.  See @FT_TS_ENCODING_UNICODE.
    *
    *   TT_MS_ID_SJIS ::
-   *     Shift JIS Japanese encoding.  See @FT_ENCODING_SJIS.
+   *     Shift JIS Japanese encoding.  See @FT_TS_ENCODING_SJIS.
    *
    *   TT_MS_ID_PRC ::
    *     Chinese encodings as used in the People's Republic of China (PRC).
    *     This means the encodings GB~2312 and its supersets GBK and GB~18030.
-   *     See @FT_ENCODING_PRC.
+   *     See @FT_TS_ENCODING_PRC.
    *
    *   TT_MS_ID_BIG_5 ::
    *     Traditional Chinese as used in Taiwan and Hong Kong.  See
-   *     @FT_ENCODING_BIG5.
+   *     @FT_TS_ENCODING_BIG5.
    *
    *   TT_MS_ID_WANSUNG ::
-   *     Korean Extended Wansung encoding.  See @FT_ENCODING_WANSUNG.
+   *     Korean Extended Wansung encoding.  See @FT_TS_ENCODING_WANSUNG.
    *
    *   TT_MS_ID_JOHAB ::
-   *     Korean Johab encoding.  See @FT_ENCODING_JOHAB.
+   *     Korean Johab encoding.  See @FT_TS_ENCODING_JOHAB.
    *
    *   TT_MS_ID_UCS_4 ::
    *     UCS-4 or UTF-32 charmaps.  This has been added to the OpenType
@@ -292,7 +292,7 @@ FT_BEGIN_HEADER
    *   Possible values of the language identifier field in the name records
    *   of the SFNT 'name' table if the 'platform' identifier code is
    *   @TT_PLATFORM_MACINTOSH.  These values are also used as return values
-   *   for function @FT_Get_CMap_Language_ID.
+   *   for function @FT_TS_Get_CMap_Language_ID.
    *
    *   The canonical source for Apple's IDs is
    *
@@ -432,7 +432,7 @@ FT_BEGIN_HEADER
    *   Possible values of the language identifier field in the name records
    *   of the SFNT 'name' table if the 'platform' identifier code is
    *   @TT_PLATFORM_MICROSOFT.  These values are also used as return values
-   *   for function @FT_Get_CMap_Language_ID.
+   *   for function @FT_TS_Get_CMap_Language_ID.
    *
    *   The canonical source for Microsoft's IDs is
    *
@@ -444,7 +444,7 @@ FT_BEGIN_HEADER
    *   provides a better mechanism for languages not covered here.
    *
    *   More legacy values not listed in the reference can be found in the
-   *   @FT_TRUETYPE_IDS_H header file.
+   *   @FT_TS_TRUETYPE_IDS_H header file.
    */
 
 #define TT_MS_LANGID_ARABIC_SAUDI_ARABIA               0x0401
@@ -1227,7 +1227,7 @@ FT_BEGIN_HEADER
           TT_UCR_COMBINING_DIACRITICAL_MARKS_SYMB
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTNAMEID_H_ */
 

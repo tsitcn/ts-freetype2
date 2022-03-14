@@ -31,64 +31,64 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmorx
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmorx
 
 
   static void
   gxv_morx_subtable_type0_entry_validate(
-    FT_UShort                        state,
-    FT_UShort                        flags,
+    FT_TS_UShort                        state,
+    FT_TS_UShort                        flags,
     GXV_XStateTable_GlyphOffsetCPtr  glyphOffset_p,
-    FT_Bytes                         table,
-    FT_Bytes                         limit,
+    FT_TS_Bytes                         table,
+    FT_TS_Bytes                         limit,
     GXV_Validator                    gxvalid )
   {
 #ifdef GXV_LOAD_UNUSED_VARS
-    FT_UShort  markFirst;
-    FT_UShort  dontAdvance;
-    FT_UShort  markLast;
+    FT_TS_UShort  markFirst;
+    FT_TS_UShort  dontAdvance;
+    FT_TS_UShort  markLast;
 #endif
-    FT_UShort  reserved;
+    FT_TS_UShort  reserved;
 #ifdef GXV_LOAD_UNUSED_VARS
-    FT_UShort  verb;
-#endif
-
-    FT_UNUSED( state );
-    FT_UNUSED( glyphOffset_p );
-    FT_UNUSED( table );
-    FT_UNUSED( limit );
-
-
-#ifdef GXV_LOAD_UNUSED_VARS
-    markFirst   = (FT_UShort)( ( flags >> 15 ) & 1 );
-    dontAdvance = (FT_UShort)( ( flags >> 14 ) & 1 );
-    markLast    = (FT_UShort)( ( flags >> 13 ) & 1 );
+    FT_TS_UShort  verb;
 #endif
 
-    reserved = (FT_UShort)( flags & 0x1FF0 );
+    FT_TS_UNUSED( state );
+    FT_TS_UNUSED( glyphOffset_p );
+    FT_TS_UNUSED( table );
+    FT_TS_UNUSED( limit );
+
+
 #ifdef GXV_LOAD_UNUSED_VARS
-    verb     = (FT_UShort)( flags & 0x000F );
+    markFirst   = (FT_TS_UShort)( ( flags >> 15 ) & 1 );
+    dontAdvance = (FT_TS_UShort)( ( flags >> 14 ) & 1 );
+    markLast    = (FT_TS_UShort)( ( flags >> 13 ) & 1 );
+#endif
+
+    reserved = (FT_TS_UShort)( flags & 0x1FF0 );
+#ifdef GXV_LOAD_UNUSED_VARS
+    verb     = (FT_TS_UShort)( flags & 0x000F );
 #endif
 
     if ( 0 < reserved )
     {
       GXV_TRACE(( " non-zero bits found in reserved range\n" ));
-      FT_INVALID_DATA;
+      FT_TS_INVALID_DATA;
     }
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_morx_subtable_type0_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL_DEF( void )
+  gxv_morx_subtable_type0_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
 
     GXV_NAME_ENTER(

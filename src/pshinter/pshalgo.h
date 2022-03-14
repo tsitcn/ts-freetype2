@@ -24,7 +24,7 @@
 #include "pshglob.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* handle to Hint structure */
@@ -50,13 +50,13 @@ FT_BEGIN_HEADER
   /* hint structure */
   typedef struct  PSH_HintRec_
   {
-    FT_Int    org_pos;
-    FT_Int    org_len;
-    FT_Pos    cur_pos;
-    FT_Pos    cur_len;
-    FT_UInt   flags;
+    FT_TS_Int    org_pos;
+    FT_TS_Int    org_len;
+    FT_TS_Pos    cur_pos;
+    FT_TS_Pos    cur_len;
+    FT_TS_UInt   flags;
     PSH_Hint  parent;
-    FT_Int    order;
+    FT_TS_Int    order;
 
   } PSH_HintRec;
 
@@ -66,22 +66,22 @@ FT_BEGIN_HEADER
   /* neighbours                                             */
   typedef struct  PSH_ZoneRec_
   {
-    FT_Fixed  scale;
-    FT_Fixed  delta;
-    FT_Pos    min;
-    FT_Pos    max;
+    FT_TS_Fixed  scale;
+    FT_TS_Fixed  delta;
+    FT_TS_Pos    min;
+    FT_TS_Pos    max;
 
   } PSH_ZoneRec, *PSH_Zone;
 
 
   typedef struct  PSH_Hint_TableRec_
   {
-    FT_UInt        max_hints;
-    FT_UInt        num_hints;
+    FT_TS_UInt        max_hints;
+    FT_TS_UInt        num_hints;
     PSH_Hint       hints;
     PSH_Hint*      sort;
     PSH_Hint*      sort_global;
-    FT_UInt        num_zones;
+    FT_TS_UInt        num_zones;
     PSH_ZoneRec*   zones;
     PSH_Zone       zone;
     PS_Mask_Table  hint_masks;
@@ -154,21 +154,21 @@ FT_BEGIN_HEADER
     PSH_Point    prev;
     PSH_Point    next;
     PSH_Contour  contour;
-    FT_UInt      flags;
-    FT_UInt      flags2;
+    FT_TS_UInt      flags;
+    FT_TS_UInt      flags2;
     PSH_Dir      dir_in;
     PSH_Dir      dir_out;
     PSH_Hint     hint;
-    FT_Pos       org_u;
-    FT_Pos       org_v;
-    FT_Pos       cur_u;
+    FT_TS_Pos       org_u;
+    FT_TS_Pos       org_v;
+    FT_TS_Pos       cur_u;
 #ifdef DEBUG_HINTER
-    FT_Pos       org_x;
-    FT_Pos       cur_x;
-    FT_Pos       org_y;
-    FT_Pos       cur_y;
-    FT_UInt      flags_x;
-    FT_UInt      flags_y;
+    FT_TS_Pos       org_x;
+    FT_TS_Pos       cur_x;
+    FT_TS_Pos       org_y;
+    FT_TS_Pos       cur_y;
+    FT_TS_UInt      flags_x;
+    FT_TS_UInt      flags_y;
 #endif
 
   } PSH_PointRec;
@@ -177,29 +177,29 @@ FT_BEGIN_HEADER
   typedef struct  PSH_ContourRec_
   {
     PSH_Point  start;
-    FT_UInt    count;
+    FT_TS_UInt    count;
 
   } PSH_ContourRec;
 
 
   typedef struct  PSH_GlyphRec_
   {
-    FT_UInt            num_points;
-    FT_UInt            num_contours;
+    FT_TS_UInt            num_points;
+    FT_TS_UInt            num_contours;
 
     PSH_Point          points;
     PSH_Contour        contours;
 
-    FT_Memory          memory;
-    FT_Outline*        outline;
+    FT_TS_Memory          memory;
+    FT_TS_Outline*        outline;
     PSH_Globals        globals;
     PSH_Hint_TableRec  hint_tables[2];
 
-    FT_Bool            do_horz_hints;
-    FT_Bool            do_vert_hints;
-    FT_Bool            do_horz_snapping;
-    FT_Bool            do_vert_snapping;
-    FT_Bool            do_stem_adjust;
+    FT_TS_Bool            do_horz_hints;
+    FT_TS_Bool            do_vert_hints;
+    FT_TS_Bool            do_horz_snapping;
+    FT_TS_Bool            do_vert_snapping;
+    FT_TS_Bool            do_stem_adjust;
 
   } PSH_GlyphRec, *PSH_Glyph;
 
@@ -209,7 +209,7 @@ FT_BEGIN_HEADER
 
   typedef void
   (*PSH_HintFunc)( PSH_Hint  hint,
-                   FT_Bool   vertical );
+                   FT_TS_Bool   vertical );
 
   extern PSH_HintFunc    ps_debug_hint_func;
 
@@ -217,14 +217,14 @@ FT_BEGIN_HEADER
 #endif
 
 
-  extern FT_Error
+  extern FT_TS_Error
   ps_hints_apply( PS_Hints        ps_hints,
-                  FT_Outline*     outline,
+                  FT_TS_Outline*     outline,
                   PSH_Globals     globals,
-                  FT_Render_Mode  hint_mode );
+                  FT_TS_Render_Mode  hint_mode );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSHALGO_H_ */

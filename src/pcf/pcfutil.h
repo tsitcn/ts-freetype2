@@ -30,24 +30,24 @@ THE SOFTWARE.
 
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/internal/compiler-macros.h>
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   BitOrderInvert( unsigned char*  buf,
                   size_t          nbytes );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   TwoByteSwap( unsigned char*  buf,
                size_t          nbytes );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   FourByteSwap( unsigned char*  buf,
                 size_t          nbytes );
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* PCFUTIL_H_ */
 

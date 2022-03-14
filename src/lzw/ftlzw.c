@@ -25,21 +25,21 @@
 #include <freetype/internal/ftstream.h>
 #include <freetype/internal/ftdebug.h>
 #include <freetype/ftlzw.h>
-#include FT_CONFIG_STANDARD_LIBRARY_H
+#include FT_TS_CONFIG_STANDARD_LIBRARY_H
 
 
 #include <freetype/ftmoderr.h>
 
 #undef FTERRORS_H_
 
-#undef  FT_ERR_PREFIX
-#define FT_ERR_PREFIX  LZW_Err_
-#define FT_ERR_BASE    FT_Mod_Err_LZW
+#undef  FT_TS_ERR_PREFIX
+#define FT_TS_ERR_PREFIX  LZW_Err_
+#define FT_TS_ERR_BASE    FT_TS_Mod_Err_LZW
 
 #include <freetype/fterrors.h>
 
 
-#ifdef FT_CONFIG_OPTION_USE_LZW
+#ifdef FT_TS_CONFIG_OPTION_USE_LZW
 
 #include "ftzopen.h"
 
@@ -60,59 +60,59 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#define FT_LZW_BUFFER_SIZE  4096
+#define FT_TS_LZW_BUFFER_SIZE  4096
 
-  typedef struct  FT_LZWFileRec_
+  typedef struct  FT_TS_LZWFileRec_
   {
-    FT_Stream       source;         /* parent/source stream        */
-    FT_Stream       stream;         /* embedding stream            */
-    FT_Memory       memory;         /* memory allocator            */
-    FT_LzwStateRec  lzw;            /* lzw decompressor state      */
+    FT_TS_Stream       source;         /* parent/source stream        */
+    FT_TS_Stream       stream;         /* embedding stream            */
+    FT_TS_Memory       memory;         /* memory allocator            */
+    FT_TS_LzwStateRec  lzw;            /* lzw decompressor state      */
 
-    FT_Byte         buffer[FT_LZW_BUFFER_SIZE]; /* output buffer      */
-    FT_ULong        pos;                        /* position in output */
-    FT_Byte*        cursor;
-    FT_Byte*        limit;
+    FT_TS_Byte         buffer[FT_TS_LZW_BUFFER_SIZE]; /* output buffer      */
+    FT_TS_ULong        pos;                        /* position in output */
+    FT_TS_Byte*        cursor;
+    FT_TS_Byte*        limit;
 
-  } FT_LZWFileRec, *FT_LZWFile;
+  } FT_TS_LZWFileRec, *FT_TS_LZWFile;
 
 
   /* check and skip .Z header */
-  static FT_Error
-  ft_lzw_check_header( FT_Stream  stream )
+  static FT_TS_Error
+  ft_lzw_check_header( FT_TS_Stream  stream )
   {
-    FT_Error  error;
-    FT_Byte   head[2];
+    FT_TS_Error  error;
+    FT_TS_Byte   head[2];
 
 
-    if ( FT_STREAM_SEEK( 0 )       ||
-         FT_STREAM_READ( head, 2 ) )
+    if ( FT_TS_STREAM_SEEK( 0 )       ||
+         FT_TS_STREAM_READ( head, 2 ) )
       goto Exit;
 
     /* head[0] && head[1] are the magic numbers */
     if ( head[0] != 0x1F ||
          head[1] != 0x9D )
-      error = FT_THROW( Invalid_File_Format );
+      error = FT_TS_THROW( Invalid_File_Format );
 
   Exit:
     return error;
   }
 
 
-  static FT_Error
-  ft_lzw_file_init( FT_LZWFile  zip,
-                    FT_Stream   stream,
-                    FT_Stream   source )
+  static FT_TS_Error
+  ft_lzw_file_init( FT_TS_LZWFile  zip,
+                    FT_TS_Stream   stream,
+                    FT_TS_Stream   source )
   {
-    FT_LzwState  lzw   = &zip->lzw;
-    FT_Error     error;
+    FT_TS_LzwState  lzw   = &zip->lzw;
+    FT_TS_Error     error;
 
 
     zip->stream = stream;
     zip->source = source;
     zip->memory = stream->memory;
 
-    zip->limit  = zip->buffer + FT_LZW_BUFFER_SIZE;
+    zip->limit  = zip->buffer + FT_TS_LZW_BUFFER_SIZE;
     zip->cursor = zip->limit;
     zip->pos    = 0;
 
@@ -130,7 +130,7 @@
 
 
   static void
-  ft_lzw_file_done( FT_LZWFile  zip )
+  ft_lzw_file_done( FT_TS_LZWFile  zip )
   {
     /* clear the rest */
     ft_lzwstate_done( &zip->lzw );
@@ -141,18 +141,18 @@
   }
 
 
-  static FT_Error
-  ft_lzw_file_reset( FT_LZWFile  zip )
+  static FT_TS_Error
+  ft_lzw_file_reset( FT_TS_LZWFile  zip )
   {
-    FT_Stream  stream = zip->source;
-    FT_Error   error;
+    FT_TS_Stream  stream = zip->source;
+    FT_TS_Error   error;
 
 
-    if ( !FT_STREAM_SEEK( 0 ) )
+    if ( !FT_TS_STREAM_SEEK( 0 ) )
     {
       ft_lzwstate_reset( &zip->lzw );
 
-      zip->limit  = zip->buffer + FT_LZW_BUFFER_SIZE;
+      zip->limit  = zip->buffer + FT_TS_LZW_BUFFER_SIZE;
       zip->cursor = zip->limit;
       zip->pos    = 0;
     }
@@ -161,38 +161,38 @@
   }
 
 
-  static FT_Error
-  ft_lzw_file_fill_output( FT_LZWFile  zip )
+  static FT_TS_Error
+  ft_lzw_file_fill_output( FT_TS_LZWFile  zip )
   {
-    FT_LzwState  lzw = &zip->lzw;
-    FT_ULong     count;
-    FT_Error     error = FT_Err_Ok;
+    FT_TS_LzwState  lzw = &zip->lzw;
+    FT_TS_ULong     count;
+    FT_TS_Error     error = FT_TS_Err_Ok;
 
 
     zip->cursor = zip->buffer;
 
-    count = ft_lzwstate_io( lzw, zip->buffer, FT_LZW_BUFFER_SIZE );
+    count = ft_lzwstate_io( lzw, zip->buffer, FT_TS_LZW_BUFFER_SIZE );
 
     zip->limit = zip->cursor + count;
 
     if ( count == 0 )
-      error = FT_THROW( Invalid_Stream_Operation );
+      error = FT_TS_THROW( Invalid_Stream_Operation );
 
     return error;
   }
 
 
-  /* fill output buffer; `count' must be <= FT_LZW_BUFFER_SIZE */
-  static FT_Error
-  ft_lzw_file_skip_output( FT_LZWFile  zip,
-                           FT_ULong    count )
+  /* fill output buffer; `count' must be <= FT_TS_LZW_BUFFER_SIZE */
+  static FT_TS_Error
+  ft_lzw_file_skip_output( FT_TS_LZWFile  zip,
+                           FT_TS_ULong    count )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     /* first, we skip what we can from the output buffer */
     {
-      FT_ULong  delta = (FT_ULong)( zip->limit - zip->cursor );
+      FT_TS_ULong  delta = (FT_TS_ULong)( zip->limit - zip->cursor );
 
 
       if ( delta >= count )
@@ -207,8 +207,8 @@
     /* next, we skip as many bytes remaining as possible */
     while ( count > 0 )
     {
-      FT_ULong  delta = FT_LZW_BUFFER_SIZE;
-      FT_ULong  numread;
+      FT_TS_ULong  delta = FT_TS_LZW_BUFFER_SIZE;
+      FT_TS_ULong  numread;
 
 
       if ( delta > count )
@@ -218,7 +218,7 @@
       if ( numread < delta )
       {
         /* not enough bytes */
-        error = FT_THROW( Invalid_Stream_Operation );
+        error = FT_TS_THROW( Invalid_Stream_Operation );
         break;
       }
 
@@ -230,14 +230,14 @@
   }
 
 
-  static FT_ULong
-  ft_lzw_file_io( FT_LZWFile  zip,
-                  FT_ULong    pos,
-                  FT_Byte*    buffer,
-                  FT_ULong    count )
+  static FT_TS_ULong
+  ft_lzw_file_io( FT_TS_LZWFile  zip,
+                  FT_TS_ULong    pos,
+                  FT_TS_Byte*    buffer,
+                  FT_TS_ULong    count )
   {
-    FT_ULong  result = 0;
-    FT_Error  error;
+    FT_TS_ULong  result = 0;
+    FT_TS_Error  error;
 
 
     /* seeking backwards. */
@@ -245,7 +245,7 @@
     {
       /* If the new position is within the output buffer, simply       */
       /* decrement pointers, otherwise we reset the stream completely! */
-      if ( ( zip->pos - pos ) <= (FT_ULong)( zip->cursor - zip->buffer ) )
+      if ( ( zip->pos - pos ) <= (FT_TS_ULong)( zip->cursor - zip->buffer ) )
       {
         zip->cursor -= zip->pos - pos;
         zip->pos     = pos;
@@ -261,7 +261,7 @@
     /* skip unwanted bytes */
     if ( pos > zip->pos )
     {
-      error = ft_lzw_file_skip_output( zip, (FT_ULong)( pos - zip->pos ) );
+      error = ft_lzw_file_skip_output( zip, (FT_TS_ULong)( pos - zip->pos ) );
       if ( error )
         goto Exit;
     }
@@ -272,14 +272,14 @@
     /* now read the data */
     for (;;)
     {
-      FT_ULong  delta;
+      FT_TS_ULong  delta;
 
 
-      delta = (FT_ULong)( zip->limit - zip->cursor );
+      delta = (FT_TS_ULong)( zip->limit - zip->cursor );
       if ( delta >= count )
         delta = count;
 
-      FT_MEM_COPY( buffer + result, zip->cursor, delta );
+      FT_TS_MEM_COPY( buffer + result, zip->cursor, delta );
       result      += delta;
       zip->cursor += delta;
       zip->pos    += delta;
@@ -307,10 +307,10 @@
 /***************************************************************************/
 
   static void
-  ft_lzw_stream_close( FT_Stream  stream )
+  ft_lzw_stream_close( FT_TS_Stream  stream )
   {
-    FT_LZWFile  zip    = (FT_LZWFile)stream->descriptor.pointer;
-    FT_Memory   memory = stream->memory;
+    FT_TS_LZWFile  zip    = (FT_TS_LZWFile)stream->descriptor.pointer;
+    FT_TS_Memory   memory = stream->memory;
 
 
     if ( zip )
@@ -318,7 +318,7 @@
       /* finalize lzw file descriptor */
       ft_lzw_file_done( zip );
 
-      FT_FREE( zip );
+      FT_TS_FREE( zip );
 
       stream->descriptor.pointer = NULL;
     }
@@ -326,30 +326,30 @@
 
 
   static unsigned long
-  ft_lzw_stream_io( FT_Stream       stream,
+  ft_lzw_stream_io( FT_TS_Stream       stream,
                     unsigned long   offset,
                     unsigned char*  buffer,
                     unsigned long   count )
   {
-    FT_LZWFile  zip = (FT_LZWFile)stream->descriptor.pointer;
+    FT_TS_LZWFile  zip = (FT_TS_LZWFile)stream->descriptor.pointer;
 
 
     return ft_lzw_file_io( zip, offset, buffer, count );
   }
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stream_OpenLZW( FT_Stream  stream,
-                     FT_Stream  source )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stream_OpenLZW( FT_TS_Stream  stream,
+                     FT_TS_Stream  source )
   {
-    FT_Error    error;
-    FT_Memory   memory;
-    FT_LZWFile  zip = NULL;
+    FT_TS_Error    error;
+    FT_TS_Memory   memory;
+    FT_TS_LZWFile  zip = NULL;
 
 
     if ( !stream || !source )
     {
-      error = FT_THROW( Invalid_Stream_Handle );
+      error = FT_TS_THROW( Invalid_Stream_Handle );
       goto Exit;
     }
 
@@ -366,15 +366,15 @@
     if ( error )
       goto Exit;
 
-    FT_ZERO( stream );
+    FT_TS_ZERO( stream );
     stream->memory = memory;
 
-    if ( !FT_NEW( zip ) )
+    if ( !FT_TS_NEW( zip ) )
     {
       error = ft_lzw_file_init( zip, stream, source );
       if ( error )
       {
-        FT_FREE( zip );
+        FT_TS_FREE( zip );
         goto Exit;
       }
 
@@ -395,21 +395,21 @@
 #include "ftzopen.c"
 
 
-#else  /* !FT_CONFIG_OPTION_USE_LZW */
+#else  /* !FT_TS_CONFIG_OPTION_USE_LZW */
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Stream_OpenLZW( FT_Stream  stream,
-                     FT_Stream  source )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Stream_OpenLZW( FT_TS_Stream  stream,
+                     FT_TS_Stream  source )
   {
-    FT_UNUSED( stream );
-    FT_UNUSED( source );
+    FT_TS_UNUSED( stream );
+    FT_TS_UNUSED( source );
 
-    return FT_THROW( Unimplemented_Feature );
+    return FT_TS_THROW( Unimplemented_Feature );
   }
 
 
-#endif /* !FT_CONFIG_OPTION_USE_LZW */
+#endif /* !FT_TS_CONFIG_OPTION_USE_LZW */
 
 
 /* END */

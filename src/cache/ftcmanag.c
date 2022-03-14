@@ -26,41 +26,41 @@
 #include "ftcerror.h"
 
 
-#undef  FT_COMPONENT
-#define FT_COMPONENT  cache
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  cache
 
 
-  static FT_Error
+  static FT_TS_Error
   ftc_scaler_lookup_size( FTC_Manager  manager,
                           FTC_Scaler   scaler,
-                          FT_Size     *asize )
+                          FT_TS_Size     *asize )
   {
-    FT_Face   face;
-    FT_Size   size = NULL;
-    FT_Error  error;
+    FT_TS_Face   face;
+    FT_TS_Size   size = NULL;
+    FT_TS_Error  error;
 
 
     error = FTC_Manager_LookupFace( manager, scaler->face_id, &face );
     if ( error )
       goto Exit;
 
-    error = FT_New_Size( face, &size );
+    error = FT_TS_New_Size( face, &size );
     if ( error )
       goto Exit;
 
-    FT_Activate_Size( size );
+    FT_TS_Activate_Size( size );
 
     if ( scaler->pixel )
-      error = FT_Set_Pixel_Sizes( face, scaler->width, scaler->height );
+      error = FT_TS_Set_Pixel_Sizes( face, scaler->width, scaler->height );
     else
-      error = FT_Set_Char_Size( face,
-                                (FT_F26Dot6)scaler->width,
-                                (FT_F26Dot6)scaler->height,
+      error = FT_TS_Set_Char_Size( face,
+                                (FT_TS_F26Dot6)scaler->width,
+                                (FT_TS_F26Dot6)scaler->height,
                                 scaler->x_res,
                                 scaler->y_res );
     if ( error )
     {
-      FT_Done_Size( size );
+      FT_TS_Done_Size( size );
       size = NULL;
     }
 
@@ -73,7 +73,7 @@
   typedef struct  FTC_SizeNodeRec_
   {
     FTC_MruNodeRec  node;
-    FT_Size         size;
+    FT_TS_Size         size;
     FTC_ScalerRec   scaler;
 
   } FTC_SizeNodeRec, *FTC_SizeNode;
@@ -81,23 +81,23 @@
 #define FTC_SIZE_NODE( x ) ( (FTC_SizeNode)( x ) )
 
 
-  FT_CALLBACK_DEF( void )
+  FT_TS_CALLBACK_DEF( void )
   ftc_size_node_done( FTC_MruNode  ftcnode,
-                      FT_Pointer   data )
+                      FT_TS_Pointer   data )
   {
     FTC_SizeNode  node = (FTC_SizeNode)ftcnode;
-    FT_Size       size = node->size;
-    FT_UNUSED( data );
+    FT_TS_Size       size = node->size;
+    FT_TS_UNUSED( data );
 
 
     if ( size )
-      FT_Done_Size( size );
+      FT_TS_Done_Size( size );
   }
 
 
-  FT_CALLBACK_DEF( FT_Bool )
+  FT_TS_CALLBACK_DEF( FT_TS_Bool )
   ftc_size_node_compare( FTC_MruNode  ftcnode,
-                         FT_Pointer   ftcscaler )
+                         FT_TS_Pointer   ftcscaler )
   {
     FTC_SizeNode  node    = (FTC_SizeNode)ftcnode;
     FTC_Scaler    scaler  = (FTC_Scaler)ftcscaler;
@@ -106,17 +106,17 @@
 
     if ( FTC_SCALER_COMPARE( scaler0, scaler ) )
     {
-      FT_Activate_Size( node->size );
+      FT_TS_Activate_Size( node->size );
       return 1;
     }
     return 0;
   }
 
 
-  FT_CALLBACK_DEF( FT_Error )
+  FT_TS_CALLBACK_DEF( FT_TS_Error )
   ftc_size_node_init( FTC_MruNode  ftcnode,
-                      FT_Pointer   ftcscaler,
-                      FT_Pointer   ftcmanager )
+                      FT_TS_Pointer   ftcscaler,
+                      FT_TS_Pointer   ftcmanager )
   {
     FTC_SizeNode  node    = (FTC_SizeNode)ftcnode;
     FTC_Scaler    scaler  = (FTC_Scaler)ftcscaler;
@@ -129,17 +129,17 @@
   }
 
 
-  FT_CALLBACK_DEF( FT_Error )
+  FT_TS_CALLBACK_DEF( FT_TS_Error )
   ftc_size_node_reset( FTC_MruNode  ftcnode,
-                       FT_Pointer   ftcscaler,
-                       FT_Pointer   ftcmanager )
+                       FT_TS_Pointer   ftcscaler,
+                       FT_TS_Pointer   ftcmanager )
   {
     FTC_SizeNode  node    = (FTC_SizeNode)ftcnode;
     FTC_Scaler    scaler  = (FTC_Scaler)ftcscaler;
     FTC_Manager   manager = (FTC_Manager)ftcmanager;
 
 
-    FT_Done_Size( node->size );
+    FT_TS_Done_Size( node->size );
 
     node->scaler = scaler[0];
 
@@ -160,36 +160,36 @@
 
 
   /* helper function used by ftc_face_node_done */
-  static FT_Bool
+  static FT_TS_Bool
   ftc_size_node_compare_faceid( FTC_MruNode  ftcnode,
-                                FT_Pointer   ftcface_id )
+                                FT_TS_Pointer   ftcface_id )
   {
     FTC_SizeNode  node    = (FTC_SizeNode)ftcnode;
     FTC_FaceID    face_id = (FTC_FaceID)ftcface_id;
 
 
-    return FT_BOOL( node->scaler.face_id == face_id );
+    return FT_TS_BOOL( node->scaler.face_id == face_id );
   }
 
 
   /* documentation is in ftcache.h */
 
-  FT_EXPORT_DEF( FT_Error )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
   FTC_Manager_LookupSize( FTC_Manager  manager,
                           FTC_Scaler   scaler,
-                          FT_Size     *asize )
+                          FT_TS_Size     *asize )
   {
-    FT_Error     error;
+    FT_TS_Error     error;
     FTC_MruNode  mrunode;
 
 
     if ( !asize || !scaler )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     *asize = NULL;
 
     if ( !manager )
-      return FT_THROW( Invalid_Cache_Handle );
+      return FT_TS_THROW( Invalid_Cache_Handle );
 
 #ifdef FTC_INLINE
 
@@ -219,22 +219,22 @@
   {
     FTC_MruNodeRec  node;
     FTC_FaceID      face_id;
-    FT_Face         face;
+    FT_TS_Face         face;
 
   } FTC_FaceNodeRec, *FTC_FaceNode;
 
 #define FTC_FACE_NODE( x ) ( ( FTC_FaceNode )( x ) )
 
 
-  FT_CALLBACK_DEF( FT_Error )
+  FT_TS_CALLBACK_DEF( FT_TS_Error )
   ftc_face_node_init( FTC_MruNode  ftcnode,
-                      FT_Pointer   ftcface_id,
-                      FT_Pointer   ftcmanager )
+                      FT_TS_Pointer   ftcface_id,
+                      FT_TS_Pointer   ftcmanager )
   {
     FTC_FaceNode  node    = (FTC_FaceNode)ftcnode;
     FTC_FaceID    face_id = (FTC_FaceID)ftcface_id;
     FTC_Manager   manager = (FTC_Manager)ftcmanager;
-    FT_Error      error;
+    FT_TS_Error      error;
 
 
     node->face_id = face_id;
@@ -247,16 +247,16 @@
     {
       /* destroy initial size object; it will be re-created later */
       if ( node->face->size )
-        FT_Done_Size( node->face->size );
+        FT_TS_Done_Size( node->face->size );
     }
 
     return error;
   }
 
 
-  FT_CALLBACK_DEF( void )
+  FT_TS_CALLBACK_DEF( void )
   ftc_face_node_done( FTC_MruNode  ftcnode,
-                      FT_Pointer   ftcmanager )
+                      FT_TS_Pointer   ftcmanager )
   {
     FTC_FaceNode  node    = (FTC_FaceNode)ftcnode;
     FTC_Manager   manager = (FTC_Manager)ftcmanager;
@@ -269,21 +269,21 @@
                                  node->face_id );
 
     /* all right, we can discard the face now */
-    FT_Done_Face( node->face );
+    FT_TS_Done_Face( node->face );
     node->face    = NULL;
     node->face_id = NULL;
   }
 
 
-  FT_CALLBACK_DEF( FT_Bool )
+  FT_TS_CALLBACK_DEF( FT_TS_Bool )
   ftc_face_node_compare( FTC_MruNode  ftcnode,
-                         FT_Pointer   ftcface_id )
+                         FT_TS_Pointer   ftcface_id )
   {
     FTC_FaceNode  node    = (FTC_FaceNode)ftcnode;
     FTC_FaceID    face_id = (FTC_FaceID)ftcface_id;
 
 
-    return FT_BOOL( node->face_id == face_id );
+    return FT_TS_BOOL( node->face_id == face_id );
   }
 
 
@@ -301,22 +301,22 @@
 
   /* documentation is in ftcache.h */
 
-  FT_EXPORT_DEF( FT_Error )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
   FTC_Manager_LookupFace( FTC_Manager  manager,
                           FTC_FaceID   face_id,
-                          FT_Face     *aface )
+                          FT_TS_Face     *aface )
   {
-    FT_Error     error;
+    FT_TS_Error     error;
     FTC_MruNode  mrunode;
 
 
     if ( !aface )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     *aface = NULL;
 
     if ( !manager )
-      return FT_THROW( Invalid_Cache_Handle );
+      return FT_TS_THROW( Invalid_Cache_Handle );
 
     /* we break encapsulation for the sake of speed */
 #ifdef FTC_INLINE
@@ -346,29 +346,29 @@
 
   /* documentation is in ftcache.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FTC_Manager_New( FT_Library          library,
-                   FT_UInt             max_faces,
-                   FT_UInt             max_sizes,
-                   FT_ULong            max_bytes,
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FTC_Manager_New( FT_TS_Library          library,
+                   FT_TS_UInt             max_faces,
+                   FT_TS_UInt             max_sizes,
+                   FT_TS_ULong            max_bytes,
                    FTC_Face_Requester  requester,
-                   FT_Pointer          req_data,
+                   FT_TS_Pointer          req_data,
                    FTC_Manager        *amanager )
   {
-    FT_Error     error;
-    FT_Memory    memory;
+    FT_TS_Error     error;
+    FT_TS_Memory    memory;
     FTC_Manager  manager = NULL;
 
 
     if ( !library )
-      return FT_THROW( Invalid_Library_Handle );
+      return FT_TS_THROW( Invalid_Library_Handle );
 
     if ( !amanager || !requester )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     memory = library->memory;
 
-    if ( FT_QNEW( manager ) )
+    if ( FT_TS_QNEW( manager ) )
       goto Exit;
 
     if ( max_faces == 0 )
@@ -412,11 +412,11 @@
 
   /* documentation is in ftcache.h */
 
-  FT_EXPORT_DEF( void )
+  FT_TS_EXPORT_DEF( void )
   FTC_Manager_Done( FTC_Manager  manager )
   {
-    FT_Memory  memory;
-    FT_UInt    idx;
+    FT_TS_Memory  memory;
+    FT_TS_UInt    idx;
 
 
     if ( !manager || !manager->library )
@@ -433,7 +433,7 @@
       if ( cache )
       {
         cache->clazz.cache_done( cache );
-        FT_FREE( cache );
+        FT_TS_FREE( cache );
         manager->caches[idx] = NULL;
       }
     }
@@ -446,13 +446,13 @@
     manager->library = NULL;
     manager->memory  = NULL;
 
-    FT_FREE( manager );
+    FT_TS_FREE( manager );
   }
 
 
   /* documentation is in ftcache.h */
 
-  FT_EXPORT_DEF( void )
+  FT_TS_EXPORT_DEF( void )
   FTC_Manager_Reset( FTC_Manager  manager )
   {
     if ( !manager )
@@ -465,7 +465,7 @@
   }
 
 
-#ifdef FT_DEBUG_ERROR
+#ifdef FT_TS_DEBUG_ERROR
 
   static void
   FTC_Manager_Check( FTC_Manager  manager )
@@ -478,7 +478,7 @@
     /* check node weights */
     if ( first )
     {
-      FT_Offset  weight = 0;
+      FT_TS_Offset  weight = 0;
 
 
       node = first;
@@ -488,8 +488,8 @@
         FTC_Cache  cache = manager->caches[node->cache_index];
 
 
-        if ( (FT_UInt)node->cache_index >= manager->num_caches )
-          FT_TRACE0(( "FTC_Manager_Check: invalid node (cache index = %ld\n",
+        if ( (FT_TS_UInt)node->cache_index >= manager->num_caches )
+          FT_TS_TRACE0(( "FTC_Manager_Check: invalid node (cache index = %ld\n",
                       node->cache_index ));
         else
           weight += cache->clazz.node_weight( node, cache );
@@ -499,14 +499,14 @@
       } while ( node != first );
 
       if ( weight != manager->cur_weight )
-        FT_TRACE0(( "FTC_Manager_Check: invalid weight %ld instead of %ld\n",
+        FT_TS_TRACE0(( "FTC_Manager_Check: invalid weight %ld instead of %ld\n",
                     manager->cur_weight, weight ));
     }
 
     /* check circular list */
     if ( first )
     {
-      FT_UFast  count = 0;
+      FT_TS_UFast  count = 0;
 
 
       node = first;
@@ -518,13 +518,13 @@
       } while ( node != first );
 
       if ( count != manager->num_nodes )
-        FT_TRACE0(( "FTC_Manager_Check:"
+        FT_TS_TRACE0(( "FTC_Manager_Check:"
                     " invalid cache node count %d instead of %d\n",
                     manager->num_nodes, count ));
     }
   }
 
-#endif /* FT_DEBUG_ERROR */
+#endif /* FT_TS_DEBUG_ERROR */
 
 
   /* `Compress' the manager's data, i.e., get rid of old cache nodes */
@@ -533,7 +533,7 @@
 
   /* documentation is in ftcmanag.h */
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   FTC_Manager_Compress( FTC_Manager  manager )
   {
     FTC_Node   node, first;
@@ -544,10 +544,10 @@
 
     first = manager->nodes_list;
 
-#ifdef FT_DEBUG_ERROR
+#ifdef FT_TS_DEBUG_ERROR
     FTC_Manager_Check( manager );
 
-    FT_TRACE0(( "compressing, weight = %ld, max = %ld, nodes = %d\n",
+    FT_TS_TRACE0(( "compressing, weight = %ld, max = %ld, nodes = %d\n",
                 manager->cur_weight, manager->max_weight,
                 manager->num_nodes ));
 #endif
@@ -575,29 +575,29 @@
 
   /* documentation is in ftcmanag.h */
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   FTC_Manager_RegisterCache( FTC_Manager      manager,
                              FTC_CacheClass   clazz,
                              FTC_Cache       *acache )
   {
-    FT_Error   error = FT_ERR( Invalid_Argument );
+    FT_TS_Error   error = FT_TS_ERR( Invalid_Argument );
     FTC_Cache  cache = NULL;
 
 
     if ( manager && clazz && acache )
     {
-      FT_Memory  memory = manager->memory;
+      FT_TS_Memory  memory = manager->memory;
 
 
       if ( manager->num_caches >= FTC_MAX_CACHES )
       {
-        error = FT_THROW( Too_Many_Caches );
-        FT_ERROR(( "FTC_Manager_RegisterCache:"
+        error = FT_TS_THROW( Too_Many_Caches );
+        FT_TS_ERROR(( "FTC_Manager_RegisterCache:"
                    " too many registered caches\n" ));
         goto Exit;
       }
 
-      if ( !FT_QALLOC( cache, clazz->cache_size ) )
+      if ( !FT_TS_QALLOC( cache, clazz->cache_size ) )
       {
         cache->manager   = manager;
         cache->memory    = memory;
@@ -612,7 +612,7 @@
         if ( error )
         {
           clazz->cache_done( cache );
-          FT_FREE( cache );
+          FT_TS_FREE( cache );
           goto Exit;
         }
 
@@ -627,13 +627,13 @@
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
+  FT_TS_LOCAL_DEF( FT_TS_UInt )
   FTC_Manager_FlushN( FTC_Manager  manager,
-                      FT_UInt      count )
+                      FT_TS_UInt      count )
   {
     FTC_Node  first = manager->nodes_list;
     FTC_Node  node;
-    FT_UInt   result;
+    FT_TS_UInt   result;
 
 
     /* try to remove `count' nodes from the list */
@@ -665,11 +665,11 @@
 
   /* documentation is in ftcache.h */
 
-  FT_EXPORT_DEF( void )
+  FT_TS_EXPORT_DEF( void )
   FTC_Manager_RemoveFaceID( FTC_Manager  manager,
                             FTC_FaceID   face_id )
   {
-    FT_UInt  nn;
+    FT_TS_UInt  nn;
 
 
     if ( !manager )
@@ -689,13 +689,13 @@
 
   /* documentation is in ftcache.h */
 
-  FT_EXPORT_DEF( void )
+  FT_TS_EXPORT_DEF( void )
   FTC_Node_Unref( FTC_Node     node,
                   FTC_Manager  manager )
   {
     if ( node                                             &&
          manager                                          &&
-         (FT_UInt)node->cache_index < manager->num_caches )
+         (FT_TS_UInt)node->cache_index < manager->num_caches )
       node->ref_count--;
   }
 

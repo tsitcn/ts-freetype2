@@ -22,12 +22,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  otvgdef
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  otvgdef
 
 
   /*************************************************************************/
@@ -44,26 +44,26 @@
   /* sets valid->extra1 (0)           */
 
   static void
-  otv_O_x_Ox( FT_Bytes       table,
+  otv_O_x_Ox( FT_TS_Bytes       table,
               OTV_Validator  otvalid )
   {
-    FT_Bytes           p = table;
-    FT_Bytes           Coverage;
-    FT_UInt            GlyphCount;
+    FT_TS_Bytes           p = table;
+    FT_TS_Bytes           Coverage;
+    FT_TS_UInt            GlyphCount;
     OTV_Validate_Func  func;
 
 
     OTV_ENTER;
 
     OTV_LIMIT_CHECK( 4 );
-    Coverage   = table + FT_NEXT_USHORT( p );
-    GlyphCount = FT_NEXT_USHORT( p );
+    Coverage   = table + FT_TS_NEXT_USHORT( p );
+    GlyphCount = FT_TS_NEXT_USHORT( p );
 
     OTV_TRACE(( " (GlyphCount = %d)\n", GlyphCount ));
 
-    otv_Coverage_validate( Coverage, otvalid, (FT_Int)GlyphCount );
+    otv_Coverage_validate( Coverage, otvalid, (FT_TS_Int)GlyphCount );
     if ( GlyphCount != otv_Coverage_get_count( Coverage ) )
-      FT_INVALID_DATA;
+      FT_TS_INVALID_DATA;
 
     OTV_LIMIT_CHECK( GlyphCount * 2 );
 
@@ -72,7 +72,7 @@
     otvalid->extra1 = 0;
 
     for ( ; GlyphCount > 0; GlyphCount-- )
-      func( table + FT_NEXT_USHORT( p ), otvalid );
+      func( table + FT_TS_NEXT_USHORT( p ), otvalid );
 
     otvalid->nesting_level--;
 
@@ -91,18 +91,18 @@
 #define CaretValueFunc  otv_CaretValue_validate
 
   static void
-  otv_CaretValue_validate( FT_Bytes       table,
+  otv_CaretValue_validate( FT_TS_Bytes       table,
                            OTV_Validator  otvalid )
   {
-    FT_Bytes  p = table;
-    FT_UInt   CaretValueFormat;
+    FT_TS_Bytes  p = table;
+    FT_TS_UInt   CaretValueFormat;
 
 
     OTV_ENTER;
 
     OTV_LIMIT_CHECK( 4 );
 
-    CaretValueFormat = FT_NEXT_USHORT( p );
+    CaretValueFormat = FT_TS_NEXT_USHORT( p );
 
     OTV_TRACE(( " (format = %d)\n", CaretValueFormat ));
 
@@ -122,11 +122,11 @@
       OTV_LIMIT_CHECK( 2 );
 
       /* DeviceTable */
-      otv_Device_validate( table + FT_NEXT_USHORT( p ), otvalid );
+      otv_Device_validate( table + FT_TS_NEXT_USHORT( p ), otvalid );
       break;
 
     default:
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
     }
 
     OTV_EXIT;
@@ -142,11 +142,11 @@
   /*************************************************************************/
 
   static void
-  otv_MarkGlyphSets_validate( FT_Bytes       table,
+  otv_MarkGlyphSets_validate( FT_TS_Bytes       table,
                               OTV_Validator  otvalid )
   {
-    FT_Bytes  p = table;
-    FT_UInt   MarkGlyphSetCount;
+    FT_TS_Bytes  p = table;
+    FT_TS_UInt   MarkGlyphSetCount;
 
 
     OTV_NAME_ENTER( "MarkGlyphSets" );
@@ -154,14 +154,14 @@
     p += 2;     /* skip Format */
 
     OTV_LIMIT_CHECK( 2 );
-    MarkGlyphSetCount = FT_NEXT_USHORT( p );
+    MarkGlyphSetCount = FT_TS_NEXT_USHORT( p );
 
     OTV_TRACE(( " (MarkGlyphSetCount = %d)\n", MarkGlyphSetCount ));
 
     OTV_LIMIT_CHECK( MarkGlyphSetCount * 4 );      /* CoverageOffsets */
 
     for ( ; MarkGlyphSetCount > 0; MarkGlyphSetCount-- )
-      otv_Coverage_validate( table + FT_NEXT_ULONG( p ), otvalid, -1 );
+      otv_Coverage_validate( table + FT_TS_NEXT_ULONG( p ), otvalid, -1 );
 
     OTV_EXIT;
   }
@@ -177,19 +177,19 @@
 
   /* sets otvalid->glyph_count */
 
-  FT_LOCAL_DEF( void )
-  otv_GDEF_validate( FT_Bytes      table,
-                     FT_Bytes      gsub,
-                     FT_Bytes      gpos,
-                     FT_UInt       glyph_count,
-                     FT_Validator  ftvalid )
+  FT_TS_LOCAL_DEF( void )
+  otv_GDEF_validate( FT_TS_Bytes      table,
+                     FT_TS_Bytes      gsub,
+                     FT_TS_Bytes      gpos,
+                     FT_TS_UInt       glyph_count,
+                     FT_TS_Validator  ftvalid )
   {
     OTV_ValidatorRec  otvalidrec;
     OTV_Validator     otvalid = &otvalidrec;
-    FT_Bytes          p       = table;
-    FT_UInt           table_size;
-    FT_UShort         version;
-    FT_Bool           need_MarkAttachClassDef = 1;
+    FT_TS_Bytes          p       = table;
+    FT_TS_UInt           table_size;
+    FT_TS_UShort         version;
+    FT_TS_Bool           need_MarkAttachClassDef = 1;
 
     OTV_OPTIONAL_TABLE( GlyphClassDef );
     OTV_OPTIONAL_TABLE( AttachListOffset );
@@ -202,15 +202,15 @@
 
     otvalid->root = ftvalid;
 
-    FT_TRACE3(( "validating GDEF table\n" ));
+    FT_TS_TRACE3(( "validating GDEF table\n" ));
     OTV_INIT;
 
     OTV_LIMIT_CHECK( 4 );
 
-    if ( FT_NEXT_USHORT( p ) != 1 )  /* majorVersion */
-      FT_INVALID_FORMAT;
+    if ( FT_TS_NEXT_USHORT( p ) != 1 )  /* majorVersion */
+      FT_TS_INVALID_FORMAT;
 
-    version = FT_NEXT_USHORT( p );   /* minorVersion */
+    version = FT_TS_NEXT_USHORT( p );   /* minorVersion */
 
     table_size = 10;
     switch ( version )
@@ -221,7 +221,7 @@
       /* so we use this ugly hack to find out whether the  */
       /* table is needed actually.                         */
 
-      need_MarkAttachClassDef = FT_BOOL(
+      need_MarkAttachClassDef = FT_TS_BOOL(
         otv_GSUBGPOS_have_MarkAttachmentType_flag( gsub ) ||
         otv_GSUBGPOS_have_MarkAttachmentType_flag( gpos ) );
 
@@ -246,7 +246,7 @@
       break;
 
     default:
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
     }
 
     otvalid->glyph_count = glyph_count;
@@ -296,7 +296,7 @@
         OTV_TRACE(( "  [omitting itemVarStore validation]\n" )); /* XXX */
     }
 
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
   }
 
 

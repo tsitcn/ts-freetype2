@@ -28,7 +28,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -51,7 +51,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @struct:
-   *   FT_Color
+   *   FT_TS_Color
    *
    * @description:
    *   This structure models a BGRA color value of a 'CPAL' palette entry.
@@ -75,46 +75,46 @@ FT_BEGIN_HEADER
    * @since:
    *   2.10
    */
-  typedef struct  FT_Color_
+  typedef struct  FT_TS_Color_
   {
-    FT_Byte  blue;
-    FT_Byte  green;
-    FT_Byte  red;
-    FT_Byte  alpha;
+    FT_TS_Byte  blue;
+    FT_TS_Byte  green;
+    FT_TS_Byte  red;
+    FT_TS_Byte  alpha;
 
-  } FT_Color;
+  } FT_TS_Color;
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PALETTE_XXX
+   *   FT_TS_PALETTE_XXX
    *
    * @description:
    *   A list of bit field constants used in the `palette_flags` array of the
-   *   @FT_Palette_Data structure to indicate for which background a palette
+   *   @FT_TS_Palette_Data structure to indicate for which background a palette
    *   with a given index is usable.
    *
    * @values:
-   *   FT_PALETTE_FOR_LIGHT_BACKGROUND ::
+   *   FT_TS_PALETTE_FOR_LIGHT_BACKGROUND ::
    *     The palette is appropriate to use when displaying the font on a
    *     light background such as white.
    *
-   *   FT_PALETTE_FOR_DARK_BACKGROUND ::
+   *   FT_TS_PALETTE_FOR_DARK_BACKGROUND ::
    *     The palette is appropriate to use when displaying the font on a dark
    *     background such as black.
    *
    * @since:
    *   2.10
    */
-#define FT_PALETTE_FOR_LIGHT_BACKGROUND  0x01
-#define FT_PALETTE_FOR_DARK_BACKGROUND   0x02
+#define FT_TS_PALETTE_FOR_LIGHT_BACKGROUND  0x01
+#define FT_TS_PALETTE_FOR_DARK_BACKGROUND   0x02
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Palette_Data
+   *   FT_TS_Palette_Data
    *
    * @description:
    *   This structure holds the data of the 'CPAL' table.
@@ -136,8 +136,8 @@ FT_BEGIN_HEADER
    *   palette_flags ::
    *     An optional read-only array of palette flags with `num_palettes`
    *     elements.  Possible values are an ORed combination of
-   *     @FT_PALETTE_FOR_LIGHT_BACKGROUND and
-   *     @FT_PALETTE_FOR_DARK_BACKGROUND.
+   *     @FT_TS_PALETTE_FOR_LIGHT_BACKGROUND and
+   *     @FT_TS_PALETTE_FOR_DARK_BACKGROUND.
    *
    *     `NULL` if the font's 'CPAL' table doesn't contain appropriate data.
    *
@@ -159,30 +159,30 @@ FT_BEGIN_HEADER
    *     `NULL` if the font's 'CPAL' table doesn't contain appropriate data.
    *
    * @note:
-   *   Use function @FT_Get_Sfnt_Name to map name IDs and entry name IDs to
+   *   Use function @FT_TS_Get_Sfnt_Name to map name IDs and entry name IDs to
    *   name strings.
    *
-   *   Use function @FT_Palette_Select to get the colors associated with a
+   *   Use function @FT_TS_Palette_Select to get the colors associated with a
    *   palette entry.
    *
    * @since:
    *   2.10
    */
-  typedef struct  FT_Palette_Data_ {
-    FT_UShort         num_palettes;
-    const FT_UShort*  palette_name_ids;
-    const FT_UShort*  palette_flags;
+  typedef struct  FT_TS_Palette_Data_ {
+    FT_TS_UShort         num_palettes;
+    const FT_TS_UShort*  palette_name_ids;
+    const FT_TS_UShort*  palette_flags;
 
-    FT_UShort         num_palette_entries;
-    const FT_UShort*  palette_entry_name_ids;
+    FT_TS_UShort         num_palette_entries;
+    const FT_TS_UShort*  palette_entry_name_ids;
 
-  } FT_Palette_Data;
+  } FT_TS_Palette_Data;
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Palette_Data_Get
+   *   FT_TS_Palette_Data_Get
    *
    * @description:
    *   Retrieve the face's color palette data.
@@ -193,13 +193,13 @@ FT_BEGIN_HEADER
    *
    * @output:
    *   apalette ::
-   *     A pointer to an @FT_Palette_Data structure.
+   *     A pointer to an @FT_TS_Palette_Data structure.
    *
    * @return:
    *   FreeType error code.  0~means success.
    *
    * @note:
-   *   All arrays in the returned @FT_Palette_Data structure are read-only.
+   *   All arrays in the returned @FT_TS_Palette_Data structure are read-only.
    *
    *   This function always returns an error if the config macro
    *   `TT_CONFIG_OPTION_COLOR_LAYERS` is not defined in `ftoption.h`.
@@ -207,15 +207,15 @@ FT_BEGIN_HEADER
    * @since:
    *   2.10
    */
-  FT_EXPORT( FT_Error )
-  FT_Palette_Data_Get( FT_Face           face,
-                       FT_Palette_Data  *apalette );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Palette_Data_Get( FT_TS_Face           face,
+                       FT_TS_Palette_Data  *apalette );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Palette_Select
+   *   FT_TS_Palette_Select
    *
    * @description:
    *   This function has two purposes.
@@ -242,7 +242,7 @@ FT_BEGIN_HEADER
    *   apalette ::
    *     An array of color entries for a palette with index `palette_index`,
    *     having `num_palette_entries` elements (as found in the
-   *     `FT_Palette_Data` structure).  If `apalette` is set to `NULL`, no
+   *     `FT_TS_Palette_Data` structure).  If `apalette` is set to `NULL`, no
    *     array gets returned (and no color entries can be modified).
    *
    *     In case the font doesn't support color palettes, `NULL` is returned.
@@ -260,16 +260,16 @@ FT_BEGIN_HEADER
    * @since:
    *   2.10
    */
-  FT_EXPORT( FT_Error )
-  FT_Palette_Select( FT_Face     face,
-                     FT_UShort   palette_index,
-                     FT_Color*  *apalette );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Palette_Select( FT_TS_Face     face,
+                     FT_TS_UShort   palette_index,
+                     FT_TS_Color*  *apalette );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Palette_Set_Foreground_Color
+   *   FT_TS_Palette_Set_Foreground_Color
    *
    * @description:
    *   'COLR' uses palette index 0xFFFF to indicate a 'text foreground
@@ -280,7 +280,7 @@ FT_BEGIN_HEADER
    *     The source face handle.
    *
    *   foreground_color ::
-   *     An `FT_Color` structure to define the text foreground color.
+   *     An `FT_TS_Color` structure to define the text foreground color.
    *
    * @return:
    *   FreeType error code.  0~means success.
@@ -288,7 +288,7 @@ FT_BEGIN_HEADER
    * @note:
    *   If this function isn't called, the text foreground color is set to
    *   white opaque (BGRA value 0xFFFFFFFF) if
-   *   @FT_PALETTE_FOR_DARK_BACKGROUND is present for the current palette,
+   *   @FT_TS_PALETTE_FOR_DARK_BACKGROUND is present for the current palette,
    *   and black opaque (BGRA value 0x000000FF) otherwise, including the case
    *   that no palette types are available in the 'CPAL' table.
    *
@@ -298,9 +298,9 @@ FT_BEGIN_HEADER
    * @since:
    *   2.10
    */
-  FT_EXPORT( FT_Error )
-  FT_Palette_Set_Foreground_Color( FT_Face   face,
-                                   FT_Color  foreground_color );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Palette_Set_Foreground_Color( FT_TS_Face   face,
+                                   FT_TS_Color  foreground_color );
 
 
   /**************************************************************************
@@ -323,36 +323,36 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @struct:
-   *   FT_LayerIterator
+   *   FT_TS_LayerIterator
    *
    * @description:
-   *   This iterator object is needed for @FT_Get_Color_Glyph_Layer.
+   *   This iterator object is needed for @FT_TS_Get_Color_Glyph_Layer.
    *
    * @fields:
    *   num_layers ::
    *     The number of glyph layers for the requested glyph index.  Will be
-   *     set by @FT_Get_Color_Glyph_Layer.
+   *     set by @FT_TS_Get_Color_Glyph_Layer.
    *
    *   layer ::
-   *     The current layer.  Will be set by @FT_Get_Color_Glyph_Layer.
+   *     The current layer.  Will be set by @FT_TS_Get_Color_Glyph_Layer.
    *
    *   p ::
    *     An opaque pointer into 'COLR' table data.  The caller must set this
-   *     to `NULL` before the first call of @FT_Get_Color_Glyph_Layer.
+   *     to `NULL` before the first call of @FT_TS_Get_Color_Glyph_Layer.
    */
-  typedef struct  FT_LayerIterator_
+  typedef struct  FT_TS_LayerIterator_
   {
-    FT_UInt   num_layers;
-    FT_UInt   layer;
-    FT_Byte*  p;
+    FT_TS_UInt   num_layers;
+    FT_TS_UInt   layer;
+    FT_TS_Byte*  p;
 
-  } FT_LayerIterator;
+  } FT_TS_LayerIterator;
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Color_Glyph_Layer
+   *   FT_TS_Get_Color_Glyph_Layer
    *
    * @description:
    *   This is an interface to the 'COLR' table in OpenType fonts to
@@ -381,7 +381,7 @@ FT_BEGIN_HEADER
    *
    * @inout:
    *   iterator ::
-   *     An @FT_LayerIterator object.  For the first call you should set
+   *     An @FT_TS_LayerIterator object.  For the first call you should set
    *     `iterator->p` to `NULL`.  For all following calls, simply use the
    *     same object again.
    *
@@ -395,7 +395,7 @@ FT_BEGIN_HEADER
    *     entry but indicates that the text foreground color should be used
    *     instead (to be set up by the application outside of FreeType).
    *
-   *     The color palette can be retrieved with @FT_Palette_Select.
+   *     The color palette can be retrieved with @FT_TS_Palette_Select.
    *
    * @return:
    *   Value~1 if everything is OK.  If there are no more layers (or if there
@@ -404,30 +404,30 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   This function is necessary if you want to handle glyph layers by
-   *   yourself.  In particular, functions that operate with @FT_GlyphRec
-   *   objects (like @FT_Get_Glyph or @FT_Glyph_To_Bitmap) don't have access
+   *   yourself.  In particular, functions that operate with @FT_TS_GlyphRec
+   *   objects (like @FT_TS_Get_Glyph or @FT_TS_Glyph_To_Bitmap) don't have access
    *   to this information.
    *
-   *   Note that @FT_Render_Glyph is able to handle colored glyph layers
-   *   automatically if the @FT_LOAD_COLOR flag is passed to a previous call
-   *   to @FT_Load_Glyph.  [This is an experimental feature.]
+   *   Note that @FT_TS_Render_Glyph is able to handle colored glyph layers
+   *   automatically if the @FT_TS_LOAD_COLOR flag is passed to a previous call
+   *   to @FT_TS_Load_Glyph.  [This is an experimental feature.]
    *
    * @example:
    *   ```
-   *     FT_Color*         palette;
-   *     FT_LayerIterator  iterator;
+   *     FT_TS_Color*         palette;
+   *     FT_TS_LayerIterator  iterator;
    *
-   *     FT_Bool  have_layers;
-   *     FT_UInt  layer_glyph_index;
-   *     FT_UInt  layer_color_index;
+   *     FT_TS_Bool  have_layers;
+   *     FT_TS_UInt  layer_glyph_index;
+   *     FT_TS_UInt  layer_color_index;
    *
    *
-   *     error = FT_Palette_Select( face, palette_index, &palette );
+   *     error = FT_TS_Palette_Select( face, palette_index, &palette );
    *     if ( error )
    *       palette = NULL;
    *
    *     iterator.p  = NULL;
-   *     have_layers = FT_Get_Color_Glyph_Layer( face,
+   *     have_layers = FT_TS_Get_Color_Glyph_Layer( face,
    *                                             glyph_index,
    *                                             &layer_glyph_index,
    *                                             &layer_color_index,
@@ -437,7 +437,7 @@ FT_BEGIN_HEADER
    *     {
    *       do
    *       {
-   *         FT_Color  layer_color;
+   *         FT_TS_Color  layer_color;
    *
    *
    *         if ( layer_color_index == 0xFFFF )
@@ -449,7 +449,7 @@ FT_BEGIN_HEADER
    *         // blend resulting pixmap (using color `layer_color')
    *         // with previously created pixmaps.
    *
-   *       } while ( FT_Get_Color_Glyph_Layer( face,
+   *       } while ( FT_TS_Get_Color_Glyph_Layer( face,
    *                                           glyph_index,
    *                                           &layer_glyph_index,
    *                                           &layer_color_index,
@@ -457,18 +457,18 @@ FT_BEGIN_HEADER
    *     }
    *   ```
    */
-  FT_EXPORT( FT_Bool )
-  FT_Get_Color_Glyph_Layer( FT_Face            face,
-                            FT_UInt            base_glyph,
-                            FT_UInt           *aglyph_index,
-                            FT_UInt           *acolor_index,
-                            FT_LayerIterator*  iterator );
+  FT_TS_EXPORT( FT_TS_Bool )
+  FT_TS_Get_Color_Glyph_Layer( FT_TS_Face            face,
+                            FT_TS_UInt            base_glyph,
+                            FT_TS_UInt           *aglyph_index,
+                            FT_TS_UInt           *acolor_index,
+                            FT_TS_LayerIterator*  iterator );
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PaintFormat
+   *   FT_TS_PaintFormat
    *
    * @description:
    *   Enumeration describing the different paint format types of the v1
@@ -484,7 +484,7 @@ FT_BEGIN_HEADER
    *   format identifiers are listed in this enumeration; as soon as support
    *   for variable 'COLR' v1 fonts is implemented, interpolation is
    *   performed dependent on axis coordinates, which are configured on the
-   *   @FT_Face through @FT_Set_Var_Design_Coordinates.  This implies that
+   *   @FT_TS_Face through @FT_TS_Set_Var_Design_Coordinates.  This implies that
    *   always static, readily interpolated values are returned in the 'Paint'
    *   structures.
    *
@@ -493,69 +493,69 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef enum  FT_PaintFormat_
+  typedef enum  FT_TS_PaintFormat_
   {
-    FT_COLR_PAINTFORMAT_COLR_LAYERS     = 1,
-    FT_COLR_PAINTFORMAT_SOLID           = 2,
-    FT_COLR_PAINTFORMAT_LINEAR_GRADIENT = 4,
-    FT_COLR_PAINTFORMAT_RADIAL_GRADIENT = 6,
-    FT_COLR_PAINTFORMAT_SWEEP_GRADIENT  = 8,
-    FT_COLR_PAINTFORMAT_GLYPH           = 10,
-    FT_COLR_PAINTFORMAT_COLR_GLYPH      = 11,
-    FT_COLR_PAINTFORMAT_TRANSFORM       = 12,
-    FT_COLR_PAINTFORMAT_TRANSLATE       = 14,
-    FT_COLR_PAINTFORMAT_SCALE           = 16,
-    FT_COLR_PAINTFORMAT_ROTATE          = 24,
-    FT_COLR_PAINTFORMAT_SKEW            = 28,
-    FT_COLR_PAINTFORMAT_COMPOSITE       = 32,
-    FT_COLR_PAINT_FORMAT_MAX            = 33,
-    FT_COLR_PAINTFORMAT_UNSUPPORTED     = 255
+    FT_TS_COLR_PAINTFORMAT_COLR_LAYERS     = 1,
+    FT_TS_COLR_PAINTFORMAT_SOLID           = 2,
+    FT_TS_COLR_PAINTFORMAT_LINEAR_GRADIENT = 4,
+    FT_TS_COLR_PAINTFORMAT_RADIAL_GRADIENT = 6,
+    FT_TS_COLR_PAINTFORMAT_SWEEP_GRADIENT  = 8,
+    FT_TS_COLR_PAINTFORMAT_GLYPH           = 10,
+    FT_TS_COLR_PAINTFORMAT_COLR_GLYPH      = 11,
+    FT_TS_COLR_PAINTFORMAT_TRANSFORM       = 12,
+    FT_TS_COLR_PAINTFORMAT_TRANSLATE       = 14,
+    FT_TS_COLR_PAINTFORMAT_SCALE           = 16,
+    FT_TS_COLR_PAINTFORMAT_ROTATE          = 24,
+    FT_TS_COLR_PAINTFORMAT_SKEW            = 28,
+    FT_TS_COLR_PAINTFORMAT_COMPOSITE       = 32,
+    FT_TS_COLR_PAINT_FORMAT_MAX            = 33,
+    FT_TS_COLR_PAINTFORMAT_UNSUPPORTED     = 255
 
-  } FT_PaintFormat;
+  } FT_TS_PaintFormat;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_ColorStopIterator
+   *   FT_TS_ColorStopIterator
    *
    * @description:
-   *   This iterator object is needed for @FT_Get_Colorline_Stops.  It keeps
-   *   state while iterating over the stops of an @FT_ColorLine,
+   *   This iterator object is needed for @FT_TS_Get_Colorline_Stops.  It keeps
+   *   state while iterating over the stops of an @FT_TS_ColorLine,
    *   representing the `ColorLine` struct of the v1 extensions to 'COLR',
    *   see 'https://github.com/googlefonts/colr-gradients-spec'.
    *
    * @fields:
    *   num_color_stops ::
    *     The number of color stops for the requested glyph index.  Set by
-   *     @FT_Get_Colorline_Stops.
+   *     @FT_TS_Get_Colorline_Stops.
    *
    *   current_color_stop ::
-   *     The current color stop.  Set by @FT_Get_Colorline_Stops.
+   *     The current color stop.  Set by @FT_TS_Get_Colorline_Stops.
    *
    *   p ::
    *     An opaque pointer into 'COLR' table data.  The caller must set this
-   *     to `NULL` before the first call of @FT_Get_Colorline_Stops.
+   *     to `NULL` before the first call of @FT_TS_Get_Colorline_Stops.
    *
    * @since:
    *   2.11 -- **currently experimental only!**  There might be changes
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_ColorStopIterator_
+  typedef struct  FT_TS_ColorStopIterator_
   {
-    FT_UInt  num_color_stops;
-    FT_UInt  current_color_stop;
+    FT_TS_UInt  num_color_stops;
+    FT_TS_UInt  current_color_stop;
 
-    FT_Byte*  p;
+    FT_TS_Byte*  p;
 
-  } FT_ColorStopIterator;
+  } FT_TS_ColorStopIterator;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_ColorIndex
+   *   FT_TS_ColorIndex
    *
    * @description:
    *   A structure representing a `ColorIndex` value of the 'COLR' v1
@@ -573,18 +573,18 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_ColorIndex_
+  typedef struct  FT_TS_ColorIndex_
   {
-    FT_UInt16   palette_index;
-    FT_F2Dot14  alpha;
+    FT_TS_UInt16   palette_index;
+    FT_TS_F2Dot14  alpha;
 
-  } FT_ColorIndex;
+  } FT_TS_ColorIndex;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_ColorStop
+   *   FT_TS_ColorStop
    *
    * @description:
    *   A structure representing a `ColorStop` value of the 'COLR' v1
@@ -595,25 +595,25 @@ FT_BEGIN_HEADER
    *     The stop offset between 0 and 1 along the gradient.
    *
    *   color ::
-   *     The color information for this stop, see @FT_ColorIndex.
+   *     The color information for this stop, see @FT_TS_ColorIndex.
    *
    * @since:
    *   2.11 -- **currently experimental only!**  There might be changes
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_ColorStop_
+  typedef struct  FT_TS_ColorStop_
   {
-    FT_F2Dot14     stop_offset;
-    FT_ColorIndex  color;
+    FT_TS_F2Dot14     stop_offset;
+    FT_TS_ColorIndex  color;
 
-  } FT_ColorStop;
+  } FT_TS_ColorStop;
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PaintExtend
+   *   FT_TS_PaintExtend
    *
    * @description:
    *   An enumeration representing the 'Extend' mode of the 'COLR' v1
@@ -625,19 +625,19 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef enum  FT_PaintExtend_
+  typedef enum  FT_TS_PaintExtend_
   {
-    FT_COLR_PAINT_EXTEND_PAD     = 0,
-    FT_COLR_PAINT_EXTEND_REPEAT  = 1,
-    FT_COLR_PAINT_EXTEND_REFLECT = 2
+    FT_TS_COLR_PAINT_EXTEND_PAD     = 0,
+    FT_TS_COLR_PAINT_EXTEND_REPEAT  = 1,
+    FT_TS_COLR_PAINT_EXTEND_REFLECT = 2
 
-  } FT_PaintExtend;
+  } FT_TS_PaintExtend;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_ColorLine
+   *   FT_TS_ColorLine
    *
    * @description:
    *   A structure representing a `ColorLine` value of the 'COLR' v1
@@ -646,29 +646,29 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   extend ::
-   *     The extend mode at the outer boundaries, see @FT_PaintExtend.
+   *     The extend mode at the outer boundaries, see @FT_TS_PaintExtend.
    *
    *   color_stop_iterator ::
-   *     The @FT_ColorStopIterator used to enumerate and retrieve the
-   *     actual @FT_ColorStop's.
+   *     The @FT_TS_ColorStopIterator used to enumerate and retrieve the
+   *     actual @FT_TS_ColorStop's.
    *
    * @since:
    *   2.11 -- **currently experimental only!**  There might be changes
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_ColorLine_
+  typedef struct  FT_TS_ColorLine_
   {
-    FT_PaintExtend        extend;
-    FT_ColorStopIterator  color_stop_iterator;
+    FT_TS_PaintExtend        extend;
+    FT_TS_ColorStopIterator  color_stop_iterator;
 
-  } FT_ColorLine;
+  } FT_TS_ColorLine;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Affine23
+   *   FT_TS_Affine23
    *
    * @description:
    *   A structure used to store a 2x3 matrix.  Coefficients are in
@@ -703,22 +703,22 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_Affine_23_
+  typedef struct  FT_TS_Affine_23_
   {
-    FT_Fixed  xx, xy, dx;
-    FT_Fixed  yx, yy, dy;
+    FT_TS_Fixed  xx, xy, dx;
+    FT_TS_Fixed  yx, yy, dy;
 
-  } FT_Affine23;
+  } FT_TS_Affine23;
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_Composite_Mode
+   *   FT_TS_Composite_Mode
    *
    * @description:
    *   An enumeration listing the 'COLR' v1 composite modes used in
-   *   @FT_PaintComposite.  For more details on each paint mode, see
+   *   @FT_TS_PaintComposite.  For more details on each paint mode, see
    *   'https://www.w3.org/TR/compositing-1/#porterduffcompositingoperators'.
    *
    * @since:
@@ -726,60 +726,60 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef enum  FT_Composite_Mode_
+  typedef enum  FT_TS_Composite_Mode_
   {
-    FT_COLR_COMPOSITE_CLEAR          = 0,
-    FT_COLR_COMPOSITE_SRC            = 1,
-    FT_COLR_COMPOSITE_DEST           = 2,
-    FT_COLR_COMPOSITE_SRC_OVER       = 3,
-    FT_COLR_COMPOSITE_DEST_OVER      = 4,
-    FT_COLR_COMPOSITE_SRC_IN         = 5,
-    FT_COLR_COMPOSITE_DEST_IN        = 6,
-    FT_COLR_COMPOSITE_SRC_OUT        = 7,
-    FT_COLR_COMPOSITE_DEST_OUT       = 8,
-    FT_COLR_COMPOSITE_SRC_ATOP       = 9,
-    FT_COLR_COMPOSITE_DEST_ATOP      = 10,
-    FT_COLR_COMPOSITE_XOR            = 11,
-    FT_COLR_COMPOSITE_PLUS           = 12,
-    FT_COLR_COMPOSITE_SCREEN         = 13,
-    FT_COLR_COMPOSITE_OVERLAY        = 14,
-    FT_COLR_COMPOSITE_DARKEN         = 15,
-    FT_COLR_COMPOSITE_LIGHTEN        = 16,
-    FT_COLR_COMPOSITE_COLOR_DODGE    = 17,
-    FT_COLR_COMPOSITE_COLOR_BURN     = 18,
-    FT_COLR_COMPOSITE_HARD_LIGHT     = 19,
-    FT_COLR_COMPOSITE_SOFT_LIGHT     = 20,
-    FT_COLR_COMPOSITE_DIFFERENCE     = 21,
-    FT_COLR_COMPOSITE_EXCLUSION      = 22,
-    FT_COLR_COMPOSITE_MULTIPLY       = 23,
-    FT_COLR_COMPOSITE_HSL_HUE        = 24,
-    FT_COLR_COMPOSITE_HSL_SATURATION = 25,
-    FT_COLR_COMPOSITE_HSL_COLOR      = 26,
-    FT_COLR_COMPOSITE_HSL_LUMINOSITY = 27,
-    FT_COLR_COMPOSITE_MAX            = 28
+    FT_TS_COLR_COMPOSITE_CLEAR          = 0,
+    FT_TS_COLR_COMPOSITE_SRC            = 1,
+    FT_TS_COLR_COMPOSITE_DEST           = 2,
+    FT_TS_COLR_COMPOSITE_SRC_OVER       = 3,
+    FT_TS_COLR_COMPOSITE_DEST_OVER      = 4,
+    FT_TS_COLR_COMPOSITE_SRC_IN         = 5,
+    FT_TS_COLR_COMPOSITE_DEST_IN        = 6,
+    FT_TS_COLR_COMPOSITE_SRC_OUT        = 7,
+    FT_TS_COLR_COMPOSITE_DEST_OUT       = 8,
+    FT_TS_COLR_COMPOSITE_SRC_ATOP       = 9,
+    FT_TS_COLR_COMPOSITE_DEST_ATOP      = 10,
+    FT_TS_COLR_COMPOSITE_XOR            = 11,
+    FT_TS_COLR_COMPOSITE_PLUS           = 12,
+    FT_TS_COLR_COMPOSITE_SCREEN         = 13,
+    FT_TS_COLR_COMPOSITE_OVERLAY        = 14,
+    FT_TS_COLR_COMPOSITE_DARKEN         = 15,
+    FT_TS_COLR_COMPOSITE_LIGHTEN        = 16,
+    FT_TS_COLR_COMPOSITE_COLOR_DODGE    = 17,
+    FT_TS_COLR_COMPOSITE_COLOR_BURN     = 18,
+    FT_TS_COLR_COMPOSITE_HARD_LIGHT     = 19,
+    FT_TS_COLR_COMPOSITE_SOFT_TS_LIGHT     = 20,
+    FT_TS_COLR_COMPOSITE_DIFFERENCE     = 21,
+    FT_TS_COLR_COMPOSITE_EXCLUSION      = 22,
+    FT_TS_COLR_COMPOSITE_MULTIPLY       = 23,
+    FT_TS_COLR_COMPOSITE_HSL_HUE        = 24,
+    FT_TS_COLR_COMPOSITE_HSL_SATURATION = 25,
+    FT_TS_COLR_COMPOSITE_HSL_COLOR      = 26,
+    FT_TS_COLR_COMPOSITE_HSL_LUMINOSITY = 27,
+    FT_TS_COLR_COMPOSITE_MAX            = 28
 
-  } FT_Composite_Mode;
+  } FT_TS_Composite_Mode;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_OpaquePaint
+   *   FT_TS_OpaquePaint
    *
    * @description:
    *   A structure representing an offset to a `Paint` value stored in any
    *   of the paint tables of a 'COLR' v1 font.  Compare Offset<24> there.
    *   When 'COLR' v1 paint tables represented by FreeType objects such as
-   *   @FT_PaintColrLayers, @FT_PaintComposite, or @FT_PaintTransform
+   *   @FT_TS_PaintColrLayers, @FT_TS_PaintComposite, or @FT_TS_PaintTransform
    *   reference downstream nested paint tables, we do not immediately
    *   retrieve them but encapsulate their location in this type.  Use
-   *   @FT_Get_Paint to retrieve the actual @FT_COLR_Paint object that
+   *   @FT_TS_Get_Paint to retrieve the actual @FT_TS_COLR_Paint object that
    *   describes the details of the respective paint table.
    *
    * @fields:
    *   p ::
    *     An internal offset to a Paint table, needs to be set to NULL before
-   *     passing this struct as an argument to @FT_Get_Paint.
+   *     passing this struct as an argument to @FT_TS_Get_Paint.
    *
    *   insert_root_transform ::
    *     An internal boolean to track whether an initial root transform is
@@ -790,24 +790,24 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_Opaque_Paint_
+  typedef struct  FT_TS_Opaque_Paint_
   {
-    FT_Byte*  p;
-    FT_Bool   insert_root_transform;
-  } FT_OpaquePaint;
+    FT_TS_Byte*  p;
+    FT_TS_Bool   insert_root_transform;
+  } FT_TS_OpaquePaint;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintColrLayers
+   *   FT_TS_PaintColrLayers
    *
    * @description:
    *   A structure representing a `PaintColrLayers` table of a 'COLR' v1
    *   font.  This table describes a set of layers that are to be composited
-   *   with composite mode `FT_COLR_COMPOSITE_SRC_OVER`.  The return value
-   *   of this function is an @FT_LayerIterator initialized so that it can
-   *   be used with @FT_Get_Paint_Layers to retrieve the @FT_OpaquePaint
+   *   with composite mode `FT_TS_COLR_COMPOSITE_SRC_OVER`.  The return value
+   *   of this function is an @FT_TS_LayerIterator initialized so that it can
+   *   be used with @FT_TS_Get_Paint_Layers to retrieve the @FT_TS_OpaquePaint
    *   objects as references to each layer.
    *
    * @fields:
@@ -819,17 +819,17 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintColrLayers_
+  typedef struct  FT_TS_PaintColrLayers_
   {
-    FT_LayerIterator  layer_iterator;
+    FT_TS_LayerIterator  layer_iterator;
 
-  } FT_PaintColrLayers;
+  } FT_TS_PaintColrLayers;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintSolid
+   *   FT_TS_PaintSolid
    *
    * @description:
    *   A structure representing a `PaintSolid` value of the 'COLR' v1
@@ -839,24 +839,24 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   color ::
-   *     The color information for this solid paint, see @FT_ColorIndex.
+   *     The color information for this solid paint, see @FT_TS_ColorIndex.
    *
    * @since:
    *   2.11 -- **currently experimental only!**  There might be changes
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintSolid_
+  typedef struct  FT_TS_PaintSolid_
   {
-    FT_ColorIndex  color;
+    FT_TS_ColorIndex  color;
 
-  } FT_PaintSolid;
+  } FT_TS_PaintSolid;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintLinearGradient
+   *   FT_TS_PaintLinearGradient
    *
    * @description:
    *   A structure representing a `PaintLinearGradient` value of the 'COLR'
@@ -866,20 +866,20 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   colorline ::
-   *     The @FT_ColorLine information for this paint, i.e., the list of
+   *     The @FT_TS_ColorLine information for this paint, i.e., the list of
    *     color stops along the gradient.
    *
    *   p0 ::
    *     The starting point of the gradient definition in font units
-   *     represented as a 16.16 fixed-point `FT_Vector`.
+   *     represented as a 16.16 fixed-point `FT_TS_Vector`.
    *
    *   p1 ::
    *     The end point of the gradient definition in font units
-   *     represented as a 16.16 fixed-point `FT_Vector`.
+   *     represented as a 16.16 fixed-point `FT_TS_Vector`.
    *
    *   p2 ::
    *     Optional point~p2 to rotate the gradient in font units
-   *     represented as a 16.16 fixed-point `FT_Vector`.
+   *     represented as a 16.16 fixed-point `FT_TS_Vector`.
    *     Otherwise equal to~p0.
    *
    * @since:
@@ -887,22 +887,22 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintLinearGradient_
+  typedef struct  FT_TS_PaintLinearGradient_
   {
-    FT_ColorLine  colorline;
+    FT_TS_ColorLine  colorline;
 
     /* TODO: Potentially expose those as x0, y0 etc. */
-    FT_Vector  p0;
-    FT_Vector  p1;
-    FT_Vector  p2;
+    FT_TS_Vector  p0;
+    FT_TS_Vector  p1;
+    FT_TS_Vector  p2;
 
-  } FT_PaintLinearGradient;
+  } FT_TS_PaintLinearGradient;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintRadialGradient
+   *   FT_TS_PaintRadialGradient
    *
    * @description:
    *   A structure representing a `PaintRadialGradient` value of the 'COLR'
@@ -913,12 +913,12 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   colorline ::
-   *     The @FT_ColorLine information for this paint, i.e., the list of
+   *     The @FT_TS_ColorLine information for this paint, i.e., the list of
    *     color stops along the gradient.
    *
    *   c0 ::
    *     The center of the starting point of the radial gradient in font
-   *     units represented as a 16.16 fixed-point `FT_Vector`.
+   *     units represented as a 16.16 fixed-point `FT_TS_Vector`.
    *
    *   r0 ::
    *     The radius of the starting circle of the radial gradient in font
@@ -926,7 +926,7 @@ FT_BEGIN_HEADER
    *
    *   c1 ::
    *     The center of the end point of the radial gradient in font units
-   *     represented as a 16.16 fixed-point `FT_Vector`.
+   *     represented as a 16.16 fixed-point `FT_TS_Vector`.
    *
    *   r1 ::
    *     The radius of the end circle of the radial gradient in font
@@ -937,22 +937,22 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintRadialGradient_
+  typedef struct  FT_TS_PaintRadialGradient_
   {
-    FT_ColorLine  colorline;
+    FT_TS_ColorLine  colorline;
 
-    FT_Vector  c0;
-    FT_Pos     r0;
-    FT_Vector  c1;
-    FT_Pos     r1;
+    FT_TS_Vector  c0;
+    FT_TS_Pos     r0;
+    FT_TS_Vector  c1;
+    FT_TS_Pos     r1;
 
-  } FT_PaintRadialGradient;
+  } FT_TS_PaintRadialGradient;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintSweepGradient
+   *   FT_TS_PaintSweepGradient
    *
    * @description:
    *   A structure representing a `PaintSweepGradient` value of the 'COLR'
@@ -963,7 +963,7 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   colorline ::
-   *     The @FT_ColorLine information for this paint, i.e., the list of
+   *     The @FT_TS_ColorLine information for this paint, i.e., the list of
    *     color stops along the gradient.
    *
    *   center ::
@@ -987,21 +987,21 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintSweepGradient_
+  typedef struct  FT_TS_PaintSweepGradient_
   {
-    FT_ColorLine  colorline;
+    FT_TS_ColorLine  colorline;
 
-    FT_Vector  center;
-    FT_Fixed   start_angle;
-    FT_Fixed   end_angle;
+    FT_TS_Vector  center;
+    FT_TS_Fixed   start_angle;
+    FT_TS_Fixed   end_angle;
 
-  } FT_PaintSweepGradient;
+  } FT_TS_PaintSweepGradient;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintGlyph
+   *   FT_TS_PaintGlyph
    *
    * @description:
    *   A structure representing a 'COLR' v1 `PaintGlyph` paint table.
@@ -1020,18 +1020,18 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintGlyph_
+  typedef struct  FT_TS_PaintGlyph_
   {
-    FT_OpaquePaint  paint;
-    FT_UInt         glyphID;
+    FT_TS_OpaquePaint  paint;
+    FT_TS_UInt         glyphID;
 
-  } FT_PaintGlyph;
+  } FT_TS_PaintGlyph;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintColrGlyph
+   *   FT_TS_PaintColrGlyph
    *
    * @description:
    *   A structure representing a 'COLR' v1 `PaintColorGlyph` paint table.
@@ -1046,17 +1046,17 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintColrGlyph_
+  typedef struct  FT_TS_PaintColrGlyph_
   {
-    FT_UInt  glyphID;
+    FT_TS_UInt  glyphID;
 
-  } FT_PaintColrGlyph;
+  } FT_TS_PaintColrGlyph;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintTransform
+   *   FT_TS_PaintTransform
    *
    * @description:
    *   A structure representing a 'COLR' v1 `PaintTransform` paint table.
@@ -1066,7 +1066,7 @@ FT_BEGIN_HEADER
    *     An opaque paint that is subject to being transformed.
    *
    *   affine ::
-   *     A 2x3 transformation matrix in @FT_Affine23 format containing
+   *     A 2x3 transformation matrix in @FT_TS_Affine23 format containing
    *     16.16 fixed-point values.
    *
    * @since:
@@ -1074,18 +1074,18 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintTransform_
+  typedef struct  FT_TS_PaintTransform_
   {
-    FT_OpaquePaint  paint;
-    FT_Affine23     affine;
+    FT_TS_OpaquePaint  paint;
+    FT_TS_Affine23     affine;
 
-  } FT_PaintTransform;
+  } FT_TS_PaintTransform;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintTranslate
+   *   FT_TS_PaintTranslate
    *
    * @description:
    *   A structure representing a 'COLR' v1 `PaintTranslate` paint table.
@@ -1093,7 +1093,7 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   paint ::
-   *     An @FT_OpaquePaint object referencing the paint that is to be
+   *     An @FT_TS_OpaquePaint object referencing the paint that is to be
    *     rotated.
    *
    *   dx ::
@@ -1109,20 +1109,20 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintTranslate_
+  typedef struct  FT_TS_PaintTranslate_
   {
-    FT_OpaquePaint  paint;
+    FT_TS_OpaquePaint  paint;
 
-    FT_Fixed  dx;
-    FT_Fixed  dy;
+    FT_TS_Fixed  dx;
+    FT_TS_Fixed  dy;
 
-  } FT_PaintTranslate;
+  } FT_TS_PaintTranslate;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintScale
+   *   FT_TS_PaintScale
    *
    * @description:
    *   A structure representing all of the 'COLR' v1 'PaintScale*' paint
@@ -1136,7 +1136,7 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   paint ::
-   *     An @FT_OpaquePaint object referencing the paint that is to be
+   *     An @FT_TS_OpaquePaint object referencing the paint that is to be
    *     scaled.
    *
    *   scale_x ::
@@ -1160,23 +1160,23 @@ FT_BEGIN_HEADER
    *   without retaining backward-compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintScale_
+  typedef struct  FT_TS_PaintScale_
   {
-    FT_OpaquePaint  paint;
+    FT_TS_OpaquePaint  paint;
 
-    FT_Fixed  scale_x;
-    FT_Fixed  scale_y;
+    FT_TS_Fixed  scale_x;
+    FT_TS_Fixed  scale_y;
 
-    FT_Fixed  center_x;
-    FT_Fixed  center_y;
+    FT_TS_Fixed  center_x;
+    FT_TS_Fixed  center_y;
 
-  } FT_PaintScale;
+  } FT_TS_PaintScale;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintRotate
+   *   FT_TS_PaintRotate
    *
    * @description:
    *   A structure representing a 'COLR' v1 `PaintRotate` paint table.  Used
@@ -1184,7 +1184,7 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   paint ::
-   *     An @FT_OpaquePaint object referencing the paint that is to be
+   *     An @FT_TS_OpaquePaint object referencing the paint that is to be
    *     rotated.
    *
    *   angle ::
@@ -1206,22 +1206,22 @@ FT_BEGIN_HEADER
    *
    */
 
-  typedef struct  FT_PaintRotate_
+  typedef struct  FT_TS_PaintRotate_
   {
-    FT_OpaquePaint  paint;
+    FT_TS_OpaquePaint  paint;
 
-    FT_Fixed  angle;
+    FT_TS_Fixed  angle;
 
-    FT_Fixed  center_x;
-    FT_Fixed  center_y;
+    FT_TS_Fixed  center_x;
+    FT_TS_Fixed  center_y;
 
-  } FT_PaintRotate;
+  } FT_TS_PaintRotate;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintSkew
+   *   FT_TS_PaintSkew
    *
    * @description:
    *   A structure representing a 'COLR' v1 `PaintSkew` paint table.  Used
@@ -1230,7 +1230,7 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   paint ::
-   *     An @FT_OpaquePaint object referencing the paint that is to be
+   *     An @FT_TS_OpaquePaint object referencing the paint that is to be
    *     skewed.
    *
    *   x_skew_angle ::
@@ -1256,23 +1256,23 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintSkew_
+  typedef struct  FT_TS_PaintSkew_
   {
-    FT_OpaquePaint  paint;
+    FT_TS_OpaquePaint  paint;
 
-    FT_Fixed  x_skew_angle;
-    FT_Fixed  y_skew_angle;
+    FT_TS_Fixed  x_skew_angle;
+    FT_TS_Fixed  y_skew_angle;
 
-    FT_Fixed  center_x;
-    FT_Fixed  center_y;
+    FT_TS_Fixed  center_x;
+    FT_TS_Fixed  center_y;
 
-  } FT_PaintSkew;
+  } FT_TS_PaintSkew;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_PaintComposite
+   *   FT_TS_PaintComposite
    *
    * @description:
    *   A structure representing a 'COLR'v1 `PaintComposite` paint table.
@@ -1281,15 +1281,15 @@ FT_BEGIN_HEADER
    *
    * @fields:
    *   source_paint ::
-   *     An @FT_OpaquePaint object referencing the source that is to be
+   *     An @FT_TS_OpaquePaint object referencing the source that is to be
    *     composited.
    *
    *   composite_mode ::
-   *     An @FT_Composite_Mode enum value determining the composition
+   *     An @FT_TS_Composite_Mode enum value determining the composition
    *     operation.
    *
    *   backdrop_paint ::
-   *     An @FT_OpaquePaint object referencing the backdrop paint that
+   *     An @FT_TS_OpaquePaint object referencing the backdrop paint that
    *     `source_paint` is composited onto.
    *
    * @since:
@@ -1297,25 +1297,25 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_PaintComposite_
+  typedef struct  FT_TS_PaintComposite_
   {
-    FT_OpaquePaint     source_paint;
-    FT_Composite_Mode  composite_mode;
-    FT_OpaquePaint     backdrop_paint;
+    FT_TS_OpaquePaint     source_paint;
+    FT_TS_Composite_Mode  composite_mode;
+    FT_TS_OpaquePaint     backdrop_paint;
 
-  } FT_PaintComposite;
+  } FT_TS_PaintComposite;
 
 
   /**************************************************************************
    *
    * @union:
-   *   FT_COLR_Paint
+   *   FT_TS_COLR_Paint
    *
    * @description:
    *   A union object representing format and details of a paint table of a
    *   'COLR' v1 font, see
    *   'https://github.com/googlefonts/colr-gradients-spec'.  Use
-   *   @FT_Get_Paint to retrieve a @FT_COLR_Paint for an @FT_OpaquePaint
+   *   @FT_TS_Get_Paint to retrieve a @FT_TS_COLR_Paint for an @FT_TS_OpaquePaint
    *   object.
    *
    * @fields:
@@ -1325,64 +1325,64 @@ FT_BEGIN_HEADER
    *   u ::
    *     Union of all paint table types:
    *
-   *       * @FT_PaintColrLayers
-   *       * @FT_PaintGlyph
-   *       * @FT_PaintSolid
-   *       * @FT_PaintLinearGradient
-   *       * @FT_PaintRadialGradient
-   *       * @FT_PaintSweepGradient
-   *       * @FT_PaintTransform
-   *       * @FT_PaintTranslate
-   *       * @FT_PaintRotate
-   *       * @FT_PaintSkew
-   *       * @FT_PaintComposite
-   *       * @FT_PaintColrGlyph
+   *       * @FT_TS_PaintColrLayers
+   *       * @FT_TS_PaintGlyph
+   *       * @FT_TS_PaintSolid
+   *       * @FT_TS_PaintLinearGradient
+   *       * @FT_TS_PaintRadialGradient
+   *       * @FT_TS_PaintSweepGradient
+   *       * @FT_TS_PaintTransform
+   *       * @FT_TS_PaintTranslate
+   *       * @FT_TS_PaintRotate
+   *       * @FT_TS_PaintSkew
+   *       * @FT_TS_PaintComposite
+   *       * @FT_TS_PaintColrGlyph
    *
    * @since:
    *   2.11 -- **currently experimental only!**  There might be changes
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_COLR_Paint_
+  typedef struct  FT_TS_COLR_Paint_
   {
-    FT_PaintFormat format;
+    FT_TS_PaintFormat format;
 
     union
     {
-      FT_PaintColrLayers      colr_layers;
-      FT_PaintGlyph           glyph;
-      FT_PaintSolid           solid;
-      FT_PaintLinearGradient  linear_gradient;
-      FT_PaintRadialGradient  radial_gradient;
-      FT_PaintSweepGradient   sweep_gradient;
-      FT_PaintTransform       transform;
-      FT_PaintTranslate       translate;
-      FT_PaintScale           scale;
-      FT_PaintRotate          rotate;
-      FT_PaintSkew            skew;
-      FT_PaintComposite       composite;
-      FT_PaintColrGlyph       colr_glyph;
+      FT_TS_PaintColrLayers      colr_layers;
+      FT_TS_PaintGlyph           glyph;
+      FT_TS_PaintSolid           solid;
+      FT_TS_PaintLinearGradient  linear_gradient;
+      FT_TS_PaintRadialGradient  radial_gradient;
+      FT_TS_PaintSweepGradient   sweep_gradient;
+      FT_TS_PaintTransform       transform;
+      FT_TS_PaintTranslate       translate;
+      FT_TS_PaintScale           scale;
+      FT_TS_PaintRotate          rotate;
+      FT_TS_PaintSkew            skew;
+      FT_TS_PaintComposite       composite;
+      FT_TS_PaintColrGlyph       colr_glyph;
 
     } u;
 
-  } FT_COLR_Paint;
+  } FT_TS_COLR_Paint;
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_Color_Root_Transform
+   *   FT_TS_Color_Root_Transform
    *
    * @description:
-   *   An enumeration to specify whether @FT_Get_Color_Glyph_Paint is to
+   *   An enumeration to specify whether @FT_TS_Get_Color_Glyph_Paint is to
    *   return a root transform to configure the client's graphics context
    *   matrix.
    *
    * @values:
-   *   FT_COLOR_INCLUDE_ROOT_TRANSFORM ::
-   *     Do include the root transform as the initial @FT_COLR_Paint object.
+   *   FT_TS_COLOR_INCLUDE_ROOT_TRANSFORM ::
+   *     Do include the root transform as the initial @FT_TS_COLR_Paint object.
    *
-   *   FT_COLOR_NO_ROOT_TRANSFORM ::
+   *   FT_TS_COLOR_NO_ROOT_TRANSFORM ::
    *     Do not output an initial root transform.
    *
    * @since:
@@ -1390,42 +1390,42 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef enum  FT_Color_Root_Transform_
+  typedef enum  FT_TS_Color_Root_Transform_
   {
-    FT_COLOR_INCLUDE_ROOT_TRANSFORM,
-    FT_COLOR_NO_ROOT_TRANSFORM,
+    FT_TS_COLOR_INCLUDE_ROOT_TRANSFORM,
+    FT_TS_COLOR_NO_ROOT_TRANSFORM,
 
-    FT_COLOR_ROOT_TRANSFORM_MAX
+    FT_TS_COLOR_ROOT_TRANSFORM_MAX
 
-  } FT_Color_Root_Transform;
+  } FT_TS_Color_Root_Transform;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_ClipBox
+   *   FT_TS_ClipBox
    *
    * @description:
    *   A structure representing a 'COLR' v1 'ClipBox' table.  'COLR' v1
    *   glyphs may optionally define a clip box for aiding allocation or
-   *   defining a maximum drawable region.  Use @FT_Get_Color_Glyph_ClipBox
+   *   defining a maximum drawable region.  Use @FT_TS_Get_Color_Glyph_ClipBox
    *   to retrieve it.
    *
    * @fields:
    *   bottom_left ::
-   *     The bottom left corner of the clip box as an @FT_Vector with
+   *     The bottom left corner of the clip box as an @FT_TS_Vector with
    *     fixed-point coordinates in 26.6 format.
    *
    *   top_left ::
-   *     The top left corner of the clip box as an @FT_Vector with
+   *     The top left corner of the clip box as an @FT_TS_Vector with
    *     fixed-point coordinates in 26.6 format.
    *
    *   top_right ::
-   *     The top right corner of the clip box as an @FT_Vector with
+   *     The top right corner of the clip box as an @FT_TS_Vector with
    *     fixed-point coordinates in 26.6 format.
    *
    *   bottom_right ::
-   *     The bottom right corner of the clip box as an @FT_Vector with
+   *     The bottom right corner of the clip box as an @FT_TS_Vector with
    *     fixed-point coordinates in 26.6 format.
    *
    * @since:
@@ -1433,20 +1433,20 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  typedef struct  FT_ClipBox_
+  typedef struct  FT_TS_ClipBox_
   {
-    FT_Vector  bottom_left;
-    FT_Vector  top_left;
-    FT_Vector  top_right;
-    FT_Vector  bottom_right;
+    FT_TS_Vector  bottom_left;
+    FT_TS_Vector  top_left;
+    FT_TS_Vector  top_right;
+    FT_TS_Vector  bottom_right;
 
-  } FT_ClipBox;
+  } FT_TS_ClipBox;
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Color_Glyph_Paint
+   *   FT_TS_Get_Color_Glyph_Paint
    *
    * @description:
    *   This is the starting point and interface to color gradient
@@ -1465,20 +1465,20 @@ FT_BEGIN_HEADER
    *   This function allows control whether an initial root transform is
    *   returned to configure scaling, transform, and translation correctly
    *   on the client's graphics context.  The initial root transform is
-   *   computed and returned according to the values configured for @FT_Size
-   *   and @FT_Set_Transform on the @FT_Face object, see below for details
+   *   computed and returned according to the values configured for @FT_TS_Size
+   *   and @FT_TS_Set_Transform on the @FT_TS_Face object, see below for details
    *   of the `root_transform` parameter.  This has implications for a
    *   client 'COLR' v1 implementation: When this function returns an
    *   initially computed root transform, at the time of executing the
-   *   @FT_PaintGlyph operation, the contours should be retrieved using
-   *   @FT_Load_Glyph at unscaled, untransformed size.  This is because the
+   *   @FT_TS_PaintGlyph operation, the contours should be retrieved using
+   *   @FT_TS_Load_Glyph at unscaled, untransformed size.  This is because the
    *   root transform applied to the graphics context will take care of
    *   correct scaling.
    *
    *   Alternatively, to allow hinting of contours, at the time of executing
-   *   @FT_Load_Glyph, the current graphics context transformation matrix
+   *   @FT_TS_Load_Glyph, the current graphics context transformation matrix
    *   can be decomposed into a scaling matrix and a remainder, and
-   *   @FT_Load_Glyph can be used to retrieve the contours at scaled size.
+   *   @FT_TS_Load_Glyph can be used to retrieve the contours at scaled size.
    *   Care must then be taken to blit or clip to the graphics context with
    *   taking this remainder transformation into account.
    *
@@ -1491,32 +1491,32 @@ FT_BEGIN_HEADER
    *
    *   root_transform ::
    *     Specifies whether an initially computed root is returned by the
-   *     @FT_PaintTransform operation to account for the activated size
-   *     (see @FT_Activate_Size) and the configured transform and translate
-   *     (see @FT_Set_Transform).
+   *     @FT_TS_PaintTransform operation to account for the activated size
+   *     (see @FT_TS_Activate_Size) and the configured transform and translate
+   *     (see @FT_TS_Set_Transform).
    *
    *     This root transform is returned before nodes of the glyph graph of
-   *     the font are returned.  Subsequent @FT_COLR_Paint structures
+   *     the font are returned.  Subsequent @FT_TS_COLR_Paint structures
    *     contain unscaled and untransformed values.  The inserted root
    *     transform enables the client application to apply an initial
    *     transform to its graphics context.  When executing subsequent
-   *     FT_COLR_Paint operations, values from @FT_COLR_Paint operations
+   *     FT_TS_COLR_Paint operations, values from @FT_TS_COLR_Paint operations
    *     will ultimately be correctly scaled because of the root transform
    *     applied to the graphics context.  Use
-   *     @FT_COLOR_INCLUDE_ROOT_TRANSFORM to include the root transform, use
-   *     @FT_COLOR_NO_ROOT_TRANSFORM to not include it.  The latter may be
+   *     @FT_TS_COLOR_INCLUDE_ROOT_TRANSFORM to include the root transform, use
+   *     @FT_TS_COLOR_NO_ROOT_TRANSFORM to not include it.  The latter may be
    *     useful when traversing the 'COLR' v1 glyph graph and reaching a
-   *     @FT_PaintColrGlyph.  When recursing into @FT_PaintColrGlyph and
+   *     @FT_TS_PaintColrGlyph.  When recursing into @FT_TS_PaintColrGlyph and
    *     painting that inline, no additional root transform is needed as it
    *     has already been applied to the graphics context at the beginning
    *     of drawing this glyph.
    *
    * @output:
    *   paint ::
-   *     The @FT_OpaquePaint object that references the actual paint table.
+   *     The @FT_TS_OpaquePaint object that references the actual paint table.
    *
-   *     The respective actual @FT_COLR_Paint object is retrieved via
-   *     @FT_Get_Paint.
+   *     The respective actual @FT_TS_COLR_Paint object is retrieved via
+   *     @FT_TS_Get_Paint.
    *
    * @return:
    *   Value~1 if everything is OK.  If no color glyph is found, or the root
@@ -1528,17 +1528,17 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  FT_EXPORT( FT_Bool )
-  FT_Get_Color_Glyph_Paint( FT_Face                  face,
-                            FT_UInt                  base_glyph,
-                            FT_Color_Root_Transform  root_transform,
-                            FT_OpaquePaint*          paint );
+  FT_TS_EXPORT( FT_TS_Bool )
+  FT_TS_Get_Color_Glyph_Paint( FT_TS_Face                  face,
+                            FT_TS_UInt                  base_glyph,
+                            FT_TS_Color_Root_Transform  root_transform,
+                            FT_TS_OpaquePaint*          paint );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Color_Glyph_ClipBox
+   *   FT_TS_Get_Color_Glyph_ClipBox
    *
    * @description:
    *   Search for a 'COLR' v1 clip box for the specified `base_glyph` and
@@ -1556,7 +1556,7 @@ FT_BEGIN_HEADER
    *   clip_box ::
    *     The clip box for the requested `base_glyph` if one is found.  The
    *     clip box is computed taking scale and transformations configured on
-   *     the @FT_Face into account.  @FT_ClipBox contains @FT_Vector values
+   *     the @FT_TS_Face into account.  @FT_TS_ClipBox contains @FT_TS_Vector values
    *     in 26.6 format.
    *
    * @return:
@@ -1565,23 +1565,23 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   To retrieve the clip box in font units, reset scale to units-per-em
-   *   and remove transforms configured using @FT_Set_Transform.
+   *   and remove transforms configured using @FT_TS_Set_Transform.
    *
    * @since:
    *   2.12 -- **currently experimental only!**  There might be changes
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  FT_EXPORT( FT_Bool )
-  FT_Get_Color_Glyph_ClipBox( FT_Face      face,
-                              FT_UInt      base_glyph,
-                              FT_ClipBox*  clip_box );
+  FT_TS_EXPORT( FT_TS_Bool )
+  FT_TS_Get_Color_Glyph_ClipBox( FT_TS_Face      face,
+                              FT_TS_UInt      base_glyph,
+                              FT_TS_ClipBox*  clip_box );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Paint_Layers
+   *   FT_TS_Get_Paint_Layers
    *
    * @description:
    *   Access the layers of a `PaintColrLayers` table.
@@ -1590,9 +1590,9 @@ FT_BEGIN_HEADER
    *   glyph is a `PaintColrLayers` table, this function retrieves the
    *   layers of the `PaintColrLayers` table.
    *
-   *   The @FT_PaintColrLayers object contains an @FT_LayerIterator, which
+   *   The @FT_TS_PaintColrLayers object contains an @FT_TS_LayerIterator, which
    *   is used here to iterate over the layers.  Each layer is returned as
-   *   an @FT_OpaquePaint object, which then can be used with @FT_Get_Paint
+   *   an @FT_TS_OpaquePaint object, which then can be used with @FT_TS_Get_Paint
    *   to retrieve the actual paint object.
    *
    * @input:
@@ -1601,16 +1601,16 @@ FT_BEGIN_HEADER
    *
    * @inout:
    *   iterator ::
-   *     The @FT_LayerIterator from an @FT_PaintColrLayers object, for which
+   *     The @FT_TS_LayerIterator from an @FT_TS_PaintColrLayers object, for which
    *     the layers are to be retrieved.  The internal state of the iterator
    *     is incremented after one call to this function for retrieving one
    *     layer.
    *
    * @output:
    *   paint ::
-   *     The @FT_OpaquePaint object that references the actual paint table.
-   *     The respective actual @FT_COLR_Paint object is retrieved via
-   *     @FT_Get_Paint.
+   *     The @FT_TS_OpaquePaint object that references the actual paint table.
+   *     The respective actual @FT_TS_COLR_Paint object is retrieved via
+   *     @FT_TS_Get_Paint.
    *
    * @return:
    *   Value~1 if everything is OK.  Value~0 gets returned when the paint
@@ -1621,16 +1621,16 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  FT_EXPORT( FT_Bool )
-  FT_Get_Paint_Layers( FT_Face            face,
-                       FT_LayerIterator*  iterator,
-                       FT_OpaquePaint*    paint );
+  FT_TS_EXPORT( FT_TS_Bool )
+  FT_TS_Get_Paint_Layers( FT_TS_Face            face,
+                       FT_TS_LayerIterator*  iterator,
+                       FT_TS_OpaquePaint*    paint );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Colorline_Stops
+   *   FT_TS_Get_Colorline_Stops
    *
    * @description:
    *   This is an interface to color gradient information in a 'COLR' v1
@@ -1646,9 +1646,9 @@ FT_BEGIN_HEADER
    *
    * @inout:
    *   iterator ::
-   *     The retrieved @FT_ColorStopIterator, configured on an @FT_ColorLine,
+   *     The retrieved @FT_TS_ColorStopIterator, configured on an @FT_TS_ColorLine,
    *     which in turn got retrieved via paint information in
-   *     @FT_PaintLinearGradient or @FT_PaintRadialGradient.
+   *     @FT_TS_PaintLinearGradient or @FT_TS_PaintRadialGradient.
    *
    * @output:
    *   color_stop ::
@@ -1664,19 +1664,19 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  FT_EXPORT( FT_Bool )
-  FT_Get_Colorline_Stops( FT_Face                face,
-                          FT_ColorStop*          color_stop,
-                          FT_ColorStopIterator*  iterator );
+  FT_TS_EXPORT( FT_TS_Bool )
+  FT_TS_Get_Colorline_Stops( FT_TS_Face                face,
+                          FT_TS_ColorStop*          color_stop,
+                          FT_TS_ColorStopIterator*  iterator );
 
 
   /**************************************************************************
    *
    * @function:
-   *  FT_Get_Paint
+   *  FT_TS_Get_Paint
    *
    * @description:
-   *   Access the details of a paint using an @FT_OpaquePaint opaque paint
+   *   Access the details of a paint using an @FT_TS_OpaquePaint opaque paint
    *   object, which internally stores the offset to the respective `Paint`
    *   object in the 'COLR' table.
    *
@@ -1685,12 +1685,12 @@ FT_BEGIN_HEADER
    *     A handle to the parent face object.
    *
    *   opaque_paint ::
-   *     The opaque paint object for which the underlying @FT_COLR_Paint
+   *     The opaque paint object for which the underlying @FT_TS_COLR_Paint
    *     data is to be retrieved.
    *
    * @output:
    *   paint ::
-   *     The specific @FT_COLR_Paint object containing information coming
+   *     The specific @FT_TS_COLR_Paint object containing information coming
    *     from one of the font's `Paint*` tables.
    *
    * @return:
@@ -1702,15 +1702,15 @@ FT_BEGIN_HEADER
    *   without retaining backward compatibility of both the API and ABI.
    *
    */
-  FT_EXPORT( FT_Bool )
-  FT_Get_Paint( FT_Face         face,
-                FT_OpaquePaint  opaque_paint,
-                FT_COLR_Paint*  paint );
+  FT_TS_EXPORT( FT_TS_Bool )
+  FT_TS_Get_Paint( FT_TS_Face         face,
+                FT_TS_OpaquePaint  opaque_paint,
+                FT_TS_COLR_Paint*  paint );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTCOLOR_H_ */
 

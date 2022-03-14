@@ -40,9 +40,9 @@
 #include "pserror.h"
 
 
-  FT_LOCAL_DEF( void )
-  cf2_setError( FT_Error*  error,
-                FT_Error   value )
+  FT_TS_LOCAL_DEF( void )
+  cf2_setError( FT_TS_Error*  error,
+                FT_TS_Error   value )
   {
     if ( error && !*error )
       *error = value;

@@ -27,12 +27,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  cidparse
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  cidparse
 
 
   /*************************************************************************/
@@ -52,41 +52,41 @@
 #define SFNTS_LEN      ( sizeof ( SFNTS ) - 1 )
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   cid_parser_new( CID_Parser*    parser,
-                  FT_Stream      stream,
-                  FT_Memory      memory,
+                  FT_TS_Stream      stream,
+                  FT_TS_Memory      memory,
                   PSAux_Service  psaux )
   {
-    FT_Error  error;
-    FT_ULong  base_offset, offset, ps_len;
-    FT_Byte   *cur, *limit;
-    FT_Byte   *arg1, *arg2;
+    FT_TS_Error  error;
+    FT_TS_ULong  base_offset, offset, ps_len;
+    FT_TS_Byte   *cur, *limit;
+    FT_TS_Byte   *arg1, *arg2;
 
 
-    FT_ZERO( parser );
+    FT_TS_ZERO( parser );
     psaux->ps_parser_funcs->init( &parser->root, 0, 0, memory );
 
     parser->stream = stream;
 
-    base_offset = FT_STREAM_POS();
+    base_offset = FT_TS_STREAM_POS();
 
     /* first of all, check the font format in the header */
-    if ( FT_FRAME_ENTER( 31 ) )
+    if ( FT_TS_FRAME_ENTER( 31 ) )
     {
-      FT_TRACE2(( "  not a CID-keyed font\n" ));
-      error = FT_THROW( Unknown_File_Format );
+      FT_TS_TRACE2(( "  not a CID-keyed font\n" ));
+      error = FT_TS_THROW( Unknown_File_Format );
       goto Exit;
     }
 
     if ( ft_strncmp( (char *)stream->cursor,
                      "%!PS-Adobe-3.0 Resource-CIDFont", 31 ) )
     {
-      FT_TRACE2(( "  not a CID-keyed font\n" ));
-      error = FT_THROW( Unknown_File_Format );
+      FT_TS_TRACE2(( "  not a CID-keyed font\n" ));
+      error = FT_TS_THROW( Unknown_File_Format );
     }
 
-    FT_FRAME_EXIT();
+    FT_TS_FRAME_EXIT();
     if ( error )
       goto Exit;
 
@@ -111,23 +111,23 @@
        * 5. Repeat with step 2.
        *
        */
-      FT_Byte  buffer[256 + STARTDATA_LEN + 1];
+      FT_TS_Byte  buffer[256 + STARTDATA_LEN + 1];
 
       /* values for the first loop */
-      FT_ULong  read_len    = 256 + STARTDATA_LEN;
-      FT_ULong  read_offset = 0;
-      FT_Byte*  p           = buffer;
+      FT_TS_ULong  read_len    = 256 + STARTDATA_LEN;
+      FT_TS_ULong  read_offset = 0;
+      FT_TS_Byte*  p           = buffer;
 
 
-      for ( offset = FT_STREAM_POS(); ; offset += 256 )
+      for ( offset = FT_TS_STREAM_POS(); ; offset += 256 )
       {
-        FT_ULong  stream_len;
+        FT_TS_ULong  stream_len;
 
 
-        stream_len = stream->size - FT_STREAM_POS();
+        stream_len = stream->size - FT_TS_STREAM_POS();
 
-        read_len = FT_MIN( read_len, stream_len );
-        if ( FT_STREAM_READ( p, read_len ) )
+        read_len = FT_TS_MIN( read_len, stream_len );
+        if ( FT_TS_STREAM_READ( p, read_len ) )
           goto Exit;
 
         /* ensure that we do not compare with data beyond the buffer */
@@ -141,25 +141,25 @@
                ft_strncmp( (char*)p, STARTDATA, STARTDATA_LEN ) == 0 )
           {
             /* save offset of binary data after `StartData' */
-            offset += (FT_ULong)( p - buffer ) + STARTDATA_LEN + 1;
+            offset += (FT_TS_ULong)( p - buffer ) + STARTDATA_LEN + 1;
             goto Found;
           }
           else if ( p[1] == 's'                                   &&
                     ft_strncmp( (char*)p, SFNTS, SFNTS_LEN ) == 0 )
           {
-            offset += (FT_ULong)( p - buffer ) + SFNTS_LEN + 1;
+            offset += (FT_TS_ULong)( p - buffer ) + SFNTS_LEN + 1;
             goto Found;
           }
         }
 
         if ( read_offset + read_len < STARTDATA_LEN )
         {
-          FT_TRACE2(( "cid_parser_new: no `StartData' keyword found\n" ));
-          error = FT_THROW( Invalid_File_Format );
+          FT_TS_TRACE2(( "cid_parser_new: no `StartData' keyword found\n" ));
+          error = FT_TS_THROW( Invalid_File_Format );
           goto Exit;
         }
 
-        FT_MEM_MOVE( buffer,
+        FT_TS_MEM_MOVE( buffer,
                      buffer + read_offset + read_len - STARTDATA_LEN,
                      STARTDATA_LEN );
 
@@ -176,8 +176,8 @@
     /* section.                                                          */
 
     ps_len = offset - base_offset;
-    if ( FT_STREAM_SEEK( base_offset )                  ||
-         FT_FRAME_EXTRACT( ps_len, parser->postscript ) )
+    if ( FT_TS_STREAM_SEEK( base_offset )                  ||
+         FT_TS_FRAME_EXTRACT( ps_len, parser->postscript ) )
       goto Exit;
 
     parser->data_offset    = offset;
@@ -185,7 +185,7 @@
     parser->root.base      = parser->postscript;
     parser->root.cursor    = parser->postscript;
     parser->root.limit     = parser->root.cursor + ps_len;
-    parser->num_dict       = FT_UINT_MAX;
+    parser->num_dict       = FT_TS_UINT_MAX;
 
     /* Finally, we check whether `StartData' or `/sfnts' was real --  */
     /* it could be in a comment or string.  We also get the arguments */
@@ -216,16 +216,16 @@
       {
         if ( ft_strncmp( (char*)arg1, "(Hex)", 5 ) == 0 )
         {
-          FT_Long  tmp = ft_strtol( (const char *)arg2, NULL, 10 );
+          FT_TS_Long  tmp = ft_strtol( (const char *)arg2, NULL, 10 );
 
 
           if ( tmp < 0 )
           {
-            FT_ERROR(( "cid_parser_new: invalid length of hex data\n" ));
-            error = FT_THROW( Invalid_File_Format );
+            FT_TS_ERROR(( "cid_parser_new: invalid length of hex data\n" ));
+            error = FT_TS_THROW( Invalid_File_Format );
           }
           else
-            parser->binary_length = (FT_ULong)tmp;
+            parser->binary_length = (FT_TS_ULong)tmp;
         }
 
         goto Exit;
@@ -233,8 +233,8 @@
       else if ( cur[1] == 's'                                   &&
                 ft_strncmp( (char*)cur, SFNTS, SFNTS_LEN ) == 0 )
       {
-        FT_TRACE2(( "cid_parser_new: cannot handle Type 11 fonts\n" ));
-        error = FT_THROW( Unknown_File_Format );
+        FT_TS_TRACE2(( "cid_parser_new: cannot handle Type 11 fonts\n" ));
+        error = FT_TS_THROW( Unknown_File_Format );
         goto Exit;
       }
 
@@ -247,8 +247,8 @@
 
     /* we haven't found the correct `StartData'; go back and continue */
     /* searching                                                      */
-    FT_FRAME_RELEASE( parser->postscript );
-    if ( !FT_STREAM_SEEK( offset ) )
+    FT_TS_FRAME_RELEASE( parser->postscript );
+    if ( !FT_TS_STREAM_SEEK( offset ) )
       goto Again;
 
   Exit:
@@ -262,16 +262,16 @@
 #undef SFNTS_LEN
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cid_parser_done( CID_Parser*  parser )
   {
     /* always free the private dictionary */
     if ( parser->postscript )
     {
-      FT_Stream  stream = parser->stream;
+      FT_TS_Stream  stream = parser->stream;
 
 
-      FT_FRAME_RELEASE( parser->postscript );
+      FT_TS_FRAME_RELEASE( parser->postscript );
     }
     parser->root.funcs.done( &parser->root );
   }

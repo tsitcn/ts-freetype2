@@ -26,29 +26,29 @@
 #include <freetype/internal/pshints.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef struct  T42_FaceRec_
   {
-    FT_FaceRec      root;
+    FT_TS_FaceRec      root;
     T1_FontRec      type1;
     const void*     psnames;
     const void*     psaux;
 #if 0
     const void*     afm_data;
 #endif
-    FT_Byte*        ttf_data;
-    FT_Long         ttf_size;
-    FT_Face         ttf_face;
-    FT_CharMapRec   charmaprecs[2];
-    FT_CharMap      charmaps[2];
+    FT_TS_Byte*        ttf_data;
+    FT_TS_Long         ttf_size;
+    FT_TS_Face         ttf_face;
+    FT_TS_CharMapRec   charmaprecs[2];
+    FT_TS_CharMap      charmaps[2];
     PS_UnicodesRec  unicode_map;
 
   } T42_FaceRec, *T42_Face;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* T42TYPES_H_ */
 

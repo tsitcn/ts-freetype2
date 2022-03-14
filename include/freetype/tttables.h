@@ -30,7 +30,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /**************************************************************************
    *
@@ -57,15 +57,15 @@ FT_BEGIN_HEADER
    *   TT_PCLT
    *   TT_MaxProfile
    *
-   *   FT_Sfnt_Tag
-   *   FT_Get_Sfnt_Table
-   *   FT_Load_Sfnt_Table
-   *   FT_Sfnt_Table_Info
+   *   FT_TS_Sfnt_Tag
+   *   FT_TS_Get_Sfnt_Table
+   *   FT_TS_Load_Sfnt_Table
+   *   FT_TS_Sfnt_Table_Info
    *
-   *   FT_Get_CMap_Language_ID
-   *   FT_Get_CMap_Format
+   *   FT_TS_Get_CMap_Language_ID
+   *   FT_TS_Get_CMap_Format
    *
-   *   FT_PARAM_TAG_UNPATENTED_HINTING
+   *   FT_TS_PARAM_TAG_UNPATENTED_HINTING
    *
    */
 
@@ -83,29 +83,29 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_Header_
   {
-    FT_Fixed   Table_Version;
-    FT_Fixed   Font_Revision;
+    FT_TS_Fixed   Table_Version;
+    FT_TS_Fixed   Font_Revision;
 
-    FT_Long    CheckSum_Adjust;
-    FT_Long    Magic_Number;
+    FT_TS_Long    CheckSum_Adjust;
+    FT_TS_Long    Magic_Number;
 
-    FT_UShort  Flags;
-    FT_UShort  Units_Per_EM;
+    FT_TS_UShort  Flags;
+    FT_TS_UShort  Units_Per_EM;
 
-    FT_ULong   Created [2];
-    FT_ULong   Modified[2];
+    FT_TS_ULong   Created [2];
+    FT_TS_ULong   Modified[2];
 
-    FT_Short   xMin;
-    FT_Short   yMin;
-    FT_Short   xMax;
-    FT_Short   yMax;
+    FT_TS_Short   xMin;
+    FT_TS_Short   yMin;
+    FT_TS_Short   xMax;
+    FT_TS_Short   yMax;
 
-    FT_UShort  Mac_Style;
-    FT_UShort  Lowest_Rec_PPEM;
+    FT_TS_UShort  Mac_Style;
+    FT_TS_UShort  Lowest_Rec_PPEM;
 
-    FT_Short   Font_Direction;
-    FT_Short   Index_To_Loc_Format;
-    FT_Short   Glyph_Data_Format;
+    FT_TS_Short   Font_Direction;
+    FT_TS_Short   Index_To_Loc_Format;
+    FT_TS_Short   Glyph_Data_Format;
 
   } TT_Header;
 
@@ -193,30 +193,30 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   For an OpenType variation font, the values of the following fields can
-   *   change after a call to @FT_Set_Var_Design_Coordinates (and friends) if
+   *   change after a call to @FT_TS_Set_Var_Design_Coordinates (and friends) if
    *   the font contains an 'MVAR' table: `caret_Slope_Rise`,
    *   `caret_Slope_Run`, and `caret_Offset`.
    */
   typedef struct  TT_HoriHeader_
   {
-    FT_Fixed   Version;
-    FT_Short   Ascender;
-    FT_Short   Descender;
-    FT_Short   Line_Gap;
+    FT_TS_Fixed   Version;
+    FT_TS_Short   Ascender;
+    FT_TS_Short   Descender;
+    FT_TS_Short   Line_Gap;
 
-    FT_UShort  advance_Width_Max;      /* advance width maximum */
+    FT_TS_UShort  advance_Width_Max;      /* advance width maximum */
 
-    FT_Short   min_Left_Side_Bearing;  /* minimum left-sb       */
-    FT_Short   min_Right_Side_Bearing; /* minimum right-sb      */
-    FT_Short   xMax_Extent;            /* xmax extents          */
-    FT_Short   caret_Slope_Rise;
-    FT_Short   caret_Slope_Run;
-    FT_Short   caret_Offset;
+    FT_TS_Short   min_Left_Side_Bearing;  /* minimum left-sb       */
+    FT_TS_Short   min_Right_Side_Bearing; /* minimum right-sb      */
+    FT_TS_Short   xMax_Extent;            /* xmax extents          */
+    FT_TS_Short   caret_Slope_Rise;
+    FT_TS_Short   caret_Slope_Run;
+    FT_TS_Short   caret_Offset;
 
-    FT_Short   Reserved[4];
+    FT_TS_Short   Reserved[4];
 
-    FT_Short   metric_Data_Format;
-    FT_UShort  number_Of_HMetrics;
+    FT_TS_Short   metric_Data_Format;
+    FT_TS_UShort  number_Of_HMetrics;
 
     /* The following fields are not defined by the OpenType specification */
     /* but they are used to connect the metrics header to the relevant    */
@@ -311,30 +311,30 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   For an OpenType variation font, the values of the following fields can
-   *   change after a call to @FT_Set_Var_Design_Coordinates (and friends) if
+   *   change after a call to @FT_TS_Set_Var_Design_Coordinates (and friends) if
    *   the font contains an 'MVAR' table: `Ascender`, `Descender`,
    *   `Line_Gap`, `caret_Slope_Rise`, `caret_Slope_Run`, and `caret_Offset`.
    */
   typedef struct  TT_VertHeader_
   {
-    FT_Fixed   Version;
-    FT_Short   Ascender;
-    FT_Short   Descender;
-    FT_Short   Line_Gap;
+    FT_TS_Fixed   Version;
+    FT_TS_Short   Ascender;
+    FT_TS_Short   Descender;
+    FT_TS_Short   Line_Gap;
 
-    FT_UShort  advance_Height_Max;      /* advance height maximum */
+    FT_TS_UShort  advance_Height_Max;      /* advance height maximum */
 
-    FT_Short   min_Top_Side_Bearing;    /* minimum top-sb          */
-    FT_Short   min_Bottom_Side_Bearing; /* minimum bottom-sb       */
-    FT_Short   yMax_Extent;             /* ymax extents            */
-    FT_Short   caret_Slope_Rise;
-    FT_Short   caret_Slope_Run;
-    FT_Short   caret_Offset;
+    FT_TS_Short   min_Top_Side_Bearing;    /* minimum top-sb          */
+    FT_TS_Short   min_Bottom_Side_Bearing; /* minimum bottom-sb       */
+    FT_TS_Short   yMax_Extent;             /* ymax extents            */
+    FT_TS_Short   caret_Slope_Rise;
+    FT_TS_Short   caret_Slope_Run;
+    FT_TS_Short   caret_Offset;
 
-    FT_Short   Reserved[4];
+    FT_TS_Short   Reserved[4];
 
-    FT_Short   metric_Data_Format;
-    FT_UShort  number_Of_VMetrics;
+    FT_TS_Short   metric_Data_Format;
+    FT_TS_UShort  number_Of_VMetrics;
 
     /* The following fields are not defined by the OpenType specification */
     /* but they are used to connect the metrics header to the relevant    */
@@ -360,7 +360,7 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   For an OpenType variation font, the values of the following fields can
-   *   change after a call to @FT_Set_Var_Design_Coordinates (and friends) if
+   *   change after a call to @FT_TS_Set_Var_Design_Coordinates (and friends) if
    *   the font contains an 'MVAR' table: `sCapHeight`, `sTypoAscender`,
    *   `sTypoDescender`, `sTypoLineGap`, `sxHeight`, `usWinAscent`,
    *   `usWinDescent`, `yStrikeoutPosition`, `yStrikeoutSize`,
@@ -374,58 +374,58 @@ FT_BEGIN_HEADER
 
   typedef struct  TT_OS2_
   {
-    FT_UShort  version;                /* 0x0001 - more or 0xFFFF */
-    FT_Short   xAvgCharWidth;
-    FT_UShort  usWeightClass;
-    FT_UShort  usWidthClass;
-    FT_UShort  fsType;
-    FT_Short   ySubscriptXSize;
-    FT_Short   ySubscriptYSize;
-    FT_Short   ySubscriptXOffset;
-    FT_Short   ySubscriptYOffset;
-    FT_Short   ySuperscriptXSize;
-    FT_Short   ySuperscriptYSize;
-    FT_Short   ySuperscriptXOffset;
-    FT_Short   ySuperscriptYOffset;
-    FT_Short   yStrikeoutSize;
-    FT_Short   yStrikeoutPosition;
-    FT_Short   sFamilyClass;
+    FT_TS_UShort  version;                /* 0x0001 - more or 0xFFFF */
+    FT_TS_Short   xAvgCharWidth;
+    FT_TS_UShort  usWeightClass;
+    FT_TS_UShort  usWidthClass;
+    FT_TS_UShort  fsType;
+    FT_TS_Short   ySubscriptXSize;
+    FT_TS_Short   ySubscriptYSize;
+    FT_TS_Short   ySubscriptXOffset;
+    FT_TS_Short   ySubscriptYOffset;
+    FT_TS_Short   ySuperscriptXSize;
+    FT_TS_Short   ySuperscriptYSize;
+    FT_TS_Short   ySuperscriptXOffset;
+    FT_TS_Short   ySuperscriptYOffset;
+    FT_TS_Short   yStrikeoutSize;
+    FT_TS_Short   yStrikeoutPosition;
+    FT_TS_Short   sFamilyClass;
 
-    FT_Byte    panose[10];
+    FT_TS_Byte    panose[10];
 
-    FT_ULong   ulUnicodeRange1;        /* Bits 0-31   */
-    FT_ULong   ulUnicodeRange2;        /* Bits 32-63  */
-    FT_ULong   ulUnicodeRange3;        /* Bits 64-95  */
-    FT_ULong   ulUnicodeRange4;        /* Bits 96-127 */
+    FT_TS_ULong   ulUnicodeRange1;        /* Bits 0-31   */
+    FT_TS_ULong   ulUnicodeRange2;        /* Bits 32-63  */
+    FT_TS_ULong   ulUnicodeRange3;        /* Bits 64-95  */
+    FT_TS_ULong   ulUnicodeRange4;        /* Bits 96-127 */
 
-    FT_Char    achVendID[4];
+    FT_TS_Char    achVendID[4];
 
-    FT_UShort  fsSelection;
-    FT_UShort  usFirstCharIndex;
-    FT_UShort  usLastCharIndex;
-    FT_Short   sTypoAscender;
-    FT_Short   sTypoDescender;
-    FT_Short   sTypoLineGap;
-    FT_UShort  usWinAscent;
-    FT_UShort  usWinDescent;
+    FT_TS_UShort  fsSelection;
+    FT_TS_UShort  usFirstCharIndex;
+    FT_TS_UShort  usLastCharIndex;
+    FT_TS_Short   sTypoAscender;
+    FT_TS_Short   sTypoDescender;
+    FT_TS_Short   sTypoLineGap;
+    FT_TS_UShort  usWinAscent;
+    FT_TS_UShort  usWinDescent;
 
     /* only version 1 and higher: */
 
-    FT_ULong   ulCodePageRange1;       /* Bits 0-31   */
-    FT_ULong   ulCodePageRange2;       /* Bits 32-63  */
+    FT_TS_ULong   ulCodePageRange1;       /* Bits 0-31   */
+    FT_TS_ULong   ulCodePageRange2;       /* Bits 32-63  */
 
     /* only version 2 and higher: */
 
-    FT_Short   sxHeight;
-    FT_Short   sCapHeight;
-    FT_UShort  usDefaultChar;
-    FT_UShort  usBreakChar;
-    FT_UShort  usMaxContext;
+    FT_TS_Short   sxHeight;
+    FT_TS_Short   sCapHeight;
+    FT_TS_UShort  usDefaultChar;
+    FT_TS_UShort  usBreakChar;
+    FT_TS_UShort  usMaxContext;
 
     /* only version 5 and higher: */
 
-    FT_UShort  usLowerOpticalPointSize;       /* in twips (1/20th points) */
-    FT_UShort  usUpperOpticalPointSize;       /* in twips (1/20th points) */
+    FT_TS_UShort  usLowerOpticalPointSize;       /* in twips (1/20th points) */
+    FT_TS_UShort  usUpperOpticalPointSize;       /* in twips (1/20th points) */
 
   } TT_OS2;
 
@@ -438,26 +438,26 @@ FT_BEGIN_HEADER
    * @description:
    *   A structure to model a TrueType 'post' table.  All fields comply to
    *   the OpenType specification.  This structure does not reference a
-   *   font's PostScript glyph names; use @FT_Get_Glyph_Name to retrieve
+   *   font's PostScript glyph names; use @FT_TS_Get_Glyph_Name to retrieve
    *   them.
    *
    * @note:
    *   For an OpenType variation font, the values of the following fields can
-   *   change after a call to @FT_Set_Var_Design_Coordinates (and friends) if
+   *   change after a call to @FT_TS_Set_Var_Design_Coordinates (and friends) if
    *   the font contains an 'MVAR' table: `underlinePosition` and
    *   `underlineThickness`.
    */
   typedef struct  TT_Postscript_
   {
-    FT_Fixed  FormatType;
-    FT_Fixed  italicAngle;
-    FT_Short  underlinePosition;
-    FT_Short  underlineThickness;
-    FT_ULong  isFixedPitch;
-    FT_ULong  minMemType42;
-    FT_ULong  maxMemType42;
-    FT_ULong  minMemType1;
-    FT_ULong  maxMemType1;
+    FT_TS_Fixed  FormatType;
+    FT_TS_Fixed  italicAngle;
+    FT_TS_Short  underlinePosition;
+    FT_TS_Short  underlineThickness;
+    FT_TS_ULong  isFixedPitch;
+    FT_TS_ULong  minMemType42;
+    FT_TS_ULong  maxMemType42;
+    FT_TS_ULong  minMemType1;
+    FT_TS_ULong  maxMemType1;
 
     /* Glyph names follow in the 'post' table, but we don't */
     /* load them by default.                                */
@@ -476,21 +476,21 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_PCLT_
   {
-    FT_Fixed   Version;
-    FT_ULong   FontNumber;
-    FT_UShort  Pitch;
-    FT_UShort  xHeight;
-    FT_UShort  Style;
-    FT_UShort  TypeFamily;
-    FT_UShort  CapHeight;
-    FT_UShort  SymbolSet;
-    FT_Char    TypeFace[16];
-    FT_Char    CharacterComplement[8];
-    FT_Char    FileName[6];
-    FT_Char    StrokeWeight;
-    FT_Char    WidthType;
-    FT_Byte    SerifStyle;
-    FT_Byte    Reserved;
+    FT_TS_Fixed   Version;
+    FT_TS_ULong   FontNumber;
+    FT_TS_UShort  Pitch;
+    FT_TS_UShort  xHeight;
+    FT_TS_UShort  Style;
+    FT_TS_UShort  TypeFamily;
+    FT_TS_UShort  CapHeight;
+    FT_TS_UShort  SymbolSet;
+    FT_TS_Char    TypeFace[16];
+    FT_TS_Char    CharacterComplement[8];
+    FT_TS_Char    FileName[6];
+    FT_TS_Char    StrokeWeight;
+    FT_TS_Char    WidthType;
+    FT_TS_Byte    SerifStyle;
+    FT_TS_Byte    Reserved;
 
   } TT_PCLT;
 
@@ -566,21 +566,21 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_MaxProfile_
   {
-    FT_Fixed   version;
-    FT_UShort  numGlyphs;
-    FT_UShort  maxPoints;
-    FT_UShort  maxContours;
-    FT_UShort  maxCompositePoints;
-    FT_UShort  maxCompositeContours;
-    FT_UShort  maxZones;
-    FT_UShort  maxTwilightPoints;
-    FT_UShort  maxStorage;
-    FT_UShort  maxFunctionDefs;
-    FT_UShort  maxInstructionDefs;
-    FT_UShort  maxStackElements;
-    FT_UShort  maxSizeOfInstructions;
-    FT_UShort  maxComponentElements;
-    FT_UShort  maxComponentDepth;
+    FT_TS_Fixed   version;
+    FT_TS_UShort  numGlyphs;
+    FT_TS_UShort  maxPoints;
+    FT_TS_UShort  maxContours;
+    FT_TS_UShort  maxCompositePoints;
+    FT_TS_UShort  maxCompositeContours;
+    FT_TS_UShort  maxZones;
+    FT_TS_UShort  maxTwilightPoints;
+    FT_TS_UShort  maxStorage;
+    FT_TS_UShort  maxFunctionDefs;
+    FT_TS_UShort  maxInstructionDefs;
+    FT_TS_UShort  maxStackElements;
+    FT_TS_UShort  maxSizeOfInstructions;
+    FT_TS_UShort  maxComponentElements;
+    FT_TS_UShort  maxComponentDepth;
 
   } TT_MaxProfile;
 
@@ -588,64 +588,64 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *   FT_Sfnt_Tag
+   *   FT_TS_Sfnt_Tag
    *
    * @description:
    *   An enumeration to specify indices of SFNT tables loaded and parsed by
    *   FreeType during initialization of an SFNT font.  Used in the
-   *   @FT_Get_Sfnt_Table API function.
+   *   @FT_TS_Get_Sfnt_Table API function.
    *
    * @values:
-   *   FT_SFNT_HEAD ::
+   *   FT_TS_SFNT_HEAD ::
    *     To access the font's @TT_Header structure.
    *
-   *   FT_SFNT_MAXP ::
+   *   FT_TS_SFNT_MAXP ::
    *     To access the font's @TT_MaxProfile structure.
    *
-   *   FT_SFNT_OS2 ::
+   *   FT_TS_SFNT_OS2 ::
    *     To access the font's @TT_OS2 structure.
    *
-   *   FT_SFNT_HHEA ::
+   *   FT_TS_SFNT_HHEA ::
    *     To access the font's @TT_HoriHeader structure.
    *
-   *   FT_SFNT_VHEA ::
+   *   FT_TS_SFNT_VHEA ::
    *     To access the font's @TT_VertHeader structure.
    *
-   *   FT_SFNT_POST ::
+   *   FT_TS_SFNT_POST ::
    *     To access the font's @TT_Postscript structure.
    *
-   *   FT_SFNT_PCLT ::
+   *   FT_TS_SFNT_PCLT ::
    *     To access the font's @TT_PCLT structure.
    */
-  typedef enum  FT_Sfnt_Tag_
+  typedef enum  FT_TS_Sfnt_Tag_
   {
-    FT_SFNT_HEAD,
-    FT_SFNT_MAXP,
-    FT_SFNT_OS2,
-    FT_SFNT_HHEA,
-    FT_SFNT_VHEA,
-    FT_SFNT_POST,
-    FT_SFNT_PCLT,
+    FT_TS_SFNT_HEAD,
+    FT_TS_SFNT_MAXP,
+    FT_TS_SFNT_OS2,
+    FT_TS_SFNT_HHEA,
+    FT_TS_SFNT_VHEA,
+    FT_TS_SFNT_POST,
+    FT_TS_SFNT_PCLT,
 
-    FT_SFNT_MAX
+    FT_TS_SFNT_MAX
 
-  } FT_Sfnt_Tag;
+  } FT_TS_Sfnt_Tag;
 
-  /* these constants are deprecated; use the corresponding `FT_Sfnt_Tag` */
+  /* these constants are deprecated; use the corresponding `FT_TS_Sfnt_Tag` */
   /* values instead                                                      */
-#define ft_sfnt_head  FT_SFNT_HEAD
-#define ft_sfnt_maxp  FT_SFNT_MAXP
-#define ft_sfnt_os2   FT_SFNT_OS2
-#define ft_sfnt_hhea  FT_SFNT_HHEA
-#define ft_sfnt_vhea  FT_SFNT_VHEA
-#define ft_sfnt_post  FT_SFNT_POST
-#define ft_sfnt_pclt  FT_SFNT_PCLT
+#define ft_sfnt_head  FT_TS_SFNT_HEAD
+#define ft_sfnt_maxp  FT_TS_SFNT_MAXP
+#define ft_sfnt_os2   FT_TS_SFNT_OS2
+#define ft_sfnt_hhea  FT_TS_SFNT_HHEA
+#define ft_sfnt_vhea  FT_TS_SFNT_VHEA
+#define ft_sfnt_post  FT_TS_SFNT_POST
+#define ft_sfnt_pclt  FT_TS_SFNT_PCLT
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Sfnt_Table
+   *   FT_TS_Get_Sfnt_Table
    *
    * @description:
    *   Return a pointer to a given SFNT table stored within a face.
@@ -668,7 +668,7 @@ FT_BEGIN_HEADER
    *   The table is owned by the face object and disappears with it.
    *
    *   This function is only useful to access SFNT tables that are loaded by
-   *   the sfnt, truetype, and opentype drivers.  See @FT_Sfnt_Tag for a
+   *   the sfnt, truetype, and opentype drivers.  See @FT_TS_Sfnt_Tag for a
    *   list.
    *
    * @example:
@@ -679,18 +679,18 @@ FT_BEGIN_HEADER
    *
    *
    *     vert_header =
-   *       (TT_VertHeader*)FT_Get_Sfnt_Table( face, FT_SFNT_VHEA );
+   *       (TT_VertHeader*)FT_TS_Get_Sfnt_Table( face, FT_TS_SFNT_VHEA );
    *   ```
    */
-  FT_EXPORT( void* )
-  FT_Get_Sfnt_Table( FT_Face      face,
-                     FT_Sfnt_Tag  tag );
+  FT_TS_EXPORT( void* )
+  FT_TS_Get_Sfnt_Table( FT_TS_Face      face,
+                     FT_TS_Sfnt_Tag  tag );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Load_Sfnt_Table
+   *   FT_TS_Load_Sfnt_Table
    *
    * @description:
    *   Load any SFNT font table into client memory.
@@ -702,8 +702,8 @@ FT_BEGIN_HEADER
    *   tag ::
    *     The four-byte tag of the table to load.  Use value~0 if you want to
    *     access the whole font file.  Otherwise, you can use one of the
-   *     definitions found in the @FT_TRUETYPE_TAGS_H file, or forge a new
-   *     one with @FT_MAKE_TAG.
+   *     definitions found in the @FT_TS_TRUETYPE_TAGS_H file, or forge a new
+   *     one with @FT_TS_MAKE_TAG.
    *
    *   offset ::
    *     The starting offset in the table (or file if tag~==~0).
@@ -732,37 +732,37 @@ FT_BEGIN_HEADER
    *   function with `*length` set to~0, as in the following example:
    *
    *   ```
-   *     FT_ULong  length = 0;
+   *     FT_TS_ULong  length = 0;
    *
    *
-   *     error = FT_Load_Sfnt_Table( face, tag, 0, NULL, &length );
+   *     error = FT_TS_Load_Sfnt_Table( face, tag, 0, NULL, &length );
    *     if ( error ) { ... table does not exist ... }
    *
    *     buffer = malloc( length );
    *     if ( buffer == NULL ) { ... not enough memory ... }
    *
-   *     error = FT_Load_Sfnt_Table( face, tag, 0, buffer, &length );
+   *     error = FT_TS_Load_Sfnt_Table( face, tag, 0, buffer, &length );
    *     if ( error ) { ... could not load table ... }
    *   ```
    *
    *   Note that structures like @TT_Header or @TT_OS2 can't be used with
-   *   this function; they are limited to @FT_Get_Sfnt_Table.  Reason is that
+   *   this function; they are limited to @FT_TS_Get_Sfnt_Table.  Reason is that
    *   those structures depend on the processor architecture, with varying
    *   size (e.g. 32bit vs. 64bit) or order (big endian vs. little endian).
    *
    */
-  FT_EXPORT( FT_Error )
-  FT_Load_Sfnt_Table( FT_Face    face,
-                      FT_ULong   tag,
-                      FT_Long    offset,
-                      FT_Byte*   buffer,
-                      FT_ULong*  length );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Load_Sfnt_Table( FT_TS_Face    face,
+                      FT_TS_ULong   tag,
+                      FT_TS_Long    offset,
+                      FT_TS_Byte*   buffer,
+                      FT_TS_ULong*  length );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Sfnt_Table_Info
+   *   FT_TS_Sfnt_Table_Info
    *
    * @description:
    *   Return information on an SFNT table.
@@ -773,7 +773,7 @@ FT_BEGIN_HEADER
    *
    *   table_index ::
    *     The index of an SFNT table.  The function returns
-   *     FT_Err_Table_Missing for an invalid value.
+   *     FT_TS_Err_Table_Missing for an invalid value.
    *
    * @inout:
    *   tag ::
@@ -794,21 +794,21 @@ FT_BEGIN_HEADER
    *   missing.
    *
    */
-  FT_EXPORT( FT_Error )
-  FT_Sfnt_Table_Info( FT_Face    face,
-                      FT_UInt    table_index,
-                      FT_ULong  *tag,
-                      FT_ULong  *length );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Sfnt_Table_Info( FT_TS_Face    face,
+                      FT_TS_UInt    table_index,
+                      FT_TS_ULong  *tag,
+                      FT_TS_ULong  *length );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_CMap_Language_ID
+   *   FT_TS_Get_CMap_Language_ID
    *
    * @description:
    *   Return cmap language ID as specified in the OpenType standard.
-   *   Definitions of language ID values are in file @FT_TRUETYPE_IDS_H.
+   *   Definitions of language ID values are in file @FT_TS_TRUETYPE_IDS_H.
    *
    * @input:
    *   charmap ::
@@ -821,14 +821,14 @@ FT_BEGIN_HEADER
    *   For a format~14 cmap (to access Unicode IVS), the return value is
    *   0xFFFFFFFF.
    */
-  FT_EXPORT( FT_ULong )
-  FT_Get_CMap_Language_ID( FT_CharMap  charmap );
+  FT_TS_EXPORT( FT_TS_ULong )
+  FT_TS_Get_CMap_Language_ID( FT_TS_CharMap  charmap );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_CMap_Format
+   *   FT_TS_Get_CMap_Format
    *
    * @description:
    *   Return the format of an SFNT 'cmap' table.
@@ -841,13 +841,13 @@ FT_BEGIN_HEADER
    *   The format of `charmap`.  If `charmap` doesn't belong to an SFNT face,
    *   return -1.
    */
-  FT_EXPORT( FT_Long )
-  FT_Get_CMap_Format( FT_CharMap  charmap );
+  FT_TS_EXPORT( FT_TS_Long )
+  FT_TS_Get_CMap_Format( FT_TS_CharMap  charmap );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTTABLES_H_ */
 

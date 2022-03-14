@@ -43,12 +43,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  bdflib
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  bdflib
 
 
   /**************************************************************************
@@ -226,7 +226,7 @@
 
   /* Function type for parsing lines of a BDF font. */
 
-  typedef FT_Error
+  typedef FT_TS_Error
   (*_bdf_line_func_t)( char*          line,
                        unsigned long  linelen,
                        unsigned long  lineno,
@@ -241,7 +241,7 @@
     char**         field;
     unsigned long  size;
     unsigned long  used;
-    FT_Memory      memory;
+    FT_TS_Memory      memory;
 
   } _bdf_list_t;
 
@@ -270,23 +270,23 @@
 
     _bdf_list_t     list;
 
-    FT_Memory       memory;
+    FT_TS_Memory       memory;
     unsigned long   size;        /* the stream size */
 
   } _bdf_parse_t;
 
 
 #define setsbit( m, cc ) \
-          ( m[(FT_Byte)(cc) >> 3] |= (FT_Byte)( 1 << ( (cc) & 7 ) ) )
+          ( m[(FT_TS_Byte)(cc) >> 3] |= (FT_TS_Byte)( 1 << ( (cc) & 7 ) ) )
 #define sbitset( m, cc ) \
-          ( m[(FT_Byte)(cc) >> 3]  & ( 1 << ( (cc) & 7 ) ) )
+          ( m[(FT_TS_Byte)(cc) >> 3]  & ( 1 << ( (cc) & 7 ) ) )
 
 
   static void
   _bdf_list_init( _bdf_list_t*  list,
-                  FT_Memory     memory )
+                  FT_TS_Memory     memory )
   {
-    FT_ZERO( list );
+    FT_TS_ZERO( list );
     list->memory = memory;
   }
 
@@ -294,41 +294,41 @@
   static void
   _bdf_list_done( _bdf_list_t*  list )
   {
-    FT_Memory  memory = list->memory;
+    FT_TS_Memory  memory = list->memory;
 
 
     if ( memory )
     {
-      FT_FREE( list->field );
-      FT_ZERO( list );
+      FT_TS_FREE( list->field );
+      FT_TS_ZERO( list );
     }
   }
 
 
-  static FT_Error
+  static FT_TS_Error
   _bdf_list_ensure( _bdf_list_t*   list,
                     unsigned long  num_items ) /* same as _bdf_list_t.used */
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     if ( num_items > list->size )
     {
       unsigned long  oldsize = list->size; /* same as _bdf_list_t.size */
       unsigned long  newsize = oldsize + ( oldsize >> 1 ) + 5;
-      unsigned long  bigsize = (unsigned long)( FT_INT_MAX / sizeof ( char* ) );
-      FT_Memory      memory  = list->memory;
+      unsigned long  bigsize = (unsigned long)( FT_TS_INT_MAX / sizeof ( char* ) );
+      FT_TS_Memory      memory  = list->memory;
 
 
       if ( oldsize == bigsize )
       {
-        error = FT_THROW( Out_Of_Memory );
+        error = FT_TS_THROW( Out_Of_Memory );
         goto Exit;
       }
       else if ( newsize < oldsize || newsize > bigsize )
         newsize = bigsize;
 
-      if ( FT_QRENEW_ARRAY( list->field, oldsize, newsize ) )
+      if ( FT_TS_QRENEW_ARRAY( list->field, oldsize, newsize ) )
         goto Exit;
 
       list->size = newsize;
@@ -404,7 +404,7 @@
   /* elements in `list' (which are possibly NULL) so that we    */
   /* don't have to check the number of fields in most cases.    */
 
-  static FT_Error
+  static FT_TS_Error
   _bdf_list_split( _bdf_list_t*   list,
                    const char*    separators,
                    char*          line,
@@ -415,7 +415,7 @@
     const char     *sp, *end;
     char           *ep;
     char           seps[32];
-    FT_Error       error = FT_Err_Ok;
+    FT_TS_Error       error = FT_TS_Err_Ok;
 
 
     /* Initialize the list. */
@@ -438,12 +438,12 @@
     /* this, so an error is signaled.                                 */
     if ( separators == NULL || *separators == 0 )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* Prepare the separator bitmap. */
-    FT_MEM_ZERO( seps, 32 );
+    FT_TS_MEM_ZERO( seps, 32 );
 
     /* If the very last character of the separator string is a plus, then */
     /* set the `mult' flag to indicate that multiple separators should be */
@@ -514,8 +514,8 @@
 #define NO_SKIP  256  /* this value cannot be stored in a 'char' */
 
 
-  static FT_Error
-  _bdf_readstream( FT_Stream         stream,
+  static FT_TS_Error
+  _bdf_readstream( FT_TS_Stream         stream,
                    _bdf_line_func_t  callback,
                    void*             client_data,
                    unsigned long    *lno )
@@ -525,20 +525,20 @@
     int               refill, hold, to_skip;
     ptrdiff_t         bytes, start, end, cursor, avail;
     char*             buf    = NULL;
-    FT_Memory         memory = stream->memory;
-    FT_Error          error  = FT_Err_Ok;
+    FT_TS_Memory         memory = stream->memory;
+    FT_TS_Error          error  = FT_TS_Err_Ok;
 
 
     if ( callback == NULL )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* initial size and allocation of the input buffer */
     buf_size = 1024;
 
-    if ( FT_QALLOC( buf, buf_size ) )
+    if ( FT_TS_QALLOC( buf, buf_size ) )
       goto Exit;
 
     cb      = callback;
@@ -555,8 +555,8 @@
     {
       if ( refill )
       {
-        bytes  = (ptrdiff_t)FT_Stream_TryRead(
-                   stream, (FT_Byte*)buf + cursor,
+        bytes  = (ptrdiff_t)FT_TS_Stream_TryRead(
+                   stream, (FT_TS_Byte*)buf + cursor,
                    buf_size - (unsigned long)cursor );
         avail  = cursor + bytes;
         cursor = 0;
@@ -586,7 +586,7 @@
           /* last line in file doesn't end in \r or \n; */
           /* ignore it then exit                        */
           if ( lineno == 1 )
-            error = FT_THROW( Missing_Startfont_Field );
+            error = FT_TS_THROW( Missing_Startfont_Field );
           break;
         }
 
@@ -594,23 +594,23 @@
         {
           /* this line is definitely too long; try resizing the input */
           /* buffer a bit to handle it.                               */
-          FT_ULong  new_size;
+          FT_TS_ULong  new_size;
 
 
           if ( buf_size >= 65536UL )  /* limit ourselves to 64KByte */
           {
             if ( lineno == 1 )
-              error = FT_THROW( Missing_Startfont_Field );
+              error = FT_TS_THROW( Missing_Startfont_Field );
             else
             {
-              FT_ERROR(( "_bdf_readstream: " ERRMSG6, lineno ));
-              error = FT_THROW( Invalid_Argument );
+              FT_TS_ERROR(( "_bdf_readstream: " ERRMSG6, lineno ));
+              error = FT_TS_THROW( Invalid_Argument );
             }
             goto Exit;
           }
 
           new_size = buf_size * 2;
-          if ( FT_QREALLOC( buf, buf_size, new_size ) )
+          if ( FT_TS_QREALLOC( buf, buf_size, new_size ) )
             goto Exit;
 
           cursor   = (ptrdiff_t)buf_size;
@@ -620,7 +620,7 @@
         {
           bytes = avail - start;
 
-          FT_MEM_MOVE( buf, buf + start, bytes );
+          FT_TS_MEM_MOVE( buf, buf + start, bytes );
 
           cursor = bytes;
           avail -= bytes;
@@ -662,7 +662,7 @@
     *lno = lineno;
 
   Exit:
-    FT_FREE( buf );
+    FT_TS_FREE( buf );
     return error;
   }
 
@@ -713,11 +713,11 @@
 
     for ( v = 0; sbitset( ddigits, *s ); s++ )
     {
-      if ( v < ( FT_ULONG_MAX - 9 ) / 10 )
+      if ( v < ( FT_TS_ULONG_MAX - 9 ) / 10 )
         v = v * 10 + a2i[(int)*s];
       else
       {
-        v = FT_ULONG_MAX;
+        v = FT_TS_ULONG_MAX;
         break;
       }
     }
@@ -746,11 +746,11 @@
 
     for ( v = 0; sbitset( ddigits, *s ); s++ )
     {
-      if ( v < ( FT_LONG_MAX - 9 ) / 10 )
+      if ( v < ( FT_TS_LONG_MAX - 9 ) / 10 )
         v = v * 10 + a2i[(int)*s];
       else
       {
-        v = FT_LONG_MAX;
+        v = FT_TS_LONG_MAX;
         break;
       }
     }
@@ -771,11 +771,11 @@
 
     for ( v = 0; sbitset( ddigits, *s ); s++ )
     {
-      if ( v < ( FT_USHORT_MAX - 9 ) / 10 )
+      if ( v < ( FT_TS_USHORT_MAX - 9 ) / 10 )
         v = (unsigned short)( v * 10 + a2i[(int)*s] );
       else
       {
-        v = FT_USHORT_MAX;
+        v = FT_TS_USHORT_MAX;
         break;
       }
     }
@@ -818,7 +818,7 @@
 
 
   /* Routine to compare two glyphs by encoding so they can be sorted. */
-  FT_COMPARE_DEF( int )
+  FT_TS_COMPARE_DEF( int )
   by_encoding( const void*  a,
                const void*  b )
   {
@@ -838,15 +838,15 @@
   }
 
 
-  static FT_Error
+  static FT_TS_Error
   bdf_create_property( const char*  name,
                        int          format,
                        bdf_font_t*  font )
   {
     size_t           n;
     bdf_property_t*  p;
-    FT_Memory        memory = font->memory;
-    FT_Error         error  = FT_Err_Ok;
+    FT_TS_Memory        memory = font->memory;
+    FT_TS_Error         error  = FT_TS_Err_Ok;
 
 
     /* First check whether the property has        */
@@ -855,7 +855,7 @@
     if ( ft_hash_str_lookup( name, &(font->proptbl) ) )
       goto Exit;
 
-    if ( FT_QRENEW_ARRAY( font->user_props,
+    if ( FT_TS_QRENEW_ARRAY( font->user_props,
                           font->nuser_props,
                           font->nuser_props + 1 ) )
       goto Exit;
@@ -863,13 +863,13 @@
     p = font->user_props + font->nuser_props;
 
     n = ft_strlen( name ) + 1;
-    if ( n > FT_LONG_MAX )
-      return FT_THROW( Invalid_Argument );
+    if ( n > FT_TS_LONG_MAX )
+      return FT_TS_THROW( Invalid_Argument );
 
-    if ( FT_QALLOC( p->name, n ) )
+    if ( FT_TS_QALLOC( p->name, n ) )
       goto Exit;
 
-    FT_MEM_COPY( (char *)p->name, name, n );
+    FT_TS_MEM_COPY( (char *)p->name, name, n );
 
     p->format     = format;
     p->builtin    = 0;
@@ -888,7 +888,7 @@
   }
 
 
-  FT_LOCAL_DEF( bdf_property_t* )
+  FT_TS_LOCAL_DEF( bdf_property_t* )
   bdf_get_property( char*        name,
                     bdf_font_t*  font )
   {
@@ -943,24 +943,24 @@
 #define BDF_GLYPH_HEIGHT_CHECK_  0x80000000UL
 
 
-  static FT_Error
+  static FT_TS_Error
   _bdf_add_comment( bdf_font_t*    font,
                     char*          comment,
                     unsigned long  len )
   {
     char*      cp;
-    FT_Memory  memory = font->memory;
-    FT_Error   error  = FT_Err_Ok;
+    FT_TS_Memory  memory = font->memory;
+    FT_TS_Error   error  = FT_TS_Err_Ok;
 
 
-    if ( FT_QRENEW_ARRAY( font->comments,
+    if ( FT_TS_QRENEW_ARRAY( font->comments,
                           font->comments_len,
                           font->comments_len + len + 1 ) )
       goto Exit;
 
     cp = font->comments + font->comments_len;
 
-    FT_MEM_COPY( cp, comment, len );
+    FT_TS_MEM_COPY( cp, comment, len );
     cp[len] = '\0';
 
     font->comments_len += len + 1;
@@ -972,7 +972,7 @@
 
   /* Set the spacing from the font name if it exists, or set it to the */
   /* default specified in the options.                                 */
-  static FT_Error
+  static FT_TS_Error
   _bdf_set_default_spacing( bdf_font_t*     font,
                             bdf_options_t*  opts,
                             unsigned long   lineno )
@@ -980,15 +980,15 @@
     size_t       len;
     char         name[256];
     _bdf_list_t  list;
-    FT_Memory    memory;
-    FT_Error     error = FT_Err_Ok;
+    FT_TS_Memory    memory;
+    FT_TS_Error     error = FT_TS_Err_Ok;
 
-    FT_UNUSED( lineno );        /* only used in debug mode */
+    FT_TS_UNUSED( lineno );        /* only used in debug mode */
 
 
     if ( font == NULL || font->name == NULL || font->name[0] == 0 )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -1002,12 +1002,12 @@
     /* Limit ourselves to 256 characters in the font name. */
     if ( len >= 256 )
     {
-      FT_ERROR(( "_bdf_set_default_spacing: " ERRMSG7, lineno ));
-      error = FT_THROW( Invalid_Argument );
+      FT_TS_ERROR(( "_bdf_set_default_spacing: " ERRMSG7, lineno ));
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    FT_MEM_COPY( name, font->name, len );
+    FT_TS_MEM_COPY( name, font->name, len );
 
     error = _bdf_list_split( &list, "-", name, (unsigned long)len );
     if ( error )
@@ -1106,7 +1106,7 @@
   }
 
 
-  static FT_Error
+  static FT_TS_Error
   _bdf_add_property( bdf_font_t*    font,
                      const char*    name,
                      char*          value,
@@ -1114,15 +1114,15 @@
   {
     size_t*         propid;
     bdf_property_t  *prop, *fp;
-    FT_Memory       memory = font->memory;
-    FT_Error        error  = FT_Err_Ok;
+    FT_TS_Memory       memory = font->memory;
+    FT_TS_Error        error  = FT_TS_Err_Ok;
 
-    FT_UNUSED( lineno );        /* only used in debug mode */
+    FT_TS_UNUSED( lineno );        /* only used in debug mode */
 
 
     /* First, check whether the property already exists in the font. */
     if ( ( propid = ft_hash_str_lookup( name,
-                                        (FT_Hash)font->internal ) ) != NULL )
+                                        (FT_TS_Hash)font->internal ) ) != NULL )
     {
       /* The property already exists in the font, so simply replace */
       /* the value of the property with the current value.          */
@@ -1132,11 +1132,11 @@
       {
       case BDF_ATOM:
         /* Delete the current atom if it exists. */
-        FT_FREE( fp->value.atom );
+        FT_TS_FREE( fp->value.atom );
 
         if ( value && value[0] != 0 )
         {
-          if ( FT_STRDUP( fp->value.atom, value ) )
+          if ( FT_TS_STRDUP( fp->value.atom, value ) )
             goto Exit;
         }
         break;
@@ -1170,7 +1170,7 @@
     /* Allocate another property if this is overflowing. */
     if ( font->props_used == font->props_size )
     {
-      if ( FT_QRENEW_ARRAY( font->props,
+      if ( FT_TS_QRENEW_ARRAY( font->props,
                             font->props_size,
                             font->props_size + 1 ) )
         goto Exit;
@@ -1196,7 +1196,7 @@
       fp->value.atom = NULL;
       if ( value && value[0] )
       {
-        if ( FT_STRDUP( fp->value.atom, value ) )
+        if ( FT_TS_STRDUP( fp->value.atom, value ) )
           goto Exit;
       }
       break;
@@ -1217,7 +1217,7 @@
       /* Add the property to the font property table. */
       error = ft_hash_str_insert( fp->name,
                                   font->props_used,
-                                  (FT_Hash)font->internal,
+                                  (FT_TS_Hash)font->internal,
                                   memory );
       if ( error )
         goto Exit;
@@ -1240,8 +1240,8 @@
     {
       if ( !fp->value.atom )
       {
-        FT_ERROR(( "_bdf_add_property: " ERRMSG8, lineno, "SPACING" ));
-        error = FT_THROW( Invalid_File_Format );
+        FT_TS_ERROR(( "_bdf_add_property: " ERRMSG8, lineno, "SPACING" ));
+        error = FT_TS_THROW( Invalid_File_Format );
         goto Exit;
       }
 
@@ -1264,7 +1264,7 @@
   };
 
 
-  static FT_Error
+  static FT_TS_Error
   _bdf_parse_end( char*          line,
                   unsigned long  linelen,
                   unsigned long  lineno,
@@ -1273,18 +1273,18 @@
   {
     /* a no-op; we ignore everything after `ENDFONT' */
 
-    FT_UNUSED( line );
-    FT_UNUSED( linelen );
-    FT_UNUSED( lineno );
-    FT_UNUSED( call_data );
-    FT_UNUSED( client_data );
+    FT_TS_UNUSED( line );
+    FT_TS_UNUSED( linelen );
+    FT_TS_UNUSED( lineno );
+    FT_TS_UNUSED( call_data );
+    FT_TS_UNUSED( client_data );
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
   /* Actually parse the glyph info and bitmaps. */
-  static FT_Error
+  static FT_TS_Error
   _bdf_parse_glyphs( char*          line,
                      unsigned long  linelen,
                      unsigned long  lineno,
@@ -1301,10 +1301,10 @@
     bdf_glyph_t*       glyph;
     bdf_font_t*        font;
 
-    FT_Memory          memory;
-    FT_Error           error = FT_Err_Ok;
+    FT_TS_Memory          memory;
+    FT_TS_Error           error = FT_TS_Err_Ok;
 
-    FT_UNUSED( lineno );        /* only used in debug mode */
+    FT_TS_UNUSED( lineno );        /* only used in debug mode */
 
 
     next = (_bdf_line_func_t *)call_data;
@@ -1336,8 +1336,8 @@
     {
       if ( _bdf_strncmp( line, "CHARS", 5 ) != 0 )
       {
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "CHARS" ));
-        error = FT_THROW( Missing_Chars_Field );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "CHARS" ));
+        error = FT_TS_THROW( Missing_Chars_Field );
         goto Exit;
       }
 
@@ -1350,7 +1350,7 @@
       if ( p->cnt > p->size / 20 )
       {
         p->cnt = font->glyphs_size = p->size / 20;
-        FT_TRACE2(( "_bdf_parse_glyphs: " ACMSG17, p->cnt ));
+        FT_TS_TRACE2(( "_bdf_parse_glyphs: " ACMSG17, p->cnt ));
       }
 
       /* Make sure the number of glyphs is non-zero. */
@@ -1361,12 +1361,12 @@
       /* number of code points available in Unicode).                 */
       if ( p->cnt >= 0x110000UL )
       {
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG5, lineno, "CHARS" ));
-        error = FT_THROW( Invalid_Argument );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG5, lineno, "CHARS" ));
+        error = FT_TS_THROW( Invalid_Argument );
         goto Exit;
       }
 
-      if ( FT_NEW_ARRAY( font->glyphs, font->glyphs_size ) )
+      if ( FT_TS_NEW_ARRAY( font->glyphs, font->glyphs_size ) )
         goto Exit;
 
       p->flags |= BDF_GLYPHS_;
@@ -1380,8 +1380,8 @@
       if ( p->flags & BDF_GLYPH_BITS_ )
       {
         /* Missing ENDCHAR field. */
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "ENDCHAR" ));
-        error = FT_THROW( Corrupted_Font_Glyphs );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "ENDCHAR" ));
+        error = FT_TS_THROW( Corrupted_Font_Glyphs );
         goto Exit;
       }
 
@@ -1419,14 +1419,14 @@
       if ( p->flags & BDF_GLYPH_BITS_ )
       {
         /* Missing ENDCHAR field. */
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "ENDCHAR" ));
-        error = FT_THROW( Missing_Startchar_Field );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "ENDCHAR" ));
+        error = FT_TS_THROW( Missing_Startchar_Field );
         goto Exit;
       }
 
       /* Set the character name in the parse info first until the */
       /* encoding can be checked for an unencoded character.      */
-      FT_FREE( p->glyph_name );
+      FT_TS_FREE( p->glyph_name );
 
       error = _bdf_list_split( &p->list, " +", line, linelen );
       if ( error )
@@ -1438,19 +1438,19 @@
 
       if ( !s )
       {
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG8, lineno, "STARTCHAR" ));
-        error = FT_THROW( Invalid_File_Format );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG8, lineno, "STARTCHAR" ));
+        error = FT_TS_THROW( Invalid_File_Format );
         goto Exit;
       }
 
-      if ( FT_QALLOC( p->glyph_name, slen + 1 ) )
+      if ( FT_TS_QALLOC( p->glyph_name, slen + 1 ) )
         goto Exit;
 
-      FT_MEM_COPY( p->glyph_name, s, slen + 1 );
+      FT_TS_MEM_COPY( p->glyph_name, s, slen + 1 );
 
       p->flags |= BDF_GLYPH_;
 
-      FT_TRACE4(( DBGMSG1, lineno, s ));
+      FT_TS_TRACE4(( DBGMSG1, lineno, s ));
 
       goto Exit;
     }
@@ -1461,8 +1461,8 @@
       if ( !( p->flags & BDF_GLYPH_ ) )
       {
         /* Missing STARTCHAR field. */
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "STARTCHAR" ));
-        error = FT_THROW( Missing_Startchar_Field );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "STARTCHAR" ));
+        error = FT_TS_THROW( Missing_Startchar_Field );
         goto Exit;
       }
 
@@ -1484,7 +1484,7 @@
       if ( p->glyph_enc < -1 || p->glyph_enc >= 0x110000L )
         p->glyph_enc = -1;
 
-      FT_TRACE4(( DBGMSG2, p->glyph_enc ));
+      FT_TS_TRACE4(( DBGMSG2, p->glyph_enc ));
 
       if ( p->glyph_enc >= 0 )
       {
@@ -1492,7 +1492,7 @@
         /* number of characters happen to be wrong.                */
         if ( font->glyphs_used == font->glyphs_size )
         {
-          if ( FT_RENEW_ARRAY( font->glyphs,
+          if ( FT_TS_RENEW_ARRAY( font->glyphs,
                                font->glyphs_size,
                                font->glyphs_size + 64 ) )
             goto Exit;
@@ -1516,7 +1516,7 @@
           /* Allocate the next unencoded glyph. */
           if ( font->unencoded_used == font->unencoded_size )
           {
-            if ( FT_RENEW_ARRAY( font->unencoded ,
+            if ( FT_TS_RENEW_ARRAY( font->unencoded ,
                                  font->unencoded_size,
                                  font->unencoded_size + 4 ) )
               goto Exit;
@@ -1535,7 +1535,7 @@
         {
           /* Free up the glyph name if the unencoded shouldn't be */
           /* kept.                                                */
-          FT_FREE( p->glyph_name );
+          FT_TS_FREE( p->glyph_name );
         }
 
         p->glyph_name = NULL;
@@ -1568,7 +1568,7 @@
       {
         if ( !( p->flags & BDF_GLYPH_HEIGHT_CHECK_ ) )
         {
-          FT_TRACE2(( "_bdf_parse_glyphs: " ACMSG13, glyph->encoding ));
+          FT_TS_TRACE2(( "_bdf_parse_glyphs: " ACMSG13, glyph->encoding ));
           p->flags |= BDF_GLYPH_HEIGHT_CHECK_;
         }
 
@@ -1585,7 +1585,7 @@
         c = line[i];
         if ( !sbitset( hdigits, c ) )
           break;
-        *bp = (FT_Byte)( ( *bp << 4 ) + a2i[c] );
+        *bp = (FT_TS_Byte)( ( *bp << 4 ) + a2i[c] );
         if ( i + 1 < nibbles && ( i & 1 ) )
           *++bp = 0;
       }
@@ -1595,7 +1595,7 @@
       if ( i < nibbles                            &&
            !( p->flags & BDF_GLYPH_WIDTH_CHECK_ ) )
       {
-        FT_TRACE2(( "_bdf_parse_glyphs: " ACMSG16, glyph->encoding ));
+        FT_TS_TRACE2(( "_bdf_parse_glyphs: " ACMSG16, glyph->encoding ));
         p->flags       |= BDF_GLYPH_WIDTH_CHECK_;
       }
 
@@ -1609,7 +1609,7 @@
            sbitset( hdigits, line[nibbles] )      &&
            !( p->flags & BDF_GLYPH_WIDTH_CHECK_ ) )
       {
-        FT_TRACE2(( "_bdf_parse_glyphs: " ACMSG14, glyph->encoding ));
+        FT_TS_TRACE2(( "_bdf_parse_glyphs: " ACMSG14, glyph->encoding ));
         p->flags       |= BDF_GLYPH_WIDTH_CHECK_;
       }
 
@@ -1643,11 +1643,11 @@
       {
         /* Missing SWIDTH field.  Emit an auto correction message and set */
         /* the scalable width from the device width.                      */
-        FT_TRACE2(( "_bdf_parse_glyphs: " ACMSG9, lineno ));
+        FT_TS_TRACE2(( "_bdf_parse_glyphs: " ACMSG9, lineno ));
 
-        glyph->swidth = (unsigned short)FT_MulDiv(
+        glyph->swidth = (unsigned short)FT_TS_MulDiv(
                           glyph->dwidth, 72000L,
-                          (FT_Long)( font->point_size *
+                          (FT_TS_Long)( font->point_size *
                                      font->resolution_x ) );
       }
 
@@ -1673,20 +1673,20 @@
 
       /* Determine the overall font bounding box as the characters are */
       /* loaded so corrections can be done later if indicated.         */
-      p->maxas    = (short)FT_MAX( glyph->bbx.ascent, p->maxas );
-      p->maxds    = (short)FT_MAX( glyph->bbx.descent, p->maxds );
+      p->maxas    = (short)FT_TS_MAX( glyph->bbx.ascent, p->maxas );
+      p->maxds    = (short)FT_TS_MAX( glyph->bbx.descent, p->maxds );
 
       p->rbearing = (short)( glyph->bbx.width + glyph->bbx.x_offset );
 
-      p->maxrb    = (short)FT_MAX( p->rbearing, p->maxrb );
-      p->minlb    = (short)FT_MIN( glyph->bbx.x_offset, p->minlb );
-      p->maxlb    = (short)FT_MAX( glyph->bbx.x_offset, p->maxlb );
+      p->maxrb    = (short)FT_TS_MAX( p->rbearing, p->maxrb );
+      p->minlb    = (short)FT_TS_MIN( glyph->bbx.x_offset, p->minlb );
+      p->maxlb    = (short)FT_TS_MAX( glyph->bbx.x_offset, p->maxlb );
 
       if ( !( p->flags & BDF_DWIDTH_ ) )
       {
         /* Missing DWIDTH field.  Emit an auto correction message and set */
         /* the device width to the glyph width.                           */
-        FT_TRACE2(( "_bdf_parse_glyphs: " ACMSG10, lineno ));
+        FT_TS_TRACE2(( "_bdf_parse_glyphs: " ACMSG10, lineno ));
         glyph->dwidth = glyph->bbx.width;
       }
 
@@ -1695,9 +1695,9 @@
       if ( p->opts->correct_metrics )
       {
         /* Determine the point size of the glyph. */
-        unsigned short  sw = (unsigned short)FT_MulDiv(
+        unsigned short  sw = (unsigned short)FT_TS_MulDiv(
                                glyph->dwidth, 72000L,
-                               (FT_Long)( font->point_size *
+                               (FT_TS_Long)( font->point_size *
                                           font->resolution_x ) );
 
 
@@ -1722,8 +1722,8 @@
       if ( !( p->flags & BDF_BBX_ ) )
       {
         /* Missing BBX field. */
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "BBX" ));
-        error = FT_THROW( Missing_Bbx_Field );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "BBX" ));
+        error = FT_TS_THROW( Missing_Bbx_Field );
         goto Exit;
       }
 
@@ -1733,14 +1733,14 @@
       bitmap_size = glyph->bpr * glyph->bbx.height;
       if ( glyph->bpr > 0xFFFFU || bitmap_size > 0xFFFFU )
       {
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG4, lineno ));
-        error = FT_THROW( Bbx_Too_Big );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG4, lineno ));
+        error = FT_TS_THROW( Bbx_Too_Big );
         goto Exit;
       }
       else
         glyph->bytes = (unsigned short)bitmap_size;
 
-      if ( FT_ALLOC( glyph->bitmap, glyph->bytes ) )
+      if ( FT_TS_ALLOC( glyph->bitmap, glyph->bytes ) )
         goto Exit;
 
       p->row    = 0;
@@ -1749,25 +1749,25 @@
       goto Exit;
     }
 
-    FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG9, lineno ));
-    error = FT_THROW( Invalid_File_Format );
+    FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG9, lineno ));
+    error = FT_TS_THROW( Invalid_File_Format );
     goto Exit;
 
   Missing_Encoding:
     /* Missing ENCODING field. */
-    FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "ENCODING" ));
-    error = FT_THROW( Missing_Encoding_Field );
+    FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG1, lineno, "ENCODING" ));
+    error = FT_TS_THROW( Missing_Encoding_Field );
 
   Exit:
     if ( error && ( p->flags & BDF_GLYPH_ ) )
-      FT_FREE( p->glyph_name );
+      FT_TS_FREE( p->glyph_name );
 
     return error;
   }
 
 
   /* Load the font properties. */
-  static FT_Error
+  static FT_TS_Error
   _bdf_parse_properties( char*          line,
                          unsigned long  linelen,
                          unsigned long  lineno,
@@ -1780,9 +1780,9 @@
     char*              name;
     char*              value;
     char               nbuf[128];
-    FT_Error           error = FT_Err_Ok;
+    FT_TS_Error           error = FT_TS_Err_Ok;
 
-    FT_UNUSED( lineno );
+    FT_TS_UNUSED( lineno );
 
 
     next = (_bdf_line_func_t *)call_data;
@@ -1806,7 +1806,7 @@
         if ( error )
           goto Exit;
 
-        FT_TRACE2(( "_bdf_parse_properties: " ACMSG1, p->font->bbx.ascent ));
+        FT_TS_TRACE2(( "_bdf_parse_properties: " ACMSG1, p->font->bbx.ascent ));
       }
 
       if ( bdf_get_font_property( p->font, "FONT_DESCENT" ) == 0 )
@@ -1818,7 +1818,7 @@
         if ( error )
           goto Exit;
 
-        FT_TRACE2(( "_bdf_parse_properties: " ACMSG2, p->font->bbx.descent ));
+        FT_TS_TRACE2(( "_bdf_parse_properties: " ACMSG2, p->font->bbx.descent ));
       }
 
       p->flags &= ~BDF_PROPS_;
@@ -1870,7 +1870,7 @@
 
 
   /* Load the font header. */
-  static FT_Error
+  static FT_TS_Error
   _bdf_parse_start( char*          line,
                     unsigned long  linelen,
                     unsigned long  lineno,
@@ -1883,10 +1883,10 @@
     bdf_font_t*        font;
     char               *s;
 
-    FT_Memory          memory = NULL;
-    FT_Error           error  = FT_Err_Ok;
+    FT_TS_Memory          memory = NULL;
+    FT_TS_Error           error  = FT_TS_Err_Ok;
 
-    FT_UNUSED( lineno );            /* only used in debug mode */
+    FT_TS_UNUSED( lineno );            /* only used in debug mode */
 
 
     next = (_bdf_line_func_t *)call_data;
@@ -1922,14 +1922,14 @@
       {
         /* we don't emit an error message since this code gets */
         /* explicitly caught one level higher                  */
-        error = FT_THROW( Missing_Startfont_Field );
+        error = FT_TS_THROW( Missing_Startfont_Field );
         goto Exit;
       }
 
       p->flags = BDF_START_;
       font = p->font = NULL;
 
-      if ( FT_NEW( font ) )
+      if ( FT_TS_NEW( font ) )
         goto Exit;
       p->font = font;
 
@@ -1953,9 +1953,9 @@
         }
       }
 
-      if ( FT_ALLOC( p->font->internal, sizeof ( FT_HashRec ) ) )
+      if ( FT_TS_ALLOC( p->font->internal, sizeof ( FT_TS_HashRec ) ) )
         goto Exit;
-      error = ft_hash_str_init( (FT_Hash)p->font->internal, memory );
+      error = ft_hash_str_init( (FT_TS_Hash)p->font->internal, memory );
       if ( error )
         goto Exit;
       p->font->spacing      = p->opts->font_spacing;
@@ -1970,8 +1970,8 @@
       if ( !( p->flags & BDF_FONT_BBX_ ) )
       {
         /* Missing the FONTBOUNDINGBOX field. */
-        FT_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "FONTBOUNDINGBOX" ));
-        error = FT_THROW( Missing_Fontboundingbox_Field );
+        FT_TS_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "FONTBOUNDINGBOX" ));
+        error = FT_TS_THROW( Missing_Fontboundingbox_Field );
         goto Exit;
       }
 
@@ -1986,12 +1986,12 @@
       {
         p->font->props_size = 0;
 
-        FT_ERROR(( "_bdf_parse_glyphs: " ERRMSG5, lineno, "STARTPROPERTIES" ));
-        error = FT_THROW( Invalid_Argument );
+        FT_TS_ERROR(( "_bdf_parse_glyphs: " ERRMSG5, lineno, "STARTPROPERTIES" ));
+        error = FT_TS_THROW( Invalid_Argument );
         goto Exit;
       }
 
-      if ( FT_NEW_ARRAY( p->font->props, p->cnt ) )
+      if ( FT_TS_NEW_ARRAY( p->font->props, p->cnt ) )
       {
         p->font->props_size = 0;
         goto Exit;
@@ -2009,8 +2009,8 @@
       if ( !( p->flags & BDF_SIZE_ ) )
       {
         /* Missing the SIZE field. */
-        FT_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "SIZE" ));
-        error = FT_THROW( Missing_Size_Field );
+        FT_TS_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "SIZE" ));
+        error = FT_TS_THROW( Missing_Size_Field );
         goto Exit;
       }
 
@@ -2046,17 +2046,17 @@
 
       if ( !s )
       {
-        FT_ERROR(( "_bdf_parse_start: " ERRMSG8, lineno, "FONT" ));
-        error = FT_THROW( Invalid_File_Format );
+        FT_TS_ERROR(( "_bdf_parse_start: " ERRMSG8, lineno, "FONT" ));
+        error = FT_TS_THROW( Invalid_File_Format );
         goto Exit;
       }
 
       /* Allowing multiple `FONT' lines (which is invalid) doesn't hurt... */
-      FT_FREE( p->font->name );
+      FT_TS_FREE( p->font->name );
 
-      if ( FT_QALLOC( p->font->name, slen + 1 ) )
+      if ( FT_TS_QALLOC( p->font->name, slen + 1 ) )
         goto Exit;
-      FT_MEM_COPY( p->font->name, s, slen + 1 );
+      FT_TS_MEM_COPY( p->font->name, s, slen + 1 );
 
       /* If the font name is an XLFD name, set the spacing to the one in  */
       /* the font name.  If there is no spacing fall back on the default. */
@@ -2075,8 +2075,8 @@
       if ( !( p->flags & BDF_FONT_NAME_ ) )
       {
         /* Missing the FONT field. */
-        FT_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "FONT" ));
-        error = FT_THROW( Missing_Font_Field );
+        FT_TS_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "FONT" ));
+        error = FT_TS_THROW( Missing_Font_Field );
         goto Exit;
       }
 
@@ -2107,7 +2107,7 @@
           p->font->bpp = 1;
 
         if ( p->font->bpp != bpp )
-          FT_TRACE2(( "_bdf_parse_start: " ACMSG11, p->font->bpp ));
+          FT_TS_TRACE2(( "_bdf_parse_start: " ACMSG11, p->font->bpp ));
       }
       else
         p->font->bpp = 1;
@@ -2126,8 +2126,8 @@
       if ( !( p->flags & BDF_FONT_BBX_ ) )
       {
         /* Missing the FONTBOUNDINGBOX field. */
-        FT_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "FONTBOUNDINGBOX" ));
-        error = FT_THROW( Missing_Fontboundingbox_Field );
+        FT_TS_ERROR(( "_bdf_parse_start: " ERRMSG1, lineno, "FONTBOUNDINGBOX" ));
+        error = FT_TS_THROW( Missing_Fontboundingbox_Field );
         goto Exit;
       }
 
@@ -2139,7 +2139,7 @@
                                  nbuf, lineno );
       if ( error )
         goto Exit;
-      FT_TRACE2(( "_bdf_parse_properties: " ACMSG1, p->font->bbx.ascent ));
+      FT_TS_TRACE2(( "_bdf_parse_properties: " ACMSG1, p->font->bbx.ascent ));
 
       p->font->font_descent = p->font->bbx.descent;
       ft_sprintf( nbuf, "%hd", p->font->bbx.descent );
@@ -2147,7 +2147,7 @@
                                  nbuf, lineno );
       if ( error )
         goto Exit;
-      FT_TRACE2(( "_bdf_parse_properties: " ACMSG2, p->font->bbx.descent ));
+      FT_TS_TRACE2(( "_bdf_parse_properties: " ACMSG2, p->font->bbx.descent ));
 
       *next = _bdf_parse_glyphs;
 
@@ -2156,8 +2156,8 @@
       goto Exit;
     }
 
-    FT_ERROR(( "_bdf_parse_start: " ERRMSG9, lineno ));
-    error = FT_THROW( Invalid_File_Format );
+    FT_TS_ERROR(( "_bdf_parse_start: " ERRMSG9, lineno ));
+    error = FT_TS_THROW( Invalid_File_Format );
 
   Exit:
     return error;
@@ -2171,19 +2171,19 @@
    */
 
 
-  FT_LOCAL_DEF( FT_Error )
-  bdf_load_font( FT_Stream       stream,
-                 FT_Memory       memory,
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  bdf_load_font( FT_TS_Stream       stream,
+                 FT_TS_Memory       memory,
                  bdf_options_t*  opts,
                  bdf_font_t*    *font )
   {
     unsigned long  lineno = 0; /* make compiler happy */
     _bdf_parse_t   *p     = NULL;
 
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
-    if ( FT_NEW( p ) )
+    if ( FT_TS_NEW( p ) )
       goto Exit;
 
     p->opts   = (bdf_options_t*)( opts ? opts : &_bdf_opts );
@@ -2210,7 +2210,7 @@
       /* indicate the difference.                                          */
       if ( p->cnt != p->font->glyphs_used + p->font->unencoded_used )
       {
-        FT_TRACE2(( "bdf_load_font: " ACMSG15, p->cnt,
+        FT_TS_TRACE2(( "bdf_load_font: " ACMSG15, p->cnt,
                     p->font->glyphs_used + p->font->unencoded_used ));
       }
 
@@ -2221,28 +2221,28 @@
       {
         if ( p->maxrb - p->minlb != p->font->bbx.width )
         {
-          FT_TRACE2(( "bdf_load_font: " ACMSG3,
+          FT_TS_TRACE2(( "bdf_load_font: " ACMSG3,
                       p->font->bbx.width, p->maxrb - p->minlb ));
           p->font->bbx.width = (unsigned short)( p->maxrb - p->minlb );
         }
 
         if ( p->font->bbx.x_offset != p->minlb )
         {
-          FT_TRACE2(( "bdf_load_font: " ACMSG4,
+          FT_TS_TRACE2(( "bdf_load_font: " ACMSG4,
                       p->font->bbx.x_offset, p->minlb ));
           p->font->bbx.x_offset = p->minlb;
         }
 
         if ( p->font->bbx.ascent != p->maxas )
         {
-          FT_TRACE2(( "bdf_load_font: " ACMSG5,
+          FT_TS_TRACE2(( "bdf_load_font: " ACMSG5,
                       p->font->bbx.ascent, p->maxas ));
           p->font->bbx.ascent = p->maxas;
         }
 
         if ( p->font->bbx.descent != p->maxds )
         {
-          FT_TRACE2(( "bdf_load_font: " ACMSG6,
+          FT_TS_TRACE2(( "bdf_load_font: " ACMSG6,
                       p->font->bbx.descent, p->maxds ));
           p->font->bbx.descent  = p->maxds;
           p->font->bbx.y_offset = (short)( -p->maxds );
@@ -2250,13 +2250,13 @@
 
         if ( p->maxas + p->maxds != p->font->bbx.height )
         {
-          FT_TRACE2(( "bdf_load_font: " ACMSG7,
+          FT_TS_TRACE2(( "bdf_load_font: " ACMSG7,
                       p->font->bbx.height, p->maxas + p->maxds ));
           p->font->bbx.height = (unsigned short)( p->maxas + p->maxds );
         }
 
         if ( p->flags & BDF_SWIDTH_ADJ_ )
-          FT_TRACE2(( "bdf_load_font: " ACMSG8 ));
+          FT_TS_TRACE2(( "bdf_load_font: " ACMSG8 ));
       }
     }
 
@@ -2266,21 +2266,21 @@
       if ( !( p->flags & BDF_GLYPHS_ ) )
       {
         /* Error happened while parsing header. */
-        FT_ERROR(( "bdf_load_font: " ERRMSG2, lineno ));
-        error = FT_THROW( Corrupted_Font_Header );
+        FT_TS_ERROR(( "bdf_load_font: " ERRMSG2, lineno ));
+        error = FT_TS_THROW( Corrupted_Font_Header );
         goto Fail;
       }
       else
       {
         /* Error happened when parsing glyphs. */
-        FT_ERROR(( "bdf_load_font: " ERRMSG3, lineno ));
-        error = FT_THROW( Corrupted_Font_Glyphs );
+        FT_TS_ERROR(( "bdf_load_font: " ERRMSG3, lineno ));
+        error = FT_TS_THROW( Corrupted_Font_Glyphs );
         goto Fail;
       }
     }
 
     if ( !p->font && !error )
-      error = FT_THROW( Invalid_File_Format );
+      error = FT_TS_THROW( Invalid_File_Format );
 
     *font = p->font;
 
@@ -2289,8 +2289,8 @@
     {
       _bdf_list_done( &p->list );
 
-      FT_FREE( p->glyph_name );
-      FT_FREE( p );
+      FT_TS_FREE( p->glyph_name );
+      FT_TS_FREE( p );
     }
 
     return error;
@@ -2298,19 +2298,19 @@
   Fail:
     bdf_free_font( p->font );
 
-    FT_FREE( p->font );
+    FT_TS_FREE( p->font );
 
     goto Exit;
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   bdf_free_font( bdf_font_t*  font )
   {
     bdf_property_t*  prop;
     unsigned long    i;
     bdf_glyph_t*     glyphs;
-    FT_Memory        memory;
+    FT_TS_Memory        memory;
 
 
     if ( font == NULL )
@@ -2318,44 +2318,44 @@
 
     memory = font->memory;
 
-    FT_FREE( font->name );
+    FT_TS_FREE( font->name );
 
     /* Free up the internal hash table of property names. */
     if ( font->internal )
     {
-      ft_hash_str_free( (FT_Hash)font->internal, memory );
-      FT_FREE( font->internal );
+      ft_hash_str_free( (FT_TS_Hash)font->internal, memory );
+      FT_TS_FREE( font->internal );
     }
 
     /* Free up the comment info. */
-    FT_FREE( font->comments );
+    FT_TS_FREE( font->comments );
 
     /* Free up the properties. */
     for ( i = 0; i < font->props_size; i++ )
     {
       if ( font->props[i].format == BDF_ATOM )
-        FT_FREE( font->props[i].value.atom );
+        FT_TS_FREE( font->props[i].value.atom );
     }
 
-    FT_FREE( font->props );
+    FT_TS_FREE( font->props );
 
     /* Free up the character info. */
     for ( i = 0, glyphs = font->glyphs;
           i < font->glyphs_used; i++, glyphs++ )
     {
-      FT_FREE( glyphs->name );
-      FT_FREE( glyphs->bitmap );
+      FT_TS_FREE( glyphs->name );
+      FT_TS_FREE( glyphs->bitmap );
     }
 
     for ( i = 0, glyphs = font->unencoded; i < font->unencoded_used;
           i++, glyphs++ )
     {
-      FT_FREE( glyphs->name );
-      FT_FREE( glyphs->bitmap );
+      FT_TS_FREE( glyphs->name );
+      FT_TS_FREE( glyphs->bitmap );
     }
 
-    FT_FREE( font->glyphs );
-    FT_FREE( font->unencoded );
+    FT_TS_FREE( font->glyphs );
+    FT_TS_FREE( font->unencoded );
 
     /* bdf_cleanup */
     ft_hash_str_free( &(font->proptbl), memory );
@@ -2363,15 +2363,15 @@
     /* Free up the user defined properties. */
     for ( prop = font->user_props, i = 0;
           i < font->nuser_props; i++, prop++ )
-      FT_FREE( prop->name );
+      FT_TS_FREE( prop->name );
 
-    FT_FREE( font->user_props );
+    FT_TS_FREE( font->user_props );
 
     /* FREE( font ); */ /* XXX Fixme */
   }
 
 
-  FT_LOCAL_DEF( bdf_property_t * )
+  FT_TS_LOCAL_DEF( bdf_property_t * )
   bdf_get_font_property( bdf_font_t*  font,
                          const char*  name )
   {
@@ -2381,7 +2381,7 @@
     if ( font == NULL || font->props_size == 0 || name == NULL || *name == 0 )
       return 0;
 
-    propid = ft_hash_str_lookup( name, (FT_Hash)font->internal );
+    propid = ft_hash_str_lookup( name, (FT_TS_Hash)font->internal );
 
     return propid ? ( font->props + *propid ) : 0;
   }

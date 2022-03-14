@@ -24,26 +24,26 @@
 
   /* documentation is in ftwinfnt.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Get_WinFNT_Header( FT_Face               face,
-                        FT_WinFNT_HeaderRec  *header )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Get_WinFNT_Header( FT_TS_Face               face,
+                        FT_TS_WinFNT_HeaderRec  *header )
   {
-    FT_Service_WinFnt  service;
-    FT_Error           error;
+    FT_TS_Service_WinFnt  service;
+    FT_TS_Error           error;
 
 
     if ( !face )
-      return FT_THROW( Invalid_Face_Handle );
+      return FT_TS_THROW( Invalid_Face_Handle );
 
     if ( !header )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
-    FT_FACE_LOOKUP_SERVICE( face, service, WINFNT );
+    FT_TS_FACE_LOOKUP_SERVICE( face, service, WINFNT );
 
     if ( service )
       error = service->get_header( face, header );
     else
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
 
     return error;
   }

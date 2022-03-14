@@ -22,7 +22,7 @@
 
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -54,20 +54,20 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @type:
-   *   FT_Memory
+   *   FT_TS_Memory
    *
    * @description:
    *   A handle to a given memory manager object, defined with an
-   *   @FT_MemoryRec structure.
+   *   @FT_TS_MemoryRec structure.
    *
    */
-  typedef struct FT_MemoryRec_*  FT_Memory;
+  typedef struct FT_TS_MemoryRec_*  FT_TS_Memory;
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Alloc_Func
+   *   FT_TS_Alloc_Func
    *
    * @description:
    *   A function used to allocate `size` bytes from `memory`.
@@ -84,14 +84,14 @@ FT_BEGIN_HEADER
    *
    */
   typedef void*
-  (*FT_Alloc_Func)( FT_Memory  memory,
+  (*FT_TS_Alloc_Func)( FT_TS_Memory  memory,
                     long       size );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Free_Func
+   *   FT_TS_Free_Func
    *
    * @description:
    *   A function used to release a given block of memory.
@@ -105,14 +105,14 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*FT_Free_Func)( FT_Memory  memory,
+  (*FT_TS_Free_Func)( FT_TS_Memory  memory,
                    void*      block );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Realloc_Func
+   *   FT_TS_Realloc_Func
    *
    * @description:
    *   A function used to re-allocate a given block of memory.
@@ -138,7 +138,7 @@ FT_BEGIN_HEADER
    *
    */
   typedef void*
-  (*FT_Realloc_Func)( FT_Memory  memory,
+  (*FT_TS_Realloc_Func)( FT_TS_Memory  memory,
                       long       cur_size,
                       long       new_size,
                       void*      block );
@@ -147,7 +147,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @struct:
-   *   FT_MemoryRec
+   *   FT_TS_MemoryRec
    *
    * @description:
    *   A structure used to describe a given memory manager to FreeType~2.
@@ -166,12 +166,12 @@ FT_BEGIN_HEADER
    *     A pointer type to a reallocation function.
    *
    */
-  struct  FT_MemoryRec_
+  struct  FT_TS_MemoryRec_
   {
     void*            user;
-    FT_Alloc_Func    alloc;
-    FT_Free_Func     free;
-    FT_Realloc_Func  realloc;
+    FT_TS_Alloc_Func    alloc;
+    FT_TS_Free_Func     free;
+    FT_TS_Realloc_Func  realloc;
   };
 
 
@@ -185,41 +185,41 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @type:
-   *   FT_Stream
+   *   FT_TS_Stream
    *
    * @description:
    *   A handle to an input stream.
    *
    * @also:
-   *   See @FT_StreamRec for the publicly accessible fields of a given stream
+   *   See @FT_TS_StreamRec for the publicly accessible fields of a given stream
    *   object.
    *
    */
-  typedef struct FT_StreamRec_*  FT_Stream;
+  typedef struct FT_TS_StreamRec_*  FT_TS_Stream;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_StreamDesc
+   *   FT_TS_StreamDesc
    *
    * @description:
    *   A union type used to store either a long or a pointer.  This is used
    *   to store a file descriptor or a `FILE*` in an input stream.
    *
    */
-  typedef union  FT_StreamDesc_
+  typedef union  FT_TS_StreamDesc_
   {
     long   value;
     void*  pointer;
 
-  } FT_StreamDesc;
+  } FT_TS_StreamDesc;
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Stream_IoFunc
+   *   FT_TS_Stream_IoFunc
    *
    * @description:
    *   A function used to seek and read data from a given input stream.
@@ -246,7 +246,7 @@ FT_BEGIN_HEADER
    *
    */
   typedef unsigned long
-  (*FT_Stream_IoFunc)( FT_Stream       stream,
+  (*FT_TS_Stream_IoFunc)( FT_TS_Stream       stream,
                        unsigned long   offset,
                        unsigned char*  buffer,
                        unsigned long   count );
@@ -255,7 +255,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @functype:
-   *   FT_Stream_CloseFunc
+   *   FT_TS_Stream_CloseFunc
    *
    * @description:
    *   A function used to close a given input stream.
@@ -266,13 +266,13 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*FT_Stream_CloseFunc)( FT_Stream  stream );
+  (*FT_TS_Stream_CloseFunc)( FT_TS_Stream  stream );
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_StreamRec
+   *   FT_TS_StreamRec
    *
    * @description:
    *   A structure used to describe an input stream.
@@ -316,7 +316,7 @@ FT_BEGIN_HEADER
    *
    *   cursor ::
    *     This field is set and used internally by FreeType when parsing
-   *     frames.  In particular, the `FT_GET_XXX` macros use this instead of
+   *     frames.  In particular, the `FT_TS_GET_XXX` macros use this instead of
    *     the `pos` field.
    *
    *   limit ::
@@ -324,27 +324,27 @@ FT_BEGIN_HEADER
    *     frames.
    *
    */
-  typedef struct  FT_StreamRec_
+  typedef struct  FT_TS_StreamRec_
   {
     unsigned char*       base;
     unsigned long        size;
     unsigned long        pos;
 
-    FT_StreamDesc        descriptor;
-    FT_StreamDesc        pathname;
-    FT_Stream_IoFunc     read;
-    FT_Stream_CloseFunc  close;
+    FT_TS_StreamDesc        descriptor;
+    FT_TS_StreamDesc        pathname;
+    FT_TS_Stream_IoFunc     read;
+    FT_TS_Stream_CloseFunc  close;
 
-    FT_Memory            memory;
+    FT_TS_Memory            memory;
     unsigned char*       cursor;
     unsigned char*       limit;
 
-  } FT_StreamRec;
+  } FT_TS_StreamRec;
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTSYSTEM_H_ */
 

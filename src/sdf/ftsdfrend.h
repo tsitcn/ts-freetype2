@@ -25,7 +25,7 @@
 #include <freetype/ftmodapi.h>
 #include <freetype/internal/ftobjs.h>
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -34,7 +34,7 @@ FT_BEGIN_HEADER
    *   SDF_Renderer_Module
    *
    * @description:
-   *   This struct extends the native renderer struct `FT_RendererRec`.  It
+   *   This struct extends the native renderer struct `FT_TS_RendererRec`.  It
    *   is basically used to store various parameters required by the
    *   renderer and some additional parameters that can be used to tweak the
    *   output of the renderer.
@@ -73,11 +73,11 @@ FT_BEGIN_HEADER
    */
   typedef struct  SDF_Renderer_Module_
   {
-    FT_RendererRec  root;
-    FT_UInt         spread;
-    FT_Bool         flip_sign;
-    FT_Bool         flip_y;
-    FT_Bool         overlaps;
+    FT_TS_RendererRec  root;
+    FT_TS_UInt         spread;
+    FT_TS_Bool         flip_sign;
+    FT_TS_Bool         flip_y;
+    FT_TS_Bool         overlaps;
 
   } SDF_Renderer_Module, *SDF_Renderer;
 
@@ -88,10 +88,10 @@ FT_BEGIN_HEADER
    *   ft_sdf_renderer_class
    *
    * @description:
-   *   Renderer to convert @FT_Outline to signed distance fields.
+   *   Renderer to convert @FT_TS_Outline to signed distance fields.
    *
    */
-  FT_DECLARE_RENDERER( ft_sdf_renderer_class )
+  FT_TS_DECLARE_RENDERER( ft_sdf_renderer_class )
 
 
   /**************************************************************************
@@ -107,10 +107,10 @@ FT_BEGIN_HEADER
    *   This is not a separate module, it is part of the 'sdf' module.
    *
    */
-  FT_DECLARE_RENDERER( ft_bitmap_sdf_renderer_class )
+  FT_TS_DECLARE_RENDERER( ft_bitmap_sdf_renderer_class )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTSDFREND_H_ */
 

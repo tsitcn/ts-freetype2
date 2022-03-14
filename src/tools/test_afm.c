@@ -8,7 +8,7 @@
 
   void dump_fontinfo( AFM_FontInfo  fi )
   {
-    FT_UInt  i;
+    FT_TS_UInt  i;
 
 
     printf( "This AFM is for %sCID font.\n\n",
@@ -62,7 +62,7 @@
 
   int
   dummy_get_index( const char*  name,
-                   FT_Offset    len,
+                   FT_TS_Offset    len,
                    void*        user_data )
   {
     if ( len )
@@ -71,21 +71,21 @@
       return 0;
   }
 
-  FT_Error
-  parse_afm( FT_Library    library,
-             FT_Stream     stream,
+  FT_TS_Error
+  parse_afm( FT_TS_Library    library,
+             FT_TS_Stream     stream,
              AFM_FontInfo  fi )
   {
     PSAux_Service  psaux;
     AFM_ParserRec  parser;
-    FT_Error       error = FT_Err_Ok;
+    FT_TS_Error       error = FT_TS_Err_Ok;
 
 
-    psaux = (PSAux_Service)FT_Get_Module_Interface( library, "psaux" );
+    psaux = (PSAux_Service)FT_TS_Get_Module_Interface( library, "psaux" );
     if ( !psaux || !psaux->afm_parser_funcs )
       return -1;
 
-    error = FT_Stream_EnterFrame( stream, stream->size );
+    error = FT_TS_Stream_EnterFrame( stream, stream->size );
     if ( error )
       return error;
 
@@ -110,47 +110,47 @@
   int main( int    argc,
             char** argv )
   {
-    FT_Library       library;
-    FT_StreamRec     stream;
-    FT_Error         error = FT_Err_Ok;
+    FT_TS_Library       library;
+    FT_TS_StreamRec     stream;
+    FT_TS_Error         error = FT_TS_Err_Ok;
     AFM_FontInfoRec  fi;
 
 
     if ( argc < 2 )
-      return FT_ERR( Invalid_Argument );
+      return FT_TS_ERR( Invalid_Argument );
 
-    error = FT_Init_FreeType( &library );
+    error = FT_TS_Init_FreeType( &library );
     if ( error )
       return error;
 
-    FT_ZERO( &stream );
-    error = FT_Stream_Open( &stream, argv[1] );
+    FT_TS_ZERO( &stream );
+    error = FT_TS_Stream_Open( &stream, argv[1] );
     if ( error )
       goto Exit;
     stream.memory = library->memory;
 
-    FT_ZERO( &fi );
+    FT_TS_ZERO( &fi );
     error = parse_afm( library, &stream, &fi );
 
     if ( !error )
     {
-      FT_Memory  memory = library->memory;
+      FT_TS_Memory  memory = library->memory;
 
 
       dump_fontinfo( &fi );
 
       if ( fi.KernPairs )
-        FT_FREE( fi.KernPairs );
+        FT_TS_FREE( fi.KernPairs );
       if ( fi.TrackKerns )
-        FT_FREE( fi.TrackKerns );
+        FT_TS_FREE( fi.TrackKerns );
     }
     else
       printf( "parse error\n" );
 
-    FT_Stream_Close( &stream );
+    FT_TS_Stream_Close( &stream );
 
   Exit:
-    FT_Done_FreeType( library );
+    FT_TS_Done_FreeType( library );
 
     return error;
   }

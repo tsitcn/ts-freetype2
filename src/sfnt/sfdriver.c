@@ -62,12 +62,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  sfdriver
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  sfdriver
 
 
   /*
@@ -77,38 +77,38 @@
 
   static void*
   get_sfnt_table( TT_Face      face,
-                  FT_Sfnt_Tag  tag )
+                  FT_TS_Sfnt_Tag  tag )
   {
     void*  table;
 
 
     switch ( tag )
     {
-    case FT_SFNT_HEAD:
+    case FT_TS_SFNT_HEAD:
       table = &face->header;
       break;
 
-    case FT_SFNT_HHEA:
+    case FT_TS_SFNT_HHEA:
       table = &face->horizontal;
       break;
 
-    case FT_SFNT_VHEA:
+    case FT_TS_SFNT_VHEA:
       table = face->vertical_info ? &face->vertical : NULL;
       break;
 
-    case FT_SFNT_OS2:
+    case FT_TS_SFNT_OS2:
       table = ( face->os2.version == 0xFFFFU ) ? NULL : &face->os2;
       break;
 
-    case FT_SFNT_POST:
+    case FT_TS_SFNT_POST:
       table = &face->postscript;
       break;
 
-    case FT_SFNT_MAXP:
+    case FT_TS_SFNT_MAXP:
       table = &face->max_profile;
       break;
 
-    case FT_SFNT_PCLT:
+    case FT_TS_SFNT_PCLT:
       table = face->pclt.Version ? &face->pclt : NULL;
       break;
 
@@ -120,38 +120,38 @@
   }
 
 
-  static FT_Error
+  static FT_TS_Error
   sfnt_table_info( TT_Face    face,
-                   FT_UInt    idx,
-                   FT_ULong  *tag,
-                   FT_ULong  *offset,
-                   FT_ULong  *length )
+                   FT_TS_UInt    idx,
+                   FT_TS_ULong  *tag,
+                   FT_TS_ULong  *offset,
+                   FT_TS_ULong  *length )
   {
     if ( !offset || !length )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     if ( !tag )
       *length = face->num_tables;
     else
     {
       if ( idx >= face->num_tables )
-        return FT_THROW( Table_Missing );
+        return FT_TS_THROW( Table_Missing );
 
       *tag    = face->dir_tables[idx].Tag;
       *offset = face->dir_tables[idx].Offset;
       *length = face->dir_tables[idx].Length;
     }
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
-  FT_DEFINE_SERVICE_SFNT_TABLEREC(
+  FT_TS_DEFINE_SERVICE_SFNT_TABLEREC(
     sfnt_service_sfnt_table,
 
-    (FT_SFNT_TableLoadFunc)tt_face_load_any,     /* load_table */
-    (FT_SFNT_TableGetFunc) get_sfnt_table,       /* get_table  */
-    (FT_SFNT_TableInfoFunc)sfnt_table_info       /* table_info */
+    (FT_TS_SFNT_TableLoadFunc)tt_face_load_any,     /* load_table */
+    (FT_TS_SFNT_TableGetFunc) get_sfnt_table,       /* get_table  */
+    (FT_TS_SFNT_TableInfoFunc)sfnt_table_info       /* table_info */
   )
 
 
@@ -162,45 +162,45 @@
    *
    */
 
-  static FT_Error
-  sfnt_get_glyph_name( FT_Face     face,
-                       FT_UInt     glyph_index,
-                       FT_Pointer  buffer,
-                       FT_UInt     buffer_max )
+  static FT_TS_Error
+  sfnt_get_glyph_name( FT_TS_Face     face,
+                       FT_TS_UInt     glyph_index,
+                       FT_TS_Pointer  buffer,
+                       FT_TS_UInt     buffer_max )
   {
-    FT_String*  gname;
-    FT_Error    error;
+    FT_TS_String*  gname;
+    FT_TS_Error    error;
 
 
     error = tt_face_get_ps_name( (TT_Face)face, glyph_index, &gname );
     if ( !error )
-      FT_STRCPYN( buffer, gname, buffer_max );
+      FT_TS_STRCPYN( buffer, gname, buffer_max );
 
     return error;
   }
 
 
-  static FT_UInt
-  sfnt_get_name_index( FT_Face           face,
-                       const FT_String*  glyph_name )
+  static FT_TS_UInt
+  sfnt_get_name_index( FT_TS_Face           face,
+                       const FT_TS_String*  glyph_name )
   {
     TT_Face  ttface = (TT_Face)face;
 
-    FT_UInt  i, max_gid = FT_UINT_MAX;
+    FT_TS_UInt  i, max_gid = FT_TS_UINT_MAX;
 
 
     if ( face->num_glyphs < 0 )
       return 0;
-    else if ( (FT_ULong)face->num_glyphs < FT_UINT_MAX )
-      max_gid = (FT_UInt)face->num_glyphs;
+    else if ( (FT_TS_ULong)face->num_glyphs < FT_TS_UINT_MAX )
+      max_gid = (FT_TS_UInt)face->num_glyphs;
     else
-      FT_TRACE0(( "Ignore glyph names for invalid GID 0x%08x - 0x%08lx\n",
-                  FT_UINT_MAX, face->num_glyphs ));
+      FT_TS_TRACE0(( "Ignore glyph names for invalid GID 0x%08x - 0x%08lx\n",
+                  FT_TS_UINT_MAX, face->num_glyphs ));
 
     for ( i = 0; i < max_gid; i++ )
     {
-      FT_String*  gname;
-      FT_Error    error = tt_face_get_ps_name( ttface, i, &gname );
+      FT_TS_String*  gname;
+      FT_TS_Error    error = tt_face_get_ps_name( ttface, i, &gname );
 
 
       if ( error )
@@ -214,11 +214,11 @@
   }
 
 
-  FT_DEFINE_SERVICE_GLYPHDICTREC(
+  FT_TS_DEFINE_SERVICE_GLYPHDICTREC(
     sfnt_service_glyph_dict,
 
-    (FT_GlyphDict_GetNameFunc)  sfnt_get_glyph_name,    /* get_name   */
-    (FT_GlyphDict_NameIndexFunc)sfnt_get_name_index     /* name_index */
+    (FT_TS_GlyphDict_GetNameFunc)  sfnt_get_glyph_name,    /* get_name   */
+    (FT_TS_GlyphDict_NameIndexFunc)sfnt_get_name_index     /* name_index */
   )
 
 #endif /* TT_CONFIG_OPTION_POSTSCRIPT_NAMES */
@@ -279,8 +279,8 @@
 #define ROTL32( x, r )  ( x << r ) | ( x >> ( 32 - r ) )
 
 
-  static FT_UInt32
-  fmix32( FT_UInt32  h )
+  static FT_TS_UInt32
+  fmix32( FT_TS_UInt32  h )
   {
     h ^= h >> 16;
     h *= 0x85ebca6b;
@@ -295,33 +295,33 @@
   static void
   murmur_hash_3_128( const void*         key,
                      const unsigned int  len,
-                     FT_UInt32           seed,
+                     FT_TS_UInt32           seed,
                      void*               out )
   {
-    const FT_Byte*  data    = (const FT_Byte*)key;
+    const FT_TS_Byte*  data    = (const FT_TS_Byte*)key;
     const int       nblocks = (int)len / 16;
 
-    FT_UInt32  h1 = seed;
-    FT_UInt32  h2 = seed;
-    FT_UInt32  h3 = seed;
-    FT_UInt32  h4 = seed;
+    FT_TS_UInt32  h1 = seed;
+    FT_TS_UInt32  h2 = seed;
+    FT_TS_UInt32  h3 = seed;
+    FT_TS_UInt32  h4 = seed;
 
-    const FT_UInt32  c1 = 0x239b961b;
-    const FT_UInt32  c2 = 0xab0e9789;
-    const FT_UInt32  c3 = 0x38b34ae5;
-    const FT_UInt32  c4 = 0xa1e38b93;
+    const FT_TS_UInt32  c1 = 0x239b961b;
+    const FT_TS_UInt32  c2 = 0xab0e9789;
+    const FT_TS_UInt32  c3 = 0x38b34ae5;
+    const FT_TS_UInt32  c4 = 0xa1e38b93;
 
-    const FT_UInt32*  blocks = (const FT_UInt32*)( data + nblocks * 16 );
+    const FT_TS_UInt32*  blocks = (const FT_TS_UInt32*)( data + nblocks * 16 );
 
     int  i;
 
 
     for( i = -nblocks; i; i++ )
     {
-      FT_UInt32  k1 = blocks[i * 4 + 0];
-      FT_UInt32  k2 = blocks[i * 4 + 1];
-      FT_UInt32  k3 = blocks[i * 4 + 2];
-      FT_UInt32  k4 = blocks[i * 4 + 3];
+      FT_TS_UInt32  k1 = blocks[i * 4 + 0];
+      FT_TS_UInt32  k2 = blocks[i * 4 + 1];
+      FT_TS_UInt32  k3 = blocks[i * 4 + 2];
+      FT_TS_UInt32  k4 = blocks[i * 4 + 3];
 
 
       k1 *= c1;
@@ -362,24 +362,24 @@
     }
 
     {
-      const FT_Byte*  tail = (const FT_Byte*)( data + nblocks * 16 );
+      const FT_TS_Byte*  tail = (const FT_TS_Byte*)( data + nblocks * 16 );
 
-      FT_UInt32  k1 = 0;
-      FT_UInt32  k2 = 0;
-      FT_UInt32  k3 = 0;
-      FT_UInt32  k4 = 0;
+      FT_TS_UInt32  k1 = 0;
+      FT_TS_UInt32  k2 = 0;
+      FT_TS_UInt32  k3 = 0;
+      FT_TS_UInt32  k4 = 0;
 
 
       switch ( len & 15 )
       {
       case 15:
-        k4 ^= (FT_UInt32)tail[14] << 16;
+        k4 ^= (FT_TS_UInt32)tail[14] << 16;
         /* fall through */
       case 14:
-        k4 ^= (FT_UInt32)tail[13] << 8;
+        k4 ^= (FT_TS_UInt32)tail[13] << 8;
         /* fall through */
       case 13:
-        k4 ^= (FT_UInt32)tail[12];
+        k4 ^= (FT_TS_UInt32)tail[12];
         k4 *= c4;
         k4  = ROTL32( k4, 18 );
         k4 *= c1;
@@ -387,16 +387,16 @@
         /* fall through */
 
       case 12:
-        k3 ^= (FT_UInt32)tail[11] << 24;
+        k3 ^= (FT_TS_UInt32)tail[11] << 24;
         /* fall through */
       case 11:
-        k3 ^= (FT_UInt32)tail[10] << 16;
+        k3 ^= (FT_TS_UInt32)tail[10] << 16;
         /* fall through */
       case 10:
-        k3 ^= (FT_UInt32)tail[9] << 8;
+        k3 ^= (FT_TS_UInt32)tail[9] << 8;
         /* fall through */
       case 9:
-        k3 ^= (FT_UInt32)tail[8];
+        k3 ^= (FT_TS_UInt32)tail[8];
         k3 *= c3;
         k3  = ROTL32( k3, 17 );
         k3 *= c4;
@@ -404,16 +404,16 @@
         /* fall through */
 
       case 8:
-        k2 ^= (FT_UInt32)tail[7] << 24;
+        k2 ^= (FT_TS_UInt32)tail[7] << 24;
         /* fall through */
       case 7:
-        k2 ^= (FT_UInt32)tail[6] << 16;
+        k2 ^= (FT_TS_UInt32)tail[6] << 16;
         /* fall through */
       case 6:
-        k2 ^= (FT_UInt32)tail[5] << 8;
+        k2 ^= (FT_TS_UInt32)tail[5] << 8;
         /* fall through */
       case 5:
-        k2 ^= (FT_UInt32)tail[4];
+        k2 ^= (FT_TS_UInt32)tail[4];
         k2 *= c2;
         k2  = ROTL32( k2, 16 );
         k2 *= c3;
@@ -421,16 +421,16 @@
         /* fall through */
 
       case 4:
-        k1 ^= (FT_UInt32)tail[3] << 24;
+        k1 ^= (FT_TS_UInt32)tail[3] << 24;
         /* fall through */
       case 3:
-        k1 ^= (FT_UInt32)tail[2] << 16;
+        k1 ^= (FT_TS_UInt32)tail[2] << 16;
         /* fall through */
       case 2:
-        k1 ^= (FT_UInt32)tail[1] << 8;
+        k1 ^= (FT_TS_UInt32)tail[1] << 8;
         /* fall through */
       case 1:
-        k1 ^= (FT_UInt32)tail[0];
+        k1 ^= (FT_TS_UInt32)tail[0];
         k1 *= c1;
         k1  = ROTL32( k1, 15 );
         k1 *= c2;
@@ -464,10 +464,10 @@
     h3 += h1;
     h4 += h1;
 
-    ((FT_UInt32*)out)[0] = h1;
-    ((FT_UInt32*)out)[1] = h2;
-    ((FT_UInt32*)out)[2] = h3;
-    ((FT_UInt32*)out)[3] = h4;
+    ((FT_TS_UInt32*)out)[0] = h1;
+    ((FT_TS_UInt32*)out)[1] = h2;
+    ((FT_TS_UInt32*)out)[2] = h3;
+    ((FT_TS_UInt32*)out)[3] = h4;
   }
 
 
@@ -485,31 +485,31 @@
                          (n)->encodingID == 0 )
 
   static char*
-  get_win_string( FT_Memory       memory,
-                  FT_Stream       stream,
+  get_win_string( FT_TS_Memory       memory,
+                  FT_TS_Stream       stream,
                   TT_Name         entry,
                   char_type_func  char_type,
-                  FT_Bool         report_invalid_characters )
+                  FT_TS_Bool         report_invalid_characters )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
     char*       result = NULL;
-    FT_String*  r;
-    FT_Char*    p;
-    FT_UInt     len;
+    FT_TS_String*  r;
+    FT_TS_Char*    p;
+    FT_TS_UInt     len;
 
-    FT_UNUSED( error );
+    FT_TS_UNUSED( error );
 
 
-    if ( FT_QALLOC( result, entry->stringLength / 2 + 1 ) )
+    if ( FT_TS_QALLOC( result, entry->stringLength / 2 + 1 ) )
       return NULL;
 
-    if ( FT_STREAM_SEEK( entry->stringOffset ) ||
-         FT_FRAME_ENTER( entry->stringLength ) )
+    if ( FT_TS_STREAM_SEEK( entry->stringOffset ) ||
+         FT_TS_FRAME_ENTER( entry->stringLength ) )
       goto get_win_string_error;
 
-    r = (FT_String*)result;
-    p = (FT_Char*)stream->cursor;
+    r = (FT_TS_String*)result;
+    p = (FT_TS_Char*)stream->cursor;
 
     for ( len = entry->stringLength / 2; len > 0; len--, p += 2 )
     {
@@ -518,7 +518,7 @@
       else
       {
         if ( report_invalid_characters )
-          FT_TRACE0(( "get_win_string:"
+          FT_TS_TRACE0(( "get_win_string:"
                       " Character 0x%X invalid in PS name string\n",
                       ((unsigned)p[0])*256 + (unsigned)p[1] ));
         break;
@@ -527,48 +527,48 @@
     if ( !len )
       *r = '\0';
 
-    FT_FRAME_EXIT();
+    FT_TS_FRAME_EXIT();
 
     if ( !len )
       return result;
 
   get_win_string_error:
-    FT_FREE( result );
+    FT_TS_FREE( result );
 
     entry->stringLength = 0;
     entry->stringOffset = 0;
-    FT_FREE( entry->string );
+    FT_TS_FREE( entry->string );
 
     return NULL;
   }
 
 
   static char*
-  get_apple_string( FT_Memory       memory,
-                    FT_Stream       stream,
+  get_apple_string( FT_TS_Memory       memory,
+                    FT_TS_Stream       stream,
                     TT_Name         entry,
                     char_type_func  char_type,
-                    FT_Bool         report_invalid_characters )
+                    FT_TS_Bool         report_invalid_characters )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
     char*       result = NULL;
-    FT_String*  r;
-    FT_Char*    p;
-    FT_UInt     len;
+    FT_TS_String*  r;
+    FT_TS_Char*    p;
+    FT_TS_UInt     len;
 
-    FT_UNUSED( error );
+    FT_TS_UNUSED( error );
 
 
-    if ( FT_QALLOC( result, entry->stringLength + 1 ) )
+    if ( FT_TS_QALLOC( result, entry->stringLength + 1 ) )
       return NULL;
 
-    if ( FT_STREAM_SEEK( entry->stringOffset ) ||
-         FT_FRAME_ENTER( entry->stringLength ) )
+    if ( FT_TS_STREAM_SEEK( entry->stringOffset ) ||
+         FT_TS_FRAME_ENTER( entry->stringLength ) )
       goto get_apple_string_error;
 
-    r = (FT_String*)result;
-    p = (FT_Char*)stream->cursor;
+    r = (FT_TS_String*)result;
+    p = (FT_TS_Char*)stream->cursor;
 
     for ( len = entry->stringLength; len > 0; len--, p++ )
     {
@@ -577,7 +577,7 @@
       else
       {
         if ( report_invalid_characters )
-          FT_TRACE0(( "get_apple_string:"
+          FT_TS_TRACE0(( "get_apple_string:"
                       " Character `%c' (0x%X) invalid in PS name string\n",
                       *p, *p ));
         break;
@@ -586,29 +586,29 @@
     if ( !len )
       *r = '\0';
 
-    FT_FRAME_EXIT();
+    FT_TS_FRAME_EXIT();
 
     if ( !len )
       return result;
 
   get_apple_string_error:
-    FT_FREE( result );
+    FT_TS_FREE( result );
 
     entry->stringOffset = 0;
     entry->stringLength = 0;
-    FT_FREE( entry->string );
+    FT_TS_FREE( entry->string );
 
     return NULL;
   }
 
 
-  static FT_Bool
+  static FT_TS_Bool
   sfnt_get_name_id( TT_Face    face,
-                    FT_UShort  id,
-                    FT_Int    *win,
-                    FT_Int    *apple )
+                    FT_TS_UShort  id,
+                    FT_TS_Int    *win,
+                    FT_TS_Int    *apple )
   {
-    FT_Int  n;
+    FT_TS_Int  n;
 
 
     *win   = -1;
@@ -663,17 +663,17 @@
    */
 
   static char*
-  fixed2float( FT_Int  fixed,
+  fixed2float( FT_TS_Int  fixed,
                char*   buf )
   {
     char*  p;
     char*  q;
     char   tmp[5];
 
-    FT_Int  int_part;
-    FT_Int  frac_part;
+    FT_TS_Int  int_part;
+    FT_TS_Int  frac_part;
 
-    FT_Int  i;
+    FT_TS_Int  i;
 
 
     p = buf;
@@ -782,17 +782,17 @@
   static const char*
   sfnt_get_var_ps_name( TT_Face  face )
   {
-    FT_Error   error;
-    FT_Memory  memory = face->root.memory;
+    FT_TS_Error   error;
+    FT_TS_Memory  memory = face->root.memory;
 
-    FT_Service_MultiMasters  mm = (FT_Service_MultiMasters)face->mm;
+    FT_TS_Service_MultiMasters  mm = (FT_TS_Service_MultiMasters)face->mm;
 
-    FT_UInt     num_coords;
-    FT_Fixed*   coords;
-    FT_MM_Var*  mm_var;
+    FT_TS_UInt     num_coords;
+    FT_TS_Fixed*   coords;
+    FT_TS_MM_Var*  mm_var;
 
-    FT_Int   found, win, apple;
-    FT_UInt  i, j;
+    FT_TS_Int   found, win, apple;
+    FT_TS_UInt  i, j;
 
     char*  result = NULL;
     char*  p;
@@ -800,7 +800,7 @@
 
     if ( !face->var_postscript_prefix )
     {
-      FT_UInt  len;
+      FT_TS_UInt  len;
 
 
       /* check whether we have a Variations PostScript Name Prefix */
@@ -830,7 +830,7 @@
 
       if ( !found )
       {
-        FT_TRACE0(( "sfnt_get_var_ps_name:"
+        FT_TS_TRACE0(( "sfnt_get_var_ps_name:"
                     " Can't construct PS name prefix for font instances\n" ));
         return NULL;
       }
@@ -851,7 +851,7 @@
 
       if ( !result )
       {
-        FT_TRACE0(( "sfnt_get_var_ps_name:"
+        FT_TS_TRACE0(( "sfnt_get_var_ps_name:"
                     " No valid PS name prefix for font instances found\n" ));
         return NULL;
       }
@@ -867,9 +867,9 @@
         len         = MAX_PS_NAME_LEN - ( 1 + 32 + 3 );
         result[len] = '\0';
 
-        FT_TRACE0(( "sfnt_get_var_ps_name:"
+        FT_TS_TRACE0(( "sfnt_get_var_ps_name:"
                     " Shortening variation PS name prefix\n" ));
-        FT_TRACE0(( "                     "
+        FT_TS_TRACE0(( "                     "
                     " to %d characters\n", len ));
       }
 
@@ -877,19 +877,19 @@
       face->var_postscript_prefix_len = len;
     }
 
-    mm->get_var_blend( FT_FACE( face ),
+    mm->get_var_blend( FT_TS_FACE( face ),
                        &num_coords,
                        &coords,
                        NULL,
                        &mm_var );
 
-    if ( FT_IS_NAMED_INSTANCE( FT_FACE( face ) ) &&
-         !FT_IS_VARIATION( FT_FACE( face ) )     )
+    if ( FT_TS_IS_NAMED_INSTANCE( FT_TS_FACE( face ) ) &&
+         !FT_TS_IS_VARIATION( FT_TS_FACE( face ) )     )
     {
       SFNT_Service  sfnt = (SFNT_Service)face->sfnt;
 
-      FT_Long  instance = ( ( face->root.face_index & 0x7FFF0000L ) >> 16 ) - 1;
-      FT_UInt  psid     = mm_var->namedstyle[instance].psid;
+      FT_TS_Long  instance = ( ( face->root.face_index & 0x7FFF0000L ) >> 16 ) - 1;
+      FT_TS_UInt  psid     = mm_var->namedstyle[instance].psid;
 
       char*  ps_name = NULL;
 
@@ -897,7 +897,7 @@
       /* try first to load the name string with index `postScriptNameID' */
       if ( psid == 6                      ||
            ( psid > 255 && psid < 32768 ) )
-        (void)sfnt->get_name( face, (FT_UShort)psid, &ps_name );
+        (void)sfnt->get_name( face, (FT_TS_UShort)psid, &ps_name );
 
       if ( ps_name )
       {
@@ -909,26 +909,26 @@
       else
       {
         /* otherwise construct a name using `subfamilyNameID' */
-        FT_UInt  strid = mm_var->namedstyle[instance].strid;
+        FT_TS_UInt  strid = mm_var->namedstyle[instance].strid;
 
         char*  subfamily_name;
         char*  s;
 
 
-        (void)sfnt->get_name( face, (FT_UShort)strid, &subfamily_name );
+        (void)sfnt->get_name( face, (FT_TS_UShort)strid, &subfamily_name );
 
         if ( !subfamily_name )
         {
-          FT_TRACE1(( "sfnt_get_var_ps_name:"
+          FT_TS_TRACE1(( "sfnt_get_var_ps_name:"
                       " can't construct named instance PS name;\n" ));
-          FT_TRACE1(( "                     "
+          FT_TS_TRACE1(( "                     "
                       " trying to construct normal instance PS name\n" ));
           goto construct_instance_name;
         }
 
         /* after the prefix we have character `-' followed by the   */
         /* subfamily name (using only characters a-z, A-Z, and 0-9) */
-        if ( FT_QALLOC( result, face->var_postscript_prefix_len +
+        if ( FT_TS_QALLOC( result, face->var_postscript_prefix_len +
                                 1 + ft_strlen( subfamily_name ) + 1 ) )
           return NULL;
 
@@ -946,18 +946,18 @@
         }
         *p++ = '\0';
 
-        FT_FREE( subfamily_name );
+        FT_TS_FREE( subfamily_name );
       }
     }
     else
     {
-      FT_Var_Axis*  axis;
+      FT_TS_Var_Axis*  axis;
 
 
     construct_instance_name:
       axis = mm_var->axis;
 
-      if ( FT_QALLOC( result,
+      if ( FT_TS_QALLOC( result,
                       face->var_postscript_prefix_len +
                         num_coords * MAX_VALUE_DESCRIPTOR_LEN + 1 ) )
         return NULL;
@@ -1002,10 +1002,10 @@
       /* the PS name is too long; replace the part after the prefix with */
       /* a checksum; we use MurmurHash 3 with a hash length of 128 bit   */
 
-      FT_UInt32  seed = 123456789;
+      FT_TS_UInt32  seed = 123456789;
 
-      FT_UInt32   hash[4];
-      FT_UInt32*  h;
+      FT_TS_UInt32   hash[4];
+      FT_TS_UInt32*  h;
 
 
       murmur_hash_3_128( result, p - result, seed, hash );
@@ -1024,7 +1024,7 @@
 
       for ( i = 0; i < 4; i++, h-- )
       {
-        FT_UInt32  v = *h;
+        FT_TS_UInt32  v = *h;
 
 
         for ( j = 0; j < 8; j++ )
@@ -1044,7 +1044,7 @@
   static const char*
   sfnt_get_ps_name( TT_Face  face )
   {
-    FT_Int       found, win, apple;
+    FT_TS_Int       found, win, apple;
     const char*  result = NULL;
 
 
@@ -1053,8 +1053,8 @@
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
     if ( face->blend                                 &&
-         ( FT_IS_NAMED_INSTANCE( FT_FACE( face ) ) ||
-           FT_IS_VARIATION( FT_FACE( face ) )      ) )
+         ( FT_TS_IS_NAMED_INSTANCE( FT_TS_FACE( face ) ) ||
+           FT_TS_IS_VARIATION( FT_TS_FACE( face ) )      ) )
     {
       face->postscript_name = sfnt_get_var_ps_name( face );
       return face->postscript_name;
@@ -1087,17 +1087,17 @@
   }
 
 
-  FT_DEFINE_SERVICE_PSFONTNAMEREC(
+  FT_TS_DEFINE_SERVICE_PSFONTNAMEREC(
     sfnt_service_ps_name,
 
-    (FT_PsName_GetFunc)sfnt_get_ps_name       /* get_ps_font_name */
+    (FT_TS_PsName_GetFunc)sfnt_get_ps_name       /* get_ps_font_name */
   )
 
 
   /*
    * TT CMAP INFO
    */
-  FT_DEFINE_SERVICE_TTCMAPSREC(
+  FT_TS_DEFINE_SERVICE_TTCMAPSREC(
     tt_service_get_cmap_info,
 
     (TT_CMap_Info_GetFunc)tt_get_cmap_info    /* get_cmap_info */
@@ -1106,13 +1106,13 @@
 
 #ifdef TT_CONFIG_OPTION_BDF
 
-  static FT_Error
+  static FT_TS_Error
   sfnt_get_charset_id( TT_Face       face,
                        const char*  *acharset_encoding,
                        const char*  *acharset_registry )
   {
     BDF_PropertyRec  encoding, registry;
-    FT_Error         error;
+    FT_TS_Error         error;
 
 
     /* XXX: I don't know whether this is correct, since
@@ -1134,7 +1134,7 @@
           *acharset_registry = registry.u.atom;
         }
         else
-          error = FT_THROW( Invalid_Argument );
+          error = FT_TS_THROW( Invalid_Argument );
       }
     }
 
@@ -1142,11 +1142,11 @@
   }
 
 
-  FT_DEFINE_SERVICE_BDFRec(
+  FT_TS_DEFINE_SERVICE_BDFRec(
     sfnt_service_bdf,
 
-    (FT_BDF_GetCharsetIdFunc)sfnt_get_charset_id,     /* get_charset_id */
-    (FT_BDF_GetPropertyFunc) tt_face_find_bdf_prop    /* get_property   */
+    (FT_TS_BDF_GetCharsetIdFunc)sfnt_get_charset_id,     /* get_charset_id */
+    (FT_TS_BDF_GetPropertyFunc) tt_face_find_bdf_prop    /* get_property   */
   )
 
 
@@ -1158,45 +1158,45 @@
    */
 
 #if defined TT_CONFIG_OPTION_POSTSCRIPT_NAMES && defined TT_CONFIG_OPTION_BDF
-  FT_DEFINE_SERVICEDESCREC5(
+  FT_TS_DEFINE_SERVICEDESCREC5(
     sfnt_services,
 
-    FT_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
-    FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
-    FT_SERVICE_ID_GLYPH_DICT,           &sfnt_service_glyph_dict,
-    FT_SERVICE_ID_BDF,                  &sfnt_service_bdf,
-    FT_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
+    FT_TS_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
+    FT_TS_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
+    FT_TS_SERVICE_ID_GLYPH_DICT,           &sfnt_service_glyph_dict,
+    FT_TS_SERVICE_ID_BDF,                  &sfnt_service_bdf,
+    FT_TS_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
 #elif defined TT_CONFIG_OPTION_POSTSCRIPT_NAMES
-  FT_DEFINE_SERVICEDESCREC4(
+  FT_TS_DEFINE_SERVICEDESCREC4(
     sfnt_services,
 
-    FT_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
-    FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
-    FT_SERVICE_ID_GLYPH_DICT,           &sfnt_service_glyph_dict,
-    FT_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
+    FT_TS_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
+    FT_TS_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
+    FT_TS_SERVICE_ID_GLYPH_DICT,           &sfnt_service_glyph_dict,
+    FT_TS_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
 #elif defined TT_CONFIG_OPTION_BDF
-  FT_DEFINE_SERVICEDESCREC4(
+  FT_TS_DEFINE_SERVICEDESCREC4(
     sfnt_services,
 
-    FT_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
-    FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
-    FT_SERVICE_ID_BDF,                  &sfnt_service_bdf,
-    FT_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
+    FT_TS_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
+    FT_TS_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
+    FT_TS_SERVICE_ID_BDF,                  &sfnt_service_bdf,
+    FT_TS_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
 #else
-  FT_DEFINE_SERVICEDESCREC3(
+  FT_TS_DEFINE_SERVICEDESCREC3(
     sfnt_services,
 
-    FT_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
-    FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
-    FT_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
+    FT_TS_SERVICE_ID_SFNT_TABLE,           &sfnt_service_sfnt_table,
+    FT_TS_SERVICE_ID_POSTSCRIPT_FONT_NAME, &sfnt_service_ps_name,
+    FT_TS_SERVICE_ID_TT_CMAP,              &tt_service_get_cmap_info )
 #endif
 
 
-  FT_CALLBACK_DEF( FT_Module_Interface )
-  sfnt_get_interface( FT_Module    module,
+  FT_TS_CALLBACK_DEF( FT_TS_Module_Interface )
+  sfnt_get_interface( FT_TS_Module    module,
                       const char*  module_interface )
   {
-    FT_UNUSED( module );
+    FT_TS_UNUSED( module );
 
     return ft_service_list_lookup( sfnt_services, module_interface );
   }
@@ -1222,7 +1222,7 @@
 #define PUT_PS_NAMES( a )  NULL
 #endif
 
-  FT_DEFINE_SFNT_INTERFACE(
+  FT_TS_DEFINE_SFNT_INTERFACE(
     sfnt_interface,
 
     tt_face_goto_table,     /* TT_Loader_GotoTableFunc goto_table      */
@@ -1230,7 +1230,7 @@
     sfnt_init_face,         /* TT_Init_Face_Func       init_face       */
     sfnt_load_face,         /* TT_Load_Face_Func       load_face       */
     sfnt_done_face,         /* TT_Done_Face_Func       done_face       */
-    sfnt_get_interface,     /* FT_Module_Requester     get_interface   */
+    sfnt_get_interface,     /* FT_TS_Module_Requester     get_interface   */
 
     tt_face_load_any,       /* TT_Load_Any_Func        load_any        */
 
@@ -1312,11 +1312,11 @@
   )
 
 
-  FT_DEFINE_MODULE(
+  FT_TS_DEFINE_MODULE(
     sfnt_module_class,
 
     0,  /* not a font driver or renderer */
-    sizeof ( FT_ModuleRec ),
+    sizeof ( FT_TS_ModuleRec ),
 
     "sfnt",     /* driver name                            */
     0x10000L,   /* driver version 1.0                     */
@@ -1324,9 +1324,9 @@
 
     (const void*)&sfnt_interface,  /* module specific interface */
 
-    (FT_Module_Constructor)NULL,               /* module_init   */
-    (FT_Module_Destructor) NULL,               /* module_done   */
-    (FT_Module_Requester)  sfnt_get_interface  /* get_interface */
+    (FT_TS_Module_Constructor)NULL,               /* module_init   */
+    (FT_TS_Module_Destructor) NULL,               /* module_done   */
+    (FT_TS_Module_Requester)  sfnt_get_interface  /* get_interface */
   )
 
 

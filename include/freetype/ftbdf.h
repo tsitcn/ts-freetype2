@@ -28,7 +28,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -119,8 +119,8 @@ FT_BEGIN_HEADER
     BDF_PropertyType  type;
     union {
       const char*     atom;
-      FT_Int32        integer;
-      FT_UInt32       cardinal;
+      FT_TS_Int32        integer;
+      FT_TS_UInt32       cardinal;
 
     } u;
 
@@ -130,7 +130,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_BDF_Charset_ID
+   *    FT_TS_Get_BDF_Charset_ID
    *
    * @description:
    *    Retrieve a BDF font character set identity, according to the BDF
@@ -153,8 +153,8 @@ FT_BEGIN_HEADER
    * @note:
    *   This function only works with BDF faces, returning an error otherwise.
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_BDF_Charset_ID( FT_Face       face,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_BDF_Charset_ID( FT_TS_Face       face,
                          const char*  *acharset_encoding,
                          const char*  *acharset_registry );
 
@@ -162,7 +162,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_BDF_Property
+   *    FT_TS_Get_BDF_Property
    *
    * @description:
    *    Retrieve a BDF property from a BDF or PCF font file.
@@ -197,14 +197,14 @@ FT_BEGIN_HEADER
    *   In case of error, `aproperty->type` is always set to
    *   @BDF_PROPERTY_TYPE_NONE.
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_BDF_Property( FT_Face           face,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_BDF_Property( FT_TS_Face           face,
                        const char*       prop_name,
                        BDF_PropertyRec  *aproperty );
 
   /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTBDF_H_ */
 

@@ -32,12 +32,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  cidobjs
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  cidobjs
 
 
   /**************************************************************************
@@ -46,16 +46,16 @@
    *
    */
 
-  FT_LOCAL_DEF( void )
-  cid_slot_done( FT_GlyphSlot  slot )
+  FT_TS_LOCAL_DEF( void )
+  cid_slot_done( FT_TS_GlyphSlot  slot )
   {
     if ( slot->internal )
       slot->internal->glyph_hints = NULL;
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  cid_slot_init( FT_GlyphSlot  slot )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  cid_slot_init( FT_TS_GlyphSlot  slot )
   {
     CID_Face          face;
     PSHinter_Service  pshinter;
@@ -66,10 +66,10 @@
 
     if ( pshinter )
     {
-      FT_Module  module;
+      FT_TS_Module  module;
 
 
-      module = FT_Get_Module( slot->face->driver->root.library,
+      module = FT_TS_Get_Module( slot->face->driver->root.library,
                               "pshinter" );
       if ( module )
       {
@@ -97,10 +97,10 @@
   {
     CID_Face          face     = (CID_Face)size->root.face;
     PSHinter_Service  pshinter = (PSHinter_Service)face->pshinter;
-    FT_Module         module;
+    FT_TS_Module         module;
 
 
-    module = FT_Get_Module( size->root.face->driver->root.library,
+    module = FT_TS_Get_Module( size->root.face->driver->root.library,
                             "pshinter" );
     return ( module && pshinter && pshinter->get_globals_funcs )
            ? pshinter->get_globals_funcs( module )
@@ -108,8 +108,8 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  cid_size_done( FT_Size  cidsize )         /* CID_Size */
+  FT_TS_LOCAL_DEF( void )
+  cid_size_done( FT_TS_Size  cidsize )         /* CID_Size */
   {
     CID_Size  size = (CID_Size)cidsize;
 
@@ -128,11 +128,11 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  cid_size_init( FT_Size  cidsize )     /* CID_Size */
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  cid_size_init( FT_TS_Size  cidsize )     /* CID_Size */
   {
     CID_Size           size  = (CID_Size)cidsize;
-    FT_Error           error = FT_Err_Ok;
+    FT_TS_Error           error = FT_TS_Err_Ok;
     PSH_Globals_Funcs  funcs = cid_size_get_globals_funcs( size );
 
 
@@ -153,16 +153,16 @@
   }
 
 
-  FT_LOCAL( FT_Error )
-  cid_size_request( FT_Size          size,
-                    FT_Size_Request  req )
+  FT_TS_LOCAL( FT_TS_Error )
+  cid_size_request( FT_TS_Size          size,
+                    FT_TS_Size_Request  req )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
 
     PSH_Globals_Funcs  funcs;
 
 
-    error = FT_Request_Metrics( size->face, req );
+    error = FT_TS_Request_Metrics( size->face, req );
     if ( error )
       goto Exit;
 
@@ -197,11 +197,11 @@
    *   face ::
    *     A pointer to the face object to destroy.
    */
-  FT_LOCAL_DEF( void )
-  cid_face_done( FT_Face  cidface )         /* CID_Face */
+  FT_TS_LOCAL_DEF( void )
+  cid_face_done( FT_TS_Face  cidface )         /* CID_Face */
   {
     CID_Face      face = (CID_Face)cidface;
-    FT_Memory     memory;
+    FT_TS_Memory     memory;
     CID_FaceInfo  cid;
     PS_FontInfo   info;
 
@@ -216,7 +216,7 @@
     /* release subrs */
     if ( face->subrs )
     {
-      FT_UInt  n;
+      FT_TS_UInt  n;
 
 
       for ( n = 0; n < cid->num_dicts; n++ )
@@ -226,35 +226,35 @@
 
         if ( subr->code )
         {
-          FT_FREE( subr->code[0] );
-          FT_FREE( subr->code );
+          FT_TS_FREE( subr->code[0] );
+          FT_TS_FREE( subr->code );
         }
       }
 
-      FT_FREE( face->subrs );
+      FT_TS_FREE( face->subrs );
     }
 
     /* release FontInfo strings */
-    FT_FREE( info->version );
-    FT_FREE( info->notice );
-    FT_FREE( info->full_name );
-    FT_FREE( info->family_name );
-    FT_FREE( info->weight );
+    FT_TS_FREE( info->version );
+    FT_TS_FREE( info->notice );
+    FT_TS_FREE( info->full_name );
+    FT_TS_FREE( info->family_name );
+    FT_TS_FREE( info->weight );
 
     /* release font dictionaries */
-    FT_FREE( cid->font_dicts );
+    FT_TS_FREE( cid->font_dicts );
     cid->num_dicts = 0;
 
     /* release other strings */
-    FT_FREE( cid->cid_font_name );
-    FT_FREE( cid->registry );
-    FT_FREE( cid->ordering );
+    FT_TS_FREE( cid->cid_font_name );
+    FT_TS_FREE( cid->registry );
+    FT_TS_FREE( cid->ordering );
 
     cidface->family_name = NULL;
     cidface->style_name  = NULL;
 
-    FT_FREE( face->binary_data );
-    FT_FREE( face->cid_stream );
+    FT_TS_FREE( face->binary_data );
+    FT_TS_FREE( face->cid_stream );
   }
 
 
@@ -286,21 +286,21 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
-  cid_face_init( FT_Stream      stream,
-                 FT_Face        cidface,        /* CID_Face */
-                 FT_Int         face_index,
-                 FT_Int         num_params,
-                 FT_Parameter*  params )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  cid_face_init( FT_TS_Stream      stream,
+                 FT_TS_Face        cidface,        /* CID_Face */
+                 FT_TS_Int         face_index,
+                 FT_TS_Int         num_params,
+                 FT_TS_Parameter*  params )
   {
     CID_Face          face = (CID_Face)cidface;
-    FT_Error          error;
+    FT_TS_Error          error;
     PSAux_Service     psaux;
     PSHinter_Service  pshinter;
 
-    FT_UNUSED( num_params );
-    FT_UNUSED( params );
-    FT_UNUSED( stream );
+    FT_TS_UNUSED( num_params );
+    FT_TS_UNUSED( params );
+    FT_TS_UNUSED( stream );
 
 
     cidface->num_faces = 1;
@@ -308,13 +308,13 @@
     psaux = (PSAux_Service)face->psaux;
     if ( !psaux )
     {
-      psaux = (PSAux_Service)FT_Get_Module_Interface(
-                FT_FACE_LIBRARY( face ), "psaux" );
+      psaux = (PSAux_Service)FT_TS_Get_Module_Interface(
+                FT_TS_FACE_LIBRARY( face ), "psaux" );
 
       if ( !psaux )
       {
-        FT_ERROR(( "cid_face_init: cannot access `psaux' module\n" ));
-        error = FT_THROW( Missing_Module );
+        FT_TS_ERROR(( "cid_face_init: cannot access `psaux' module\n" ));
+        error = FT_TS_THROW( Missing_Module );
         goto Exit;
       }
 
@@ -324,16 +324,16 @@
     pshinter = (PSHinter_Service)face->pshinter;
     if ( !pshinter )
     {
-      pshinter = (PSHinter_Service)FT_Get_Module_Interface(
-                   FT_FACE_LIBRARY( face ), "pshinter" );
+      pshinter = (PSHinter_Service)FT_TS_Get_Module_Interface(
+                   FT_TS_FACE_LIBRARY( face ), "pshinter" );
 
       face->pshinter = pshinter;
     }
 
-    FT_TRACE2(( "CID driver\n" ));
+    FT_TS_TRACE2(( "CID driver\n" ));
 
     /* open the tokenizer; this will also check the font format */
-    if ( FT_STREAM_SEEK( 0 ) )
+    if ( FT_TS_STREAM_SEEK( 0 ) )
       goto Exit;
 
     error = cid_face_open( face, face_index );
@@ -348,8 +348,8 @@
     /* XXX: handle CID fonts with more than a single face */
     if ( ( face_index & 0xFFFF ) != 0 )
     {
-      FT_ERROR(( "cid_face_init: invalid face index\n" ));
-      error = FT_THROW( Invalid_Argument );
+      FT_TS_ERROR(( "cid_face_init: invalid face index\n" ));
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -363,17 +363,17 @@
       PS_FontInfo   info = &cid->font_info;
 
 
-      cidface->num_glyphs   = (FT_Long)cid->cid_count;
+      cidface->num_glyphs   = (FT_TS_Long)cid->cid_count;
       cidface->num_charmaps = 0;
 
       cidface->face_index = face_index & 0xFFFF;
 
-      cidface->face_flags |= FT_FACE_FLAG_SCALABLE   | /* scalable outlines */
-                             FT_FACE_FLAG_HORIZONTAL | /* horizontal data   */
-                             FT_FACE_FLAG_HINTER;      /* has native hinter */
+      cidface->face_flags |= FT_TS_FACE_FLAG_SCALABLE   | /* scalable outlines */
+                             FT_TS_FACE_FLAG_HORIZONTAL | /* horizontal data   */
+                             FT_TS_FACE_FLAG_HINTER;      /* has native hinter */
 
       if ( info->is_fixed_pitch )
-        cidface->face_flags |= FT_FACE_FLAG_FIXED_WIDTH;
+        cidface->face_flags |= FT_TS_FACE_FLAG_FIXED_WIDTH;
 
       /* XXX: TODO: add kerning with .afm support */
 
@@ -423,12 +423,12 @@
       /* compute style flags */
       cidface->style_flags = 0;
       if ( info->italic_angle )
-        cidface->style_flags |= FT_STYLE_FLAG_ITALIC;
+        cidface->style_flags |= FT_TS_STYLE_FLAG_ITALIC;
       if ( info->weight )
       {
         if ( !ft_strcmp( info->weight, "Bold"  ) ||
              !ft_strcmp( info->weight, "Black" ) )
-          cidface->style_flags |= FT_STYLE_FLAG_BOLD;
+          cidface->style_flags |= FT_TS_STYLE_FLAG_BOLD;
       }
 
       /* no embedded bitmap support */
@@ -444,15 +444,15 @@
       if ( !cidface->units_per_EM )
         cidface->units_per_EM = 1000;
 
-      cidface->ascender  = (FT_Short)( cidface->bbox.yMax );
-      cidface->descender = (FT_Short)( cidface->bbox.yMin );
+      cidface->ascender  = (FT_TS_Short)( cidface->bbox.yMax );
+      cidface->descender = (FT_TS_Short)( cidface->bbox.yMin );
 
-      cidface->height = (FT_Short)( ( cidface->units_per_EM * 12 ) / 10 );
+      cidface->height = (FT_TS_Short)( ( cidface->units_per_EM * 12 ) / 10 );
       if ( cidface->height < cidface->ascender - cidface->descender )
-        cidface->height = (FT_Short)( cidface->ascender - cidface->descender );
+        cidface->height = (FT_TS_Short)( cidface->ascender - cidface->descender );
 
-      cidface->underline_position  = (FT_Short)info->underline_position;
-      cidface->underline_thickness = (FT_Short)info->underline_thickness;
+      cidface->underline_position  = (FT_TS_Short)info->underline_position;
+      cidface->underline_thickness = (FT_TS_Short)info->underline_thickness;
     }
 
   Exit:
@@ -475,16 +475,16 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
-  cid_driver_init( FT_Module  module )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  cid_driver_init( FT_TS_Module  module )
   {
     PS_Driver  driver = (PS_Driver)module;
 
-    FT_UInt32  seed;
+    FT_TS_UInt32  seed;
 
 
     /* set default property values, cf. `ftt1drv.h' */
-    driver->hinting_engine = FT_HINTING_ADOBE;
+    driver->hinting_engine = FT_TS_HINTING_ADOBE;
 
     driver->no_stem_darkening = TRUE;
 
@@ -498,18 +498,18 @@
     driver->darken_params[7] = CFF_CONFIG_OPTION_DARKENING_PARAMETER_Y4;
 
     /* compute random seed from some memory addresses */
-    seed = (FT_UInt32)( (FT_Offset)(char*)&seed          ^
-                        (FT_Offset)(char*)&module        ^
-                        (FT_Offset)(char*)module->memory );
+    seed = (FT_TS_UInt32)( (FT_TS_Offset)(char*)&seed          ^
+                        (FT_TS_Offset)(char*)&module        ^
+                        (FT_TS_Offset)(char*)module->memory );
     seed = seed ^ ( seed >> 10 ) ^ ( seed >> 20 );
 
-    driver->random_seed = (FT_Int32)seed;
+    driver->random_seed = (FT_TS_Int32)seed;
     if ( driver->random_seed < 0 )
       driver->random_seed = -driver->random_seed;
     else if ( driver->random_seed == 0 )
       driver->random_seed = 123456789;
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
@@ -525,10 +525,10 @@
    *   driver ::
    *     A handle to the target CID driver.
    */
-  FT_LOCAL_DEF( void )
-  cid_driver_done( FT_Module  driver )
+  FT_TS_LOCAL_DEF( void )
+  cid_driver_done( FT_TS_Module  driver )
   {
-    FT_UNUSED( driver );
+    FT_TS_UNUSED( driver );
   }
 
 

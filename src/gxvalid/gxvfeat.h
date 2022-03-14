@@ -44,10 +44,10 @@
   /* TODO: More compact format */
   typedef struct  GXV_Feature_RegistryRec_
   {
-    FT_Bool  existence;
-    FT_Bool  apple_reserved;
-    FT_Bool  exclusive;
-    FT_Byte  nSettings;
+    FT_TS_Bool  existence;
+    FT_TS_Bool  apple_reserved;
+    FT_TS_Bool  exclusive;
+    FT_TS_Byte  nSettings;
 
   } GX_Feature_RegistryRec;
 

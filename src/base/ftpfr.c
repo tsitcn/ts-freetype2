@@ -22,14 +22,14 @@
 
 
   /* check the format */
-  static FT_Service_PfrMetrics
-  ft_pfr_check( FT_Face  face )
+  static FT_TS_Service_PfrMetrics
+  ft_pfr_check( FT_TS_Face  face )
   {
-    FT_Service_PfrMetrics  service = NULL;
+    FT_TS_Service_PfrMetrics  service = NULL;
 
 
     if ( face )
-      FT_FACE_LOOKUP_SERVICE( face, service, PFR_METRICS );
+      FT_TS_FACE_LOOKUP_SERVICE( face, service, PFR_METRICS );
 
     return service;
   }
@@ -37,19 +37,19 @@
 
   /* documentation is in ftpfr.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Get_PFR_Metrics( FT_Face    face,
-                      FT_UInt   *aoutline_resolution,
-                      FT_UInt   *ametrics_resolution,
-                      FT_Fixed  *ametrics_x_scale,
-                      FT_Fixed  *ametrics_y_scale )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Get_PFR_Metrics( FT_TS_Face    face,
+                      FT_TS_UInt   *aoutline_resolution,
+                      FT_TS_UInt   *ametrics_resolution,
+                      FT_TS_Fixed  *ametrics_x_scale,
+                      FT_TS_Fixed  *ametrics_y_scale )
   {
-    FT_Error               error = FT_Err_Ok;
-    FT_Service_PfrMetrics  service;
+    FT_TS_Error               error = FT_TS_Err_Ok;
+    FT_TS_Service_PfrMetrics  service;
 
 
     if ( !face )
-      return FT_THROW( Invalid_Face_Handle );
+      return FT_TS_THROW( Invalid_Face_Handle );
 
     service = ft_pfr_check( face );
     if ( service )
@@ -62,7 +62,7 @@
     }
     else
     {
-      FT_Fixed  x_scale, y_scale;
+      FT_TS_Fixed  x_scale, y_scale;
 
 
       /* this is not a PFR font */
@@ -85,7 +85,7 @@
       if ( ametrics_y_scale )
         *ametrics_y_scale = y_scale;
 
-      error = FT_THROW( Unknown_File_Format );
+      error = FT_TS_THROW( Unknown_File_Format );
     }
 
     return error;
@@ -94,28 +94,28 @@
 
   /* documentation is in ftpfr.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Get_PFR_Kerning( FT_Face     face,
-                      FT_UInt     left,
-                      FT_UInt     right,
-                      FT_Vector  *avector )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Get_PFR_Kerning( FT_TS_Face     face,
+                      FT_TS_UInt     left,
+                      FT_TS_UInt     right,
+                      FT_TS_Vector  *avector )
   {
-    FT_Error               error;
-    FT_Service_PfrMetrics  service;
+    FT_TS_Error               error;
+    FT_TS_Service_PfrMetrics  service;
 
 
     if ( !face )
-      return FT_THROW( Invalid_Face_Handle );
+      return FT_TS_THROW( Invalid_Face_Handle );
 
     if ( !avector )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     service = ft_pfr_check( face );
     if ( service )
       error = service->get_kerning( face, left, right, avector );
     else
-      error = FT_Get_Kerning( face, left, right,
-                              FT_KERNING_UNSCALED, avector );
+      error = FT_TS_Get_Kerning( face, left, right,
+                              FT_TS_KERNING_UNSCALED, avector );
 
     return error;
   }
@@ -123,27 +123,27 @@
 
   /* documentation is in ftpfr.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Get_PFR_Advance( FT_Face   face,
-                      FT_UInt   gindex,
-                      FT_Pos   *aadvance )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Get_PFR_Advance( FT_TS_Face   face,
+                      FT_TS_UInt   gindex,
+                      FT_TS_Pos   *aadvance )
   {
-    FT_Error               error;
-    FT_Service_PfrMetrics  service;
+    FT_TS_Error               error;
+    FT_TS_Service_PfrMetrics  service;
 
 
     if ( !face )
-      return FT_THROW( Invalid_Face_Handle );
+      return FT_TS_THROW( Invalid_Face_Handle );
 
     if ( !aadvance )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     service = ft_pfr_check( face );
     if ( service )
       error = service->get_advance( face, gindex, aadvance );
     else
       /* XXX: TODO: PROVIDE ADVANCE-LOADING METHOD TO ALL FONT DRIVERS */
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
 
     return error;
   }

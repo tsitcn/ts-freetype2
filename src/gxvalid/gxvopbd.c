@@ -31,12 +31,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvopbd
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvopbd
 
 
   /*************************************************************************/
@@ -49,8 +49,8 @@
 
   typedef struct  GXV_opbd_DataRec_
   {
-    FT_UShort  format;
-    FT_UShort  valueOffset_min;
+    FT_TS_UShort  format;
+    FT_TS_UShort  valueOffset_min;
 
   } GXV_opbd_DataRec, *GXV_opbd_Data;
 
@@ -67,14 +67,14 @@
   /*************************************************************************/
 
   static void
-  gxv_opbd_LookupValue_validate( FT_UShort            glyph,
+  gxv_opbd_LookupValue_validate( FT_TS_UShort            glyph,
                                  GXV_LookupValueCPtr  value_p,
                                  GXV_Validator        gxvalid )
   {
     /* offset in LookupTable is measured from the head of opbd table */
-    FT_Bytes   p     = gxvalid->root->base + value_p->u;
-    FT_Bytes   limit = gxvalid->root->limit;
-    FT_Short   delta_value;
+    FT_TS_Bytes   p     = gxvalid->root->base + value_p->u;
+    FT_TS_Bytes   limit = gxvalid->root->limit;
+    FT_TS_Short   delta_value;
     int        i;
 
 
@@ -84,14 +84,14 @@
     for ( i = 0; i < 4; i++ )
     {
       GXV_LIMIT_CHECK( 2 );
-      delta_value = FT_NEXT_SHORT( p );
+      delta_value = FT_TS_NEXT_SHORT( p );
 
       if ( GXV_OPBD_DATA( format ) )    /* format 1, value is ctrl pt. */
       {
         if ( delta_value == -1 )
           continue;
 
-        gxv_ctlPoint_validate( glyph, (FT_UShort)delta_value, gxvalid );
+        gxv_ctlPoint_validate( glyph, (FT_TS_UShort)delta_value, gxvalid );
       }
       else                              /* format 0, value is distance */
         continue;
@@ -113,7 +113,7 @@
     +---------------+         |             +
     | offset[0]     |    ->   |          offset            [byte]
     +===============+         |             +
-    | lastGlyph[1]  |         | (glyphID - firstGlyph) * 4 * sizeof(FT_Short) [byte]
+    | lastGlyph[1]  |         | (glyphID - firstGlyph) * 4 * sizeof(FT_TS_Short) [byte]
     +---------------+         |
     | firstGlyph[1] |         |
     +---------------+         |
@@ -132,19 +132,19 @@
     .... */
 
   static GXV_LookupValueDesc
-  gxv_opbd_LookupFmt4_transit( FT_UShort            relative_gindex,
+  gxv_opbd_LookupFmt4_transit( FT_TS_UShort            relative_gindex,
                                GXV_LookupValueCPtr  base_value_p,
-                               FT_Bytes             lookuptbl_limit,
+                               FT_TS_Bytes             lookuptbl_limit,
                                GXV_Validator        gxvalid )
   {
     GXV_LookupValueDesc  value;
 
-    FT_UNUSED( lookuptbl_limit );
-    FT_UNUSED( gxvalid );
+    FT_TS_UNUSED( lookuptbl_limit );
+    FT_TS_UNUSED( gxvalid );
 
     /* XXX: check range? */
-    value.u = (FT_UShort)( base_value_p->u +
-                           relative_gindex * 4 * sizeof ( FT_Short ) );
+    value.u = (FT_TS_UShort)( base_value_p->u +
+                           relative_gindex * 4 * sizeof ( FT_TS_Short ) );
 
     return value;
   }
@@ -158,44 +158,44 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
-  gxv_opbd_validate( FT_Bytes      table,
-                     FT_Face       face,
-                     FT_Validator  ftvalid )
+  FT_TS_LOCAL_DEF( void )
+  gxv_opbd_validate( FT_TS_Bytes      table,
+                     FT_TS_Face       face,
+                     FT_TS_Validator  ftvalid )
   {
     GXV_ValidatorRec  gxvalidrec;
     GXV_Validator     gxvalid = &gxvalidrec;
     GXV_opbd_DataRec  opbdrec;
     GXV_opbd_Data     opbd  = &opbdrec;
-    FT_Bytes          p     = table;
-    FT_Bytes          limit = 0;
+    FT_TS_Bytes          p     = table;
+    FT_TS_Bytes          limit = 0;
 
-    FT_ULong  version;
+    FT_TS_ULong  version;
 
 
     gxvalid->root       = ftvalid;
     gxvalid->table_data = opbd;
     gxvalid->face       = face;
 
-    FT_TRACE3(( "validating `opbd' table\n" ));
+    FT_TS_TRACE3(( "validating `opbd' table\n" ));
     GXV_INIT;
     GXV_OPBD_DATA( valueOffset_min ) = 0xFFFFU;
 
 
     GXV_LIMIT_CHECK( 4 + 2 );
-    version                 = FT_NEXT_ULONG( p );
-    GXV_OPBD_DATA( format ) = FT_NEXT_USHORT( p );
+    version                 = FT_TS_NEXT_ULONG( p );
+    GXV_OPBD_DATA( format ) = FT_TS_NEXT_USHORT( p );
 
 
     /* only 0x00010000 is defined (1996) */
     GXV_TRACE(( "(version=0x%08lx)\n", version ));
     if ( 0x00010000UL != version )
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
 
     /* only values 0 and 1 are defined (1996) */
     GXV_TRACE(( "(format=0x%04x)\n", GXV_OPBD_DATA( format ) ));
     if ( 0x0001 < GXV_OPBD_DATA( format ) )
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
 
     gxvalid->lookupval_sign   = GXV_LOOKUPVALUE_UNSIGNED;
     gxvalid->lookupval_func   = gxv_opbd_LookupValue_validate;
@@ -208,10 +208,10 @@
     {
       GXV_TRACE((
         "found overlap between LookupTable and opbd_value array\n" ));
-      FT_INVALID_OFFSET;
+      FT_TS_INVALID_OFFSET;
     }
 
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
   }
 
 

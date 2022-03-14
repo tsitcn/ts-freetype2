@@ -31,17 +31,17 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmorx
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmorx
 
 
-  FT_LOCAL_DEF( void )
-  gxv_morx_subtable_type4_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL_DEF( void )
+  gxv_morx_subtable_type4_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid )
   {
     GXV_NAME_ENTER( "morx chain subtable type4 "

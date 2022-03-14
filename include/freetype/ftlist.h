@@ -37,7 +37,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -56,20 +56,20 @@ FT_BEGIN_HEADER
    *   using doubly-linked nodes.
    *
    * @order:
-   *   FT_List
-   *   FT_ListNode
-   *   FT_ListRec
-   *   FT_ListNodeRec
+   *   FT_TS_List
+   *   FT_TS_ListNode
+   *   FT_TS_ListRec
+   *   FT_TS_ListNodeRec
    *
-   *   FT_List_Add
-   *   FT_List_Insert
-   *   FT_List_Find
-   *   FT_List_Remove
-   *   FT_List_Up
-   *   FT_List_Iterate
-   *   FT_List_Iterator
-   *   FT_List_Finalize
-   *   FT_List_Destructor
+   *   FT_TS_List_Add
+   *   FT_TS_List_Insert
+   *   FT_TS_List_Find
+   *   FT_TS_List_Remove
+   *   FT_TS_List_Up
+   *   FT_TS_List_Iterate
+   *   FT_TS_List_Iterator
+   *   FT_TS_List_Finalize
+   *   FT_TS_List_Destructor
    *
    */
 
@@ -77,7 +77,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_List_Find
+   *   FT_TS_List_Find
    *
    * @description:
    *   Find the list node for a given listed object.
@@ -91,15 +91,15 @@ FT_BEGIN_HEADER
    * @return:
    *   List node.  `NULL` if it wasn't found.
    */
-  FT_EXPORT( FT_ListNode )
-  FT_List_Find( FT_List  list,
+  FT_TS_EXPORT( FT_TS_ListNode )
+  FT_TS_List_Find( FT_TS_List  list,
                 void*    data );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_List_Add
+   *   FT_TS_List_Add
    *
    * @description:
    *   Append an element to the end of a list.
@@ -110,15 +110,15 @@ FT_BEGIN_HEADER
    *   node ::
    *     The node to append.
    */
-  FT_EXPORT( void )
-  FT_List_Add( FT_List      list,
-               FT_ListNode  node );
+  FT_TS_EXPORT( void )
+  FT_TS_List_Add( FT_TS_List      list,
+               FT_TS_ListNode  node );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_List_Insert
+   *   FT_TS_List_Insert
    *
    * @description:
    *   Insert an element at the head of a list.
@@ -129,15 +129,15 @@ FT_BEGIN_HEADER
    *   node ::
    *     The node to insert.
    */
-  FT_EXPORT( void )
-  FT_List_Insert( FT_List      list,
-                  FT_ListNode  node );
+  FT_TS_EXPORT( void )
+  FT_TS_List_Insert( FT_TS_List      list,
+                  FT_TS_ListNode  node );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_List_Remove
+   *   FT_TS_List_Remove
    *
    * @description:
    *   Remove a node from a list.  This function doesn't check whether the
@@ -151,15 +151,15 @@ FT_BEGIN_HEADER
    *   list ::
    *     A pointer to the parent list.
    */
-  FT_EXPORT( void )
-  FT_List_Remove( FT_List      list,
-                  FT_ListNode  node );
+  FT_TS_EXPORT( void )
+  FT_TS_List_Remove( FT_TS_List      list,
+                  FT_TS_ListNode  node );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_List_Up
+   *   FT_TS_List_Up
    *
    * @description:
    *   Move a node to the head/top of a list.  Used to maintain LRU lists.
@@ -170,37 +170,37 @@ FT_BEGIN_HEADER
    *   node ::
    *     The node to move.
    */
-  FT_EXPORT( void )
-  FT_List_Up( FT_List      list,
-              FT_ListNode  node );
+  FT_TS_EXPORT( void )
+  FT_TS_List_Up( FT_TS_List      list,
+              FT_TS_ListNode  node );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_List_Iterator
+   *   FT_TS_List_Iterator
    *
    * @description:
-   *   An FT_List iterator function that is called during a list parse by
-   *   @FT_List_Iterate.
+   *   An FT_TS_List iterator function that is called during a list parse by
+   *   @FT_TS_List_Iterate.
    *
    * @input:
    *   node ::
    *     The current iteration list node.
    *
    *   user ::
-   *     A typeless pointer passed to @FT_List_Iterate.  Can be used to point
+   *     A typeless pointer passed to @FT_TS_List_Iterate.  Can be used to point
    *     to the iteration's state.
    */
-  typedef FT_Error
-  (*FT_List_Iterator)( FT_ListNode  node,
+  typedef FT_TS_Error
+  (*FT_TS_List_Iterator)( FT_TS_ListNode  node,
                        void*        user );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_List_Iterate
+   *   FT_TS_List_Iterate
    *
    * @description:
    *   Parse a list and calls a given iterator function on each element.
@@ -219,20 +219,20 @@ FT_BEGIN_HEADER
    * @return:
    *   The result (a FreeType error code) of the last iterator call.
    */
-  FT_EXPORT( FT_Error )
-  FT_List_Iterate( FT_List           list,
-                   FT_List_Iterator  iterator,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_List_Iterate( FT_TS_List           list,
+                   FT_TS_List_Iterator  iterator,
                    void*             user );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_List_Destructor
+   *   FT_TS_List_Destructor
    *
    * @description:
-   *   An @FT_List iterator function that is called during a list
-   *   finalization by @FT_List_Finalize to destroy all elements in a given
+   *   An @FT_TS_List iterator function that is called during a list
+   *   finalization by @FT_TS_List_Finalize to destroy all elements in a given
    *   list.
    *
    * @input:
@@ -243,11 +243,11 @@ FT_BEGIN_HEADER
    *     The current object to destroy.
    *
    *   user ::
-   *     A typeless pointer passed to @FT_List_Iterate.  It can be used to
+   *     A typeless pointer passed to @FT_TS_List_Iterate.  It can be used to
    *     point to the iteration's state.
    */
   typedef void
-  (*FT_List_Destructor)( FT_Memory  memory,
+  (*FT_TS_List_Destructor)( FT_TS_Memory  memory,
                          void*      data,
                          void*      user );
 
@@ -255,7 +255,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_List_Finalize
+   *   FT_TS_List_Finalize
    *
    * @description:
    *   Destroy all elements in the list as well as the list itself.
@@ -276,19 +276,19 @@ FT_BEGIN_HEADER
    *     destructor.
    *
    * @note:
-   *   This function expects that all nodes added by @FT_List_Add or
-   *   @FT_List_Insert have been dynamically allocated.
+   *   This function expects that all nodes added by @FT_TS_List_Add or
+   *   @FT_TS_List_Insert have been dynamically allocated.
    */
-  FT_EXPORT( void )
-  FT_List_Finalize( FT_List             list,
-                    FT_List_Destructor  destroy,
-                    FT_Memory           memory,
+  FT_TS_EXPORT( void )
+  FT_TS_List_Finalize( FT_TS_List             list,
+                    FT_TS_List_Destructor  destroy,
+                    FT_TS_Memory           memory,
                     void*               user );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTLIST_H_ */
 

@@ -119,12 +119,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  bsdf
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  bsdf
 
 
   /**************************************************************************
@@ -149,9 +149,9 @@
    *   BSDF_TRaster
    *
    * @Description:
-   *   This struct is used in place of @FT_Raster and is stored within the
+   *   This struct is used in place of @FT_TS_Raster and is stored within the
    *   internal FreeType renderer struct.  While rasterizing this is passed
-   *   to the @FT_Raster_RenderFunc function, which then can be used however
+   *   to the @FT_TS_Raster_RenderFunc function, which then can be used however
    *   we want.
    *
    * @Fields:
@@ -161,7 +161,7 @@
    */
   typedef struct  BSDF_TRaster_
   {
-    FT_Memory  memory;
+    FT_TS_Memory  memory;
 
   } BSDF_TRaster, *BSDF_PRaster;
 
@@ -193,9 +193,9 @@
    */
   typedef struct  ED_
   {
-    FT_16D16      dist;
-    FT_16D16_Vec  near;
-    FT_Byte       alpha;
+    FT_TS_16D16      dist;
+    FT_TS_16D16_Vec  near;
+    FT_TS_Byte       alpha;
 
   } ED;
 
@@ -230,8 +230,8 @@
   {
     ED*  distance_map;
 
-    FT_Int  width;
-    FT_Int  rows;
+    FT_TS_Int  width;
+    FT_TS_Int  rows;
 
     SDF_Raster_Params  params;
 
@@ -306,16 +306,16 @@
             }                                             \
           } while ( 0 )
 
-  static FT_Bool
+  static FT_TS_Bool
   bsdf_is_edge( ED*     dm,   /* distance map              */
-                FT_Int  x,    /* x index of point to check */
-                FT_Int  y,    /* y index of point to check */
-                FT_Int  w,    /* width                     */
-                FT_Int  r )   /* rows                      */
+                FT_TS_Int  x,    /* x index of point to check */
+                FT_TS_Int  y,    /* y index of point to check */
+                FT_TS_Int  w,    /* width                     */
+                FT_TS_Int  r )   /* rows                      */
   {
-    FT_Bool  is_edge       = 0;
+    FT_TS_Bool  is_edge       = 0;
     ED*      to_check      = NULL;
-    FT_Int   num_neighbors = 0;
+    FT_TS_Int   num_neighbors = 0;
 
 
     if ( dm->alpha == 0 )
@@ -397,12 +397,12 @@
    *   for edge pixel positions.
    *
    */
-  static FT_16D16_Vec
+  static FT_TS_16D16_Vec
   compute_edge_distance( ED*     current,
-                         FT_Int  x,
-                         FT_Int  y,
-                         FT_Int  w,
-                         FT_Int  r )
+                         FT_TS_Int  x,
+                         FT_TS_Int  y,
+                         FT_TS_Int  w,
+                         FT_TS_Int  r )
   {
     /*
      * This function, based on the paper presented by Stefan Gustavson and
@@ -442,11 +442,11 @@
      *     https://en.wikipedia.org/wiki/Sobel_operator
      */
 
-    FT_16D16_Vec  g = { 0, 0 };
-    FT_16D16      dist, current_alpha;
-    FT_16D16      a1, temp;
-    FT_16D16      gx, gy;
-    FT_16D16      alphas[9];
+    FT_TS_16D16_Vec  g = { 0, 0 };
+    FT_TS_16D16      dist, current_alpha;
+    FT_TS_16D16      a1, temp;
+    FT_TS_16D16      gx, gy;
+    FT_TS_16D16      alphas[9];
 
 
     /* Since our spread cannot be 0, this condition */
@@ -456,15 +456,15 @@
       return g;
 
     /* initialize the alphas */
-    alphas[0] = 256 * (FT_16D16)current[-w - 1].alpha;
-    alphas[1] = 256 * (FT_16D16)current[-w    ].alpha;
-    alphas[2] = 256 * (FT_16D16)current[-w + 1].alpha;
-    alphas[3] = 256 * (FT_16D16)current[    -1].alpha;
-    alphas[4] = 256 * (FT_16D16)current[     0].alpha;
-    alphas[5] = 256 * (FT_16D16)current[     1].alpha;
-    alphas[6] = 256 * (FT_16D16)current[ w - 1].alpha;
-    alphas[7] = 256 * (FT_16D16)current[ w    ].alpha;
-    alphas[8] = 256 * (FT_16D16)current[ w + 1].alpha;
+    alphas[0] = 256 * (FT_TS_16D16)current[-w - 1].alpha;
+    alphas[1] = 256 * (FT_TS_16D16)current[-w    ].alpha;
+    alphas[2] = 256 * (FT_TS_16D16)current[-w + 1].alpha;
+    alphas[3] = 256 * (FT_TS_16D16)current[    -1].alpha;
+    alphas[4] = 256 * (FT_TS_16D16)current[     0].alpha;
+    alphas[5] = 256 * (FT_TS_16D16)current[     1].alpha;
+    alphas[6] = 256 * (FT_TS_16D16)current[ w - 1].alpha;
+    alphas[7] = 256 * (FT_TS_16D16)current[ w    ].alpha;
+    alphas[8] = 256 * (FT_TS_16D16)current[ w + 1].alpha;
 
     current_alpha = alphas[4];
 
@@ -481,20 +481,20 @@
     /*                                                */
     /* [Note]: 92681 is root(2) in 16.16 format.      */
     g.x = -alphas[0] -
-           FT_MulFix( alphas[3], 92681 ) -
+           FT_TS_MulFix( alphas[3], 92681 ) -
            alphas[6] +
            alphas[2] +
-           FT_MulFix( alphas[5], 92681 ) +
+           FT_TS_MulFix( alphas[5], 92681 ) +
            alphas[8];
 
     g.y = -alphas[0] -
-           FT_MulFix( alphas[1], 92681 ) -
+           FT_TS_MulFix( alphas[1], 92681 ) -
            alphas[2] +
            alphas[6] +
-           FT_MulFix( alphas[7], 92681 ) +
+           FT_TS_MulFix( alphas[7], 92681 ) +
            alphas[8];
 
-    FT_Vector_NormLen( &g );
+    FT_TS_Vector_NormLen( &g );
 
     /* The gradient gives us the direction of the    */
     /* edge for the current pixel.  Once we have the */
@@ -508,8 +508,8 @@
       gx = g.x;
       gy = g.y;
 
-      gx = FT_ABS( gx );
-      gy = FT_ABS( gy );
+      gx = FT_TS_ABS( gx );
+      gy = FT_TS_ABS( gy );
 
       if ( gx < gy )
       {
@@ -518,26 +518,26 @@
         gy   = temp;
       }
 
-      a1 = FT_DivFix( gy, gx ) / 2;
+      a1 = FT_TS_DivFix( gy, gx ) / 2;
 
       if ( current_alpha < a1 )
         dist = ( gx + gy ) / 2 -
-               square_root( 2 * FT_MulFix( gx,
-                                           FT_MulFix( gy,
+               square_root( 2 * FT_TS_MulFix( gx,
+                                           FT_TS_MulFix( gy,
                                                       current_alpha ) ) );
 
       else if ( current_alpha < ( ONE - a1 ) )
-        dist = FT_MulFix( ONE / 2 - current_alpha, gx );
+        dist = FT_TS_MulFix( ONE / 2 - current_alpha, gx );
 
       else
         dist = -( gx + gy ) / 2 +
-               square_root( 2 * FT_MulFix( gx,
-                                           FT_MulFix( gy,
+               square_root( 2 * FT_TS_MulFix( gx,
+                                           FT_TS_MulFix( gy,
                                                       ONE - current_alpha ) ) );
     }
 
-    g.x = FT_MulFix( g.x, dist );
-    g.y = FT_MulFix( g.y, dist );
+    g.x = FT_TS_MulFix( g.x, dist );
+    g.y = FT_TS_MulFix( g.y, dist );
 
     return g;
   }
@@ -551,7 +551,7 @@
    * @Description:
    *   Loops over all the pixels and call `compute_edge_distance` only for
    *   edge pixels.  This maked the process a lot faster since
-   *   `compute_edge_distance` uses functions such as `FT_Vector_NormLen',
+   *   `compute_edge_distance` uses functions such as `FT_TS_Vector_NormLen',
    *   which are quite slow.
    *
    * @InOut:
@@ -566,18 +566,18 @@
    *   The function directly manipulates `worker->distance_map`.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   bsdf_approximate_edge( BSDF_Worker*  worker )
   {
-    FT_Error  error = FT_Err_Ok;
-    FT_Int    i, j;
-    FT_Int    index;
+    FT_TS_Error  error = FT_TS_Err_Ok;
+    FT_TS_Int    i, j;
+    FT_TS_Int    index;
     ED*       ed;
 
 
     if ( !worker || !worker->distance_map )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -639,22 +639,22 @@
    *   FreeType error, 0 means success.
    *
    */
-  static FT_Error
-  bsdf_init_distance_map( const FT_Bitmap*  source,
+  static FT_TS_Error
+  bsdf_init_distance_map( const FT_TS_Bitmap*  source,
                           BSDF_Worker*      worker )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_Int    x_diff, y_diff;
-    FT_Int    t_i, t_j, s_i, s_j;
-    FT_Byte*  s;
+    FT_TS_Int    x_diff, y_diff;
+    FT_TS_Int    t_i, t_j, s_i, s_j;
+    FT_TS_Byte*  s;
     ED*       t;
 
 
     /* again check the parameters (probably unnecessary) */
     if ( !source || !worker )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -662,34 +662,34 @@
     /* i.e., aligning the source to the center of the */
     /* target, the target's width and rows must be    */
     /* checked before copying.                        */
-    if ( worker->width < (FT_Int)source->width ||
-         worker->rows  < (FT_Int)source->rows  )
+    if ( worker->width < (FT_TS_Int)source->width ||
+         worker->rows  < (FT_TS_Int)source->rows  )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* check pixel mode */
-    if ( source->pixel_mode == FT_PIXEL_MODE_NONE )
+    if ( source->pixel_mode == FT_TS_PIXEL_MODE_NONE )
     {
-      FT_ERROR(( "bsdf_copy_source_to_target:"
+      FT_TS_ERROR(( "bsdf_copy_source_to_target:"
                  " Invalid pixel mode of source bitmap" ));
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-#ifdef FT_DEBUG_LEVEL_TRACE
-    if ( source->pixel_mode == FT_PIXEL_MODE_MONO )
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
+    if ( source->pixel_mode == FT_TS_PIXEL_MODE_MONO )
     {
-      FT_TRACE0(( "bsdf_copy_source_to_target:"
+      FT_TS_TRACE0(( "bsdf_copy_source_to_target:"
                   " The `bsdf' renderer can convert monochrome\n" ));
-      FT_TRACE0(( "                           "
+      FT_TS_TRACE0(( "                           "
                   " bitmaps to SDF but the results are not perfect\n" ));
-      FT_TRACE0(( "                           "
+      FT_TS_TRACE0(( "                           "
                   " because there is no way to approximate actual\n" ));
-      FT_TRACE0(( "                           "
+      FT_TS_TRACE0(( "                           "
                   " outlines from monochrome bitmaps.  Consider\n" ));
-      FT_TRACE0(( "                           "
+      FT_TS_TRACE0(( "                           "
                   " using an anti-aliased bitmap instead.\n" ));
     }
 #endif
@@ -705,32 +705,32 @@
     t = (ED*)worker->distance_map;
     s = source->buffer;
 
-    /* For now we only support pixel mode `FT_PIXEL_MODE_MONO`  */
-    /* and `FT_PIXEL_MODE_GRAY`.  More will be added later.     */
+    /* For now we only support pixel mode `FT_TS_PIXEL_MODE_MONO`  */
+    /* and `FT_TS_PIXEL_MODE_GRAY`.  More will be added later.     */
     /*                                                          */
-    /* [NOTE]: We can also use @FT_Bitmap_Convert to convert    */
+    /* [NOTE]: We can also use @FT_TS_Bitmap_Convert to convert    */
     /*         bitmap to 8bpp.  To avoid extra allocation and   */
     /*         since the target bitmap can be 16bpp we manually */
     /*         convert the source bitmap to the desired bpp.    */
 
     switch ( source->pixel_mode )
     {
-    case FT_PIXEL_MODE_MONO:
+    case FT_TS_PIXEL_MODE_MONO:
       {
-        FT_Int  t_width = worker->width;
-        FT_Int  t_rows  = worker->rows;
-        FT_Int  s_width = (int)source->width;
-        FT_Int  s_rows  = (int)source->rows;
+        FT_TS_Int  t_width = worker->width;
+        FT_TS_Int  t_rows  = worker->rows;
+        FT_TS_Int  s_width = (int)source->width;
+        FT_TS_Int  s_rows  = (int)source->rows;
 
 
         for ( t_j = 0; t_j < t_rows; t_j++ )
         {
           for ( t_i = 0; t_i < t_width; t_i++ )
           {
-            FT_Int   t_index = t_j * t_width + t_i;
-            FT_Int   s_index;
-            FT_Int   div, mod;
-            FT_Byte  pixel, byte;
+            FT_TS_Int   t_index = t_j * t_width + t_i;
+            FT_TS_Int   s_index;
+            FT_TS_Int   div, mod;
+            FT_TS_Byte  pixel, byte;
 
 
             t[t_index] = zero_ed;
@@ -753,7 +753,7 @@
             mod = 7 - s_i % 8;
 
             pixel = s[div];
-            byte  = (FT_Byte)( 1 << mod );
+            byte  = (FT_TS_Byte)( 1 << mod );
 
             t[t_index].alpha = pixel & byte ? 255 : 0;
 
@@ -763,12 +763,12 @@
       }
       break;
 
-    case FT_PIXEL_MODE_GRAY:
+    case FT_TS_PIXEL_MODE_GRAY:
       {
-        FT_Int  t_width = worker->width;
-        FT_Int  t_rows  = worker->rows;
-        FT_Int  s_width = (int)source->width;
-        FT_Int  s_rows  = (int)source->rows;
+        FT_TS_Int  t_width = worker->width;
+        FT_TS_Int  t_rows  = worker->rows;
+        FT_TS_Int  s_width = (int)source->width;
+        FT_TS_Int  s_rows  = (int)source->rows;
 
 
         /* loop over all pixels and assign pixel values from source */
@@ -776,8 +776,8 @@
         {
           for ( t_i = 0; t_i < t_width; t_i++ )
           {
-            FT_Int  t_index = t_j * t_width + t_i;
-            FT_Int  s_index;
+            FT_TS_Int  t_index = t_j * t_width + t_i;
+            FT_TS_Int  s_index;
 
 
             t[t_index] = zero_ed;
@@ -804,10 +804,10 @@
       break;
 
     default:
-      FT_ERROR(( "bsdf_copy_source_to_target:"
+      FT_TS_ERROR(( "bsdf_copy_source_to_target:"
                  " unsopported pixel mode of source bitmap\n" ));
 
-      error = FT_THROW( Unimplemented_Feature );
+      error = FT_TS_THROW( Unimplemented_Feature );
       break;
     }
 
@@ -846,13 +846,13 @@
    */
   static void
   compare_neighbor( ED*     current,
-                    FT_Int  x_offset,
-                    FT_Int  y_offset,
-                    FT_Int  width )
+                    FT_TS_Int  x_offset,
+                    FT_TS_Int  y_offset,
+                    FT_TS_Int  width )
   {
     ED*           to_check;
-    FT_16D16      dist;
-    FT_16D16_Vec  dist_vec;
+    FT_TS_16D16      dist;
+    FT_TS_16D16_Vec  dist_vec;
 
 
     to_check = current + ( y_offset * width ) + x_offset;
@@ -861,7 +861,7 @@
      * While checking for the nearest point we first approximate the
      * distance of `current` by adding the deviation (which is sqrt(2) at
      * most).  Only if the new value is less than the current value we
-     * calculate the actual distances using `FT_Vector_Length`.  This last
+     * calculate the actual distances using `FT_TS_Vector_Length`.  This last
      * step can be omitted by using squared distances.
      */
 
@@ -906,8 +906,8 @@
   static void
   first_pass( BSDF_Worker*  worker )
   {
-    FT_Int  i, j; /* iterators    */
-    FT_Int  w, r; /* width, rows  */
+    FT_TS_Int  i, j; /* iterators    */
+    FT_TS_Int  w, r; /* width, rows  */
     ED*     dm;   /* distance map */
 
 
@@ -922,7 +922,7 @@
     /* the image (from bottom to top).                     */
     for ( j = 1; j < r; j++ )
     {
-      FT_Int  index;
+      FT_TS_Int  index;
       ED*     current;
 
 
@@ -975,8 +975,8 @@
   static void
   second_pass( BSDF_Worker*  worker )
   {
-    FT_Int  i, j; /* iterators    */
-    FT_Int  w, r; /* width, rows  */
+    FT_TS_Int  i, j; /* iterators    */
+    FT_TS_Int  w, r; /* width, rows  */
     ED*     dm;   /* distance map */
 
 
@@ -991,7 +991,7 @@
     /* of the image (from top to bottom).                  */
     for ( j = r - 2; j >= 0; j-- )
     {
-      FT_Int  index;
+      FT_TS_Int  index;
       ED*     current;
 
 
@@ -1043,15 +1043,15 @@
    *   FreeType error, 0 means success.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   edt8( BSDF_Worker*  worker )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     if ( !worker || !worker->distance_map )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -1088,51 +1088,51 @@
    *   FreeType error, 0 means success.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   finalize_sdf( BSDF_Worker*      worker,
-                const FT_Bitmap*  target )
+                const FT_TS_Bitmap*  target )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_Int  w, r;
-    FT_Int  i, j;
+    FT_TS_Int  w, r;
+    FT_TS_Int  i, j;
 
-    FT_SDFFormat*  t_buffer;
-    FT_16D16       spread;
+    FT_TS_SDFFormat*  t_buffer;
+    FT_TS_16D16       spread;
 
 
     if ( !worker || !target )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     w        = (int)target->width;
     r        = (int)target->rows;
-    t_buffer = (FT_SDFFormat*)target->buffer;
+    t_buffer = (FT_TS_SDFFormat*)target->buffer;
 
     if ( w != worker->width ||
          r != worker->rows  )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
 #if USE_SQUARED_DISTANCES
-    spread = FT_INT_16D16( worker->params.spread *
+    spread = FT_TS_INT_16D16( worker->params.spread *
                            worker->params.spread );
 #else
-    spread = FT_INT_16D16( worker->params.spread );
+    spread = FT_TS_INT_16D16( worker->params.spread );
 #endif
 
     for ( j = 0; j < r; j++ )
     {
       for ( i = 0; i < w; i++ )
       {
-        FT_Int        index;
-        FT_16D16      dist;
-        FT_SDFFormat  final_dist;
-        FT_Char       sign;
+        FT_TS_Int        index;
+        FT_TS_16D16      dist;
+        FT_TS_SDFFormat  final_dist;
+        FT_TS_Char       sign;
 
 
         index = j * w + i;
@@ -1171,16 +1171,16 @@
    *
    */
 
-  /* called when adding a new module through @FT_Add_Module */
-  static FT_Error
-  bsdf_raster_new( FT_Memory      memory,
+  /* called when adding a new module through @FT_TS_Add_Module */
+  static FT_TS_Error
+  bsdf_raster_new( FT_TS_Memory      memory,
                    BSDF_PRaster*  araster )
   {
-    FT_Error      error;
+    FT_TS_Error      error;
     BSDF_PRaster  raster = NULL;
 
 
-    if ( !FT_NEW( raster ) )
+    if ( !FT_TS_NEW( raster ) )
       raster->memory = memory;
 
     *araster = raster;
@@ -1191,40 +1191,40 @@
 
   /* unused */
   static void
-  bsdf_raster_reset( FT_Raster       raster,
+  bsdf_raster_reset( FT_TS_Raster       raster,
                      unsigned char*  pool_base,
                      unsigned long   pool_size )
   {
-    FT_UNUSED( raster );
-    FT_UNUSED( pool_base );
-    FT_UNUSED( pool_size );
+    FT_TS_UNUSED( raster );
+    FT_TS_UNUSED( pool_base );
+    FT_TS_UNUSED( pool_size );
   }
 
 
   /* unused */
-  static FT_Error
-  bsdf_raster_set_mode( FT_Raster      raster,
+  static FT_TS_Error
+  bsdf_raster_set_mode( FT_TS_Raster      raster,
                         unsigned long  mode,
                         void*          args )
   {
-    FT_UNUSED( raster );
-    FT_UNUSED( mode );
-    FT_UNUSED( args );
+    FT_TS_UNUSED( raster );
+    FT_TS_UNUSED( mode );
+    FT_TS_UNUSED( args );
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
-  /* called while rendering through @FT_Render_Glyph */
-  static FT_Error
-  bsdf_raster_render( FT_Raster                raster,
-                      const FT_Raster_Params*  params )
+  /* called while rendering through @FT_TS_Render_Glyph */
+  static FT_TS_Error
+  bsdf_raster_render( FT_TS_Raster                raster,
+                      const FT_TS_Raster_Params*  params )
   {
-    FT_Error   error  = FT_Err_Ok;
-    FT_Memory  memory = NULL;
+    FT_TS_Error   error  = FT_TS_Err_Ok;
+    FT_TS_Memory  memory = NULL;
 
-    const FT_Bitmap*  source = NULL;
-    const FT_Bitmap*  target = NULL;
+    const FT_TS_Bitmap*  source = NULL;
+    const FT_TS_Bitmap*  target = NULL;
 
     BSDF_TRaster*  bsdf_raster = (BSDF_TRaster*)raster;
     BSDF_Worker    worker;
@@ -1237,34 +1237,34 @@
     /* check for valid parameters */
     if ( !raster || !params )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* check whether the flag is set */
-    if ( sdf_params->root.flags != FT_RASTER_FLAG_SDF )
+    if ( sdf_params->root.flags != FT_TS_RASTER_FLAG_SDF )
     {
-      error = FT_THROW( Raster_Corrupted );
+      error = FT_TS_THROW( Raster_Corrupted );
       goto Exit;
     }
 
-    source = (const FT_Bitmap*)sdf_params->root.source;
-    target = (const FT_Bitmap*)sdf_params->root.target;
+    source = (const FT_TS_Bitmap*)sdf_params->root.source;
+    target = (const FT_TS_Bitmap*)sdf_params->root.target;
 
     /* check source and target bitmap */
     if ( !source || !target )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     memory = bsdf_raster->memory;
     if ( !memory )
     {
-      FT_TRACE0(( "bsdf_raster_render: Raster not set up properly,\n" ));
-      FT_TRACE0(( "                    unable to find memory handle.\n" ));
+      FT_TS_TRACE0(( "bsdf_raster_render: Raster not set up properly,\n" ));
+      FT_TS_TRACE0(( "                    unable to find memory handle.\n" ));
 
-      error = FT_THROW( Invalid_Handle );
+      error = FT_TS_THROW( Invalid_Handle );
       goto Exit;
     }
 
@@ -1272,30 +1272,30 @@
     if ( sdf_params->spread > MAX_SPREAD ||
          sdf_params->spread < MIN_SPREAD )
     {
-      FT_TRACE0(( "bsdf_raster_render:"
+      FT_TS_TRACE0(( "bsdf_raster_render:"
                   " The `spread' field of `SDF_Raster_Params'\n" ));
-      FT_TRACE0(( "                   "
+      FT_TS_TRACE0(( "                   "
                   " is invalid; the value of this field must be\n" ));
-      FT_TRACE0(( "                   "
+      FT_TS_TRACE0(( "                   "
                   " within [%d, %d].\n",
                   MIN_SPREAD, MAX_SPREAD ));
-      FT_TRACE0(( "                   "
+      FT_TS_TRACE0(( "                   "
                   " Also, you must pass `SDF_Raster_Params'\n" ));
-      FT_TRACE0(( "                   "
-                  " instead of the default `FT_Raster_Params'\n" ));
-      FT_TRACE0(( "                   "
+      FT_TS_TRACE0(( "                   "
+                  " instead of the default `FT_TS_Raster_Params'\n" ));
+      FT_TS_TRACE0(( "                   "
                   " while calling this function and set the fields\n" ));
-      FT_TRACE0(( "                   "
+      FT_TS_TRACE0(( "                   "
                   " accordingly.\n" ));
 
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* set up the worker */
 
     /* allocate the distance map */
-    if ( FT_QALLOC_MULT( worker.distance_map, target->rows,
+    if ( FT_TS_QALLOC_MULT( worker.distance_map, target->rows,
                          target->width * sizeof ( *worker.distance_map ) ) )
       goto Exit;
 
@@ -1303,44 +1303,44 @@
     worker.rows   = (int)target->rows;
     worker.params = *sdf_params;
 
-    FT_CALL( bsdf_init_distance_map( source, &worker ) );
-    FT_CALL( bsdf_approximate_edge( &worker ) );
-    FT_CALL( edt8( &worker ) );
-    FT_CALL( finalize_sdf( &worker, target ) );
+    FT_TS_CALL( bsdf_init_distance_map( source, &worker ) );
+    FT_TS_CALL( bsdf_approximate_edge( &worker ) );
+    FT_TS_CALL( edt8( &worker ) );
+    FT_TS_CALL( finalize_sdf( &worker, target ) );
 
-    FT_TRACE0(( "bsdf_raster_render: Total memory used = %ld\n",
+    FT_TS_TRACE0(( "bsdf_raster_render: Total memory used = %ld\n",
                 worker.width * worker.rows *
                   (long)sizeof ( *worker.distance_map ) ));
 
   Exit:
     if ( worker.distance_map )
-      FT_FREE( worker.distance_map );
+      FT_TS_FREE( worker.distance_map );
 
     return error;
   }
 
 
-  /* called while deleting `FT_Library` only if the module is added */
+  /* called while deleting `FT_TS_Library` only if the module is added */
   static void
-  bsdf_raster_done( FT_Raster  raster )
+  bsdf_raster_done( FT_TS_Raster  raster )
   {
-    FT_Memory  memory = (FT_Memory)((BSDF_TRaster*)raster)->memory;
+    FT_TS_Memory  memory = (FT_TS_Memory)((BSDF_TRaster*)raster)->memory;
 
 
-    FT_FREE( raster );
+    FT_TS_FREE( raster );
   }
 
 
-  FT_DEFINE_RASTER_FUNCS(
+  FT_TS_DEFINE_RASTER_FUNCS(
     ft_bitmap_sdf_raster,
 
-    FT_GLYPH_FORMAT_BITMAP,
+    FT_TS_GLYPH_FORMAT_BITMAP,
 
-    (FT_Raster_New_Func)     bsdf_raster_new,       /* raster_new      */
-    (FT_Raster_Reset_Func)   bsdf_raster_reset,     /* raster_reset    */
-    (FT_Raster_Set_Mode_Func)bsdf_raster_set_mode,  /* raster_set_mode */
-    (FT_Raster_Render_Func)  bsdf_raster_render,    /* raster_render   */
-    (FT_Raster_Done_Func)    bsdf_raster_done       /* raster_done     */
+    (FT_TS_Raster_New_Func)     bsdf_raster_new,       /* raster_new      */
+    (FT_TS_Raster_Reset_Func)   bsdf_raster_reset,     /* raster_reset    */
+    (FT_TS_Raster_Set_Mode_Func)bsdf_raster_set_mode,  /* raster_set_mode */
+    (FT_TS_Raster_Render_Func)  bsdf_raster_render,    /* raster_render   */
+    (FT_TS_Raster_Done_Func)    bsdf_raster_done       /* raster_done     */
   )
 
 

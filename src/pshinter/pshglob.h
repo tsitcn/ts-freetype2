@@ -24,7 +24,7 @@
 #include <freetype/internal/pshints.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*************************************************************************/
@@ -63,9 +63,9 @@ FT_BEGIN_HEADER
   /* standard and snap width */
   typedef struct  PSH_WidthRec_
   {
-    FT_Int  org;
-    FT_Pos  cur;
-    FT_Pos  fit;
+    FT_TS_Int  org;
+    FT_TS_Pos  cur;
+    FT_TS_Pos  fit;
 
   } PSH_WidthRec, *PSH_Width;
 
@@ -73,7 +73,7 @@ FT_BEGIN_HEADER
   /* standard and snap widths table */
   typedef struct  PSH_WidthsRec_
   {
-    FT_UInt       count;
+    FT_TS_UInt       count;
     PSH_WidthRec  widths[PS_GLOBALS_MAX_STD_WIDTHS];
 
   } PSH_WidthsRec, *PSH_Widths;
@@ -82,8 +82,8 @@ FT_BEGIN_HEADER
   typedef struct  PSH_DimensionRec_
   {
     PSH_WidthsRec  stdw;
-    FT_Fixed       scale_mult;
-    FT_Fixed       scale_delta;
+    FT_TS_Fixed       scale_mult;
+    FT_TS_Fixed       scale_delta;
 
   } PSH_DimensionRec, *PSH_Dimension;
 
@@ -91,22 +91,22 @@ FT_BEGIN_HEADER
   /* blue zone descriptor */
   typedef struct  PSH_Blue_ZoneRec_
   {
-    FT_Int  org_ref;
-    FT_Int  org_delta;
-    FT_Int  org_top;
-    FT_Int  org_bottom;
+    FT_TS_Int  org_ref;
+    FT_TS_Int  org_delta;
+    FT_TS_Int  org_top;
+    FT_TS_Int  org_bottom;
 
-    FT_Pos  cur_ref;
-    FT_Pos  cur_delta;
-    FT_Pos  cur_bottom;
-    FT_Pos  cur_top;
+    FT_TS_Pos  cur_ref;
+    FT_TS_Pos  cur_delta;
+    FT_TS_Pos  cur_bottom;
+    FT_TS_Pos  cur_top;
 
   } PSH_Blue_ZoneRec, *PSH_Blue_Zone;
 
 
   typedef struct  PSH_Blue_TableRec_
   {
-    FT_UInt           count;
+    FT_TS_UInt           count;
     PSH_Blue_ZoneRec  zones[PS_GLOBALS_MAX_BLUE_ZONES];
 
   } PSH_Blue_TableRec, *PSH_Blue_Table;
@@ -120,11 +120,11 @@ FT_BEGIN_HEADER
     PSH_Blue_TableRec  family_top;
     PSH_Blue_TableRec  family_bottom;
 
-    FT_Fixed           blue_scale;
-    FT_Int             blue_shift;
-    FT_Int             blue_threshold;
-    FT_Int             blue_fuzz;
-    FT_Bool            no_overshoots;
+    FT_TS_Fixed           blue_scale;
+    FT_TS_Int             blue_shift;
+    FT_TS_Int             blue_threshold;
+    FT_TS_Int             blue_fuzz;
+    FT_TS_Bool            no_overshoots;
 
   } PSH_BluesRec, *PSH_Blues;
 
@@ -134,7 +134,7 @@ FT_BEGIN_HEADER
   /* dimension 1 => Y coordinates + horizontal hints/stems */
   typedef struct  PSH_GlobalsRec_
   {
-    FT_Memory         memory;
+    FT_TS_Memory         memory;
     PSH_DimensionRec  dimension[2];
     PSH_BluesRec      blues;
 
@@ -149,36 +149,36 @@ FT_BEGIN_HEADER
   typedef struct  PSH_AlignmentRec_
   {
     int     align;
-    FT_Pos  align_top;
-    FT_Pos  align_bot;
+    FT_TS_Pos  align_top;
+    FT_TS_Pos  align_bot;
 
   } PSH_AlignmentRec, *PSH_Alignment;
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   psh_globals_funcs_init( PSH_Globals_FuncsRec*  funcs );
 
 
 #if 0
   /* snap a stem width to fitter coordinates.  `org_width' is in font */
   /* units.  The result is in device pixels (26.6 format).            */
-  FT_LOCAL( FT_Pos )
+  FT_TS_LOCAL( FT_TS_Pos )
   psh_dimension_snap_width( PSH_Dimension  dimension,
-                            FT_Int         org_width );
+                            FT_TS_Int         org_width );
 #endif
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   psh_globals_set_scale( PSH_Globals  globals,
-                         FT_Fixed     x_scale,
-                         FT_Fixed     y_scale,
-                         FT_Fixed     x_delta,
-                         FT_Fixed     y_delta );
+                         FT_TS_Fixed     x_scale,
+                         FT_TS_Fixed     y_scale,
+                         FT_TS_Fixed     x_delta,
+                         FT_TS_Fixed     y_delta );
 
   /* snap a stem to one or two blue zones */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   psh_blues_snap_stem( PSH_Blues      blues,
-                       FT_Int         stem_top,
-                       FT_Int         stem_bot,
+                       FT_TS_Int         stem_top,
+                       FT_TS_Int         stem_bot,
                        PSH_Alignment  alignment );
   /* */
 
@@ -187,7 +187,7 @@ FT_BEGIN_HEADER
 #endif
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSHGLOB_H_ */

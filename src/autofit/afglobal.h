@@ -26,10 +26,10 @@
 #include "afshaper.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL_ARRAY( AF_WritingSystemClass )
+  FT_TS_LOCAL_ARRAY( AF_WritingSystemClass )
   af_writing_system_classes[];
 
 
@@ -39,7 +39,7 @@ FT_BEGIN_HEADER
 
 #include "afscript.h"
 
-  FT_LOCAL_ARRAY( AF_ScriptClass )
+  FT_TS_LOCAL_ARRAY( AF_ScriptClass )
   af_script_classes[];
 
 
@@ -49,12 +49,12 @@ FT_BEGIN_HEADER
 
 #include "afstyles.h"
 
-  FT_LOCAL_ARRAY( AF_StyleClass )
+  FT_TS_LOCAL_ARRAY( AF_StyleClass )
   af_style_classes[];
 
 
-#ifdef FT_DEBUG_LEVEL_TRACE
-  FT_LOCAL_ARRAY( char* )
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
+  FT_TS_LOCAL_ARRAY( char* )
   af_style_names[];
 #endif
 
@@ -104,36 +104,36 @@ FT_BEGIN_HEADER
    */
   typedef struct  AF_FaceGlobalsRec_
   {
-    FT_Face          face;
-    FT_Long          glyph_count;    /* same as face->num_glyphs */
-    FT_UShort*       glyph_styles;
+    FT_TS_Face          face;
+    FT_TS_Long          glyph_count;    /* same as face->num_glyphs */
+    FT_TS_UShort*       glyph_styles;
 
-#ifdef FT_CONFIG_OPTION_USE_HARFBUZZ
+#ifdef FT_TS_CONFIG_OPTION_USE_HARFBUZZ
     hb_font_t*       hb_font;
     hb_buffer_t*     hb_buf;           /* for feature comparison */
 #endif
 
     /* per-face auto-hinter properties */
-    FT_UInt          increase_x_height;
+    FT_TS_UInt          increase_x_height;
 
     AF_StyleMetrics  metrics[AF_STYLE_MAX];
 
     /* Compute darkening amount once per size.  Use this to check whether */
     /* darken_{x,y} needs to be recomputed.                               */
-    FT_UShort        stem_darkening_for_ppem;
+    FT_TS_UShort        stem_darkening_for_ppem;
     /* Copy from e.g. AF_LatinMetrics.axis[AF_DIMENSION_HORZ] */
     /* to compute the darkening amount.                       */
-    FT_Pos           standard_vertical_width;
+    FT_TS_Pos           standard_vertical_width;
     /* Copy from e.g. AF_LatinMetrics.axis[AF_DIMENSION_VERT] */
     /* to compute the darkening amount.                       */
-    FT_Pos           standard_horizontal_width;
+    FT_TS_Pos           standard_horizontal_width;
     /* The actual amount to darken a glyph along the X axis. */
-    FT_Pos           darken_x;
+    FT_TS_Pos           darken_x;
     /* The actual amount to darken a glyph along the Y axis. */
-    FT_Pos           darken_y;
+    FT_TS_Pos           darken_y;
     /* Amount to scale down by to keep emboldened points */
     /* on the Y-axis in pre-computed blue zones.         */
-    FT_Fixed         scale_down_factor;
+    FT_TS_Fixed         scale_down_factor;
     AF_Module        module;         /* to access global properties */
 
   } AF_FaceGlobalsRec;
@@ -144,28 +144,28 @@ FT_BEGIN_HEADER
    * style-specific items
    */
 
-  FT_LOCAL( FT_Error )
-  af_face_globals_new( FT_Face          face,
+  FT_TS_LOCAL( FT_TS_Error )
+  af_face_globals_new( FT_TS_Face          face,
                        AF_FaceGlobals  *aglobals,
                        AF_Module        module );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_face_globals_get_metrics( AF_FaceGlobals    globals,
-                               FT_UInt           gindex,
-                               FT_UInt           options,
+                               FT_TS_UInt           gindex,
+                               FT_TS_UInt           options,
                                AF_StyleMetrics  *ametrics );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_face_globals_free( AF_FaceGlobals  globals );
 
-  FT_LOCAL_DEF( FT_Bool )
+  FT_TS_LOCAL_DEF( FT_TS_Bool )
   af_face_globals_is_digit( AF_FaceGlobals  globals,
-                            FT_UInt         gindex );
+                            FT_TS_UInt         gindex );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFGLOBAL_H_ */
 

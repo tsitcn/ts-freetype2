@@ -23,55 +23,55 @@
 #include <freetype/tttables.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
    * SFNT table loading service.
    */
 
-#define FT_SERVICE_ID_SFNT_TABLE  "sfnt-table"
+#define FT_TS_SERVICE_ID_SFNT_TABLE  "sfnt-table"
 
 
   /*
-   * Used to implement FT_Load_Sfnt_Table().
+   * Used to implement FT_TS_Load_Sfnt_Table().
    */
-  typedef FT_Error
-  (*FT_SFNT_TableLoadFunc)( FT_Face    face,
-                            FT_ULong   tag,
-                            FT_Long    offset,
-                            FT_Byte*   buffer,
-                            FT_ULong*  length );
+  typedef FT_TS_Error
+  (*FT_TS_SFNT_TableLoadFunc)( FT_TS_Face    face,
+                            FT_TS_ULong   tag,
+                            FT_TS_Long    offset,
+                            FT_TS_Byte*   buffer,
+                            FT_TS_ULong*  length );
 
   /*
-   * Used to implement FT_Get_Sfnt_Table().
+   * Used to implement FT_TS_Get_Sfnt_Table().
    */
   typedef void*
-  (*FT_SFNT_TableGetFunc)( FT_Face      face,
-                           FT_Sfnt_Tag  tag );
+  (*FT_TS_SFNT_TableGetFunc)( FT_TS_Face      face,
+                           FT_TS_Sfnt_Tag  tag );
 
 
   /*
-   * Used to implement FT_Sfnt_Table_Info().
+   * Used to implement FT_TS_Sfnt_Table_Info().
    */
-  typedef FT_Error
-  (*FT_SFNT_TableInfoFunc)( FT_Face    face,
-                            FT_UInt    idx,
-                            FT_ULong  *tag,
-                            FT_ULong  *offset,
-                            FT_ULong  *length );
+  typedef FT_TS_Error
+  (*FT_TS_SFNT_TableInfoFunc)( FT_TS_Face    face,
+                            FT_TS_UInt    idx,
+                            FT_TS_ULong  *tag,
+                            FT_TS_ULong  *offset,
+                            FT_TS_ULong  *length );
 
 
-  FT_DEFINE_SERVICE( SFNT_Table )
+  FT_TS_DEFINE_SERVICE( SFNT_Table )
   {
-    FT_SFNT_TableLoadFunc  load_table;
-    FT_SFNT_TableGetFunc   get_table;
-    FT_SFNT_TableInfoFunc  table_info;
+    FT_TS_SFNT_TableLoadFunc  load_table;
+    FT_TS_SFNT_TableGetFunc   get_table;
+    FT_TS_SFNT_TableInfoFunc  table_info;
   };
 
 
-#define FT_DEFINE_SERVICE_SFNT_TABLEREC( class_, load_, get_, info_ )  \
-  static const FT_Service_SFNT_TableRec  class_ =                      \
+#define FT_TS_DEFINE_SERVICE_SFNT_TABLEREC( class_, load_, get_, info_ )  \
+  static const FT_TS_Service_SFNT_TableRec  class_ =                      \
   {                                                                    \
     load_, get_, info_                                                 \
   };
@@ -79,7 +79,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVSFNT_H_ */

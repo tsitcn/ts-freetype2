@@ -33,29 +33,29 @@
 
   /* documentation is in ftgxval.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_TrueTypeGX_Validate( FT_Face   face,
-                          FT_UInt   validation_flags,
-                          FT_Bytes  tables[FT_VALIDATE_GX_LENGTH],
-                          FT_UInt   table_length )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_TrueTypeGX_Validate( FT_TS_Face   face,
+                          FT_TS_UInt   validation_flags,
+                          FT_TS_Bytes  tables[FT_TS_VALIDATE_GX_LENGTH],
+                          FT_TS_UInt   table_length )
   {
-    FT_Service_GXvalidate  service;
-    FT_Error               error;
+    FT_TS_Service_GXvalidate  service;
+    FT_TS_Error               error;
 
 
     if ( !face )
     {
-      error = FT_THROW( Invalid_Face_Handle );
+      error = FT_TS_THROW( Invalid_Face_Handle );
       goto Exit;
     }
 
     if ( !tables )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    FT_FACE_FIND_GLOBAL_SERVICE( face, service, GX_VALIDATE );
+    FT_TS_FACE_FIND_GLOBAL_SERVICE( face, service, GX_VALIDATE );
 
     if ( service )
       error = service->validate( face,
@@ -63,78 +63,78 @@
                                  tables,
                                  table_length );
     else
-      error = FT_THROW( Unimplemented_Feature );
+      error = FT_TS_THROW( Unimplemented_Feature );
 
   Exit:
     return error;
   }
 
 
-  FT_EXPORT_DEF( void )
-  FT_TrueTypeGX_Free( FT_Face   face,
-                      FT_Bytes  table )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_TrueTypeGX_Free( FT_TS_Face   face,
+                      FT_TS_Bytes  table )
   {
-    FT_Memory  memory;
+    FT_TS_Memory  memory;
 
 
     if ( !face )
       return;
 
-    memory = FT_FACE_MEMORY( face );
+    memory = FT_TS_FACE_MEMORY( face );
 
-    FT_FREE( table );
+    FT_TS_FREE( table );
   }
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_ClassicKern_Validate( FT_Face    face,
-                           FT_UInt    validation_flags,
-                           FT_Bytes  *ckern_table )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_ClassicKern_Validate( FT_TS_Face    face,
+                           FT_TS_UInt    validation_flags,
+                           FT_TS_Bytes  *ckern_table )
   {
-    FT_Service_CKERNvalidate  service;
-    FT_Error                  error;
+    FT_TS_Service_CKERNvalidate  service;
+    FT_TS_Error                  error;
 
 
     if ( !face )
     {
-      error = FT_THROW( Invalid_Face_Handle );
+      error = FT_TS_THROW( Invalid_Face_Handle );
       goto Exit;
     }
 
     if ( !ckern_table )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    FT_FACE_FIND_GLOBAL_SERVICE( face, service, CLASSICKERN_VALIDATE );
+    FT_TS_FACE_FIND_GLOBAL_SERVICE( face, service, CLASSICKERN_VALIDATE );
 
     if ( service )
       error = service->validate( face,
                                  validation_flags,
                                  ckern_table );
     else
-      error = FT_THROW( Unimplemented_Feature );
+      error = FT_TS_THROW( Unimplemented_Feature );
 
   Exit:
     return error;
   }
 
 
-  FT_EXPORT_DEF( void )
-  FT_ClassicKern_Free( FT_Face   face,
-                       FT_Bytes  table )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_ClassicKern_Free( FT_TS_Face   face,
+                       FT_TS_Bytes  table )
   {
-    FT_Memory  memory;
+    FT_TS_Memory  memory;
 
 
     if ( !face )
       return;
 
-    memory = FT_FACE_MEMORY( face );
+    memory = FT_TS_FACE_MEMORY( face );
 
 
-    FT_FREE( table );
+    FT_TS_FREE( table );
   }
 
 

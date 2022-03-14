@@ -30,7 +30,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -42,18 +42,18 @@ FT_BEGIN_HEADER
    *   Bitmap Handling
    *
    * @abstract:
-   *   Handling FT_Bitmap objects.
+   *   Handling FT_TS_Bitmap objects.
    *
    * @description:
-   *   This section contains functions for handling @FT_Bitmap objects,
+   *   This section contains functions for handling @FT_TS_Bitmap objects,
    *   automatically adjusting the target's bitmap buffer size as needed.
    *
    *   Note that none of the functions changes the bitmap's 'flow' (as
-   *   indicated by the sign of the `pitch` field in @FT_Bitmap).
+   *   indicated by the sign of the `pitch` field in @FT_TS_Bitmap).
    *
    *   To set the flow, assign an appropriate positive or negative value to
-   *   the `pitch` field of the target @FT_Bitmap object after calling
-   *   @FT_Bitmap_Init but before calling any of the other functions
+   *   the `pitch` field of the target @FT_TS_Bitmap object after calling
+   *   @FT_TS_Bitmap_Init but before calling any of the other functions
    *   described here.
    */
 
@@ -61,31 +61,31 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_Init
+   *   FT_TS_Bitmap_Init
    *
    * @description:
-   *   Initialize a pointer to an @FT_Bitmap structure.
+   *   Initialize a pointer to an @FT_TS_Bitmap structure.
    *
    * @inout:
    *   abitmap ::
    *     A pointer to the bitmap structure.
    *
    * @note:
-   *   A deprecated name for the same function is `FT_Bitmap_New`.
+   *   A deprecated name for the same function is `FT_TS_Bitmap_New`.
    */
-  FT_EXPORT( void )
-  FT_Bitmap_Init( FT_Bitmap  *abitmap );
+  FT_TS_EXPORT( void )
+  FT_TS_Bitmap_Init( FT_TS_Bitmap  *abitmap );
 
 
   /* deprecated */
-  FT_EXPORT( void )
-  FT_Bitmap_New( FT_Bitmap  *abitmap );
+  FT_TS_EXPORT( void )
+  FT_TS_Bitmap_New( FT_TS_Bitmap  *abitmap );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_Copy
+   *   FT_TS_Bitmap_Copy
    *
    * @description:
    *   Copy a bitmap into another one.
@@ -108,10 +108,10 @@ FT_BEGIN_HEADER
    *   `source->buffer` and `target->buffer` must neither be equal nor
    *   overlap.
    */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Copy( FT_Library        library,
-                  const FT_Bitmap  *source,
-                  FT_Bitmap        *target );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Bitmap_Copy( FT_TS_Library        library,
+                  const FT_TS_Bitmap  *source,
+                  FT_TS_Bitmap        *target );
 
 /**
   TSIT {{{{{{{{{{
@@ -120,7 +120,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_Embolden
+   *   FT_TS_Bitmap_Embolden
    *
    * @description:
    *   Embolden a bitmap.  Use same value for wider and higher. 
@@ -143,23 +143,23 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   The current implementation restricts `xStrength` to be less than or
-   *   equal to~8 if bitmap is of pixel_mode @FT_PIXEL_MODE_MONO.
+   *   equal to~8 if bitmap is of pixel_mode @FT_TS_PIXEL_MODE_MONO.
    *
-   *   If you want to embolden the bitmap owned by a @FT_GlyphSlotRec, you
-   *   should call @FT_GlyphSlot_Own_Bitmap on the slot first.
+   *   If you want to embolden the bitmap owned by a @FT_TS_GlyphSlotRec, you
+   *   should call @FT_TS_GlyphSlot_Own_Bitmap on the slot first.
    *
-   *   Bitmaps in @FT_PIXEL_MODE_GRAY2 and @FT_PIXEL_MODE_GRAY@ format are
-   *   converted to @FT_PIXEL_MODE_GRAY format (i.e., 8bpp).
+   *   Bitmaps in @FT_TS_PIXEL_MODE_GRAY2 and @FT_TS_PIXEL_MODE_GRAY@ format are
+   *   converted to @FT_TS_PIXEL_MODE_GRAY format (i.e., 8bpp).
    */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Embolden( FT_Library  library,
-                      FT_Bitmap*  bitmap,
-                      FT_Pos      strength );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Bitmap_Embolden( FT_TS_Library  library,
+                      FT_TS_Bitmap*  bitmap,
+                      FT_TS_Pos      strength );
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_EmboldenXY
+   *   FT_TS_Bitmap_EmboldenXY
    *
    * @description:
    *   Embolden a bitmap.  The new bitmap will be about `xStrength` pixels
@@ -187,25 +187,25 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   The current implementation restricts `xStrength` to be less than or
-   *   equal to~8 if bitmap is of pixel_mode @FT_PIXEL_MODE_MONO.
+   *   equal to~8 if bitmap is of pixel_mode @FT_TS_PIXEL_MODE_MONO.
    *
-   *   If you want to embolden the bitmap owned by a @FT_GlyphSlotRec, you
-   *   should call @FT_GlyphSlot_Own_Bitmap on the slot first.
+   *   If you want to embolden the bitmap owned by a @FT_TS_GlyphSlotRec, you
+   *   should call @FT_TS_GlyphSlot_Own_Bitmap on the slot first.
    *
-   *   Bitmaps in @FT_PIXEL_MODE_GRAY2 and @FT_PIXEL_MODE_GRAY@ format are
-   *   converted to @FT_PIXEL_MODE_GRAY format (i.e., 8bpp).
+   *   Bitmaps in @FT_TS_PIXEL_MODE_GRAY2 and @FT_TS_PIXEL_MODE_GRAY@ format are
+   *   converted to @FT_TS_PIXEL_MODE_GRAY format (i.e., 8bpp).
    */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_EmboldenXY(
-                      FT_Library  library,
-                      FT_Bitmap*  bitmap,
-                      FT_Pos      xStrength,
-                      FT_Pos      yStrength );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Bitmap_EmboldenXY(
+                      FT_TS_Library  library,
+                      FT_TS_Bitmap*  bitmap,
+                      FT_TS_Pos      xStrength,
+                      FT_TS_Pos      yStrength );
 					  
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_WeightXY
+   *   FT_TS_Bitmap_WeightXY
    *
    * @description:
    *   This function can embolden/slim a bitmap.
@@ -230,12 +230,12 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0~means success.
    *
    */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_WeightXY(
-                      FT_Library  library,
-                      FT_Bitmap*  bitmap,
-                      FT_Pos      xStrength,
-                      FT_Pos      yStrength );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Bitmap_WeightXY(
+                      FT_TS_Library  library,
+                      FT_TS_Bitmap*  bitmap,
+                      FT_TS_Pos      xStrength,
+                      FT_TS_Pos      yStrength );
 
 /**
   TSIT }}}}}}}}}}
@@ -244,7 +244,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_Convert
+   *   FT_TS_Bitmap_Convert
    *
    * @description:
    *   Convert a bitmap object with depth 1bpp, 2bpp, 4bpp, 8bpp or 32bpp to
@@ -270,10 +270,10 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0~means success.
    *
    * @note:
-   *   It is possible to call @FT_Bitmap_Convert multiple times without
-   *   calling @FT_Bitmap_Done (the memory is simply reallocated).
+   *   It is possible to call @FT_TS_Bitmap_Convert multiple times without
+   *   calling @FT_TS_Bitmap_Done (the memory is simply reallocated).
    *
-   *   Use @FT_Bitmap_Done to finally remove the bitmap object.
+   *   Use @FT_TS_Bitmap_Done to finally remove the bitmap object.
    *
    *   The `library` argument is taken to have access to FreeType's memory
    *   handling functions.
@@ -281,17 +281,17 @@ FT_BEGIN_HEADER
    *   `source->buffer` and `target->buffer` must neither be equal nor
    *   overlap.
    */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Convert( FT_Library        library,
-                     const FT_Bitmap  *source,
-                     FT_Bitmap        *target,
-                     FT_Int            alignment );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Bitmap_Convert( FT_TS_Library        library,
+                     const FT_TS_Bitmap  *source,
+                     FT_TS_Bitmap        *target,
+                     FT_TS_Int            alignment );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_Blend
+   *   FT_TS_Bitmap_Blend
    *
    * @description:
    *   Blend a bitmap onto another bitmap, using a given color.
@@ -301,7 +301,7 @@ FT_BEGIN_HEADER
    *     A handle to a library object.
    *
    *   source ::
-   *     The source bitmap, which can have any @FT_Pixel_Mode format.
+   *     The source bitmap, which can have any @FT_TS_Pixel_Mode format.
    *
    *   source_offset ::
    *     The offset vector to the upper left corner of the source bitmap in
@@ -313,9 +313,9 @@ FT_BEGIN_HEADER
    *
    * @inout:
    *   target ::
-   *     A handle to an `FT_Bitmap` object.  It should be either initialized
-   *     as empty with a call to @FT_Bitmap_Init, or it should be of type
-   *     @FT_PIXEL_MODE_BGRA.
+   *     A handle to an `FT_TS_Bitmap` object.  It should be either initialized
+   *     as empty with a call to @FT_TS_Bitmap_Init, or it should be of type
+   *     @FT_TS_PIXEL_MODE_BGRA.
    *
    *   atarget_offset ::
    *     The offset vector to the upper left corner of the target bitmap in
@@ -341,19 +341,19 @@ FT_BEGIN_HEADER
    * @since:
    *   2.10
    */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Blend( FT_Library         library,
-                   const FT_Bitmap*   source,
-                   const FT_Vector    source_offset,
-                   FT_Bitmap*         target,
-                   FT_Vector         *atarget_offset,
-                   FT_Color           color );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Bitmap_Blend( FT_TS_Library         library,
+                   const FT_TS_Bitmap*   source,
+                   const FT_TS_Vector    source_offset,
+                   FT_TS_Bitmap*         target,
+                   FT_TS_Vector         *atarget_offset,
+                   FT_TS_Color           color );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_GlyphSlot_Own_Bitmap
+   *   FT_TS_GlyphSlot_Own_Bitmap
    *
    * @description:
    *   Make sure that a glyph slot owns `slot->bitmap`.
@@ -366,19 +366,19 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0~means success.
    *
    * @note:
-   *   This function is to be used in combination with @FT_Bitmap_Embolden.
+   *   This function is to be used in combination with @FT_TS_Bitmap_Embolden.
    */
-  FT_EXPORT( FT_Error )
-  FT_GlyphSlot_Own_Bitmap( FT_GlyphSlot  slot );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_GlyphSlot_Own_Bitmap( FT_TS_GlyphSlot  slot );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Bitmap_Done
+   *   FT_TS_Bitmap_Done
    *
    * @description:
-   *   Destroy a bitmap object initialized with @FT_Bitmap_Init.
+   *   Destroy a bitmap object initialized with @FT_TS_Bitmap_Init.
    *
    * @input:
    *   library ::
@@ -394,15 +394,15 @@ FT_BEGIN_HEADER
    *   The `library` argument is taken to have access to FreeType's memory
    *   handling functions.
    */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Done( FT_Library  library,
-                  FT_Bitmap  *bitmap );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Bitmap_Done( FT_TS_Library  library,
+                  FT_TS_Bitmap  *bitmap );
 
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTBITMAP_H_ */
 

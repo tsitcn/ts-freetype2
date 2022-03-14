@@ -24,7 +24,7 @@
 #include "afglobal.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /*
    * The autofitter module's (global) data structure to communicate with
@@ -37,53 +37,53 @@ FT_BEGIN_HEADER
   typedef struct  AF_LoaderRec_
   {
     /* current face data */
-    FT_Face           face;
+    FT_TS_Face           face;
     AF_FaceGlobals    globals;
 
     /* current glyph data */
     AF_GlyphHints     hints;
     AF_StyleMetrics   metrics;
-    FT_Bool           transformed;
-    FT_Matrix         trans_matrix;
-    FT_Vector         trans_delta;
-    FT_Vector         pp1;
-    FT_Vector         pp2;
+    FT_TS_Bool           transformed;
+    FT_TS_Matrix         trans_matrix;
+    FT_TS_Vector         trans_delta;
+    FT_TS_Vector         pp1;
+    FT_TS_Vector         pp2;
     /* we don't handle vertical phantom points */
 
   } AF_LoaderRec, *AF_Loader;
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_loader_init( AF_Loader      loader,
                   AF_GlyphHints  hints );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_loader_reset( AF_Loader  loader,
                    AF_Module  module,
-                   FT_Face    face );
+                   FT_TS_Face    face );
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_loader_done( AF_Loader  loader );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_loader_load_glyph( AF_Loader  loader,
                         AF_Module  module,
-                        FT_Face    face,
-                        FT_UInt    gindex,
-                        FT_Int32   load_flags );
+                        FT_TS_Face    face,
+                        FT_TS_UInt    gindex,
+                        FT_TS_Int32   load_flags );
 
-  FT_LOCAL_DEF( FT_Fixed )
+  FT_TS_LOCAL_DEF( FT_TS_Fixed )
   af_loader_compute_darkening( AF_Loader  loader,
-                               FT_Face    face,
-                               FT_Pos     standard_width );
+                               FT_TS_Face    face,
+                               FT_TS_Pos     standard_width );
 
 /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFLOADER_H_ */
 

@@ -41,7 +41,7 @@
 
 #include <freetype/internal/compiler-macros.h>
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* CFF operand stack; specified maximum of 48 or 192 values */
@@ -61,59 +61,59 @@ FT_BEGIN_HEADER
 
   typedef struct  CF2_StackRec_
   {
-    FT_Memory         memory;
-    FT_Error*         error;
+    FT_TS_Memory         memory;
+    FT_TS_Error*         error;
     CF2_StackNumber*  buffer;
     CF2_StackNumber*  top;
-    FT_UInt           stackSize;
+    FT_TS_UInt           stackSize;
 
   } CF2_StackRec, *CF2_Stack;
 
 
-  FT_LOCAL( CF2_Stack )
-  cf2_stack_init( FT_Memory  memory,
-                  FT_Error*  error,
-                  FT_UInt    stackSize );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( CF2_Stack )
+  cf2_stack_init( FT_TS_Memory  memory,
+                  FT_TS_Error*  error,
+                  FT_TS_UInt    stackSize );
+  FT_TS_LOCAL( void )
   cf2_stack_free( CF2_Stack  stack );
 
-  FT_LOCAL( CF2_UInt )
+  FT_TS_LOCAL( CF2_UInt )
   cf2_stack_count( CF2_Stack  stack );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_stack_pushInt( CF2_Stack  stack,
                      CF2_Int    val );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_stack_pushFixed( CF2_Stack  stack,
                        CF2_Fixed  val );
 
-  FT_LOCAL( CF2_Int )
+  FT_TS_LOCAL( CF2_Int )
   cf2_stack_popInt( CF2_Stack  stack );
-  FT_LOCAL( CF2_Fixed )
+  FT_TS_LOCAL( CF2_Fixed )
   cf2_stack_popFixed( CF2_Stack  stack );
 
-  FT_LOCAL( CF2_Fixed )
+  FT_TS_LOCAL( CF2_Fixed )
   cf2_stack_getReal( CF2_Stack  stack,
                      CF2_UInt   idx );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_stack_setReal( CF2_Stack  stack,
                      CF2_UInt   idx,
                      CF2_Fixed  val );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_stack_pop( CF2_Stack  stack,
                  CF2_UInt   num );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_stack_roll( CF2_Stack  stack,
                   CF2_Int    count,
                   CF2_Int    idx );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_stack_clear( CF2_Stack  stack );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSSTACK_H_ */

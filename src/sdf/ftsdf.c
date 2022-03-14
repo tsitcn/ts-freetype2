@@ -108,12 +108,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  sdf
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  sdf
 
 
   /**************************************************************************
@@ -190,9 +190,9 @@
    *   SDF_TRaster
    *
    * @Description:
-   *   This struct is used in place of @FT_Raster and is stored within the
+   *   This struct is used in place of @FT_TS_Raster and is stored within the
    *   internal FreeType renderer struct.  While rasterizing it is passed to
-   *   the @FT_Raster_RenderFunc function, which then can be used however we
+   *   the @FT_TS_Raster_RenderFunc function, which then can be used however we
    *   want.
    *
    * @Fields:
@@ -202,7 +202,7 @@
    */
   typedef struct  SDF_TRaster_
   {
-    FT_Memory  memory;
+    FT_TS_Memory  memory;
 
   } SDF_TRaster, *SDF_PRaster;
 
@@ -248,7 +248,7 @@
    * @Description:
    *   Enumeration of all orientation values of a contour.  We determine the
    *   orientation by calculating the area covered by a contour.  Contrary
-   *   to values returned by @FT_Outline_Get_Orientation,
+   *   to values returned by @FT_TS_Outline_Get_Orientation,
    *   `SDF_Contour_Orientation` is independent of the fill rule, which can
    *   be different for different font formats.
    *
@@ -263,7 +263,7 @@
    *     Counter-clockwise orientation (negative area covered).
    *
    * @Note:
-   *   See @FT_Outline_Get_Orientation for more details.
+   *   See @FT_TS_Outline_Get_Orientation for more details.
    *
    */
   typedef enum  SDF_Contour_Orientation_
@@ -308,10 +308,10 @@
    */
   typedef struct  SDF_Edge_
   {
-    FT_26D6_Vec  start_pos;
-    FT_26D6_Vec  end_pos;
-    FT_26D6_Vec  control_a;
-    FT_26D6_Vec  control_b;
+    FT_TS_26D6_Vec  start_pos;
+    FT_TS_26D6_Vec  end_pos;
+    FT_TS_26D6_Vec  control_a;
+    FT_TS_26D6_Vec  control_b;
 
     SDF_Edge_Type  edge_type;
 
@@ -332,19 +332,19 @@
    *   last_pos ::
    *     Contains the value of `end_pos' of the last edge in the list of
    *     edges.  Useful while decomposing the outline with
-   *     @FT_Outline_Decompose.
+   *     @FT_TS_Outline_Decompose.
    *
    *   edges ::
    *     Linked list of all the edges that make the contour.
    *
    *   next ::
    *     Used to create a singly linked list, which can be interpreted as a
-   *     complete shape or @FT_Outline.
+   *     complete shape or @FT_TS_Outline.
    *
    */
   typedef struct  SDF_Contour_
   {
-    FT_26D6_Vec  last_pos;
+    FT_TS_26D6_Vec  last_pos;
     SDF_Edge*    edges;
 
     struct SDF_Contour_*  next;
@@ -359,7 +359,7 @@
    *
    * @Description:
    *   Represent a complete shape, which is the decomposition of
-   *   @FT_Outline.
+   *   @FT_TS_Outline.
    *
    * @Fields:
    *   memory ::
@@ -371,7 +371,7 @@
    */
   typedef struct  SDF_Shape_
   {
-    FT_Memory     memory;
+    FT_TS_Memory     memory;
     SDF_Contour*  contours;
 
   } SDF_Shape;
@@ -409,9 +409,9 @@
    */
   typedef struct SDF_Signed_Distance_
   {
-    FT_16D16  distance;
-    FT_16D16  cross;
-    FT_Char   sign;
+    FT_TS_16D16  distance;
+    FT_TS_16D16  cross;
+    FT_TS_Char   sign;
 
   } SDF_Signed_Distance;
 
@@ -426,7 +426,7 @@
    *
    * @Fields:
    *   orientation ::
-   *     This is not the @SDF_Contour_Orientation value but @FT_Orientation,
+   *     This is not the @SDF_Contour_Orientation value but @FT_TS_Orientation,
    *     which determines whether clockwise-oriented outlines are to be
    *     filled or counter-clockwise-oriented ones.
    *
@@ -448,11 +448,11 @@
    */
   typedef struct SDF_Params_
   {
-    FT_Orientation  orientation;
-    FT_Bool         flip_sign;
-    FT_Bool         flip_y;
+    FT_TS_Orientation  orientation;
+    FT_TS_Bool         flip_sign;
+    FT_TS_Bool         flip_y;
 
-    FT_Int  overload_sign;
+    FT_TS_Int  overload_sign;
 
   } SDF_Params;
 
@@ -464,7 +464,7 @@
    */
 
   static
-  const FT_Vector  zero_vector = { 0, 0 };
+  const FT_TS_Vector  zero_vector = { 0, 0 };
 
   static
   const SDF_Edge  null_edge = { { 0, 0 }, { 0, 0 },
@@ -483,21 +483,21 @@
 
   /* Create a new @SDF_Edge on the heap and assigns the `edge` */
   /* pointer to the newly allocated memory.                    */
-  static FT_Error
-  sdf_edge_new( FT_Memory   memory,
+  static FT_TS_Error
+  sdf_edge_new( FT_TS_Memory   memory,
                 SDF_Edge**  edge )
   {
-    FT_Error   error = FT_Err_Ok;
+    FT_TS_Error   error = FT_TS_Err_Ok;
     SDF_Edge*  ptr   = NULL;
 
 
     if ( !memory || !edge )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    if ( !FT_QALLOC( ptr, sizeof ( *ptr ) ) )
+    if ( !FT_TS_QALLOC( ptr, sizeof ( *ptr ) ) )
     {
       *ptr = null_edge;
       *edge = ptr;
@@ -510,33 +510,33 @@
 
   /* Free the allocated `edge` variable. */
   static void
-  sdf_edge_done( FT_Memory   memory,
+  sdf_edge_done( FT_TS_Memory   memory,
                  SDF_Edge**  edge )
   {
     if ( !memory || !edge || !*edge )
       return;
 
-    FT_FREE( *edge );
+    FT_TS_FREE( *edge );
   }
 
 
   /* Create a new @SDF_Contour on the heap and assign     */
   /* the `contour` pointer to the newly allocated memory. */
-  static FT_Error
-  sdf_contour_new( FT_Memory      memory,
+  static FT_TS_Error
+  sdf_contour_new( FT_TS_Memory      memory,
                    SDF_Contour**  contour )
   {
-    FT_Error      error = FT_Err_Ok;
+    FT_TS_Error      error = FT_TS_Err_Ok;
     SDF_Contour*  ptr   = NULL;
 
 
     if ( !memory || !contour )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    if ( !FT_QALLOC( ptr, sizeof ( *ptr ) ) )
+    if ( !FT_TS_QALLOC( ptr, sizeof ( *ptr ) ) )
     {
       *ptr     = null_contour;
       *contour = ptr;
@@ -550,7 +550,7 @@
   /* Free the allocated `contour` variable. */
   /* Also free the list of edges.           */
   static void
-  sdf_contour_done( FT_Memory      memory,
+  sdf_contour_done( FT_TS_Memory      memory,
                     SDF_Contour**  contour )
   {
     SDF_Edge*  edges;
@@ -571,27 +571,27 @@
       sdf_edge_done( memory, &temp );
     }
 
-    FT_FREE( *contour );
+    FT_TS_FREE( *contour );
   }
 
 
   /* Create a new @SDF_Shape on the heap and assign     */
   /* the `shape` pointer to the newly allocated memory. */
-  static FT_Error
-  sdf_shape_new( FT_Memory    memory,
+  static FT_TS_Error
+  sdf_shape_new( FT_TS_Memory    memory,
                  SDF_Shape**  shape )
   {
-    FT_Error    error = FT_Err_Ok;
+    FT_TS_Error    error = FT_TS_Err_Ok;
     SDF_Shape*  ptr   = NULL;
 
 
     if ( !memory || !shape )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    if ( !FT_QALLOC( ptr, sizeof ( *ptr ) ) )
+    if ( !FT_TS_QALLOC( ptr, sizeof ( *ptr ) ) )
     {
       *ptr        = null_shape;
       ptr->memory = memory;
@@ -608,7 +608,7 @@
   static void
   sdf_shape_done( SDF_Shape**  shape )
   {
-    FT_Memory     memory;
+    FT_TS_Memory     memory;
     SDF_Contour*  contours;
     SDF_Contour*  temp;
 
@@ -632,7 +632,7 @@
     }
 
     /* release the allocated shape struct  */
-    FT_FREE( *shape );
+    FT_TS_FREE( *shape );
   }
 
 
@@ -644,24 +644,24 @@
 
   /* This function is called when starting a new contour at `to`, */
   /* which gets added to the shape's list.                        */
-  static FT_Error
-  sdf_move_to( const FT_26D6_Vec* to,
+  static FT_TS_Error
+  sdf_move_to( const FT_TS_26D6_Vec* to,
                void*              user )
   {
     SDF_Shape*    shape   = ( SDF_Shape* )user;
     SDF_Contour*  contour = NULL;
 
-    FT_Error   error  = FT_Err_Ok;
-    FT_Memory  memory = shape->memory;
+    FT_TS_Error   error  = FT_TS_Err_Ok;
+    FT_TS_Memory  memory = shape->memory;
 
 
     if ( !to || !user )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    FT_CALL( sdf_contour_new( memory, &contour ) );
+    FT_TS_CALL( sdf_contour_new( memory, &contour ) );
 
     contour->last_pos = *to;
     contour->next     = shape->contours;
@@ -675,21 +675,21 @@
   /* This function is called when there is a line in the      */
   /* contour.  The line starts at the previous edge point and */
   /* stops at `to`.                                           */
-  static FT_Error
-  sdf_line_to( const FT_26D6_Vec*  to,
+  static FT_TS_Error
+  sdf_line_to( const FT_TS_26D6_Vec*  to,
                void*               user )
   {
     SDF_Shape*    shape    = ( SDF_Shape* )user;
     SDF_Edge*     edge     = NULL;
     SDF_Contour*  contour  = NULL;
 
-    FT_Error      error    = FT_Err_Ok;
-    FT_Memory     memory   = shape->memory;
+    FT_TS_Error      error    = FT_TS_Err_Ok;
+    FT_TS_Memory     memory   = shape->memory;
 
 
     if ( !to || !user )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -699,7 +699,7 @@
          contour->last_pos.y == to->y )
       goto Exit;
 
-    FT_CALL( sdf_edge_new( memory, &edge ) );
+    FT_TS_CALL( sdf_edge_new( memory, &edge ) );
 
     edge->edge_type = SDF_EDGE_LINE;
     edge->start_pos = contour->last_pos;
@@ -717,28 +717,28 @@
   /* This function is called when there is a conic Bezier curve   */
   /* in the contour.  The curve starts at the previous edge point */
   /* and stops at `to`, with control point `control_1`.           */
-  static FT_Error
-  sdf_conic_to( const FT_26D6_Vec*  control_1,
-                const FT_26D6_Vec*  to,
+  static FT_TS_Error
+  sdf_conic_to( const FT_TS_26D6_Vec*  control_1,
+                const FT_TS_26D6_Vec*  to,
                 void*               user )
   {
     SDF_Shape*    shape    = ( SDF_Shape* )user;
     SDF_Edge*     edge     = NULL;
     SDF_Contour*  contour  = NULL;
 
-    FT_Error   error  = FT_Err_Ok;
-    FT_Memory  memory = shape->memory;
+    FT_TS_Error   error  = FT_TS_Err_Ok;
+    FT_TS_Memory  memory = shape->memory;
 
 
     if ( !control_1 || !to || !user )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     contour = shape->contours;
 
-    FT_CALL( sdf_edge_new( memory, &edge ) );
+    FT_TS_CALL( sdf_edge_new( memory, &edge ) );
 
     edge->edge_type = SDF_EDGE_CONIC;
     edge->start_pos = contour->last_pos;
@@ -758,29 +758,29 @@
   /* in the contour.  The curve starts at the previous edge point */
   /* and stops at `to`, with two control points `control_1` and   */
   /* `control_2`.                                                 */
-  static FT_Error
-  sdf_cubic_to( const FT_26D6_Vec*  control_1,
-                const FT_26D6_Vec*  control_2,
-                const FT_26D6_Vec*  to,
+  static FT_TS_Error
+  sdf_cubic_to( const FT_TS_26D6_Vec*  control_1,
+                const FT_TS_26D6_Vec*  control_2,
+                const FT_TS_26D6_Vec*  to,
                 void*               user )
   {
     SDF_Shape*    shape    = ( SDF_Shape* )user;
     SDF_Edge*     edge     = NULL;
     SDF_Contour*  contour  = NULL;
 
-    FT_Error   error  = FT_Err_Ok;
-    FT_Memory  memory = shape->memory;
+    FT_TS_Error   error  = FT_TS_Err_Ok;
+    FT_TS_Memory  memory = shape->memory;
 
 
     if ( !control_2 || !control_1 || !to || !user )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     contour = shape->contours;
 
-    FT_CALL( sdf_edge_new( memory, &edge ) );
+    FT_TS_CALL( sdf_edge_new( memory, &edge ) );
 
     edge->edge_type = SDF_EDGE_CUBIC;
     edge->start_pos = contour->last_pos;
@@ -799,13 +799,13 @@
 
   /* Construct the structure to hold all four outline */
   /* decomposition functions.                         */
-  FT_DEFINE_OUTLINE_FUNCS(
+  FT_TS_DEFINE_OUTLINE_FUNCS(
     sdf_decompose_funcs,
 
-    (FT_Outline_MoveTo_Func) sdf_move_to,   /* move_to  */
-    (FT_Outline_LineTo_Func) sdf_line_to,   /* line_to  */
-    (FT_Outline_ConicTo_Func)sdf_conic_to,  /* conic_to */
-    (FT_Outline_CubicTo_Func)sdf_cubic_to,  /* cubic_to */
+    (FT_TS_Outline_MoveTo_Func) sdf_move_to,   /* move_to  */
+    (FT_TS_Outline_LineTo_Func) sdf_line_to,   /* line_to  */
+    (FT_TS_Outline_ConicTo_Func)sdf_conic_to,  /* conic_to */
+    (FT_TS_Outline_CubicTo_Func)sdf_cubic_to,  /* cubic_to */
 
     0,                                      /* shift    */
     0                                       /* delta    */
@@ -813,20 +813,20 @@
 
 
   /* Decompose `outline` and put it into the `shape` structure.  */
-  static FT_Error
-  sdf_outline_decompose( FT_Outline*  outline,
+  static FT_TS_Error
+  sdf_outline_decompose( FT_TS_Outline*  outline,
                          SDF_Shape*   shape )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     if ( !outline || !shape )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    error = FT_Outline_Decompose( outline,
+    error = FT_TS_Outline_Decompose( outline,
                                   &sdf_decompose_funcs,
                                   (void*)shape );
 
@@ -843,11 +843,11 @@
 
   /* Return the control box of an edge.  The control box is a rectangle */
   /* in which all the control points can fit tightly.                   */
-  static FT_CBox
+  static FT_TS_CBox
   get_control_box( SDF_Edge  edge )
   {
-    FT_CBox  cbox   = { 0, 0, 0, 0 };
-    FT_Bool  is_set = 0;
+    FT_TS_CBox  cbox   = { 0, 0, 0, 0 };
+    FT_TS_Bool  is_set = 0;
 
 
     switch ( edge.edge_type )
@@ -946,7 +946,7 @@
   get_contour_orientation ( SDF_Contour*  contour )
   {
     SDF_Edge*  head = NULL;
-    FT_26D6    area = 0;
+    FT_TS_26D6    area = 0;
 
 
     /* return none if invalid parameters */
@@ -1001,9 +1001,9 @@
   /* in the smooth renderer.  It splits a conic   */
   /* into two conics exactly half way at t = 0.5. */
   static void
-  split_conic( FT_26D6_Vec*  base )
+  split_conic( FT_TS_26D6_Vec*  base )
   {
-    FT_26D6  a, b;
+    FT_TS_26D6  a, b;
 
 
     base[4].x = base[2].x;
@@ -1026,9 +1026,9 @@
   /* in the smooth renderer.  It splits a cubic   */
   /* into two cubics exactly half way at t = 0.5. */
   static void
-  split_cubic( FT_26D6_Vec*  base )
+  split_cubic( FT_TS_26D6_Vec*  base )
   {
-    FT_26D6  a, b, c;
+    FT_TS_26D6  a, b, c;
 
 
     base[6].x = base[3].x;
@@ -1062,20 +1062,20 @@
   /*                                                   */
   /* This function uses recursion; we thus need        */
   /* parameter `max_splits' for stopping.              */
-  static FT_Error
-  split_sdf_conic( FT_Memory     memory,
-                   FT_26D6_Vec*  control_points,
-                   FT_Int        max_splits,
+  static FT_TS_Error
+  split_sdf_conic( FT_TS_Memory     memory,
+                   FT_TS_26D6_Vec*  control_points,
+                   FT_TS_Int        max_splits,
                    SDF_Edge**    out )
   {
-    FT_Error     error = FT_Err_Ok;
-    FT_26D6_Vec  cpos[5];
+    FT_TS_Error     error = FT_TS_Err_Ok;
+    FT_TS_26D6_Vec  cpos[5];
     SDF_Edge*    left,*  right;
 
 
     if ( !memory || !out  )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -1093,8 +1093,8 @@
       goto Append;
 
     /* Otherwise keep splitting. */
-    FT_CALL( split_sdf_conic( memory, &cpos[0], max_splits / 2, out ) );
-    FT_CALL( split_sdf_conic( memory, &cpos[2], max_splits / 2, out ) );
+    FT_TS_CALL( split_sdf_conic( memory, &cpos[0], max_splits / 2, out ) );
+    FT_TS_CALL( split_sdf_conic( memory, &cpos[2], max_splits / 2, out ) );
 
     /* [NOTE]: This is not an efficient way of   */
     /* splitting the curve.  Check the deviation */
@@ -1106,8 +1106,8 @@
   Append:
     /* Do allocation and add the lines to the list. */
 
-    FT_CALL( sdf_edge_new( memory, &left ) );
-    FT_CALL( sdf_edge_new( memory, &right ) );
+    FT_TS_CALL( sdf_edge_new( memory, &left ) );
+    FT_TS_CALL( sdf_edge_new( memory, &right ) );
 
     left->start_pos  = cpos[0];
     left->end_pos    = cpos[2];
@@ -1131,20 +1131,20 @@
   /*                                                   */
   /* This function uses recursion; we thus need        */
   /* parameter `max_splits' for stopping.              */
-  static FT_Error
-  split_sdf_cubic( FT_Memory     memory,
-                   FT_26D6_Vec*  control_points,
-                   FT_Int        max_splits,
+  static FT_TS_Error
+  split_sdf_cubic( FT_TS_Memory     memory,
+                   FT_TS_26D6_Vec*  control_points,
+                   FT_TS_Int        max_splits,
                    SDF_Edge**    out )
   {
-    FT_Error     error = FT_Err_Ok;
-    FT_26D6_Vec  cpos[7];
+    FT_TS_Error     error = FT_TS_Err_Ok;
+    FT_TS_26D6_Vec  cpos[7];
     SDF_Edge*    left,*  right;
 
 
     if ( !memory || !out  )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -1163,8 +1163,8 @@
       goto Append;
 
     /* Otherwise keep splitting. */
-    FT_CALL( split_sdf_cubic( memory, &cpos[0], max_splits / 2, out ) );
-    FT_CALL( split_sdf_cubic( memory, &cpos[3], max_splits / 2, out ) );
+    FT_TS_CALL( split_sdf_cubic( memory, &cpos[0], max_splits / 2, out ) );
+    FT_TS_CALL( split_sdf_cubic( memory, &cpos[3], max_splits / 2, out ) );
 
     /* [NOTE]: This is not an efficient way of   */
     /* splitting the curve.  Check the deviation */
@@ -1176,8 +1176,8 @@
   Append:
     /* Do allocation and add the lines to the list. */
 
-    FT_CALL( sdf_edge_new( memory, &left) );
-    FT_CALL( sdf_edge_new( memory, &right) );
+    FT_TS_CALL( sdf_edge_new( memory, &left) );
+    FT_TS_CALL( sdf_edge_new( memory, &right) );
 
     left->start_pos  = cpos[0];
     left->end_pos    = cpos[3];
@@ -1199,11 +1199,11 @@
   /* Subdivide an entire shape into line segments */
   /* such that it doesn't look visually different */
   /* from the original curve.                     */
-  static FT_Error
+  static FT_TS_Error
   split_sdf_shape( SDF_Shape*  shape )
   {
-    FT_Error   error = FT_Err_Ok;
-    FT_Memory  memory;
+    FT_TS_Error   error = FT_TS_Err_Ok;
+    FT_TS_Memory  memory;
 
     SDF_Contour*  contours;
     SDF_Contour*  new_contours = NULL;
@@ -1211,7 +1211,7 @@
 
     if ( !shape || !shape->memory )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -1238,7 +1238,7 @@
         case SDF_EDGE_LINE:
           /* Just create a duplicate edge in case     */
           /* it is a line.  We can use the same edge. */
-          FT_CALL( sdf_edge_new( memory, &temp ) );
+          FT_TS_CALL( sdf_edge_new( memory, &temp ) );
 
           ft_memcpy( temp, edge, sizeof ( *edge ) );
 
@@ -1249,7 +1249,7 @@
         case SDF_EDGE_CONIC:
           /* Subdivide the curve and add it to the list. */
           {
-            FT_26D6_Vec  ctrls[3];
+            FT_TS_26D6_Vec  ctrls[3];
 
 
             ctrls[0] = edge->start_pos;
@@ -1263,7 +1263,7 @@
         case SDF_EDGE_CUBIC:
           /* Subdivide the curve and add it to the list. */
           {
-            FT_26D6_Vec  ctrls[4];
+            FT_TS_26D6_Vec  ctrls[4];
 
 
             ctrls[0] = edge->start_pos;
@@ -1276,7 +1276,7 @@
           break;
 
         default:
-          error = FT_THROW( Invalid_Argument );
+          error = FT_TS_THROW( Invalid_Argument );
           goto Exit;
         }
 
@@ -1284,7 +1284,7 @@
       }
 
       /* add to the contours list */
-      FT_CALL( sdf_contour_new( memory, &tempc ) );
+      FT_TS_CALL( sdf_contour_new( memory, &tempc ) );
 
       tempc->next  = new_contours;
       tempc->edges = new_edges;
@@ -1311,39 +1311,39 @@
    *
    */
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
 
   static void
   sdf_shape_dump( SDF_Shape*  shape )
   {
-    FT_UInt  num_contours = 0;
+    FT_TS_UInt  num_contours = 0;
 
-    FT_UInt  total_edges = 0;
-    FT_UInt  total_lines = 0;
-    FT_UInt  total_conic = 0;
-    FT_UInt  total_cubic = 0;
+    FT_TS_UInt  total_edges = 0;
+    FT_TS_UInt  total_lines = 0;
+    FT_TS_UInt  total_conic = 0;
+    FT_TS_UInt  total_cubic = 0;
 
     SDF_Contour*  contour_list;
 
 
     if ( !shape )
     {
-      FT_TRACE5(( "sdf_shape_dump: null shape\n" ));
+      FT_TS_TRACE5(( "sdf_shape_dump: null shape\n" ));
       return;
     }
 
     contour_list = shape->contours;
 
-    FT_TRACE5(( "sdf_shape_dump (values are in 26.6 format):\n" ));
+    FT_TS_TRACE5(( "sdf_shape_dump (values are in 26.6 format):\n" ));
 
     while ( contour_list )
     {
-      FT_UInt       num_edges = 0;
+      FT_TS_UInt       num_edges = 0;
       SDF_Edge*     edge_list;
       SDF_Contour*  contour = contour_list;
 
 
-      FT_TRACE5(( "  Contour %d\n", num_contours ));
+      FT_TS_TRACE5(( "  Contour %d\n", num_contours ));
 
       edge_list = contour->edges;
 
@@ -1352,19 +1352,19 @@
         SDF_Edge*  edge = edge_list;
 
 
-        FT_TRACE5(( "  %3d: ", num_edges ));
+        FT_TS_TRACE5(( "  %3d: ", num_edges ));
 
         switch ( edge->edge_type )
         {
         case SDF_EDGE_LINE:
-          FT_TRACE5(( "Line:  (%ld, %ld) -- (%ld, %ld)\n",
+          FT_TS_TRACE5(( "Line:  (%ld, %ld) -- (%ld, %ld)\n",
                       edge->start_pos.x, edge->start_pos.y,
                       edge->end_pos.x, edge->end_pos.y ));
           total_lines++;
           break;
 
         case SDF_EDGE_CONIC:
-          FT_TRACE5(( "Conic: (%ld, %ld) .. (%ld, %ld) .. (%ld, %ld)\n",
+          FT_TS_TRACE5(( "Conic: (%ld, %ld) .. (%ld, %ld) .. (%ld, %ld)\n",
                       edge->start_pos.x, edge->start_pos.y,
                       edge->control_a.x, edge->control_a.y,
                       edge->end_pos.x, edge->end_pos.y ));
@@ -1372,7 +1372,7 @@
           break;
 
         case SDF_EDGE_CUBIC:
-          FT_TRACE5(( "Cubic: (%ld, %ld) .. (%ld, %ld)"
+          FT_TS_TRACE5(( "Cubic: (%ld, %ld) .. (%ld, %ld)"
                       " .. (%ld, %ld) .. (%ld %ld)\n",
                       edge->start_pos.x, edge->start_pos.y,
                       edge->control_a.x, edge->control_a.y,
@@ -1394,15 +1394,15 @@
       contour_list = contour_list->next;
     }
 
-    FT_TRACE5(( "\n" ));
-    FT_TRACE5(( "  total number of contours = %d\n", num_contours ));
-    FT_TRACE5(( "  total number of edges    = %d\n", total_edges ));
-    FT_TRACE5(( "    |__lines = %d\n", total_lines ));
-    FT_TRACE5(( "    |__conic = %d\n", total_conic ));
-    FT_TRACE5(( "    |__cubic = %d\n", total_cubic ));
+    FT_TS_TRACE5(( "\n" ));
+    FT_TS_TRACE5(( "  total number of contours = %d\n", num_contours ));
+    FT_TS_TRACE5(( "  total number of edges    = %d\n", total_edges ));
+    FT_TS_TRACE5(( "    |__lines = %d\n", total_lines ));
+    FT_TS_TRACE5(( "    |__conic = %d\n", total_conic ));
+    FT_TS_TRACE5(( "    |__cubic = %d\n", total_cubic ));
   }
 
-#endif /* FT_DEBUG_LEVEL_TRACE */
+#endif /* FT_TS_DEBUG_LEVEL_TRACE */
 
 
   /**************************************************************************
@@ -1419,19 +1419,19 @@
 
   /* This function uses Newton's iteration to find */
   /* the cube root of a fixed-point integer.       */
-  static FT_16D16
-  cube_root( FT_16D16  val )
+  static FT_TS_16D16
+  cube_root( FT_TS_16D16  val )
   {
     /* [IMPORTANT]: This function is not good as it may */
     /* not break, so use a lookup table instead.  Or we */
     /* can use an algorithm similar to `square_root`.   */
 
-    FT_Int  v, g, c;
+    FT_TS_Int  v, g, c;
 
 
     if ( val == 0                  ||
-         val == -FT_INT_16D16( 1 ) ||
-         val ==  FT_INT_16D16( 1 ) )
+         val == -FT_TS_INT_16D16( 1 ) ||
+         val ==  FT_TS_INT_16D16( 1 ) )
       return val;
 
     v = val < 0 ? -val : val;
@@ -1440,8 +1440,8 @@
 
     while ( 1 )
     {
-      c = FT_MulFix( FT_MulFix( g, g ), g ) - v;
-      c = FT_DivFix( c, 3 * FT_MulFix( g, g ) );
+      c = FT_TS_MulFix( FT_TS_MulFix( g, g ), g ) - v;
+      c = FT_TS_DivFix( c, 3 * FT_TS_MulFix( g, g ) );
 
       g -= c;
 
@@ -1455,12 +1455,12 @@
 
   /* Calculate the perpendicular by using '1 - base^2'. */
   /* Then use arctan to compute the angle.              */
-  static FT_16D16
-  arc_cos( FT_16D16  val )
+  static FT_TS_16D16
+  arc_cos( FT_TS_16D16  val )
   {
-    FT_16D16  p;
-    FT_16D16  b   = val;
-    FT_16D16  one = FT_INT_16D16( 1 );
+    FT_TS_16D16  p;
+    FT_TS_16D16  b   = val;
+    FT_TS_16D16  one = FT_TS_INT_16D16( 1 );
 
 
     if ( b > one )
@@ -1468,10 +1468,10 @@
     if ( b < -one )
       b = -one;
 
-    p = one - FT_MulFix( b, b );
+    p = one - FT_TS_MulFix( b, b );
     p = square_root( p );
 
-    return FT_Atan2( b, p );
+    return FT_TS_Atan2( b, p );
   }
 
 
@@ -1481,18 +1481,18 @@
   /* The procedure can be found at                                  */
   /*                                                                */
   /*   https://mathworld.wolfram.com/QuadraticFormula.html          */
-  static FT_UShort
-  solve_quadratic_equation( FT_26D6   a,
-                            FT_26D6   b,
-                            FT_26D6   c,
-                            FT_16D16  out[2] )
+  static FT_TS_UShort
+  solve_quadratic_equation( FT_TS_26D6   a,
+                            FT_TS_26D6   b,
+                            FT_TS_26D6   c,
+                            FT_TS_16D16  out[2] )
   {
-    FT_16D16  discriminant = 0;
+    FT_TS_16D16  discriminant = 0;
 
 
-    a = FT_26D6_16D16( a );
-    b = FT_26D6_16D16( b );
-    c = FT_26D6_16D16( c );
+    a = FT_TS_26D6_16D16( a );
+    b = FT_TS_26D6_16D16( b );
+    c = FT_TS_26D6_16D16( c );
 
     if ( a == 0 )
     {
@@ -1500,19 +1500,19 @@
         return 0;
       else
       {
-        out[0] = FT_DivFix( -c, b );
+        out[0] = FT_TS_DivFix( -c, b );
 
         return 1;
       }
     }
 
-    discriminant = FT_MulFix( b, b ) - 4 * FT_MulFix( a, c );
+    discriminant = FT_TS_MulFix( b, b ) - 4 * FT_TS_MulFix( a, c );
 
     if ( discriminant < 0 )
       return 0;
     else if ( discriminant == 0 )
     {
-      out[0] = FT_DivFix( -b, 2 * a );
+      out[0] = FT_TS_DivFix( -b, 2 * a );
 
       return 1;
     }
@@ -1520,8 +1520,8 @@
     {
       discriminant = square_root( discriminant );
 
-      out[0] = FT_DivFix( -b + discriminant, 2 * a );
-      out[1] = FT_DivFix( -b - discriminant, 2 * a );
+      out[0] = FT_TS_DivFix( -b + discriminant, 2 * a );
+      out[1] = FT_TS_DivFix( -b - discriminant, 2 * a );
 
       return 2;
     }
@@ -1534,29 +1534,29 @@
   /* The procedure can be found at                              */
   /*                                                            */
   /*   https://mathworld.wolfram.com/CubicFormula.html          */
-  static FT_UShort
-  solve_cubic_equation( FT_26D6   a,
-                        FT_26D6   b,
-                        FT_26D6   c,
-                        FT_26D6   d,
-                        FT_16D16  out[3] )
+  static FT_TS_UShort
+  solve_cubic_equation( FT_TS_26D6   a,
+                        FT_TS_26D6   b,
+                        FT_TS_26D6   c,
+                        FT_TS_26D6   d,
+                        FT_TS_16D16  out[3] )
   {
-    FT_16D16  q = 0;      /* intermediate */
-    FT_16D16  r = 0;      /* intermediate */
+    FT_TS_16D16  q = 0;      /* intermediate */
+    FT_TS_16D16  r = 0;      /* intermediate */
 
-    FT_16D16  a2 = b;     /* x^2 coefficients */
-    FT_16D16  a1 = c;     /* x coefficients   */
-    FT_16D16  a0 = d;     /* constant         */
+    FT_TS_16D16  a2 = b;     /* x^2 coefficients */
+    FT_TS_16D16  a1 = c;     /* x coefficients   */
+    FT_TS_16D16  a0 = d;     /* constant         */
 
-    FT_16D16  q3   = 0;
-    FT_16D16  r2   = 0;
-    FT_16D16  a23  = 0;
-    FT_16D16  a22  = 0;
-    FT_16D16  a1x2 = 0;
+    FT_TS_16D16  q3   = 0;
+    FT_TS_16D16  r2   = 0;
+    FT_TS_16D16  a23  = 0;
+    FT_TS_16D16  a22  = 0;
+    FT_TS_16D16  a1x2 = 0;
 
 
     /* cutoff value for `a` to be a cubic, otherwise solve quadratic */
-    if ( a == 0 || FT_ABS( a ) < 16 )
+    if ( a == 0 || FT_TS_ABS( a ) < 16 )
       return solve_quadratic_equation( b, c, d, out );
 
     if ( d == 0 )
@@ -1567,32 +1567,32 @@
     }
 
     /* normalize the coefficients; this also makes them 16.16 */
-    a2 = FT_DivFix( a2, a );
-    a1 = FT_DivFix( a1, a );
-    a0 = FT_DivFix( a0, a );
+    a2 = FT_TS_DivFix( a2, a );
+    a1 = FT_TS_DivFix( a1, a );
+    a0 = FT_TS_DivFix( a0, a );
 
     /* compute intermediates */
-    a1x2 = FT_MulFix( a1, a2 );
-    a22  = FT_MulFix( a2, a2 );
-    a23  = FT_MulFix( a22, a2 );
+    a1x2 = FT_TS_MulFix( a1, a2 );
+    a22  = FT_TS_MulFix( a2, a2 );
+    a23  = FT_TS_MulFix( a22, a2 );
 
     q = ( 3 * a1 - a22 ) / 9;
     r = ( 9 * a1x2 - 27 * a0 - 2 * a23 ) / 54;
 
     /* [BUG]: `q3` and `r2` still cause underflow. */
 
-    q3 = FT_MulFix( q, q );
-    q3 = FT_MulFix( q3, q );
+    q3 = FT_TS_MulFix( q, q );
+    q3 = FT_TS_MulFix( q3, q );
 
-    r2 = FT_MulFix( r, r );
+    r2 = FT_TS_MulFix( r, r );
 
     if ( q3 < 0 && r2 < -q3 )
     {
-      FT_16D16  t = 0;
+      FT_TS_16D16  t = 0;
 
 
       q3 = square_root( -q3 );
-      t  = FT_DivFix( r, q3 );
+      t  = FT_TS_DivFix( r, q3 );
 
       if ( t > ( 1 << 16 ) )
         t =  ( 1 << 16 );
@@ -1603,16 +1603,16 @@
       a2 /= 3;
       q   = 2 * square_root( -q );
 
-      out[0] = FT_MulFix( q, FT_Cos( t / 3 ) ) - a2;
-      out[1] = FT_MulFix( q, FT_Cos( ( t + FT_ANGLE_PI * 2 ) / 3 ) ) - a2;
-      out[2] = FT_MulFix( q, FT_Cos( ( t + FT_ANGLE_PI * 4 ) / 3 ) ) - a2;
+      out[0] = FT_TS_MulFix( q, FT_TS_Cos( t / 3 ) ) - a2;
+      out[1] = FT_TS_MulFix( q, FT_TS_Cos( ( t + FT_TS_ANGLE_PI * 2 ) / 3 ) ) - a2;
+      out[2] = FT_TS_MulFix( q, FT_TS_Cos( ( t + FT_TS_ANGLE_PI * 4 ) / 3 ) ) - a2;
 
       return 3;
     }
 
     else if ( r2 == -q3 )
     {
-      FT_16D16  s = 0;
+      FT_TS_16D16  s = 0;
 
 
       s   = cube_root( r );
@@ -1626,13 +1626,13 @@
 
     else
     {
-      FT_16D16  s    = 0;
-      FT_16D16  t    = 0;
-      FT_16D16  dis  = 0;
+      FT_TS_16D16  s    = 0;
+      FT_TS_16D16  t    = 0;
+      FT_TS_16D16  dis  = 0;
 
 
       if ( q3 == 0 )
-        dis = FT_ABS( r );
+        dis = FT_TS_ABS( r );
       else
         dis = square_root( q3 + r2 );
 
@@ -1749,7 +1749,7 @@
   resolve_corner( SDF_Signed_Distance  sdf1,
                   SDF_Signed_Distance  sdf2 )
   {
-    return FT_ABS( sdf1.cross ) > FT_ABS( sdf2.cross ) ? sdf1 : sdf2;
+    return FT_TS_ABS( sdf1.cross ) > FT_TS_ABS( sdf2.cross ) ? sdf1 : sdf2;
   }
 
 
@@ -1780,9 +1780,9 @@
    *   The `line' parameter must have an edge type of `SDF_EDGE_LINE`.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   get_min_distance_line( SDF_Edge*             line,
-                         FT_26D6_Vec           point,
+                         FT_TS_26D6_Vec           point,
                          SDF_Signed_Distance*  out )
   {
     /*
@@ -1842,32 +1842,32 @@
      *     ```
      */
 
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_Vector  a;                   /* start position */
-    FT_Vector  b;                   /* end position   */
-    FT_Vector  p;                   /* current point  */
+    FT_TS_Vector  a;                   /* start position */
+    FT_TS_Vector  b;                   /* end position   */
+    FT_TS_Vector  p;                   /* current point  */
 
-    FT_26D6_Vec  line_segment;      /* `b` - `a` */
-    FT_26D6_Vec  p_sub_a;           /* `p` - `a` */
+    FT_TS_26D6_Vec  line_segment;      /* `b` - `a` */
+    FT_TS_26D6_Vec  p_sub_a;           /* `p` - `a` */
 
-    FT_26D6   sq_line_length;       /* squared length of `line_segment` */
-    FT_16D16  factor;               /* factor of the nearest point      */
-    FT_26D6   cross;                /* used to determine sign           */
+    FT_TS_26D6   sq_line_length;       /* squared length of `line_segment` */
+    FT_TS_16D16  factor;               /* factor of the nearest point      */
+    FT_TS_26D6   cross;                /* used to determine sign           */
 
-    FT_16D16_Vec  nearest_point;    /* `point_on_line`       */
-    FT_16D16_Vec  nearest_vector;   /* `p` - `nearest_point` */
+    FT_TS_16D16_Vec  nearest_point;    /* `point_on_line`       */
+    FT_TS_16D16_Vec  nearest_vector;   /* `p` - `nearest_point` */
 
 
     if ( !line || !out )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( line->edge_type != SDF_EDGE_LINE )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -1889,27 +1889,27 @@
              ( p_sub_a.y * line_segment.y ) / 64;
 
     /* now factor is 16.16 */
-    factor = FT_DivFix( factor, sq_line_length );
+    factor = FT_TS_DivFix( factor, sq_line_length );
 
     /* clamp the factor between 0.0 and 1.0 in fixed point */
-    if ( factor > FT_INT_16D16( 1 ) )
-      factor = FT_INT_16D16( 1 );
+    if ( factor > FT_TS_INT_16D16( 1 ) )
+      factor = FT_TS_INT_16D16( 1 );
     if ( factor < 0 )
       factor = 0;
 
-    nearest_point.x = FT_MulFix( FT_26D6_16D16( line_segment.x ),
+    nearest_point.x = FT_TS_MulFix( FT_TS_26D6_16D16( line_segment.x ),
                                  factor );
-    nearest_point.y = FT_MulFix( FT_26D6_16D16( line_segment.y ),
+    nearest_point.y = FT_TS_MulFix( FT_TS_26D6_16D16( line_segment.y ),
                                  factor );
 
-    nearest_point.x = FT_26D6_16D16( a.x ) + nearest_point.x;
-    nearest_point.y = FT_26D6_16D16( a.y ) + nearest_point.y;
+    nearest_point.x = FT_TS_26D6_16D16( a.x ) + nearest_point.x;
+    nearest_point.y = FT_TS_26D6_16D16( a.y ) + nearest_point.y;
 
-    nearest_vector.x = nearest_point.x - FT_26D6_16D16( p.x );
-    nearest_vector.y = nearest_point.y - FT_26D6_16D16( p.y );
+    nearest_vector.x = nearest_point.x - FT_TS_26D6_16D16( p.x );
+    nearest_vector.y = nearest_point.y - FT_TS_26D6_16D16( p.y );
 
-    cross = FT_MulFix( nearest_vector.x, line_segment.y ) -
-            FT_MulFix( nearest_vector.y, line_segment.x );
+    cross = FT_TS_MulFix( nearest_vector.x, line_segment.y ) -
+            FT_TS_MulFix( nearest_vector.y, line_segment.x );
 
     /* assign the output */
     out->sign     = cross < 0 ? 1 : -1;
@@ -1919,17 +1919,17 @@
     /* directly set it here.  This is more efficient     */
     /* because if the distance is perpendicular we can   */
     /* directly set it to 1.                             */
-    if ( factor != 0 && factor != FT_INT_16D16( 1 ) )
-      out->cross = FT_INT_16D16( 1 );
+    if ( factor != 0 && factor != FT_TS_INT_16D16( 1 ) )
+      out->cross = FT_TS_INT_16D16( 1 );
     else
     {
       /* [OPTIMIZATION]: Pre-compute this direction. */
       /* If not perpendicular then compute `cross`.  */
-      FT_Vector_NormLen( &line_segment );
-      FT_Vector_NormLen( &nearest_vector );
+      FT_TS_Vector_NormLen( &line_segment );
+      FT_TS_Vector_NormLen( &nearest_vector );
 
-      out->cross = FT_MulFix( line_segment.x, nearest_vector.y ) -
-                   FT_MulFix( line_segment.y, nearest_vector.x );
+      out->cross = FT_TS_MulFix( line_segment.x, nearest_vector.y ) -
+                   FT_TS_MulFix( line_segment.y, nearest_vector.x );
     }
 
   Exit:
@@ -1974,9 +1974,9 @@
    * which is faster than the Newton-Raphson method, but has underflows at
    * the moment.  Use Newton's method if you can see artifacts in the SDF.
    */
-  static FT_Error
+  static FT_TS_Error
   get_min_distance_conic( SDF_Edge*             conic,
-                          FT_26D6_Vec           point,
+                          FT_TS_26D6_Vec           point,
                           SDF_Signed_Distance*  out )
   {
     /*
@@ -2058,35 +2058,35 @@
      * [note]: `B` and `B(t)` are different in the above equations.
      */
 
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_26D6_Vec  aA, bB;         /* A, B in the above comment             */
-    FT_26D6_Vec  nearest_point;  /* point on curve nearest to `point`     */
-    FT_26D6_Vec  direction;      /* direction of curve at `nearest_point` */
+    FT_TS_26D6_Vec  aA, bB;         /* A, B in the above comment             */
+    FT_TS_26D6_Vec  nearest_point;  /* point on curve nearest to `point`     */
+    FT_TS_26D6_Vec  direction;      /* direction of curve at `nearest_point` */
 
-    FT_26D6_Vec  p0, p1, p2;     /* control points of a conic curve       */
-    FT_26D6_Vec  p;              /* `point` to which shortest distance    */
+    FT_TS_26D6_Vec  p0, p1, p2;     /* control points of a conic curve       */
+    FT_TS_26D6_Vec  p;              /* `point` to which shortest distance    */
 
-    FT_26D6  a, b, c, d;         /* cubic coefficients                    */
+    FT_TS_26D6  a, b, c, d;         /* cubic coefficients                    */
 
-    FT_16D16  roots[3] = { 0, 0, 0 };    /* real roots of the cubic eq.   */
-    FT_16D16  min_factor;                /* factor at `nearest_point`     */
-    FT_16D16  cross;                     /* to determine the sign         */
-    FT_16D16  min      = FT_INT_MAX;     /* shortest squared distance     */
+    FT_TS_16D16  roots[3] = { 0, 0, 0 };    /* real roots of the cubic eq.   */
+    FT_TS_16D16  min_factor;                /* factor at `nearest_point`     */
+    FT_TS_16D16  cross;                     /* to determine the sign         */
+    FT_TS_16D16  min      = FT_TS_INT_MAX;     /* shortest squared distance     */
 
-    FT_UShort  num_roots;                /* number of real roots of cubic */
-    FT_UShort  i;
+    FT_TS_UShort  num_roots;                /* number of real roots of cubic */
+    FT_TS_UShort  i;
 
 
     if ( !conic || !out )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( conic->edge_type != SDF_EDGE_CONIC )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -2120,7 +2120,7 @@
     if ( num_roots == 0 )
     {
       roots[0]  = 0;
-      roots[1]  = FT_INT_16D16( 1 );
+      roots[1]  = FT_TS_INT_16D16( 1 );
       num_roots = 2;
     }
 
@@ -2128,26 +2128,26 @@
     /*                 duplicate roots.                        */
 
     /* convert these values to 16.16 for further computation */
-    aA.x = FT_26D6_16D16( aA.x );
-    aA.y = FT_26D6_16D16( aA.y );
+    aA.x = FT_TS_26D6_16D16( aA.x );
+    aA.y = FT_TS_26D6_16D16( aA.y );
 
-    bB.x = FT_26D6_16D16( bB.x );
-    bB.y = FT_26D6_16D16( bB.y );
+    bB.x = FT_TS_26D6_16D16( bB.x );
+    bB.y = FT_TS_26D6_16D16( bB.y );
 
-    p0.x = FT_26D6_16D16( p0.x );
-    p0.y = FT_26D6_16D16( p0.y );
+    p0.x = FT_TS_26D6_16D16( p0.x );
+    p0.y = FT_TS_26D6_16D16( p0.y );
 
-    p.x = FT_26D6_16D16( p.x );
-    p.y = FT_26D6_16D16( p.y );
+    p.x = FT_TS_26D6_16D16( p.x );
+    p.y = FT_TS_26D6_16D16( p.y );
 
     for ( i = 0; i < num_roots; i++ )
     {
-      FT_16D16  t    = roots[i];
-      FT_16D16  t2   = 0;
-      FT_16D16  dist = 0;
+      FT_TS_16D16  t    = roots[i];
+      FT_TS_16D16  t2   = 0;
+      FT_TS_16D16  dist = 0;
 
-      FT_16D16_Vec  curve_point;
-      FT_16D16_Vec  dist_vector;
+      FT_TS_16D16_Vec  curve_point;
+      FT_TS_16D16_Vec  dist_vector;
 
       /*
        * Ideally we should discard the roots which are outside the range
@@ -2174,16 +2174,16 @@
 
       if ( t < 0 )
         t = 0;
-      if ( t > FT_INT_16D16( 1 ) )
-        t = FT_INT_16D16( 1 );
+      if ( t > FT_TS_INT_16D16( 1 ) )
+        t = FT_TS_INT_16D16( 1 );
 
-      t2 = FT_MulFix( t, t );
+      t2 = FT_TS_MulFix( t, t );
 
       /* B(t) = t^2 * A + 2t * B + p0 - p */
-      curve_point.x = FT_MulFix( aA.x, t2 ) +
-                      2 * FT_MulFix( bB.x, t ) + p0.x;
-      curve_point.y = FT_MulFix( aA.y, t2 ) +
-                      2 * FT_MulFix( bB.y, t ) + p0.y;
+      curve_point.x = FT_TS_MulFix( aA.x, t2 ) +
+                      2 * FT_TS_MulFix( bB.x, t ) + p0.x;
+      curve_point.y = FT_TS_MulFix( aA.y, t2 ) +
+                      2 * FT_TS_MulFix( bB.y, t ) + p0.y;
 
       /* `curve_point` - `p` */
       dist_vector.x = curve_point.x - p.x;
@@ -2200,31 +2200,31 @@
     }
 
     /* B'(t) = 2 * (tA + B) */
-    direction.x = 2 * FT_MulFix( aA.x, min_factor ) + 2 * bB.x;
-    direction.y = 2 * FT_MulFix( aA.y, min_factor ) + 2 * bB.y;
+    direction.x = 2 * FT_TS_MulFix( aA.x, min_factor ) + 2 * bB.x;
+    direction.y = 2 * FT_TS_MulFix( aA.y, min_factor ) + 2 * bB.y;
 
     /* determine the sign */
-    cross = FT_MulFix( nearest_point.x - p.x, direction.y ) -
-            FT_MulFix( nearest_point.y - p.y, direction.x );
+    cross = FT_TS_MulFix( nearest_point.x - p.x, direction.y ) -
+            FT_TS_MulFix( nearest_point.y - p.y, direction.x );
 
     /* assign the values */
     out->distance = min;
     out->sign     = cross < 0 ? 1 : -1;
 
-    if ( min_factor != 0 && min_factor != FT_INT_16D16( 1 ) )
-      out->cross = FT_INT_16D16( 1 );   /* the two are perpendicular */
+    if ( min_factor != 0 && min_factor != FT_TS_INT_16D16( 1 ) )
+      out->cross = FT_TS_INT_16D16( 1 );   /* the two are perpendicular */
     else
     {
       /* convert to nearest vector */
-      nearest_point.x -= FT_26D6_16D16( p.x );
-      nearest_point.y -= FT_26D6_16D16( p.y );
+      nearest_point.x -= FT_TS_26D6_16D16( p.x );
+      nearest_point.y -= FT_TS_26D6_16D16( p.y );
 
       /* compute `cross` if not perpendicular */
-      FT_Vector_NormLen( &direction );
-      FT_Vector_NormLen( &nearest_point );
+      FT_TS_Vector_NormLen( &direction );
+      FT_TS_Vector_NormLen( &nearest_point );
 
-      out->cross = FT_MulFix( direction.x, nearest_point.y ) -
-                   FT_MulFix( direction.y, nearest_point.x );
+      out->cross = FT_TS_MulFix( direction.x, nearest_point.y ) -
+                   FT_TS_MulFix( direction.y, nearest_point.x );
     }
 
   Exit:
@@ -2238,9 +2238,9 @@
    * which is a bit slower than the analytical method but doesn't cause
    * underflow.
    */
-  static FT_Error
+  static FT_TS_Error
   get_min_distance_conic( SDF_Edge*             conic,
-                          FT_26D6_Vec           point,
+                          FT_TS_26D6_Vec           point,
                           SDF_Signed_Distance*  out )
   {
     /*
@@ -2354,32 +2354,32 @@
      * [note]: `B` and `B(t)` are different in the above equations.
      */
 
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_26D6_Vec  aA, bB, cC;     /* A, B, C in the above comment          */
-    FT_26D6_Vec  nearest_point;  /* point on curve nearest to `point`     */
-    FT_26D6_Vec  direction;      /* direction of curve at `nearest_point` */
+    FT_TS_26D6_Vec  aA, bB, cC;     /* A, B, C in the above comment          */
+    FT_TS_26D6_Vec  nearest_point;  /* point on curve nearest to `point`     */
+    FT_TS_26D6_Vec  direction;      /* direction of curve at `nearest_point` */
 
-    FT_26D6_Vec  p0, p1, p2;     /* control points of a conic curve       */
-    FT_26D6_Vec  p;              /* `point` to which shortest distance    */
+    FT_TS_26D6_Vec  p0, p1, p2;     /* control points of a conic curve       */
+    FT_TS_26D6_Vec  p;              /* `point` to which shortest distance    */
 
-    FT_16D16  min_factor = 0;            /* factor at `nearest_point'     */
-    FT_16D16  cross;                     /* to determine the sign         */
-    FT_16D16  min        = FT_INT_MAX;   /* shortest squared distance     */
+    FT_TS_16D16  min_factor = 0;            /* factor at `nearest_point'     */
+    FT_TS_16D16  cross;                     /* to determine the sign         */
+    FT_TS_16D16  min        = FT_TS_INT_MAX;   /* shortest squared distance     */
 
-    FT_UShort  iterations;
-    FT_UShort  steps;
+    FT_TS_UShort  iterations;
+    FT_TS_UShort  steps;
 
 
     if ( !conic || !out )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( conic->edge_type != SDF_EDGE_CONIC )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -2401,37 +2401,37 @@
     /* do Newton's iterations */
     for ( iterations = 0; iterations <= MAX_NEWTON_DIVISIONS; iterations++ )
     {
-      FT_16D16  factor = FT_INT_16D16( iterations ) / MAX_NEWTON_DIVISIONS;
-      FT_16D16  factor2;
-      FT_16D16  length;
+      FT_TS_16D16  factor = FT_TS_INT_16D16( iterations ) / MAX_NEWTON_DIVISIONS;
+      FT_TS_16D16  factor2;
+      FT_TS_16D16  length;
 
-      FT_16D16_Vec  curve_point; /* point on the curve  */
-      FT_16D16_Vec  dist_vector; /* `curve_point` - `p` */
+      FT_TS_16D16_Vec  curve_point; /* point on the curve  */
+      FT_TS_16D16_Vec  dist_vector; /* `curve_point` - `p` */
 
-      FT_26D6_Vec  d1;           /* first  derivative   */
-      FT_26D6_Vec  d2;           /* second derivative   */
+      FT_TS_26D6_Vec  d1;           /* first  derivative   */
+      FT_TS_26D6_Vec  d2;           /* second derivative   */
 
-      FT_16D16  temp1;
-      FT_16D16  temp2;
+      FT_TS_16D16  temp1;
+      FT_TS_16D16  temp2;
 
 
       for ( steps = 0; steps < MAX_NEWTON_STEPS; steps++ )
       {
-        factor2 = FT_MulFix( factor, factor );
+        factor2 = FT_TS_MulFix( factor, factor );
 
         /* B(t) = t^2 * A + t * B + p0 */
-        curve_point.x = FT_MulFix( aA.x, factor2 ) +
-                        FT_MulFix( bB.x, factor ) + cC.x;
-        curve_point.y = FT_MulFix( aA.y, factor2 ) +
-                        FT_MulFix( bB.y, factor ) + cC.y;
+        curve_point.x = FT_TS_MulFix( aA.x, factor2 ) +
+                        FT_TS_MulFix( bB.x, factor ) + cC.x;
+        curve_point.y = FT_TS_MulFix( aA.y, factor2 ) +
+                        FT_TS_MulFix( bB.y, factor ) + cC.y;
 
         /* convert to 16.16 */
-        curve_point.x = FT_26D6_16D16( curve_point.x );
-        curve_point.y = FT_26D6_16D16( curve_point.y );
+        curve_point.x = FT_TS_26D6_16D16( curve_point.x );
+        curve_point.y = FT_TS_26D6_16D16( curve_point.y );
 
         /* P(t) in the comment */
-        dist_vector.x = curve_point.x - FT_26D6_16D16( p.x );
-        dist_vector.y = curve_point.y - FT_26D6_16D16( p.y );
+        dist_vector.x = curve_point.x - FT_TS_26D6_16D16( p.x );
+        dist_vector.y = curve_point.y - FT_TS_26D6_16D16( p.y );
 
         length = VECTOR_LENGTH_16D16( dist_vector );
 
@@ -2448,8 +2448,8 @@
         /*          (B'(t) . B'(t) + P(t) . B''(t)) */
 
         /* B'(t) = 2tA + B */
-        d1.x = FT_MulFix( aA.x, 2 * factor ) + bB.x;
-        d1.y = FT_MulFix( aA.y, 2 * factor ) + bB.y;
+        d1.x = FT_TS_MulFix( aA.x, 2 * factor ) + bB.x;
+        d1.y = FT_TS_MulFix( aA.y, 2 * factor ) + bB.y;
 
         /* B''(t) = 2A */
         d2.x = 2 * aA.x;
@@ -2465,41 +2465,41 @@
         temp2 = VEC_26D6_DOT( d1, d1 ) +
                 VEC_26D6_DOT( dist_vector, d2 );
 
-        factor -= FT_DivFix( temp1, temp2 );
+        factor -= FT_TS_DivFix( temp1, temp2 );
 
-        if ( factor < 0 || factor > FT_INT_16D16( 1 ) )
+        if ( factor < 0 || factor > FT_TS_INT_16D16( 1 ) )
           break;
       }
     }
 
     /* B'(t) = 2t * A + B */
-    direction.x = 2 * FT_MulFix( aA.x, min_factor ) + bB.x;
-    direction.y = 2 * FT_MulFix( aA.y, min_factor ) + bB.y;
+    direction.x = 2 * FT_TS_MulFix( aA.x, min_factor ) + bB.x;
+    direction.y = 2 * FT_TS_MulFix( aA.y, min_factor ) + bB.y;
 
     /* determine the sign */
-    cross = FT_MulFix( nearest_point.x - FT_26D6_16D16( p.x ),
+    cross = FT_TS_MulFix( nearest_point.x - FT_TS_26D6_16D16( p.x ),
                        direction.y )                           -
-            FT_MulFix( nearest_point.y - FT_26D6_16D16( p.y ),
+            FT_TS_MulFix( nearest_point.y - FT_TS_26D6_16D16( p.y ),
                        direction.x );
 
     /* assign the values */
     out->distance = min;
     out->sign     = cross < 0 ? 1 : -1;
 
-    if ( min_factor != 0 && min_factor != FT_INT_16D16( 1 ) )
-      out->cross = FT_INT_16D16( 1 );   /* the two are perpendicular */
+    if ( min_factor != 0 && min_factor != FT_TS_INT_16D16( 1 ) )
+      out->cross = FT_TS_INT_16D16( 1 );   /* the two are perpendicular */
     else
     {
       /* convert to nearest vector */
-      nearest_point.x -= FT_26D6_16D16( p.x );
-      nearest_point.y -= FT_26D6_16D16( p.y );
+      nearest_point.x -= FT_TS_26D6_16D16( p.x );
+      nearest_point.y -= FT_TS_26D6_16D16( p.y );
 
       /* compute `cross` if not perpendicular */
-      FT_Vector_NormLen( &direction );
-      FT_Vector_NormLen( &nearest_point );
+      FT_TS_Vector_NormLen( &direction );
+      FT_TS_Vector_NormLen( &nearest_point );
 
-      out->cross = FT_MulFix( direction.x, nearest_point.y ) -
-                   FT_MulFix( direction.y, nearest_point.x );
+      out->cross = FT_TS_MulFix( direction.x, nearest_point.y ) -
+                   FT_TS_MulFix( direction.y, nearest_point.x );
     }
 
   Exit:
@@ -2542,9 +2542,9 @@
    *   The `cubic` parameter must have an edge type of `SDF_EDGE_CUBIC`.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   get_min_distance_cubic( SDF_Edge*             cubic,
-                          FT_26D6_Vec           point,
+                          FT_TS_26D6_Vec           point,
                           SDF_Signed_Distance*  out )
   {
     /*
@@ -2666,33 +2666,33 @@
      * [note]: `B` and `B(t)` are different in the above equations.
      */
 
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_26D6_Vec   aA, bB, cC, dD; /* A, B, C in the above comment          */
-    FT_16D16_Vec  nearest_point;  /* point on curve nearest to `point`     */
-    FT_16D16_Vec  direction;      /* direction of curve at `nearest_point` */
+    FT_TS_26D6_Vec   aA, bB, cC, dD; /* A, B, C in the above comment          */
+    FT_TS_16D16_Vec  nearest_point;  /* point on curve nearest to `point`     */
+    FT_TS_16D16_Vec  direction;      /* direction of curve at `nearest_point` */
 
-    FT_26D6_Vec  p0, p1, p2, p3;  /* control points of a cubic curve       */
-    FT_26D6_Vec  p;               /* `point` to which shortest distance    */
+    FT_TS_26D6_Vec  p0, p1, p2, p3;  /* control points of a cubic curve       */
+    FT_TS_26D6_Vec  p;               /* `point` to which shortest distance    */
 
-    FT_16D16  min_factor    = 0;            /* factor at shortest distance */
-    FT_16D16  min_factor_sq = 0;            /* factor at shortest distance */
-    FT_16D16  cross;                        /* to determine the sign       */
-    FT_16D16  min           = FT_INT_MAX;   /* shortest distance           */
+    FT_TS_16D16  min_factor    = 0;            /* factor at shortest distance */
+    FT_TS_16D16  min_factor_sq = 0;            /* factor at shortest distance */
+    FT_TS_16D16  cross;                        /* to determine the sign       */
+    FT_TS_16D16  min           = FT_TS_INT_MAX;   /* shortest distance           */
 
-    FT_UShort  iterations;
-    FT_UShort  steps;
+    FT_TS_UShort  iterations;
+    FT_TS_UShort  steps;
 
 
     if ( !cubic || !out )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( cubic->edge_type != SDF_EDGE_CUBIC )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -2717,42 +2717,42 @@
 
     for ( iterations = 0; iterations <= MAX_NEWTON_DIVISIONS; iterations++ )
     {
-      FT_16D16  factor  = FT_INT_16D16( iterations ) / MAX_NEWTON_DIVISIONS;
+      FT_TS_16D16  factor  = FT_TS_INT_16D16( iterations ) / MAX_NEWTON_DIVISIONS;
 
-      FT_16D16  factor2;         /* factor^2            */
-      FT_16D16  factor3;         /* factor^3            */
-      FT_16D16  length;
+      FT_TS_16D16  factor2;         /* factor^2            */
+      FT_TS_16D16  factor3;         /* factor^3            */
+      FT_TS_16D16  length;
 
-      FT_16D16_Vec  curve_point; /* point on the curve  */
-      FT_16D16_Vec  dist_vector; /* `curve_point' - `p' */
+      FT_TS_16D16_Vec  curve_point; /* point on the curve  */
+      FT_TS_16D16_Vec  dist_vector; /* `curve_point' - `p' */
 
-      FT_26D6_Vec  d1;           /* first  derivative   */
-      FT_26D6_Vec  d2;           /* second derivative   */
+      FT_TS_26D6_Vec  d1;           /* first  derivative   */
+      FT_TS_26D6_Vec  d2;           /* second derivative   */
 
-      FT_16D16  temp1;
-      FT_16D16  temp2;
+      FT_TS_16D16  temp1;
+      FT_TS_16D16  temp2;
 
 
       for ( steps = 0; steps < MAX_NEWTON_STEPS; steps++ )
       {
-        factor2 = FT_MulFix( factor, factor );
-        factor3 = FT_MulFix( factor2, factor );
+        factor2 = FT_TS_MulFix( factor, factor );
+        factor3 = FT_TS_MulFix( factor2, factor );
 
         /* B(t) = t^3 * A + t^2 * B + t * C + D */
-        curve_point.x = FT_MulFix( aA.x, factor3 ) +
-                        FT_MulFix( bB.x, factor2 ) +
-                        FT_MulFix( cC.x, factor ) + dD.x;
-        curve_point.y = FT_MulFix( aA.y, factor3 ) +
-                        FT_MulFix( bB.y, factor2 ) +
-                        FT_MulFix( cC.y, factor ) + dD.y;
+        curve_point.x = FT_TS_MulFix( aA.x, factor3 ) +
+                        FT_TS_MulFix( bB.x, factor2 ) +
+                        FT_TS_MulFix( cC.x, factor ) + dD.x;
+        curve_point.y = FT_TS_MulFix( aA.y, factor3 ) +
+                        FT_TS_MulFix( bB.y, factor2 ) +
+                        FT_TS_MulFix( cC.y, factor ) + dD.y;
 
         /* convert to 16.16 */
-        curve_point.x = FT_26D6_16D16( curve_point.x );
-        curve_point.y = FT_26D6_16D16( curve_point.y );
+        curve_point.x = FT_TS_26D6_16D16( curve_point.x );
+        curve_point.y = FT_TS_26D6_16D16( curve_point.y );
 
         /* P(t) in the comment */
-        dist_vector.x = curve_point.x - FT_26D6_16D16( p.x );
-        dist_vector.y = curve_point.y - FT_26D6_16D16( p.y );
+        dist_vector.x = curve_point.x - FT_TS_26D6_16D16( p.x );
+        dist_vector.y = curve_point.y - FT_TS_26D6_16D16( p.y );
 
         length = VECTOR_LENGTH_16D16( dist_vector );
 
@@ -2770,14 +2770,14 @@
         /*          (B'(t) . B'(t) + P(t) . B''(t)) */
 
         /* B'(t) = 3t^2 * A + 2t * B + C */
-        d1.x = FT_MulFix( aA.x, 3 * factor2 ) +
-               FT_MulFix( bB.x, 2 * factor ) + cC.x;
-        d1.y = FT_MulFix( aA.y, 3 * factor2 ) +
-               FT_MulFix( bB.y, 2 * factor ) + cC.y;
+        d1.x = FT_TS_MulFix( aA.x, 3 * factor2 ) +
+               FT_TS_MulFix( bB.x, 2 * factor ) + cC.x;
+        d1.y = FT_TS_MulFix( aA.y, 3 * factor2 ) +
+               FT_TS_MulFix( bB.y, 2 * factor ) + cC.y;
 
         /* B''(t) = 6t * A + 2B */
-        d2.x = FT_MulFix( aA.x, 6 * factor ) + 2 * bB.x;
-        d2.y = FT_MulFix( aA.y, 6 * factor ) + 2 * bB.y;
+        d2.x = FT_TS_MulFix( aA.x, 6 * factor ) + 2 * bB.x;
+        d2.y = FT_TS_MulFix( aA.y, 6 * factor ) + 2 * bB.y;
 
         dist_vector.x /= 1024;
         dist_vector.y /= 1024;
@@ -2789,43 +2789,43 @@
         temp2 = VEC_26D6_DOT( d1, d1 ) +
                 VEC_26D6_DOT( dist_vector, d2 );
 
-        factor -= FT_DivFix( temp1, temp2 );
+        factor -= FT_TS_DivFix( temp1, temp2 );
 
-        if ( factor < 0 || factor > FT_INT_16D16( 1 ) )
+        if ( factor < 0 || factor > FT_TS_INT_16D16( 1 ) )
           break;
       }
     }
 
     /* B'(t) = 3t^2 * A + 2t * B + C */
-    direction.x = FT_MulFix( aA.x, 3 * min_factor_sq ) +
-                  FT_MulFix( bB.x, 2 * min_factor ) + cC.x;
-    direction.y = FT_MulFix( aA.y, 3 * min_factor_sq ) +
-                  FT_MulFix( bB.y, 2 * min_factor ) + cC.y;
+    direction.x = FT_TS_MulFix( aA.x, 3 * min_factor_sq ) +
+                  FT_TS_MulFix( bB.x, 2 * min_factor ) + cC.x;
+    direction.y = FT_TS_MulFix( aA.y, 3 * min_factor_sq ) +
+                  FT_TS_MulFix( bB.y, 2 * min_factor ) + cC.y;
 
     /* determine the sign */
-    cross = FT_MulFix( nearest_point.x - FT_26D6_16D16( p.x ),
+    cross = FT_TS_MulFix( nearest_point.x - FT_TS_26D6_16D16( p.x ),
                        direction.y )                           -
-            FT_MulFix( nearest_point.y - FT_26D6_16D16( p.y ),
+            FT_TS_MulFix( nearest_point.y - FT_TS_26D6_16D16( p.y ),
                        direction.x );
 
     /* assign the values */
     out->distance = min;
     out->sign     = cross < 0 ? 1 : -1;
 
-    if ( min_factor != 0 && min_factor != FT_INT_16D16( 1 ) )
-      out->cross = FT_INT_16D16( 1 );   /* the two are perpendicular */
+    if ( min_factor != 0 && min_factor != FT_TS_INT_16D16( 1 ) )
+      out->cross = FT_TS_INT_16D16( 1 );   /* the two are perpendicular */
     else
     {
       /* convert to nearest vector */
-      nearest_point.x -= FT_26D6_16D16( p.x );
-      nearest_point.y -= FT_26D6_16D16( p.y );
+      nearest_point.x -= FT_TS_26D6_16D16( p.x );
+      nearest_point.y -= FT_TS_26D6_16D16( p.y );
 
       /* compute `cross` if not perpendicular */
-      FT_Vector_NormLen( &direction );
-      FT_Vector_NormLen( &nearest_point );
+      FT_TS_Vector_NormLen( &direction );
+      FT_TS_Vector_NormLen( &nearest_point );
 
-      out->cross = FT_MulFix( direction.x, nearest_point.y ) -
-                   FT_MulFix( direction.y, nearest_point.x );
+      out->cross = FT_TS_MulFix( direction.x, nearest_point.y ) -
+                   FT_TS_MulFix( direction.y, nearest_point.x );
     }
 
   Exit:
@@ -2858,17 +2858,17 @@
    *   FreeType error, 0 means success.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   sdf_edge_get_min_distance( SDF_Edge*             edge,
-                             FT_26D6_Vec           point,
+                             FT_TS_26D6_Vec           point,
                              SDF_Signed_Distance*  out )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     if ( !edge || !out )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -2888,7 +2888,7 @@
       break;
 
     default:
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
     }
 
   Exit:
@@ -2932,19 +2932,19 @@
    *   edges.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   sdf_contour_get_min_distance( SDF_Contour*          contour,
-                                FT_26D6_Vec           point,
+                                FT_TS_26D6_Vec           point,
                                 SDF_Signed_Distance*  out )
   {
-    FT_Error             error    = FT_Err_Ok;
+    FT_TS_Error             error    = FT_TS_Err_Ok;
     SDF_Signed_Distance  min_dist = max_sdf;
     SDF_Edge*            edge_list;
 
 
     if ( !contour || !out )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
@@ -2954,10 +2954,10 @@
     while ( edge_list )
     {
       SDF_Signed_Distance  current_dist = max_sdf;
-      FT_16D16             diff;
+      FT_TS_16D16             diff;
 
 
-      FT_CALL( sdf_edge_get_min_distance( edge_list,
+      FT_TS_CALL( sdf_edge_get_min_distance( edge_list,
                                           point,
                                           &current_dist ) );
 
@@ -2966,13 +2966,13 @@
         diff = current_dist.distance - min_dist.distance;
 
 
-        if ( FT_ABS(diff ) < CORNER_CHECK_EPSILON )
+        if ( FT_TS_ABS(diff ) < CORNER_CHECK_EPSILON )
           min_dist = resolve_corner( min_dist, current_dist );
         else if ( diff < 0 )
           min_dist = current_dist;
       }
       else
-        FT_TRACE0(( "sdf_contour_get_min_distance: Overflow.\n" ));
+        FT_TS_TRACE0(( "sdf_contour_get_min_distance: Overflow.\n" ));
 
       edge_list = edge_list->next;
     }
@@ -3016,53 +3016,53 @@
    *   FreeType error, 0 means success.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   sdf_generate( const SDF_Params  internal_params,
                 const SDF_Shape*  shape,
-                FT_UInt           spread,
-                const FT_Bitmap*  bitmap )
+                FT_TS_UInt           spread,
+                const FT_TS_Bitmap*  bitmap )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_UInt  width = 0;
-    FT_UInt  rows  = 0;
-    FT_UInt  x     = 0;   /* used to loop in x direction, i.e., width     */
-    FT_UInt  y     = 0;   /* used to loop in y direction, i.e., rows      */
-    FT_UInt  sp_sq = 0;   /* `spread` [* `spread`] as a 16.16 fixed value */
+    FT_TS_UInt  width = 0;
+    FT_TS_UInt  rows  = 0;
+    FT_TS_UInt  x     = 0;   /* used to loop in x direction, i.e., width     */
+    FT_TS_UInt  y     = 0;   /* used to loop in y direction, i.e., rows      */
+    FT_TS_UInt  sp_sq = 0;   /* `spread` [* `spread`] as a 16.16 fixed value */
 
-    FT_Short*  buffer;
+    FT_TS_Short*  buffer;
 
 
     if ( !shape || !bitmap )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( spread < MIN_SPREAD || spread > MAX_SPREAD )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     width  = bitmap->width;
     rows   = bitmap->rows;
-    buffer = (FT_Short*)bitmap->buffer;
+    buffer = (FT_TS_Short*)bitmap->buffer;
 
     if ( USE_SQUARED_DISTANCES )
-      sp_sq = FT_INT_16D16( spread * spread );
+      sp_sq = FT_TS_INT_16D16( spread * spread );
     else
-      sp_sq = FT_INT_16D16( spread );
+      sp_sq = FT_TS_INT_16D16( spread );
 
     if ( width == 0 || rows == 0 )
     {
-      FT_TRACE0(( "sdf_generate:"
+      FT_TS_TRACE0(( "sdf_generate:"
                   " Cannot render glyph with width/height == 0\n" ));
-      FT_TRACE0(( "             "
+      FT_TS_TRACE0(( "             "
                   " (width, height provided [%d, %d])\n",
                   width, rows ));
 
-      error = FT_THROW( Cannot_Render_Glyph );
+      error = FT_TS_THROW( Cannot_Render_Glyph );
       goto Exit;
     }
 
@@ -3075,21 +3075,21 @@
         /* `grid_point` is the current pixel position; */
         /* our task is to find the shortest distance   */
         /* from this point to the entire shape.        */
-        FT_26D6_Vec          grid_point = zero_vector;
+        FT_TS_26D6_Vec          grid_point = zero_vector;
         SDF_Signed_Distance  min_dist   = max_sdf;
         SDF_Contour*         contour_list;
 
-        FT_UInt   index;
-        FT_Short  value;
+        FT_TS_UInt   index;
+        FT_TS_Short  value;
 
 
-        grid_point.x = FT_INT_26D6( x );
-        grid_point.y = FT_INT_26D6( y );
+        grid_point.x = FT_TS_INT_26D6( x );
+        grid_point.y = FT_TS_INT_26D6( y );
 
         /* This `grid_point' is at the corner, but we */
         /* use the center of the pixel.               */
-        grid_point.x += FT_INT_26D6( 1 ) / 2;
-        grid_point.y += FT_INT_26D6( 1 ) / 2;
+        grid_point.x += FT_TS_INT_26D6( 1 ) / 2;
+        grid_point.y += FT_TS_INT_26D6( 1 ) / 2;
 
         contour_list = shape->contours;
 
@@ -3099,7 +3099,7 @@
           SDF_Signed_Distance  current_dist = max_sdf;
 
 
-          FT_CALL( sdf_contour_get_min_distance( contour_list,
+          FT_TS_CALL( sdf_contour_get_min_distance( contour_list,
                                                  grid_point,
                                                  &current_dist ) );
 
@@ -3120,7 +3120,7 @@
         if ( USE_SQUARED_DISTANCES )
           min_dist.distance = square_root( min_dist.distance );
 
-        if ( internal_params.orientation == FT_ORIENTATION_FILL_LEFT )
+        if ( internal_params.orientation == FT_TS_ORIENTATION_FILL_LEFT )
           min_dist.sign = -min_dist.sign;
         if ( internal_params.flip_sign )
           min_dist.sign = -min_dist.sign;
@@ -3186,20 +3186,20 @@
    *   FreeType error, 0 means success.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   sdf_generate_bounding_box( const SDF_Params  internal_params,
                              const SDF_Shape*  shape,
-                             FT_UInt           spread,
-                             const FT_Bitmap*  bitmap )
+                             FT_TS_UInt           spread,
+                             const FT_TS_Bitmap*  bitmap )
   {
-    FT_Error   error  = FT_Err_Ok;
-    FT_Memory  memory = NULL;
+    FT_TS_Error   error  = FT_TS_Err_Ok;
+    FT_TS_Memory  memory = NULL;
 
-    FT_Int  width, rows, i, j;
-    FT_Int  sp_sq;            /* max value to check   */
+    FT_TS_Int  width, rows, i, j;
+    FT_TS_Int  sp_sq;            /* max value to check   */
 
     SDF_Contour*   contours;  /* list of all contours */
-    FT_SDFFormat*  buffer;    /* the bitmap buffer    */
+    FT_TS_SDFFormat*  buffer;    /* the bitmap buffer    */
 
     /* This buffer has the same size in indices as the    */
     /* bitmap buffer.  When we check a pixel position for */
@@ -3208,36 +3208,36 @@
     /* and also determine the signs properly.             */
     SDF_Signed_Distance*  dists = NULL;
 
-    const FT_16D16  fixed_spread = FT_INT_16D16( spread );
+    const FT_TS_16D16  fixed_spread = FT_TS_INT_16D16( spread );
 
 
     if ( !shape || !bitmap )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( spread < MIN_SPREAD || spread > MAX_SPREAD )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     memory = shape->memory;
     if ( !memory )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    if ( FT_ALLOC( dists,
+    if ( FT_TS_ALLOC( dists,
                    bitmap->width * bitmap->rows * sizeof ( *dists ) ) )
       goto Exit;
 
     contours = shape->contours;
-    width    = (FT_Int)bitmap->width;
-    rows     = (FT_Int)bitmap->rows;
-    buffer   = (FT_SDFFormat*)bitmap->buffer;
+    width    = (FT_TS_Int)bitmap->width;
+    rows     = (FT_TS_Int)bitmap->rows;
+    buffer   = (FT_TS_SDFFormat*)bitmap->buffer;
 
     if ( USE_SQUARED_DISTANCES )
       sp_sq = fixed_spread * fixed_spread;
@@ -3246,12 +3246,12 @@
 
     if ( width == 0 || rows == 0 )
     {
-      FT_TRACE0(( "sdf_generate:"
+      FT_TS_TRACE0(( "sdf_generate:"
                   " Cannot render glyph with width/height == 0\n" ));
-      FT_TRACE0(( "             "
+      FT_TS_TRACE0(( "             "
                   " (width, height provided [%d, %d])", width, rows ));
 
-      error = FT_THROW( Cannot_Render_Glyph );
+      error = FT_TS_THROW( Cannot_Render_Glyph );
       goto Exit;
     }
 
@@ -3264,26 +3264,26 @@
       /* loop over all edges */
       while ( edges )
       {
-        FT_CBox  cbox;
-        FT_Int   x, y;
+        FT_TS_CBox  cbox;
+        FT_TS_Int   x, y;
 
 
         /* get the control box and increase it by `spread' */
         cbox = get_control_box( *edges );
 
-        cbox.xMin = ( cbox.xMin - 63 ) / 64 - ( FT_Pos )spread;
-        cbox.xMax = ( cbox.xMax + 63 ) / 64 + ( FT_Pos )spread;
-        cbox.yMin = ( cbox.yMin - 63 ) / 64 - ( FT_Pos )spread;
-        cbox.yMax = ( cbox.yMax + 63 ) / 64 + ( FT_Pos )spread;
+        cbox.xMin = ( cbox.xMin - 63 ) / 64 - ( FT_TS_Pos )spread;
+        cbox.xMax = ( cbox.xMax + 63 ) / 64 + ( FT_TS_Pos )spread;
+        cbox.yMin = ( cbox.yMin - 63 ) / 64 - ( FT_TS_Pos )spread;
+        cbox.yMax = ( cbox.yMax + 63 ) / 64 + ( FT_TS_Pos )spread;
 
         /* now loop over the pixels in the control box. */
         for ( y = cbox.yMin; y < cbox.yMax; y++ )
         {
           for ( x = cbox.xMin; x < cbox.xMax; x++ )
           {
-            FT_26D6_Vec          grid_point = zero_vector;
+            FT_TS_26D6_Vec          grid_point = zero_vector;
             SDF_Signed_Distance  dist       = max_sdf;
-            FT_UInt              index      = 0;
+            FT_TS_UInt              index      = 0;
 
 
             if ( x < 0 || x >= width )
@@ -3291,19 +3291,19 @@
             if ( y < 0 || y >= rows )
               continue;
 
-            grid_point.x = FT_INT_26D6( x );
-            grid_point.y = FT_INT_26D6( y );
+            grid_point.x = FT_TS_INT_26D6( x );
+            grid_point.y = FT_TS_INT_26D6( y );
 
             /* This `grid_point` is at the corner, but we */
             /* use the center of the pixel.               */
-            grid_point.x += FT_INT_26D6( 1 ) / 2;
-            grid_point.y += FT_INT_26D6( 1 ) / 2;
+            grid_point.x += FT_TS_INT_26D6( 1 ) / 2;
+            grid_point.y += FT_TS_INT_26D6( 1 ) / 2;
 
-            FT_CALL( sdf_edge_get_min_distance( edges,
+            FT_TS_CALL( sdf_edge_get_min_distance( edges,
                                                 grid_point,
                                                 &dist ) );
 
-            if ( internal_params.orientation == FT_ORIENTATION_FILL_LEFT )
+            if ( internal_params.orientation == FT_TS_ORIENTATION_FILL_LEFT )
               dist.sign = -dist.sign;
 
             /* ignore if the distance is greater than spread;       */
@@ -3316,16 +3316,16 @@
               dist.distance = square_root( dist.distance );
 
             if ( internal_params.flip_y )
-              index = (FT_UInt)( y * width + x );
+              index = (FT_TS_UInt)( y * width + x );
             else
-              index = (FT_UInt)( ( rows - y - 1 ) * width + x );
+              index = (FT_TS_UInt)( ( rows - y - 1 ) * width + x );
 
             /* check whether the pixel is set or not */
             if ( dists[index].sign == 0 )
               dists[index] = dist;
             else if ( dists[index].distance > dist.distance )
               dists[index] = dist;
-            else if ( FT_ABS( dists[index].distance - dist.distance )
+            else if ( FT_TS_ABS( dists[index].distance - dist.distance )
                         < CORNER_CHECK_EPSILON )
               dists[index] = resolve_corner( dists[index], dist );
           }
@@ -3341,8 +3341,8 @@
     for ( j = 0; j < rows; j++ )
     {
       /* We assume the starting pixel of each row is outside. */
-      FT_Char  current_sign = -1;
-      FT_UInt  index;
+      FT_TS_Char  current_sign = -1;
+      FT_TS_UInt  index;
 
 
       if ( internal_params.overload_sign != 0 )
@@ -3350,7 +3350,7 @@
 
       for ( i = 0; i < width; i++ )
       {
-        index = (FT_UInt)( j * width + i );
+        index = (FT_TS_UInt)( j * width + i );
 
         /* if the pixel is not set                     */
         /* its shortest distance is more than `spread` */
@@ -3374,7 +3374,7 @@
     }
 
   Exit:
-    FT_FREE( dists );
+    FT_TS_FREE( dists );
     return error;
   }
 
@@ -3410,11 +3410,11 @@
    *   FreeType error, 0 means success.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   sdf_generate_subdivision( const SDF_Params  internal_params,
                             SDF_Shape*        shape,
-                            FT_UInt           spread,
-                            const FT_Bitmap*  bitmap )
+                            FT_TS_UInt           spread,
+                            const FT_TS_Bitmap*  bitmap )
   {
     /*
      * Thanks to Alexei for providing the idea of this optimization.
@@ -3438,11 +3438,11 @@
      * This greatly reduces the number of grid points to check.
      */
 
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
-    FT_CALL( split_sdf_shape( shape ) );
-    FT_CALL( sdf_generate_bounding_box( internal_params,
+    FT_TS_CALL( split_sdf_shape( shape ) );
+    FT_TS_CALL( sdf_generate_bounding_box( internal_params,
                                         shape, spread, bitmap ) );
 
   Exit:
@@ -3488,27 +3488,27 @@
    *   necessary to remove the overlaps before generating the SDF.
    *
    */
-  static FT_Error
+  static FT_TS_Error
   sdf_generate_with_overlaps( SDF_Params        internal_params,
                               SDF_Shape*        shape,
-                              FT_UInt           spread,
-                              const FT_Bitmap*  bitmap )
+                              FT_TS_UInt           spread,
+                              const FT_TS_Bitmap*  bitmap )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
-    FT_Int      num_contours;        /* total number of contours      */
-    FT_Int      i, j;                /* iterators                     */
-    FT_Int      width, rows;         /* width and rows of the bitmap  */
-    FT_Bitmap*  bitmaps;             /* separate bitmaps for contours */
+    FT_TS_Int      num_contours;        /* total number of contours      */
+    FT_TS_Int      i, j;                /* iterators                     */
+    FT_TS_Int      width, rows;         /* width and rows of the bitmap  */
+    FT_TS_Bitmap*  bitmaps;             /* separate bitmaps for contours */
 
     SDF_Contour*  contour;           /* temporary variable to iterate */
     SDF_Contour*  temp_contour;      /* temporary contour             */
     SDF_Contour*  head;              /* head of the contour list      */
     SDF_Shape     temp_shape;        /* temporary shape               */
 
-    FT_Memory      memory;           /* to allocate memory            */
-    FT_SDFFormat*  t;                /* target bitmap buffer          */
-    FT_Bool        flip_sign;        /* flip sign?                    */
+    FT_TS_Memory      memory;           /* to allocate memory            */
+    FT_TS_SDFFormat*  t;                /* target bitmap buffer          */
+    FT_TS_Bool        flip_sign;        /* flip sign?                    */
 
     /* orientation of all the separate contours */
     SDF_Contour_Orientation*  orientations;
@@ -3519,7 +3519,7 @@
     head         = NULL;
 
     if ( !shape || !bitmap || !shape->memory )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     /* Disable `flip_sign` to avoid extra complication */
     /* during the combination phase.                   */
@@ -3529,8 +3529,8 @@
     contour           = shape->contours;
     memory            = shape->memory;
     temp_shape.memory = memory;
-    width             = (FT_Int)bitmap->width;
-    rows              = (FT_Int)bitmap->rows;
+    width             = (FT_TS_Int)bitmap->width;
+    rows              = (FT_TS_Int)bitmap->rows;
     num_contours      = 0;
 
     /* find the number of contours in the shape */
@@ -3541,13 +3541,13 @@
     }
 
     /* allocate the bitmaps to generate SDF for separate contours */
-    if ( FT_ALLOC( bitmaps,
-                   (FT_UInt)num_contours * sizeof ( *bitmaps ) ) )
+    if ( FT_TS_ALLOC( bitmaps,
+                   (FT_TS_UInt)num_contours * sizeof ( *bitmaps ) ) )
       goto Exit;
 
     /* allocate array to hold orientation for all contours */
-    if ( FT_ALLOC( orientations,
-                   (FT_UInt)num_contours * sizeof ( *orientations ) ) )
+    if ( FT_TS_ALLOC( orientations,
+                   (FT_TS_UInt)num_contours * sizeof ( *orientations ) ) )
       goto Exit;
 
     contour = shape->contours;
@@ -3556,7 +3556,7 @@
     for ( i = 0; i < num_contours; i++ )
     {
       /* initialize the corresponding bitmap */
-      FT_Bitmap_Init( &bitmaps[i] );
+      FT_TS_Bitmap_Init( &bitmaps[i] );
 
       bitmaps[i].width      = bitmap->width;
       bitmaps[i].rows       = bitmap->rows;
@@ -3565,8 +3565,8 @@
       bitmaps[i].pixel_mode = bitmap->pixel_mode;
 
       /* allocate memory for the buffer */
-      if ( FT_ALLOC( bitmaps[i].buffer,
-                     bitmap->rows * (FT_UInt)bitmap->pitch ) )
+      if ( FT_TS_ALLOC( bitmaps[i].buffer,
+                     bitmap->rows * (FT_TS_UInt)bitmap->pitch ) )
         goto Exit;
 
       /* determine the orientation */
@@ -3578,10 +3578,10 @@
       /* pixels, which is necessary for               */
       /* counter-clockwise contours.                  */
       if ( orientations[i] == SDF_ORIENTATION_CCW                   &&
-           internal_params.orientation == FT_ORIENTATION_FILL_RIGHT )
+           internal_params.orientation == FT_TS_ORIENTATION_FILL_RIGHT )
         internal_params.overload_sign = 1;
       else if ( orientations[i] == SDF_ORIENTATION_CW                   &&
-                internal_params.orientation == FT_ORIENTATION_FILL_LEFT )
+                internal_params.orientation == FT_TS_ORIENTATION_FILL_LEFT )
         internal_params.overload_sign = 1;
       else
         internal_params.overload_sign = 0;
@@ -3598,7 +3598,7 @@
       temp_shape.contours = contour;
 
       /* finally generate the SDF */
-      FT_CALL( sdf_generate_subdivision( internal_params,
+      FT_TS_CALL( sdf_generate_subdivision( internal_params,
                                          &temp_shape,
                                          spread,
                                          &bitmaps[i] ) );
@@ -3614,7 +3614,7 @@
 
       /* Simply flip the orientation in case of post-script fonts */
       /* so as to avoid modificatons in the combining phase.      */
-      if ( internal_params.orientation == FT_ORIENTATION_FILL_LEFT )
+      if ( internal_params.orientation == FT_TS_ORIENTATION_FILL_LEFT )
       {
         if ( orientations[i] == SDF_ORIENTATION_CW )
           orientations[i] = SDF_ORIENTATION_CCW;
@@ -3629,7 +3629,7 @@
     shape->contours = head;
 
     /* cast the output bitmap buffer */
-    t = (FT_SDFFormat*)bitmap->buffer;
+    t = (FT_TS_SDFFormat*)bitmap->buffer;
 
     /* Iterate over all pixels and combine all separate    */
     /* contours.  These are the rules for combining:       */
@@ -3644,29 +3644,29 @@
     {
       for ( i = 0; i < width; i++ )
       {
-        FT_Int  id = j * width + i;       /* index of current pixel    */
-        FT_Int  c;                        /* contour iterator          */
+        FT_TS_Int  id = j * width + i;       /* index of current pixel    */
+        FT_TS_Int  c;                        /* contour iterator          */
 
-        FT_SDFFormat  val_c  = 0;         /* max clockwise value       */
-        FT_SDFFormat  val_ac = UCHAR_MAX; /* min counter-clockwise val */
+        FT_TS_SDFFormat  val_c  = 0;         /* max clockwise value       */
+        FT_TS_SDFFormat  val_ac = UCHAR_MAX; /* min counter-clockwise val */
 
 
         /* iterate through all the contours */
         for ( c = 0; c < num_contours; c++ )
         {
           /* current contour value */
-          FT_SDFFormat  temp = ( (FT_SDFFormat*)bitmaps[c].buffer )[id];
+          FT_TS_SDFFormat  temp = ( (FT_TS_SDFFormat*)bitmaps[c].buffer )[id];
 
 
           if ( orientations[c] == SDF_ORIENTATION_CW )
-            val_c = FT_MAX( val_c, temp );   /* clockwise         */
+            val_c = FT_TS_MAX( val_c, temp );   /* clockwise         */
           else
-            val_ac = FT_MIN( val_ac, temp ); /* counter-clockwise */
+            val_ac = FT_TS_MIN( val_ac, temp ); /* counter-clockwise */
         }
 
         /* Finally find the smaller of the two and assign to output. */
         /* Also apply `flip_sign` if set.                            */
-        t[id] = FT_MIN( val_c, val_ac );
+        t[id] = FT_TS_MIN( val_c, val_ac );
 
         if ( flip_sign )
           t[id] = invert_sign( t[id] );
@@ -3676,19 +3676,19 @@
   Exit:
     /* deallocate orientations array */
     if ( orientations )
-      FT_FREE( orientations );
+      FT_TS_FREE( orientations );
 
     /* deallocate temporary bitmaps */
     if ( bitmaps )
     {
       if ( num_contours == 0 )
-        error = FT_THROW( Raster_Corrupted );
+        error = FT_TS_THROW( Raster_Corrupted );
       else
       {
         for ( i = 0; i < num_contours; i++ )
-          FT_FREE( bitmaps[i].buffer );
+          FT_TS_FREE( bitmaps[i].buffer );
 
-        FT_FREE( bitmaps );
+        FT_TS_FREE( bitmaps );
       }
     }
 
@@ -3705,15 +3705,15 @@
    *
    */
 
-  static FT_Error
-  sdf_raster_new( FT_Memory     memory,
+  static FT_TS_Error
+  sdf_raster_new( FT_TS_Memory     memory,
                   SDF_PRaster*  araster )
   {
-    FT_Error     error;
+    FT_TS_Error     error;
     SDF_PRaster  raster = NULL;
 
 
-    if ( !FT_NEW( raster ) )
+    if ( !FT_TS_NEW( raster ) )
       raster->memory = memory;
 
     *araster = raster;
@@ -3723,39 +3723,39 @@
 
 
   static void
-  sdf_raster_reset( FT_Raster       raster,
+  sdf_raster_reset( FT_TS_Raster       raster,
                     unsigned char*  pool_base,
                     unsigned long   pool_size )
   {
-    FT_UNUSED( raster );
-    FT_UNUSED( pool_base );
-    FT_UNUSED( pool_size );
+    FT_TS_UNUSED( raster );
+    FT_TS_UNUSED( pool_base );
+    FT_TS_UNUSED( pool_size );
   }
 
 
-  static FT_Error
-  sdf_raster_set_mode( FT_Raster      raster,
+  static FT_TS_Error
+  sdf_raster_set_mode( FT_TS_Raster      raster,
                        unsigned long  mode,
                        void*          args )
   {
-    FT_UNUSED( raster );
-    FT_UNUSED( mode );
-    FT_UNUSED( args );
+    FT_TS_UNUSED( raster );
+    FT_TS_UNUSED( mode );
+    FT_TS_UNUSED( args );
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
-  static FT_Error
-  sdf_raster_render( FT_Raster                raster,
-                     const FT_Raster_Params*  params )
+  static FT_TS_Error
+  sdf_raster_render( FT_TS_Raster                raster,
+                     const FT_TS_Raster_Params*  params )
   {
-    FT_Error                  error      = FT_Err_Ok;
+    FT_TS_Error                  error      = FT_TS_Err_Ok;
     SDF_TRaster*              sdf_raster = (SDF_TRaster*)raster;
-    FT_Outline*               outline    = NULL;
+    FT_TS_Outline*               outline    = NULL;
     const SDF_Raster_Params*  sdf_params = (const SDF_Raster_Params*)params;
 
-    FT_Memory   memory = NULL;
+    FT_TS_Memory   memory = NULL;
     SDF_Shape*  shape  = NULL;
     SDF_Params  internal_params;
 
@@ -3763,16 +3763,16 @@
     /* check for valid arguments */
     if ( !sdf_raster || !sdf_params )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    outline = (FT_Outline*)sdf_params->root.source;
+    outline = (FT_TS_Outline*)sdf_params->root.source;
 
     /* check whether outline is valid */
     if ( !outline )
     {
-      error = FT_THROW( Invalid_Outline );
+      error = FT_TS_THROW( Invalid_Outline );
       goto Exit;
     }
 
@@ -3783,7 +3783,7 @@
     /* check whether the outline has valid fields */
     if ( !outline->contours || !outline->points )
     {
-      error = FT_THROW( Invalid_Outline );
+      error = FT_TS_THROW( Invalid_Outline );
       goto Exit;
     }
 
@@ -3791,50 +3791,50 @@
     if ( sdf_params->spread > MAX_SPREAD ||
          sdf_params->spread < MIN_SPREAD )
     {
-      FT_TRACE0(( "sdf_raster_render:"
+      FT_TS_TRACE0(( "sdf_raster_render:"
                   " The `spread' field of `SDF_Raster_Params' is invalid,\n" ));
-      FT_TRACE0(( "                  "
+      FT_TS_TRACE0(( "                  "
                   " the value of this field must be within [%d, %d].\n",
                   MIN_SPREAD, MAX_SPREAD ));
-      FT_TRACE0(( "                  "
+      FT_TS_TRACE0(( "                  "
                   " Also, you must pass `SDF_Raster_Params' instead of\n" ));
-      FT_TRACE0(( "                  "
-                  " the default `FT_Raster_Params' while calling\n" ));
-      FT_TRACE0(( "                  "
+      FT_TS_TRACE0(( "                  "
+                  " the default `FT_TS_Raster_Params' while calling\n" ));
+      FT_TS_TRACE0(( "                  "
                   " this function and set the fields properly.\n" ));
 
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     memory = sdf_raster->memory;
     if ( !memory )
     {
-      FT_TRACE0(( "sdf_raster_render:"
+      FT_TS_TRACE0(( "sdf_raster_render:"
                   " Raster not setup properly,\n" ));
-      FT_TRACE0(( "                  "
+      FT_TS_TRACE0(( "                  "
                   " unable to find memory handle.\n" ));
 
-      error = FT_THROW( Invalid_Handle );
+      error = FT_TS_THROW( Invalid_Handle );
       goto Exit;
     }
 
     /* set up the parameters */
-    internal_params.orientation   = FT_Outline_Get_Orientation( outline );
+    internal_params.orientation   = FT_TS_Outline_Get_Orientation( outline );
     internal_params.flip_sign     = sdf_params->flip_sign;
     internal_params.flip_y        = sdf_params->flip_y;
     internal_params.overload_sign = 0;
 
-    FT_CALL( sdf_shape_new( memory, &shape ) );
+    FT_TS_CALL( sdf_shape_new( memory, &shape ) );
 
-    FT_CALL( sdf_outline_decompose( outline, shape ) );
+    FT_TS_CALL( sdf_outline_decompose( outline, shape ) );
 
     if ( sdf_params->overlaps )
-      FT_CALL( sdf_generate_with_overlaps( internal_params,
+      FT_TS_CALL( sdf_generate_with_overlaps( internal_params,
                                            shape, sdf_params->spread,
                                            sdf_params->root.target ) );
     else
-      FT_CALL( sdf_generate_subdivision( internal_params,
+      FT_TS_CALL( sdf_generate_subdivision( internal_params,
                                          shape, sdf_params->spread,
                                          sdf_params->root.target ) );
 
@@ -3847,25 +3847,25 @@
 
 
   static void
-  sdf_raster_done( FT_Raster  raster )
+  sdf_raster_done( FT_TS_Raster  raster )
   {
-    FT_Memory  memory = (FT_Memory)((SDF_TRaster*)raster)->memory;
+    FT_TS_Memory  memory = (FT_TS_Memory)((SDF_TRaster*)raster)->memory;
 
 
-    FT_FREE( raster );
+    FT_TS_FREE( raster );
   }
 
 
-  FT_DEFINE_RASTER_FUNCS(
+  FT_TS_DEFINE_RASTER_FUNCS(
     ft_sdf_raster,
 
-    FT_GLYPH_FORMAT_OUTLINE,
+    FT_TS_GLYPH_FORMAT_OUTLINE,
 
-    (FT_Raster_New_Func)     sdf_raster_new,       /* raster_new      */
-    (FT_Raster_Reset_Func)   sdf_raster_reset,     /* raster_reset    */
-    (FT_Raster_Set_Mode_Func)sdf_raster_set_mode,  /* raster_set_mode */
-    (FT_Raster_Render_Func)  sdf_raster_render,    /* raster_render   */
-    (FT_Raster_Done_Func)    sdf_raster_done       /* raster_done     */
+    (FT_TS_Raster_New_Func)     sdf_raster_new,       /* raster_new      */
+    (FT_TS_Raster_Reset_Func)   sdf_raster_reset,     /* raster_reset    */
+    (FT_TS_Raster_Set_Mode_Func)sdf_raster_set_mode,  /* raster_set_mode */
+    (FT_TS_Raster_Render_Func)  sdf_raster_render,    /* raster_render   */
+    (FT_TS_Raster_Done_Func)    sdf_raster_done       /* raster_done     */
   )
 
 

@@ -31,12 +31,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvprop
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvprop
 
 
   /*************************************************************************/
@@ -52,7 +52,7 @@
 
   typedef struct  GXV_prop_DataRec_
   {
-    FT_Fixed  version;
+    FT_TS_Fixed  version;
 
   } GXV_prop_DataRec, *GXV_prop_Data;
 
@@ -75,31 +75,31 @@
   /*************************************************************************/
 
   static void
-  gxv_prop_zero_advance_validate( FT_UShort      gid,
+  gxv_prop_zero_advance_validate( FT_TS_UShort      gid,
                                   GXV_Validator  gxvalid )
   {
-    FT_Face       face;
-    FT_Error      error;
-    FT_GlyphSlot  glyph;
+    FT_TS_Face       face;
+    FT_TS_Error      error;
+    FT_TS_GlyphSlot  glyph;
 
 
     GXV_NAME_ENTER( "zero advance" );
 
     face = gxvalid->face;
 
-    error = FT_Load_Glyph( face,
+    error = FT_TS_Load_Glyph( face,
                            gid,
-                           FT_LOAD_IGNORE_TRANSFORM );
+                           FT_TS_LOAD_IGNORE_TRANSFORM );
     if ( error )
-      FT_INVALID_GLYPH_ID;
+      FT_TS_INVALID_GLYPH_ID;
 
     glyph = face->glyph;
 
-    if ( glyph->advance.x != (FT_Pos)0 ||
-         glyph->advance.y != (FT_Pos)0 )
+    if ( glyph->advance.x != (FT_TS_Pos)0 ||
+         glyph->advance.y != (FT_TS_Pos)0 )
     {
       GXV_TRACE(( "  found non-zero advance in zero-advance glyph\n" ));
-      FT_INVALID_DATA;
+      FT_TS_INVALID_DATA;
     }
 
     GXV_EXIT;
@@ -108,8 +108,8 @@
 
   /* Pass 0 as GLYPH to check the default property */
   static void
-  gxv_prop_property_validate( FT_UShort      property,
-                              FT_UShort      glyph,
+  gxv_prop_property_validate( FT_TS_UShort      property,
+                              FT_TS_UShort      glyph,
                               GXV_Validator  gxvalid )
   {
     if ( glyph != 0 && ( property & GXV_PROP_FLOATER ) )
@@ -117,15 +117,15 @@
 
     if ( property & GXV_PROP_USE_COMPLEMENTARY_BRACKET )
     {
-      FT_UShort  offset;
+      FT_TS_UShort  offset;
       char       complement;
 
 
-      offset = (FT_UShort)( property & GXV_PROP_COMPLEMENTARY_BRACKET_OFFSET );
+      offset = (FT_TS_UShort)( property & GXV_PROP_COMPLEMENTARY_BRACKET_OFFSET );
       if ( offset == 0 )
       {
         GXV_TRACE(( "  found zero offset to property\n" ));
-        FT_INVALID_OFFSET;
+        FT_TS_INVALID_OFFSET;
       }
 
       complement = (char)( offset >> 8 );
@@ -140,13 +140,13 @@
         if ( glyph <= complement )
         {
           GXV_TRACE(( "  found non-positive glyph complement\n" ));
-          FT_INVALID_DATA;
+          FT_TS_INVALID_DATA;
         }
       }
       else
       {
         /* The gid for complement must be the face. */
-        gxv_glyphid_validate( (FT_UShort)( glyph + complement ), gxvalid );
+        gxv_glyphid_validate( (FT_TS_UShort)( glyph + complement ), gxvalid );
       }
     }
     else
@@ -162,14 +162,14 @@
       if ( GXV_PROP_DATA( version ) == 0x00010000UL )
       {
         GXV_TRACE(( "  found older version (1.0) in new version table\n" ));
-        FT_INVALID_DATA;
+        FT_TS_INVALID_DATA;
       }
     }
 
     if ( property & GXV_PROP_RESERVED )
     {
       GXV_TRACE(( "  found non-zero bits in reserved bits\n" ));
-      FT_INVALID_DATA;
+      FT_TS_INVALID_DATA;
     }
 
     if ( ( property & GXV_PROP_DIRECTIONALITY_CLASS ) > 11 )
@@ -179,14 +179,14 @@
            GXV_PROP_DATA( version ) == 0x00020000UL )
       {
         GXV_TRACE(( "  found too old version in directionality class\n" ));
-        FT_INVALID_DATA;
+        FT_TS_INVALID_DATA;
       }
     }
   }
 
 
   static void
-  gxv_prop_LookupValue_validate( FT_UShort            glyph,
+  gxv_prop_LookupValue_validate( FT_TS_UShort            glyph,
                                  GXV_LookupValueCPtr  value_p,
                                  GXV_Validator        gxvalid )
   {
@@ -222,24 +222,24 @@
   */
 
   static GXV_LookupValueDesc
-  gxv_prop_LookupFmt4_transit( FT_UShort            relative_gindex,
+  gxv_prop_LookupFmt4_transit( FT_TS_UShort            relative_gindex,
                                GXV_LookupValueCPtr  base_value_p,
-                               FT_Bytes             lookuptbl_limit,
+                               FT_TS_Bytes             lookuptbl_limit,
                                GXV_Validator        gxvalid )
   {
-    FT_Bytes             p;
-    FT_Bytes             limit;
-    FT_UShort            offset;
+    FT_TS_Bytes             p;
+    FT_TS_Bytes             limit;
+    FT_TS_UShort            offset;
     GXV_LookupValueDesc  value;
 
     /* XXX: check range? */
-    offset = (FT_UShort)( base_value_p->u +
-                          relative_gindex * sizeof ( FT_UShort ) );
+    offset = (FT_TS_UShort)( base_value_p->u +
+                          relative_gindex * sizeof ( FT_TS_UShort ) );
     p      = gxvalid->lookuptbl_head + offset;
     limit  = lookuptbl_limit;
 
     GXV_LIMIT_CHECK ( 2 );
-    value.u = FT_NEXT_USHORT( p );
+    value.u = FT_TS_NEXT_USHORT( p );
 
     return value;
   }
@@ -253,35 +253,35 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
-  gxv_prop_validate( FT_Bytes      table,
-                     FT_Face       face,
-                     FT_Validator  ftvalid )
+  FT_TS_LOCAL_DEF( void )
+  gxv_prop_validate( FT_TS_Bytes      table,
+                     FT_TS_Face       face,
+                     FT_TS_Validator  ftvalid )
   {
-    FT_Bytes          p     = table;
-    FT_Bytes          limit = 0;
+    FT_TS_Bytes          p     = table;
+    FT_TS_Bytes          limit = 0;
     GXV_ValidatorRec  gxvalidrec;
     GXV_Validator     gxvalid = &gxvalidrec;
 
     GXV_prop_DataRec  proprec;
     GXV_prop_Data     prop = &proprec;
 
-    FT_Fixed          version;
-    FT_UShort         format;
-    FT_UShort         defaultProp;
+    FT_TS_Fixed          version;
+    FT_TS_UShort         format;
+    FT_TS_UShort         defaultProp;
 
 
     gxvalid->root       = ftvalid;
     gxvalid->table_data = prop;
     gxvalid->face       = face;
 
-    FT_TRACE3(( "validating `prop' table\n" ));
+    FT_TS_TRACE3(( "validating `prop' table\n" ));
     GXV_INIT;
 
     GXV_LIMIT_CHECK( 4 + 2 + 2 );
-    version     = FT_NEXT_LONG( p );
-    format      = FT_NEXT_USHORT( p );
-    defaultProp = FT_NEXT_USHORT( p );
+    version     = FT_TS_NEXT_LONG( p );
+    format      = FT_TS_NEXT_USHORT( p );
+    defaultProp = FT_TS_NEXT_USHORT( p );
 
     GXV_TRACE(( "  version 0x%08lx\n", version ));
     GXV_TRACE(( "  format  0x%04x\n", format ));
@@ -293,7 +293,7 @@
          version != 0x00030000UL )
     {
       GXV_TRACE(( "  found unknown version\n" ));
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
     }
 
 
@@ -301,14 +301,14 @@
     if ( format > 1 )
     {
       GXV_TRACE(( "  found unknown format\n" ));
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
     }
 
     gxv_prop_property_validate( defaultProp, 0, gxvalid );
 
     if ( format == 0 )
     {
-      FT_TRACE3(( "(format 0, no per-glyph properties, "
+      FT_TS_TRACE3(( "(format 0, no per-glyph properties, "
                   "remaining %ld bytes are skipped)", limit - p ));
       goto Exit;
     }
@@ -323,7 +323,7 @@
     gxv_LookupTable_validate( p, limit, gxvalid );
 
   Exit:
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
   }
 
 

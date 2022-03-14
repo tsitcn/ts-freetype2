@@ -24,7 +24,7 @@
 #include <freetype/ftglyph.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -36,96 +36,96 @@ FT_BEGIN_HEADER
 
 
   /* create a new glyph object */
-  typedef FT_Error
-  (*FT_Glyph_InitFunc)( FT_Glyph      glyph,
-                        FT_GlyphSlot  slot );
+  typedef FT_TS_Error
+  (*FT_TS_Glyph_InitFunc)( FT_TS_Glyph      glyph,
+                        FT_TS_GlyphSlot  slot );
 
   /* destroys a given glyph object */
   typedef void
-  (*FT_Glyph_DoneFunc)( FT_Glyph  glyph );
+  (*FT_TS_Glyph_DoneFunc)( FT_TS_Glyph  glyph );
 
   typedef void
-  (*FT_Glyph_TransformFunc)( FT_Glyph          glyph,
-                             const FT_Matrix*  matrix,
-                             const FT_Vector*  delta );
+  (*FT_TS_Glyph_TransformFunc)( FT_TS_Glyph          glyph,
+                             const FT_TS_Matrix*  matrix,
+                             const FT_TS_Vector*  delta );
 
   typedef void
-  (*FT_Glyph_GetBBoxFunc)( FT_Glyph  glyph,
-                           FT_BBox*  abbox );
+  (*FT_TS_Glyph_GetBBoxFunc)( FT_TS_Glyph  glyph,
+                           FT_TS_BBox*  abbox );
 
-  typedef FT_Error
-  (*FT_Glyph_CopyFunc)( FT_Glyph   source,
-                        FT_Glyph   target );
+  typedef FT_TS_Error
+  (*FT_TS_Glyph_CopyFunc)( FT_TS_Glyph   source,
+                        FT_TS_Glyph   target );
 
-  typedef FT_Error
-  (*FT_Glyph_PrepareFunc)( FT_Glyph      glyph,
-                           FT_GlyphSlot  slot );
+  typedef FT_TS_Error
+  (*FT_TS_Glyph_PrepareFunc)( FT_TS_Glyph      glyph,
+                           FT_TS_GlyphSlot  slot );
 
 /* deprecated */
-#define FT_Glyph_Init_Func       FT_Glyph_InitFunc
-#define FT_Glyph_Done_Func       FT_Glyph_DoneFunc
-#define FT_Glyph_Transform_Func  FT_Glyph_TransformFunc
-#define FT_Glyph_BBox_Func       FT_Glyph_GetBBoxFunc
-#define FT_Glyph_Copy_Func       FT_Glyph_CopyFunc
-#define FT_Glyph_Prepare_Func    FT_Glyph_PrepareFunc
+#define FT_TS_Glyph_Init_Func       FT_TS_Glyph_InitFunc
+#define FT_TS_Glyph_Done_Func       FT_TS_Glyph_DoneFunc
+#define FT_TS_Glyph_Transform_Func  FT_TS_Glyph_TransformFunc
+#define FT_TS_Glyph_BBox_Func       FT_TS_Glyph_GetBBoxFunc
+#define FT_TS_Glyph_Copy_Func       FT_TS_Glyph_CopyFunc
+#define FT_TS_Glyph_Prepare_Func    FT_TS_Glyph_PrepareFunc
 
 
-  struct  FT_Glyph_Class_
+  struct  FT_TS_Glyph_Class_
   {
-    FT_Long                 glyph_size;
-    FT_Glyph_Format         glyph_format;
+    FT_TS_Long                 glyph_size;
+    FT_TS_Glyph_Format         glyph_format;
 
-    FT_Glyph_InitFunc       glyph_init;
-    FT_Glyph_DoneFunc       glyph_done;
-    FT_Glyph_CopyFunc       glyph_copy;
-    FT_Glyph_TransformFunc  glyph_transform;
-    FT_Glyph_GetBBoxFunc    glyph_bbox;
-    FT_Glyph_PrepareFunc    glyph_prepare;
+    FT_TS_Glyph_InitFunc       glyph_init;
+    FT_TS_Glyph_DoneFunc       glyph_done;
+    FT_TS_Glyph_CopyFunc       glyph_copy;
+    FT_TS_Glyph_TransformFunc  glyph_transform;
+    FT_TS_Glyph_GetBBoxFunc    glyph_bbox;
+    FT_TS_Glyph_PrepareFunc    glyph_prepare;
   };
 
 
-  typedef FT_Error
-  (*FT_Renderer_RenderFunc)( FT_Renderer       renderer,
-                             FT_GlyphSlot      slot,
-                             FT_Render_Mode    mode,
-                             const FT_Vector*  origin );
+  typedef FT_TS_Error
+  (*FT_TS_Renderer_RenderFunc)( FT_TS_Renderer       renderer,
+                             FT_TS_GlyphSlot      slot,
+                             FT_TS_Render_Mode    mode,
+                             const FT_TS_Vector*  origin );
 
-  typedef FT_Error
-  (*FT_Renderer_TransformFunc)( FT_Renderer       renderer,
-                                FT_GlyphSlot      slot,
-                                const FT_Matrix*  matrix,
-                                const FT_Vector*  delta );
+  typedef FT_TS_Error
+  (*FT_TS_Renderer_TransformFunc)( FT_TS_Renderer       renderer,
+                                FT_TS_GlyphSlot      slot,
+                                const FT_TS_Matrix*  matrix,
+                                const FT_TS_Vector*  delta );
 
 
   typedef void
-  (*FT_Renderer_GetCBoxFunc)( FT_Renderer   renderer,
-                              FT_GlyphSlot  slot,
-                              FT_BBox*      cbox );
+  (*FT_TS_Renderer_GetCBoxFunc)( FT_TS_Renderer   renderer,
+                              FT_TS_GlyphSlot  slot,
+                              FT_TS_BBox*      cbox );
 
 
-  typedef FT_Error
-  (*FT_Renderer_SetModeFunc)( FT_Renderer  renderer,
-                              FT_ULong     mode_tag,
-                              FT_Pointer   mode_ptr );
+  typedef FT_TS_Error
+  (*FT_TS_Renderer_SetModeFunc)( FT_TS_Renderer  renderer,
+                              FT_TS_ULong     mode_tag,
+                              FT_TS_Pointer   mode_ptr );
 
 /* deprecated identifiers */
-#define FTRenderer_render  FT_Renderer_RenderFunc
-#define FTRenderer_transform  FT_Renderer_TransformFunc
-#define FTRenderer_getCBox  FT_Renderer_GetCBoxFunc
-#define FTRenderer_setMode  FT_Renderer_SetModeFunc
+#define FTRenderer_render  FT_TS_Renderer_RenderFunc
+#define FTRenderer_transform  FT_TS_Renderer_TransformFunc
+#define FTRenderer_getCBox  FT_TS_Renderer_GetCBoxFunc
+#define FTRenderer_setMode  FT_TS_Renderer_SetModeFunc
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Renderer_Class
+   *   FT_TS_Renderer_Class
    *
    * @description:
    *   The renderer module class descriptor.
    *
    * @fields:
    *   root ::
-   *     The root @FT_Module_Class fields.
+   *     The root @FT_TS_Module_Class fields.
    *
    *   glyph_format ::
    *     The glyph image format this renderer handles.
@@ -144,29 +144,29 @@ FT_BEGIN_HEADER
    *     A method used to pass additional parameters.
    *
    *   raster_class ::
-   *     For @FT_GLYPH_FORMAT_OUTLINE renderers only.  This is a pointer to
+   *     For @FT_TS_GLYPH_FORMAT_OUTLINE renderers only.  This is a pointer to
    *     its raster's class.
    */
-  typedef struct  FT_Renderer_Class_
+  typedef struct  FT_TS_Renderer_Class_
   {
-    FT_Module_Class            root;
+    FT_TS_Module_Class            root;
 
-    FT_Glyph_Format            glyph_format;
+    FT_TS_Glyph_Format            glyph_format;
 
-    FT_Renderer_RenderFunc     render_glyph;
-    FT_Renderer_TransformFunc  transform_glyph;
-    FT_Renderer_GetCBoxFunc    get_glyph_cbox;
-    FT_Renderer_SetModeFunc    set_mode;
+    FT_TS_Renderer_RenderFunc     render_glyph;
+    FT_TS_Renderer_TransformFunc  transform_glyph;
+    FT_TS_Renderer_GetCBoxFunc    get_glyph_cbox;
+    FT_TS_Renderer_SetModeFunc    set_mode;
 
-    FT_Raster_Funcs*           raster_class;
+    FT_TS_Raster_Funcs*           raster_class;
 
-  } FT_Renderer_Class;
+  } FT_TS_Renderer_Class;
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Renderer
+   *   FT_TS_Get_Renderer
    *
    * @description:
    *   Retrieve the current renderer for a given glyph format.
@@ -185,18 +185,18 @@ FT_BEGIN_HEADER
    *   An error will be returned if a module already exists by that name, or
    *   if the module requires a version of FreeType that is too great.
    *
-   *   To add a new renderer, simply use @FT_Add_Module.  To retrieve a
-   *   renderer by its name, use @FT_Get_Module.
+   *   To add a new renderer, simply use @FT_TS_Add_Module.  To retrieve a
+   *   renderer by its name, use @FT_TS_Get_Module.
    */
-  FT_EXPORT( FT_Renderer )
-  FT_Get_Renderer( FT_Library       library,
-                   FT_Glyph_Format  format );
+  FT_TS_EXPORT( FT_TS_Renderer )
+  FT_TS_Get_Renderer( FT_TS_Library       library,
+                   FT_TS_Glyph_Format  format );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Renderer
+   *   FT_TS_Set_Renderer
    *
    * @description:
    *   Set the current renderer to use, and set additional mode.
@@ -227,16 +227,16 @@ FT_BEGIN_HEADER
    *   Currently, no FreeType renderer module uses `parameters`; you should
    *   thus always pass `NULL` as the value.
    */
-  FT_EXPORT( FT_Error )
-  FT_Set_Renderer( FT_Library     library,
-                   FT_Renderer    renderer,
-                   FT_UInt        num_params,
-                   FT_Parameter*  parameters );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Set_Renderer( FT_TS_Library     library,
+                   FT_TS_Renderer    renderer,
+                   FT_TS_UInt        num_params,
+                   FT_TS_Parameter*  parameters );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTRENDER_H_ */
 

@@ -24,9 +24,9 @@
 #include <freetype/internal/ftobjs.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-#ifdef FT_CONFIG_OPTION_USE_BROTLI
+#ifdef FT_TS_CONFIG_OPTION_USE_BROTLI
 
   /* Leave the first byte open to store `flag_byte'. */
 #define WOFF2_FLAGS_TRANSFORM   1 << 8
@@ -61,15 +61,15 @@ FT_BEGIN_HEADER
 #define CONTOUR_OFFSET_END_POINT  10
 
 
-  FT_LOCAL( FT_Error )
-  woff2_open_font( FT_Stream  stream,
+  FT_TS_LOCAL( FT_TS_Error )
+  woff2_open_font( FT_TS_Stream  stream,
                    TT_Face    face,
-                   FT_Int*    face_index,
-                   FT_Long*   num_faces );
+                   FT_TS_Int*    face_index,
+                   FT_TS_Long*   num_faces );
 
-#endif /* FT_CONFIG_OPTION_USE_BROTLI */
+#endif /* FT_TS_CONFIG_OPTION_USE_BROTLI */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SFWOFF2_H_ */
 

@@ -21,14 +21,14 @@
 
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/ftsystem.h>
 #include <freetype/ftimage.h>
 
 #include <stddef.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -48,50 +48,50 @@ FT_BEGIN_HEADER
    *   font-specific structures are defined in a different section.
    *
    * @order:
-   *   FT_Byte
-   *   FT_Bytes
-   *   FT_Char
-   *   FT_Int
-   *   FT_UInt
-   *   FT_Int16
-   *   FT_UInt16
-   *   FT_Int32
-   *   FT_UInt32
-   *   FT_Int64
-   *   FT_UInt64
-   *   FT_Short
-   *   FT_UShort
-   *   FT_Long
-   *   FT_ULong
-   *   FT_Bool
-   *   FT_Offset
-   *   FT_PtrDist
-   *   FT_String
-   *   FT_Tag
-   *   FT_Error
-   *   FT_Fixed
-   *   FT_Pointer
-   *   FT_Pos
-   *   FT_Vector
-   *   FT_BBox
-   *   FT_Matrix
-   *   FT_FWord
-   *   FT_UFWord
-   *   FT_F2Dot14
-   *   FT_UnitVector
-   *   FT_F26Dot6
-   *   FT_Data
+   *   FT_TS_Byte
+   *   FT_TS_Bytes
+   *   FT_TS_Char
+   *   FT_TS_Int
+   *   FT_TS_UInt
+   *   FT_TS_Int16
+   *   FT_TS_UInt16
+   *   FT_TS_Int32
+   *   FT_TS_UInt32
+   *   FT_TS_Int64
+   *   FT_TS_UInt64
+   *   FT_TS_Short
+   *   FT_TS_UShort
+   *   FT_TS_Long
+   *   FT_TS_ULong
+   *   FT_TS_Bool
+   *   FT_TS_Offset
+   *   FT_TS_PtrDist
+   *   FT_TS_String
+   *   FT_TS_Tag
+   *   FT_TS_Error
+   *   FT_TS_Fixed
+   *   FT_TS_Pointer
+   *   FT_TS_Pos
+   *   FT_TS_Vector
+   *   FT_TS_BBox
+   *   FT_TS_Matrix
+   *   FT_TS_FWord
+   *   FT_TS_UFWord
+   *   FT_TS_F2Dot14
+   *   FT_TS_UnitVector
+   *   FT_TS_F26Dot6
+   *   FT_TS_Data
    *
-   *   FT_MAKE_TAG
+   *   FT_TS_MAKE_TAG
    *
-   *   FT_Generic
-   *   FT_Generic_Finalizer
+   *   FT_TS_Generic
+   *   FT_TS_Generic_Finalizer
    *
-   *   FT_Bitmap
-   *   FT_Pixel_Mode
-   *   FT_Palette_Mode
-   *   FT_Glyph_Format
-   *   FT_IMAGE_TAG
+   *   FT_TS_Bitmap
+   *   FT_TS_Pixel_Mode
+   *   FT_TS_Palette_Mode
+   *   FT_TS_Glyph_Format
+   *   FT_TS_IMAGE_TAG
    *
    */
 
@@ -99,251 +99,251 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @type:
-   *   FT_Bool
+   *   FT_TS_Bool
    *
    * @description:
    *   A typedef of unsigned char, used for simple booleans.  As usual,
    *   values 1 and~0 represent true and false, respectively.
    */
-  typedef unsigned char  FT_Bool;
+  typedef unsigned char  FT_TS_Bool;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_FWord
+   *   FT_TS_FWord
    *
    * @description:
    *   A signed 16-bit integer used to store a distance in original font
    *   units.
    */
-  typedef signed short  FT_FWord;   /* distance in FUnits */
+  typedef signed short  FT_TS_FWord;   /* distance in FUnits */
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_UFWord
+   *   FT_TS_UFWord
    *
    * @description:
    *   An unsigned 16-bit integer used to store a distance in original font
    *   units.
    */
-  typedef unsigned short  FT_UFWord;  /* unsigned distance */
+  typedef unsigned short  FT_TS_UFWord;  /* unsigned distance */
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Char
+   *   FT_TS_Char
    *
    * @description:
    *   A simple typedef for the _signed_ char type.
    */
-  typedef signed char  FT_Char;
+  typedef signed char  FT_TS_Char;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Byte
+   *   FT_TS_Byte
    *
    * @description:
    *   A simple typedef for the _unsigned_ char type.
    */
-  typedef unsigned char  FT_Byte;
+  typedef unsigned char  FT_TS_Byte;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Bytes
+   *   FT_TS_Bytes
    *
    * @description:
    *   A typedef for constant memory areas.
    */
-  typedef const FT_Byte*  FT_Bytes;
+  typedef const FT_TS_Byte*  FT_TS_Bytes;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Tag
+   *   FT_TS_Tag
    *
    * @description:
    *   A typedef for 32-bit tags (as used in the SFNT format).
    */
-  typedef FT_UInt32  FT_Tag;
+  typedef FT_TS_UInt32  FT_TS_Tag;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_String
+   *   FT_TS_String
    *
    * @description:
    *   A simple typedef for the char type, usually used for strings.
    */
-  typedef char  FT_String;
+  typedef char  FT_TS_String;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Short
+   *   FT_TS_Short
    *
    * @description:
    *   A typedef for signed short.
    */
-  typedef signed short  FT_Short;
+  typedef signed short  FT_TS_Short;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_UShort
+   *   FT_TS_UShort
    *
    * @description:
    *   A typedef for unsigned short.
    */
-  typedef unsigned short  FT_UShort;
+  typedef unsigned short  FT_TS_UShort;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Int
+   *   FT_TS_Int
    *
    * @description:
    *   A typedef for the int type.
    */
-  typedef signed int  FT_Int;
+  typedef signed int  FT_TS_Int;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_UInt
+   *   FT_TS_UInt
    *
    * @description:
    *   A typedef for the unsigned int type.
    */
-  typedef unsigned int  FT_UInt;
+  typedef unsigned int  FT_TS_UInt;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Long
+   *   FT_TS_Long
    *
    * @description:
    *   A typedef for signed long.
    */
-  typedef signed long  FT_Long;
+  typedef signed long  FT_TS_Long;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_ULong
+   *   FT_TS_ULong
    *
    * @description:
    *   A typedef for unsigned long.
    */
-  typedef unsigned long  FT_ULong;
+  typedef unsigned long  FT_TS_ULong;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_F2Dot14
+   *   FT_TS_F2Dot14
    *
    * @description:
    *   A signed 2.14 fixed-point type used for unit vectors.
    */
-  typedef signed short  FT_F2Dot14;
+  typedef signed short  FT_TS_F2Dot14;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_F26Dot6
+   *   FT_TS_F26Dot6
    *
    * @description:
    *   A signed 26.6 fixed-point type used for vectorial pixel coordinates.
    */
-  typedef signed long  FT_F26Dot6;
+  typedef signed long  FT_TS_F26Dot6;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Fixed
+   *   FT_TS_Fixed
    *
    * @description:
    *   This type is used to store 16.16 fixed-point values, like scaling
    *   values or matrix coefficients.
    */
-  typedef signed long  FT_Fixed;
+  typedef signed long  FT_TS_Fixed;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Error
+   *   FT_TS_Error
    *
    * @description:
    *   The FreeType error code type.  A value of~0 is always interpreted as a
    *   successful operation.
    */
-  typedef int  FT_Error;
+  typedef int  FT_TS_Error;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Pointer
+   *   FT_TS_Pointer
    *
    * @description:
    *   A simple typedef for a typeless pointer.
    */
-  typedef void*  FT_Pointer;
+  typedef void*  FT_TS_Pointer;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_Offset
+   *   FT_TS_Offset
    *
    * @description:
    *   This is equivalent to the ANSI~C `size_t` type, i.e., the largest
    *   _unsigned_ integer type used to express a file size or position, or a
    *   memory block size.
    */
-  typedef size_t  FT_Offset;
+  typedef size_t  FT_TS_Offset;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_PtrDist
+   *   FT_TS_PtrDist
    *
    * @description:
    *   This is equivalent to the ANSI~C `ptrdiff_t` type, i.e., the largest
    *   _signed_ integer type used to express the distance between two
    *   pointers.
    */
-  typedef ft_ptrdiff_t  FT_PtrDist;
+  typedef ft_ptrdiff_t  FT_TS_PtrDist;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_UnitVector
+   *   FT_TS_UnitVector
    *
    * @description:
    *   A simple structure used to store a 2D vector unit vector.  Uses
-   *   FT_F2Dot14 types.
+   *   FT_TS_F2Dot14 types.
    *
    * @fields:
    *   x ::
@@ -352,18 +352,18 @@ FT_BEGIN_HEADER
    *   y ::
    *     Vertical coordinate.
    */
-  typedef struct  FT_UnitVector_
+  typedef struct  FT_TS_UnitVector_
   {
-    FT_F2Dot14  x;
-    FT_F2Dot14  y;
+    FT_TS_F2Dot14  x;
+    FT_TS_F2Dot14  y;
 
-  } FT_UnitVector;
+  } FT_TS_UnitVector;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Matrix
+   *   FT_TS_Matrix
    *
    * @description:
    *   A simple structure used to store a 2x2 matrix.  Coefficients are in
@@ -387,18 +387,18 @@ FT_BEGIN_HEADER
    *   yy ::
    *     Matrix coefficient.
    */
-  typedef struct  FT_Matrix_
+  typedef struct  FT_TS_Matrix_
   {
-    FT_Fixed  xx, xy;
-    FT_Fixed  yx, yy;
+    FT_TS_Fixed  xx, xy;
+    FT_TS_Fixed  yx, yy;
 
-  } FT_Matrix;
+  } FT_TS_Matrix;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Data
+   *   FT_TS_Data
    *
    * @description:
    *   Read-only binary data represented as a pointer and a length.
@@ -410,42 +410,42 @@ FT_BEGIN_HEADER
    *   length ::
    *     The length of the data in bytes.
    */
-  typedef struct  FT_Data_
+  typedef struct  FT_TS_Data_
   {
-    const FT_Byte*  pointer;
-    FT_UInt         length;
+    const FT_TS_Byte*  pointer;
+    FT_TS_UInt         length;
 
-  } FT_Data;
+  } FT_TS_Data;
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Generic_Finalizer
+   *   FT_TS_Generic_Finalizer
    *
    * @description:
    *   Describe a function used to destroy the 'client' data of any FreeType
-   *   object.  See the description of the @FT_Generic type for details of
+   *   object.  See the description of the @FT_TS_Generic type for details of
    *   usage.
    *
    * @input:
    *   The address of the FreeType object that is under finalization.  Its
    *   client data is accessed through its `generic` field.
    */
-  typedef void  (*FT_Generic_Finalizer)( void*  object );
+  typedef void  (*FT_TS_Generic_Finalizer)( void*  object );
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Generic
+   *   FT_TS_Generic
    *
    * @description:
    *   Client applications often need to associate their own data to a
    *   variety of FreeType core objects.  For example, a text layout API
    *   might want to associate a glyph cache to a given size object.
    *
-   *   Some FreeType object contains a `generic` field, of type `FT_Generic`,
+   *   Some FreeType object contains a `generic` field, of type `FT_TS_Generic`,
    *   which usage is left to client applications and font servers.
    *
    *   It can be used to store a pointer to client-specific data, as well as
@@ -464,32 +464,32 @@ FT_BEGIN_HEADER
    *     when the object is destroyed.  If this field is set to `NULL`, no
    *     code will be called.
    */
-  typedef struct  FT_Generic_
+  typedef struct  FT_TS_Generic_
   {
     void*                 data;
-    FT_Generic_Finalizer  finalizer;
+    FT_TS_Generic_Finalizer  finalizer;
 
-  } FT_Generic;
+  } FT_TS_Generic;
 
 
   /**************************************************************************
    *
    * @macro:
-   *   FT_MAKE_TAG
+   *   FT_TS_MAKE_TAG
    *
    * @description:
    *   This macro converts four-letter tags that are used to label TrueType
-   *   tables into an `FT_Tag` type, to be used within FreeType.
+   *   tables into an `FT_TS_Tag` type, to be used within FreeType.
    *
    * @note:
    *   The produced values **must** be 32-bit integers.  Don't redefine this
    *   macro.
    */
-#define FT_MAKE_TAG( _x1, _x2, _x3, _x4 )                  \
-          ( ( FT_STATIC_BYTE_CAST( FT_Tag, _x1 ) << 24 ) | \
-            ( FT_STATIC_BYTE_CAST( FT_Tag, _x2 ) << 16 ) | \
-            ( FT_STATIC_BYTE_CAST( FT_Tag, _x3 ) <<  8 ) | \
-              FT_STATIC_BYTE_CAST( FT_Tag, _x4 )         )
+#define FT_TS_MAKE_TAG( _x1, _x2, _x3, _x4 )                  \
+          ( ( FT_TS_STATIC_BYTE_CAST( FT_TS_Tag, _x1 ) << 24 ) | \
+            ( FT_TS_STATIC_BYTE_CAST( FT_TS_Tag, _x2 ) << 16 ) | \
+            ( FT_TS_STATIC_BYTE_CAST( FT_TS_Tag, _x3 ) <<  8 ) | \
+              FT_TS_STATIC_BYTE_CAST( FT_TS_Tag, _x4 )         )
 
 
   /*************************************************************************/
@@ -512,31 +512,31 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @type:
-   *   FT_ListNode
+   *   FT_TS_ListNode
    *
    * @description:
-   *    Many elements and objects in FreeType are listed through an @FT_List
-   *    record (see @FT_ListRec).  As its name suggests, an FT_ListNode is a
+   *    Many elements and objects in FreeType are listed through an @FT_TS_List
+   *    record (see @FT_TS_ListRec).  As its name suggests, an FT_TS_ListNode is a
    *    handle to a single list element.
    */
-  typedef struct FT_ListNodeRec_*  FT_ListNode;
+  typedef struct FT_TS_ListNodeRec_*  FT_TS_ListNode;
 
 
   /**************************************************************************
    *
    * @type:
-   *   FT_List
+   *   FT_TS_List
    *
    * @description:
-   *   A handle to a list record (see @FT_ListRec).
+   *   A handle to a list record (see @FT_TS_ListRec).
    */
-  typedef struct FT_ListRec_*  FT_List;
+  typedef struct FT_TS_ListRec_*  FT_TS_List;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_ListNodeRec
+   *   FT_TS_ListNodeRec
    *
    * @description:
    *   A structure used to hold a single list element.
@@ -551,19 +551,19 @@ FT_BEGIN_HEADER
    *   data ::
    *     A typeless pointer to the listed object.
    */
-  typedef struct  FT_ListNodeRec_
+  typedef struct  FT_TS_ListNodeRec_
   {
-    FT_ListNode  prev;
-    FT_ListNode  next;
+    FT_TS_ListNode  prev;
+    FT_TS_ListNode  next;
     void*        data;
 
-  } FT_ListNodeRec;
+  } FT_TS_ListNodeRec;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_ListRec
+   *   FT_TS_ListRec
    *
    * @description:
    *   A structure used to hold a simple doubly-linked list.  These are used
@@ -576,37 +576,37 @@ FT_BEGIN_HEADER
    *   tail ::
    *     The tail (last element) of doubly-linked list.
    */
-  typedef struct  FT_ListRec_
+  typedef struct  FT_TS_ListRec_
   {
-    FT_ListNode  head;
-    FT_ListNode  tail;
+    FT_TS_ListNode  head;
+    FT_TS_ListNode  tail;
 
-  } FT_ListRec;
+  } FT_TS_ListRec;
 
   /* */
 
 
-#define FT_IS_EMPTY( list )  ( (list).head == 0 )
-#define FT_BOOL( x )         FT_STATIC_CAST( FT_Bool, (x) != 0 )
+#define FT_TS_IS_EMPTY( list )  ( (list).head == 0 )
+#define FT_TS_BOOL( x )         FT_TS_STATIC_CAST( FT_TS_Bool, (x) != 0 )
 
   /* concatenate C tokens */
-#define FT_ERR_XCAT( x, y )  x ## y
-#define FT_ERR_CAT( x, y )   FT_ERR_XCAT( x, y )
+#define FT_TS_ERR_XCAT( x, y )  x ## y
+#define FT_TS_ERR_CAT( x, y )   FT_TS_ERR_XCAT( x, y )
 
   /* see `ftmoderr.h` for descriptions of the following macros */
 
-#define FT_ERR( e )  FT_ERR_CAT( FT_ERR_PREFIX, e )
+#define FT_TS_ERR( e )  FT_TS_ERR_CAT( FT_TS_ERR_PREFIX, e )
 
-#define FT_ERROR_BASE( x )    ( (x) & 0xFF )
-#define FT_ERROR_MODULE( x )  ( (x) & 0xFF00U )
+#define FT_TS_ERROR_BASE( x )    ( (x) & 0xFF )
+#define FT_TS_ERROR_MODULE( x )  ( (x) & 0xFF00U )
 
-#define FT_ERR_EQ( x, e )                                        \
-          ( FT_ERROR_BASE( x ) == FT_ERROR_BASE( FT_ERR( e ) ) )
-#define FT_ERR_NEQ( x, e )                                       \
-          ( FT_ERROR_BASE( x ) != FT_ERROR_BASE( FT_ERR( e ) ) )
+#define FT_TS_ERR_EQ( x, e )                                        \
+          ( FT_TS_ERROR_BASE( x ) == FT_TS_ERROR_BASE( FT_TS_ERR( e ) ) )
+#define FT_TS_ERR_NEQ( x, e )                                       \
+          ( FT_TS_ERROR_BASE( x ) != FT_TS_ERROR_BASE( FT_TS_ERR( e ) ) )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTTYPES_H_ */
 

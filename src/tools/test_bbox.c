@@ -23,12 +23,12 @@
   /* test bbox computations */
 
 #define  XSCALE    65536
-#define  XX(x)     ((FT_Pos)(x*XSCALE))
+#define  XX(x)     ((FT_TS_Pos)(x*XSCALE))
 #define  XVEC(x,y)  { XX(x), XX(y) }
 #define  XVAL(x)   ((x)/(1.0*XSCALE))
 
   /* dummy outline #1 */
-  static FT_Vector  dummy_vec_1[4] =
+  static FT_TS_Vector  dummy_vec_1[4] =
   {
 #if 1
     XVEC( 408.9111, 535.3164 ),
@@ -36,19 +36,19 @@
     XVEC( -37.8765, 786.2207 ),
     XVEC( 164.6074, 535.3164 )
 #else
-    { (FT_Int32)0x0198E93DL , (FT_Int32)0x021750FFL },  /* 408.9111, 535.3164 */
-    { (FT_Int32)0x01C7E312L , (FT_Int32)0x027A6560L },  /* 455.8887, 634.3960 */
-    { (FT_Int32)0xFFDA1F9EL , (FT_Int32)0x0312387FL },  /* -37.8765, 786.2207 */
-    { (FT_Int32)0x00A49B7EL , (FT_Int32)0x021750FFL }   /* 164.6074, 535.3164 */
+    { (FT_TS_Int32)0x0198E93DL , (FT_TS_Int32)0x021750FFL },  /* 408.9111, 535.3164 */
+    { (FT_TS_Int32)0x01C7E312L , (FT_TS_Int32)0x027A6560L },  /* 455.8887, 634.3960 */
+    { (FT_TS_Int32)0xFFDA1F9EL , (FT_TS_Int32)0x0312387FL },  /* -37.8765, 786.2207 */
+    { (FT_TS_Int32)0x00A49B7EL , (FT_TS_Int32)0x021750FFL }   /* 164.6074, 535.3164 */
 #endif
    };
 
   static char  dummy_tag_1[4] =
   {
-    FT_CURVE_TAG_ON,
-    FT_CURVE_TAG_CUBIC,
-    FT_CURVE_TAG_CUBIC,
-    FT_CURVE_TAG_ON
+    FT_TS_CURVE_TAG_ON,
+    FT_TS_CURVE_TAG_CUBIC,
+    FT_TS_CURVE_TAG_CUBIC,
+    FT_TS_CURVE_TAG_ON
   };
 
   static short  dummy_contour_1[1] =
@@ -56,7 +56,7 @@
     3
   };
 
-  static FT_Outline  dummy_outline_1 =
+  static FT_TS_Outline  dummy_outline_1 =
   {
     1,
     4,
@@ -68,7 +68,7 @@
 
 
   /* dummy outline #2 */
-  static FT_Vector  dummy_vec_2[4] =
+  static FT_TS_Vector  dummy_vec_2[4] =
   {
     XVEC( 100.0, 100.0 ),
     XVEC( 100.0, 200.0 ),
@@ -76,7 +76,7 @@
     XVEC( 200.0, 133.0 )
   };
 
-  static FT_Outline  dummy_outline_2 =
+  static FT_TS_Outline  dummy_outline_2 =
   {
     1,
     4,
@@ -88,7 +88,7 @@
 
 
   /* dummy outline #3 with bbox of [0 100 128 128] precisely */
-  static FT_Vector  dummy_vec_3[4] =
+  static FT_TS_Vector  dummy_vec_3[4] =
   {
     XVEC( 100.0, 127.0 ),
     XVEC( 200.0, 127.0 ),
@@ -96,7 +96,7 @@
     XVEC(   0.0, 100.0 )
   };
 
-  static FT_Outline  dummy_outline_3 =
+  static FT_TS_Outline  dummy_outline_3 =
   {
     1,
     4,
@@ -108,12 +108,12 @@
 
 
   static void
-  dump_outline( FT_Outline*  outline )
+  dump_outline( FT_TS_Outline*  outline )
   {
-    FT_BBox  bbox;
+    FT_TS_BBox  bbox;
 
     /* compute and display cbox */
-    FT_Outline_Get_CBox( outline, &bbox );
+    FT_TS_Outline_Get_CBox( outline, &bbox );
     printf( "cbox = [%.2f %.2f %.2f %.2f]\n",
              XVAL( bbox.xMin ),
              XVAL( bbox.yMin ),
@@ -121,7 +121,7 @@
              XVAL( bbox.yMax ) );
 
     /* compute and display bbox */
-    FT_Outline_Get_BBox( outline, &bbox );
+    FT_TS_Outline_Get_BBox( outline, &bbox );
     printf( "bbox = [%.2f %.2f %.2f %.2f]\n",
              XVAL( bbox.xMin ),
              XVAL( bbox.yMin ),
@@ -132,16 +132,16 @@
 
 
   static void
-  profile_outline( FT_Outline*   outline,
+  profile_outline( FT_TS_Outline*   outline,
                    long          repeat )
   {
-    FT_BBox  bbox;
+    FT_TS_BBox  bbox;
     long     count;
     long     time0;
 
     time0 = get_time();
     for ( count = repeat; count > 0; count-- )
-      FT_Outline_Get_CBox( outline, &bbox );
+      FT_TS_Outline_Get_CBox( outline, &bbox );
 
     time0 = get_time() - time0;
     printf( "time = %6.3f cbox = [%8.4f %8.4f %8.4f %8.4f]\n",
@@ -156,7 +156,7 @@
 
     time0 = get_time();
     for ( count = repeat; count > 0; count-- )
-      FT_Outline_Get_BBox( outline, &bbox );
+      FT_TS_Outline_Get_BBox( outline, &bbox );
 
     time0 = get_time() - time0;
     printf( "time = %6.3f bbox = [%8.4f %8.4f %8.4f %8.4f]\n",

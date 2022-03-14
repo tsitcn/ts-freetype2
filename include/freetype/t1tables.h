@@ -30,7 +30,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -59,10 +59,10 @@ FT_BEGIN_HEADER
    *   CID_FaceInfoRec
    *   CID_FaceInfo
    *
-   *   FT_Has_PS_Glyph_Names
-   *   FT_Get_PS_Font_Info
-   *   FT_Get_PS_Font_Private
-   *   FT_Get_PS_Font_Value
+   *   FT_TS_Has_PS_Glyph_Names
+   *   FT_TS_Get_PS_Font_Info
+   *   FT_TS_Get_PS_Font_Private
+   *   FT_TS_Get_PS_Font_Value
    *
    *   T1_Blend_Flags
    *   T1_EncodingType
@@ -87,15 +87,15 @@ FT_BEGIN_HEADER
    */
   typedef struct  PS_FontInfoRec_
   {
-    FT_String*  version;
-    FT_String*  notice;
-    FT_String*  full_name;
-    FT_String*  family_name;
-    FT_String*  weight;
-    FT_Long     italic_angle;
-    FT_Bool     is_fixed_pitch;
-    FT_Short    underline_position;
-    FT_UShort   underline_thickness;
+    FT_TS_String*  version;
+    FT_TS_String*  notice;
+    FT_TS_String*  full_name;
+    FT_TS_String*  family_name;
+    FT_TS_String*  weight;
+    FT_TS_Long     italic_angle;
+    FT_TS_Bool     is_fixed_pitch;
+    FT_TS_Short    underline_position;
+    FT_TS_UShort   underline_thickness;
 
   } PS_FontInfoRec;
 
@@ -135,41 +135,41 @@ FT_BEGIN_HEADER
    */
   typedef struct  PS_PrivateRec_
   {
-    FT_Int     unique_id;
-    FT_Int     lenIV;
+    FT_TS_Int     unique_id;
+    FT_TS_Int     lenIV;
 
-    FT_Byte    num_blue_values;
-    FT_Byte    num_other_blues;
-    FT_Byte    num_family_blues;
-    FT_Byte    num_family_other_blues;
+    FT_TS_Byte    num_blue_values;
+    FT_TS_Byte    num_other_blues;
+    FT_TS_Byte    num_family_blues;
+    FT_TS_Byte    num_family_other_blues;
 
-    FT_Short   blue_values[14];
-    FT_Short   other_blues[10];
+    FT_TS_Short   blue_values[14];
+    FT_TS_Short   other_blues[10];
 
-    FT_Short   family_blues      [14];
-    FT_Short   family_other_blues[10];
+    FT_TS_Short   family_blues      [14];
+    FT_TS_Short   family_other_blues[10];
 
-    FT_Fixed   blue_scale;
-    FT_Int     blue_shift;
-    FT_Int     blue_fuzz;
+    FT_TS_Fixed   blue_scale;
+    FT_TS_Int     blue_shift;
+    FT_TS_Int     blue_fuzz;
 
-    FT_UShort  standard_width[1];
-    FT_UShort  standard_height[1];
+    FT_TS_UShort  standard_width[1];
+    FT_TS_UShort  standard_height[1];
 
-    FT_Byte    num_snap_widths;
-    FT_Byte    num_snap_heights;
-    FT_Bool    force_bold;
-    FT_Bool    round_stem_up;
+    FT_TS_Byte    num_snap_widths;
+    FT_TS_Byte    num_snap_heights;
+    FT_TS_Bool    force_bold;
+    FT_TS_Bool    round_stem_up;
 
-    FT_Short   snap_widths [13];  /* including std width  */
-    FT_Short   snap_heights[13];  /* including std height */
+    FT_TS_Short   snap_widths [13];  /* including std width  */
+    FT_TS_Short   snap_heights[13];  /* including std height */
 
-    FT_Fixed   expansion_factor;
+    FT_TS_Fixed   expansion_factor;
 
-    FT_Long    language_group;
-    FT_Long    password;
+    FT_TS_Long    language_group;
+    FT_TS_Long    password;
 
-    FT_Short   min_feature[2];
+    FT_TS_Short   min_feature[2];
 
   } PS_PrivateRec;
 
@@ -282,9 +282,9 @@ FT_BEGIN_HEADER
   /* this structure is used to store the BlendDesignMap entry for an axis */
   typedef struct  PS_DesignMap_
   {
-    FT_Byte    num_points;
-    FT_Long*   design_points;
-    FT_Fixed*  blend_points;
+    FT_TS_Byte    num_points;
+    FT_TS_Long*   design_points;
+    FT_TS_Fixed*  blend_points;
 
   } PS_DesignMapRec, *PS_DesignMap;
 
@@ -294,22 +294,22 @@ FT_BEGIN_HEADER
 
   typedef struct  PS_BlendRec_
   {
-    FT_UInt          num_designs;
-    FT_UInt          num_axis;
+    FT_TS_UInt          num_designs;
+    FT_TS_UInt          num_axis;
 
-    FT_String*       axis_names[T1_MAX_MM_AXIS];
-    FT_Fixed*        design_pos[T1_MAX_MM_DESIGNS];
+    FT_TS_String*       axis_names[T1_MAX_MM_AXIS];
+    FT_TS_Fixed*        design_pos[T1_MAX_MM_DESIGNS];
     PS_DesignMapRec  design_map[T1_MAX_MM_AXIS];
 
-    FT_Fixed*        weight_vector;
-    FT_Fixed*        default_weight_vector;
+    FT_TS_Fixed*        weight_vector;
+    FT_TS_Fixed*        default_weight_vector;
 
     PS_FontInfo      font_infos[T1_MAX_MM_DESIGNS + 1];
     PS_Private       privates  [T1_MAX_MM_DESIGNS + 1];
 
-    FT_ULong         blend_bitflags;
+    FT_TS_ULong         blend_bitflags;
 
-    FT_BBox*         bboxes    [T1_MAX_MM_DESIGNS + 1];
+    FT_TS_BBox*         bboxes    [T1_MAX_MM_DESIGNS + 1];
 
     /* since 2.3.0 */
 
@@ -317,8 +317,8 @@ FT_BEGIN_HEADER
     /* corresponds to default_weight_vector --                */
     /* num_default_design_vector == 0 means it is not present */
     /* in the font and associated metrics files               */
-    FT_UInt          default_design_vector[T1_MAX_MM_DESIGNS];
-    FT_UInt          num_default_design_vector;
+    FT_TS_UInt          default_design_vector[T1_MAX_MM_DESIGNS];
+    FT_TS_UInt          num_default_design_vector;
 
   } PS_BlendRec, *PS_Blend;
 
@@ -348,19 +348,19 @@ FT_BEGIN_HEADER
   {
     PS_PrivateRec  private_dict;
 
-    FT_UInt        len_buildchar;
-    FT_Fixed       forcebold_threshold;
-    FT_Pos         stroke_width;
-    FT_Fixed       expansion_factor;   /* this is a duplicate of           */
+    FT_TS_UInt        len_buildchar;
+    FT_TS_Fixed       forcebold_threshold;
+    FT_TS_Pos         stroke_width;
+    FT_TS_Fixed       expansion_factor;   /* this is a duplicate of           */
                                        /* `private_dict->expansion_factor' */
-    FT_Byte        paint_type;
-    FT_Byte        font_type;
-    FT_Matrix      font_matrix;
-    FT_Vector      font_offset;
+    FT_TS_Byte        paint_type;
+    FT_TS_Byte        font_type;
+    FT_TS_Matrix      font_matrix;
+    FT_TS_Vector      font_offset;
 
-    FT_UInt        num_subrs;
-    FT_ULong       subrmap_offset;
-    FT_UInt        sd_bytes;
+    FT_TS_UInt        num_subrs;
+    FT_TS_ULong       subrmap_offset;
+    FT_TS_UInt        sd_bytes;
 
   } CID_FaceDictRec;
 
@@ -399,30 +399,30 @@ FT_BEGIN_HEADER
    */
   typedef struct  CID_FaceInfoRec_
   {
-    FT_String*      cid_font_name;
-    FT_Fixed        cid_version;
-    FT_Int          cid_font_type;
+    FT_TS_String*      cid_font_name;
+    FT_TS_Fixed        cid_version;
+    FT_TS_Int          cid_font_type;
 
-    FT_String*      registry;
-    FT_String*      ordering;
-    FT_Int          supplement;
+    FT_TS_String*      registry;
+    FT_TS_String*      ordering;
+    FT_TS_Int          supplement;
 
     PS_FontInfoRec  font_info;
-    FT_BBox         font_bbox;
-    FT_ULong        uid_base;
+    FT_TS_BBox         font_bbox;
+    FT_TS_ULong        uid_base;
 
-    FT_Int          num_xuid;
-    FT_ULong        xuid[16];
+    FT_TS_Int          num_xuid;
+    FT_TS_ULong        xuid[16];
 
-    FT_ULong        cidmap_offset;
-    FT_UInt         fd_bytes;
-    FT_UInt         gd_bytes;
-    FT_ULong        cid_count;
+    FT_TS_ULong        cidmap_offset;
+    FT_TS_UInt         fd_bytes;
+    FT_TS_UInt         gd_bytes;
+    FT_TS_ULong        cid_count;
 
-    FT_UInt         num_dicts;
+    FT_TS_UInt         num_dicts;
     CID_FaceDict    font_dicts;
 
-    FT_ULong        data_offset;
+    FT_TS_ULong        data_offset;
 
   } CID_FaceInfoRec;
 
@@ -453,15 +453,15 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *    FT_Has_PS_Glyph_Names
+   *    FT_TS_Has_PS_Glyph_Names
    *
    * @description:
    *    Return true if a given face provides reliable PostScript glyph names.
-   *    This is similar to using the @FT_HAS_GLYPH_NAMES macro, except that
+   *    This is similar to using the @FT_TS_HAS_GLYPH_NAMES macro, except that
    *    certain fonts (mostly TrueType) contain incorrect glyph name tables.
    *
    *    When this function returns true, the caller is sure that the glyph
-   *    names returned by @FT_Get_Glyph_Name are reliable.
+   *    names returned by @FT_TS_Get_Glyph_Name are reliable.
    *
    * @input:
    *    face ::
@@ -471,14 +471,14 @@ FT_BEGIN_HEADER
    *    Boolean.  True if glyph names are reliable.
    *
    */
-  FT_EXPORT( FT_Int )
-  FT_Has_PS_Glyph_Names( FT_Face  face );
+  FT_TS_EXPORT( FT_TS_Int )
+  FT_TS_Has_PS_Glyph_Names( FT_TS_Face  face );
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_PS_Font_Info
+   *    FT_TS_Get_PS_Font_Info
    *
    * @description:
    *    Retrieve the @PS_FontInfoRec structure corresponding to a given
@@ -501,18 +501,18 @@ FT_BEGIN_HEADER
    *    the font's FontInfo dictionary are represented by `NULL` pointers.
    *
    *    If the font's format is not PostScript-based, this function will
-   *    return the `FT_Err_Invalid_Argument` error code.
+   *    return the `FT_TS_Err_Invalid_Argument` error code.
    *
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_PS_Font_Info( FT_Face      face,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_PS_Font_Info( FT_TS_Face      face,
                        PS_FontInfo  afont_info );
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_PS_Font_Private
+   *    FT_TS_Get_PS_Font_Private
    *
    * @description:
    *    Retrieve the @PS_PrivateRec structure corresponding to a given
@@ -534,11 +534,11 @@ FT_BEGIN_HEADER
    *    the face and don't need to be freed by the caller.
    *
    *    If the font's format is not PostScript-based, this function returns
-   *    the `FT_Err_Invalid_Argument` error code.
+   *    the `FT_TS_Err_Invalid_Argument` error code.
    *
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_PS_Font_Private( FT_Face     face,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_PS_Font_Private( FT_TS_Face     face,
                           PS_Private  afont_private );
 
 
@@ -577,7 +577,7 @@ FT_BEGIN_HEADER
    *   PS_Dict_Keys
    *
    * @description:
-   *   An enumeration used in calls to @FT_Get_PS_Font_Value to identify the
+   *   An enumeration used in calls to @FT_TS_Get_PS_Font_Value to identify the
    *   Type~1 dictionary entry to retrieve.
    *
    * @values:
@@ -634,56 +634,56 @@ FT_BEGIN_HEADER
   typedef enum  PS_Dict_Keys_
   {
     /* conventionally in the font dictionary */
-    PS_DICT_FONT_TYPE,              /* FT_Byte         */
-    PS_DICT_FONT_MATRIX,            /* FT_Fixed        */
-    PS_DICT_FONT_BBOX,              /* FT_Fixed        */
-    PS_DICT_PAINT_TYPE,             /* FT_Byte         */
-    PS_DICT_FONT_NAME,              /* FT_String*      */
-    PS_DICT_UNIQUE_ID,              /* FT_Int          */
-    PS_DICT_NUM_CHAR_STRINGS,       /* FT_Int          */
-    PS_DICT_CHAR_STRING_KEY,        /* FT_String*      */
-    PS_DICT_CHAR_STRING,            /* FT_String*      */
+    PS_DICT_FONT_TYPE,              /* FT_TS_Byte         */
+    PS_DICT_FONT_MATRIX,            /* FT_TS_Fixed        */
+    PS_DICT_FONT_BBOX,              /* FT_TS_Fixed        */
+    PS_DICT_PAINT_TYPE,             /* FT_TS_Byte         */
+    PS_DICT_FONT_NAME,              /* FT_TS_String*      */
+    PS_DICT_UNIQUE_ID,              /* FT_TS_Int          */
+    PS_DICT_NUM_CHAR_STRINGS,       /* FT_TS_Int          */
+    PS_DICT_CHAR_STRING_KEY,        /* FT_TS_String*      */
+    PS_DICT_CHAR_STRING,            /* FT_TS_String*      */
     PS_DICT_ENCODING_TYPE,          /* T1_EncodingType */
-    PS_DICT_ENCODING_ENTRY,         /* FT_String*      */
+    PS_DICT_ENCODING_ENTRY,         /* FT_TS_String*      */
 
     /* conventionally in the font Private dictionary */
-    PS_DICT_NUM_SUBRS,              /* FT_Int     */
-    PS_DICT_SUBR,                   /* FT_String* */
-    PS_DICT_STD_HW,                 /* FT_UShort  */
-    PS_DICT_STD_VW,                 /* FT_UShort  */
-    PS_DICT_NUM_BLUE_VALUES,        /* FT_Byte    */
-    PS_DICT_BLUE_VALUE,             /* FT_Short   */
-    PS_DICT_BLUE_FUZZ,              /* FT_Int     */
-    PS_DICT_NUM_OTHER_BLUES,        /* FT_Byte    */
-    PS_DICT_OTHER_BLUE,             /* FT_Short   */
-    PS_DICT_NUM_FAMILY_BLUES,       /* FT_Byte    */
-    PS_DICT_FAMILY_BLUE,            /* FT_Short   */
-    PS_DICT_NUM_FAMILY_OTHER_BLUES, /* FT_Byte    */
-    PS_DICT_FAMILY_OTHER_BLUE,      /* FT_Short   */
-    PS_DICT_BLUE_SCALE,             /* FT_Fixed   */
-    PS_DICT_BLUE_SHIFT,             /* FT_Int     */
-    PS_DICT_NUM_STEM_SNAP_H,        /* FT_Byte    */
-    PS_DICT_STEM_SNAP_H,            /* FT_Short   */
-    PS_DICT_NUM_STEM_SNAP_V,        /* FT_Byte    */
-    PS_DICT_STEM_SNAP_V,            /* FT_Short   */
-    PS_DICT_FORCE_BOLD,             /* FT_Bool    */
-    PS_DICT_RND_STEM_UP,            /* FT_Bool    */
-    PS_DICT_MIN_FEATURE,            /* FT_Short   */
-    PS_DICT_LEN_IV,                 /* FT_Int     */
-    PS_DICT_PASSWORD,               /* FT_Long    */
-    PS_DICT_LANGUAGE_GROUP,         /* FT_Long    */
+    PS_DICT_NUM_SUBRS,              /* FT_TS_Int     */
+    PS_DICT_SUBR,                   /* FT_TS_String* */
+    PS_DICT_STD_HW,                 /* FT_TS_UShort  */
+    PS_DICT_STD_VW,                 /* FT_TS_UShort  */
+    PS_DICT_NUM_BLUE_VALUES,        /* FT_TS_Byte    */
+    PS_DICT_BLUE_VALUE,             /* FT_TS_Short   */
+    PS_DICT_BLUE_FUZZ,              /* FT_TS_Int     */
+    PS_DICT_NUM_OTHER_BLUES,        /* FT_TS_Byte    */
+    PS_DICT_OTHER_BLUE,             /* FT_TS_Short   */
+    PS_DICT_NUM_FAMILY_BLUES,       /* FT_TS_Byte    */
+    PS_DICT_FAMILY_BLUE,            /* FT_TS_Short   */
+    PS_DICT_NUM_FAMILY_OTHER_BLUES, /* FT_TS_Byte    */
+    PS_DICT_FAMILY_OTHER_BLUE,      /* FT_TS_Short   */
+    PS_DICT_BLUE_SCALE,             /* FT_TS_Fixed   */
+    PS_DICT_BLUE_SHIFT,             /* FT_TS_Int     */
+    PS_DICT_NUM_STEM_SNAP_H,        /* FT_TS_Byte    */
+    PS_DICT_STEM_SNAP_H,            /* FT_TS_Short   */
+    PS_DICT_NUM_STEM_SNAP_V,        /* FT_TS_Byte    */
+    PS_DICT_STEM_SNAP_V,            /* FT_TS_Short   */
+    PS_DICT_FORCE_BOLD,             /* FT_TS_Bool    */
+    PS_DICT_RND_STEM_UP,            /* FT_TS_Bool    */
+    PS_DICT_MIN_FEATURE,            /* FT_TS_Short   */
+    PS_DICT_LEN_IV,                 /* FT_TS_Int     */
+    PS_DICT_PASSWORD,               /* FT_TS_Long    */
+    PS_DICT_LANGUAGE_GROUP,         /* FT_TS_Long    */
 
     /* conventionally in the font FontInfo dictionary */
-    PS_DICT_VERSION,                /* FT_String* */
-    PS_DICT_NOTICE,                 /* FT_String* */
-    PS_DICT_FULL_NAME,              /* FT_String* */
-    PS_DICT_FAMILY_NAME,            /* FT_String* */
-    PS_DICT_WEIGHT,                 /* FT_String* */
-    PS_DICT_IS_FIXED_PITCH,         /* FT_Bool    */
-    PS_DICT_UNDERLINE_POSITION,     /* FT_Short   */
-    PS_DICT_UNDERLINE_THICKNESS,    /* FT_UShort  */
-    PS_DICT_FS_TYPE,                /* FT_UShort  */
-    PS_DICT_ITALIC_ANGLE,           /* FT_Long    */
+    PS_DICT_VERSION,                /* FT_TS_String* */
+    PS_DICT_NOTICE,                 /* FT_TS_String* */
+    PS_DICT_FULL_NAME,              /* FT_TS_String* */
+    PS_DICT_FAMILY_NAME,            /* FT_TS_String* */
+    PS_DICT_WEIGHT,                 /* FT_TS_String* */
+    PS_DICT_IS_FIXED_PITCH,         /* FT_TS_Bool    */
+    PS_DICT_UNDERLINE_POSITION,     /* FT_TS_Short   */
+    PS_DICT_UNDERLINE_THICKNESS,    /* FT_TS_UShort  */
+    PS_DICT_FS_TYPE,                /* FT_TS_UShort  */
+    PS_DICT_ITALIC_ANGLE,           /* FT_TS_Long    */
 
     PS_DICT_MAX = PS_DICT_ITALIC_ANGLE
 
@@ -693,7 +693,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_PS_Font_Value
+   *    FT_TS_Get_PS_Font_Value
    *
    * @description:
    *    Retrieve the value for the supplied key from a PostScript font.
@@ -742,7 +742,7 @@ FT_BEGIN_HEADER
    *
    *    `PS_DICT_BLUE_SCALE` returns a value that is scaled up by 1000.  To
    *    get the value as in the font stream, you need to divide by 65536000.0
-   *    (to remove the FT_Fixed scale, and the x1000 scale).
+   *    (to remove the FT_TS_Fixed scale, and the x1000 scale).
    *
    *    IMPORTANT: Only key/value pairs read by the FreeType interpreter can
    *    be retrieved.  So, for example, PostScript procedures such as NP, ND,
@@ -750,22 +750,22 @@ FT_BEGIN_HEADER
    *    available either.
    *
    *    If the font's format is not PostScript-based, this function returns
-   *    the `FT_Err_Invalid_Argument` error code.
+   *    the `FT_TS_Err_Invalid_Argument` error code.
    *
    * @since:
    *    2.4.8
    *
    */
-  FT_EXPORT( FT_Long )
-  FT_Get_PS_Font_Value( FT_Face       face,
+  FT_TS_EXPORT( FT_TS_Long )
+  FT_TS_Get_PS_Font_Value( FT_TS_Face       face,
                         PS_Dict_Keys  key,
-                        FT_UInt       idx,
+                        FT_TS_UInt       idx,
                         void         *value,
-                        FT_Long       value_len );
+                        FT_TS_Long       value_len );
 
   /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* T1TABLES_H_ */
 

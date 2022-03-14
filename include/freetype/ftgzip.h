@@ -28,7 +28,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /**************************************************************************
    *
@@ -43,7 +43,7 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   In certain builds of the library, gzip compression recognition is
-   *   automatically handled when calling @FT_New_Face or @FT_Open_Face.
+   *   automatically handled when calling @FT_TS_New_Face or @FT_TS_Open_Face.
    *   This means that if no font driver is capable of handling the raw
    *   compressed file, the library will try to open a gzipped stream from it
    *   and re-open the face with it.
@@ -60,7 +60,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_Stream_OpenGzip
+   *   FT_TS_Stream_OpenGzip
    *
    * @description:
    *   Open a new stream to parse gzip-compressed font files.  This is mainly
@@ -80,22 +80,22 @@ FT_BEGIN_HEADER
    * @note:
    *   The source stream must be opened _before_ calling this function.
    *
-   *   Calling the internal function `FT_Stream_Close` on the new stream will
-   *   **not** call `FT_Stream_Close` on the source stream.  None of the
+   *   Calling the internal function `FT_TS_Stream_Close` on the new stream will
+   *   **not** call `FT_TS_Stream_Close` on the source stream.  None of the
    *   stream objects will be released to the heap.
    *
-   *   This function may return `FT_Err_Unimplemented_Feature` if your build
+   *   This function may return `FT_TS_Err_Unimplemented_Feature` if your build
    *   of FreeType was not compiled with zlib support.
    */
-  FT_EXPORT( FT_Error )
-  FT_Stream_OpenGzip( FT_Stream  stream,
-                      FT_Stream  source );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Stream_OpenGzip( FT_TS_Stream  stream,
+                      FT_TS_Stream  source );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Gzip_Uncompress
+   *   FT_TS_Gzip_Uncompress
    *
    * @description:
    *   Decompress a zipped input buffer into an output buffer.  This function
@@ -127,23 +127,23 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0~means success.
    *
    * @note:
-   *   This function may return `FT_Err_Unimplemented_Feature` if your build
+   *   This function may return `FT_TS_Err_Unimplemented_Feature` if your build
    *   of FreeType was not compiled with zlib support.
    *
    * @since:
    *   2.5.1
    */
-  FT_EXPORT( FT_Error )
-  FT_Gzip_Uncompress( FT_Memory       memory,
-                      FT_Byte*        output,
-                      FT_ULong*       output_len,
-                      const FT_Byte*  input,
-                      FT_ULong        input_len );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Gzip_Uncompress( FT_TS_Memory       memory,
+                      FT_TS_Byte*        output,
+                      FT_TS_ULong*       output_len,
+                      const FT_TS_Byte*  input,
+                      FT_TS_ULong        input_len );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTGZIP_H_ */
 

@@ -16,7 +16,7 @@
  */
 
 
-#define FT_MAKE_OPTION_SINGLE_OBJECT
+#define FT_TS_MAKE_OPTION_SINGLE_OBJECT
 
 #include "t1afm.c"
 #include "t1driver.c"

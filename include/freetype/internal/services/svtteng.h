@@ -23,28 +23,28 @@
 #include <freetype/ftmodapi.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
    * SFNT table loading service.
    */
 
-#define FT_SERVICE_ID_TRUETYPE_ENGINE  "truetype-engine"
+#define FT_TS_SERVICE_ID_TRUETYPE_ENGINE  "truetype-engine"
 
   /*
-   * Used to implement FT_Get_TrueType_Engine_Type
+   * Used to implement FT_TS_Get_TrueType_Engine_Type
    */
 
-  FT_DEFINE_SERVICE( TrueTypeEngine )
+  FT_TS_DEFINE_SERVICE( TrueTypeEngine )
   {
-    FT_TrueTypeEngineType  engine_type;
+    FT_TS_TrueTypeEngineType  engine_type;
   };
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVTTENG_H_ */

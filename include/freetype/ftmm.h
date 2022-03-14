@@ -23,7 +23,7 @@
 #include <freetype/t1tables.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -53,7 +53,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @struct:
-   *   FT_MM_Axis
+   *   FT_TS_MM_Axis
    *
    * @description:
    *   A structure to model a given axis in design space for Multiple Masters
@@ -72,19 +72,19 @@ FT_BEGIN_HEADER
    *   maximum ::
    *     The axis's maximum design coordinate.
    */
-  typedef struct  FT_MM_Axis_
+  typedef struct  FT_TS_MM_Axis_
   {
-    FT_String*  name;
-    FT_Long     minimum;
-    FT_Long     maximum;
+    FT_TS_String*  name;
+    FT_TS_Long     minimum;
+    FT_TS_Long     maximum;
 
-  } FT_MM_Axis;
+  } FT_TS_MM_Axis;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Multi_Master
+   *   FT_TS_Multi_Master
    *
    * @description:
    *   A structure to model the axes and space of a Multiple Masters font.
@@ -104,19 +104,19 @@ FT_BEGIN_HEADER
    *   axis ::
    *     A table of axis descriptors.
    */
-  typedef struct  FT_Multi_Master_
+  typedef struct  FT_TS_Multi_Master_
   {
-    FT_UInt     num_axis;
-    FT_UInt     num_designs;
-    FT_MM_Axis  axis[T1_MAX_MM_AXIS];
+    FT_TS_UInt     num_axis;
+    FT_TS_UInt     num_designs;
+    FT_TS_MM_Axis  axis[T1_MAX_MM_AXIS];
 
-  } FT_Multi_Master;
+  } FT_TS_Multi_Master;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Var_Axis
+   *   FT_TS_Var_Axis
    *
    * @description:
    *   A structure to model a given axis in design space for Multiple
@@ -152,24 +152,24 @@ FT_BEGIN_HEADER
    *   for TrueType GX and OpenType variation fonts.  For Adobe MM fonts, the
    *   values are integers.
    */
-  typedef struct  FT_Var_Axis_
+  typedef struct  FT_TS_Var_Axis_
   {
-    FT_String*  name;
+    FT_TS_String*  name;
 
-    FT_Fixed    minimum;
-    FT_Fixed    def;
-    FT_Fixed    maximum;
+    FT_TS_Fixed    minimum;
+    FT_TS_Fixed    def;
+    FT_TS_Fixed    maximum;
 
-    FT_ULong    tag;
-    FT_UInt     strid;
+    FT_TS_ULong    tag;
+    FT_TS_UInt     strid;
 
-  } FT_Var_Axis;
+  } FT_TS_Var_Axis;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Var_Named_Style
+   *   FT_TS_Var_Named_Style
    *
    * @description:
    *   A structure to model a named instance in a TrueType GX or OpenType
@@ -189,19 +189,19 @@ FT_BEGIN_HEADER
    *     The entry in 'name' table identifying a PostScript name for this
    *     instance.  Value 0xFFFF indicates a missing entry.
    */
-  typedef struct  FT_Var_Named_Style_
+  typedef struct  FT_TS_Var_Named_Style_
   {
-    FT_Fixed*  coords;
-    FT_UInt    strid;
-    FT_UInt    psid;   /* since 2.7.1 */
+    FT_TS_Fixed*  coords;
+    FT_TS_UInt    strid;
+    FT_TS_UInt    psid;   /* since 2.7.1 */
 
-  } FT_Var_Named_Style;
+  } FT_TS_Var_Named_Style;
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_MM_Var
+   *   FT_TS_MM_Var
    *
    * @description:
    *   A structure to model the axes and space of an Adobe MM, TrueType GX,
@@ -239,21 +239,21 @@ FT_BEGIN_HEADER
    *     OpenType variation fonts.  Memory management of this pointer is done
    *     internally by FreeType.
    */
-  typedef struct  FT_MM_Var_
+  typedef struct  FT_TS_MM_Var_
   {
-    FT_UInt              num_axis;
-    FT_UInt              num_designs;
-    FT_UInt              num_namedstyles;
-    FT_Var_Axis*         axis;
-    FT_Var_Named_Style*  namedstyle;
+    FT_TS_UInt              num_axis;
+    FT_TS_UInt              num_designs;
+    FT_TS_UInt              num_namedstyles;
+    FT_TS_Var_Axis*         axis;
+    FT_TS_Var_Named_Style*  namedstyle;
 
-  } FT_MM_Var;
+  } FT_TS_MM_Var;
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Multi_Master
+   *   FT_TS_Get_Multi_Master
    *
    * @description:
    *   Retrieve a variation descriptor of a given Adobe MM font.
@@ -272,15 +272,15 @@ FT_BEGIN_HEADER
    * @return:
    *   FreeType error code.  0~means success.
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_Multi_Master( FT_Face           face,
-                       FT_Multi_Master  *amaster );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_Multi_Master( FT_TS_Face           face,
+                       FT_TS_Multi_Master  *amaster );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_MM_Var
+   *   FT_TS_Get_MM_Var
    *
    * @description:
    *   Retrieve a variation descriptor for a given font.
@@ -294,41 +294,41 @@ FT_BEGIN_HEADER
    * @output:
    *   amaster ::
    *     The variation descriptor.  Allocates a data structure, which the
-   *     user must deallocate with a call to @FT_Done_MM_Var after use.
+   *     user must deallocate with a call to @FT_TS_Done_MM_Var after use.
    *
    * @return:
    *   FreeType error code.  0~means success.
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_MM_Var( FT_Face      face,
-                 FT_MM_Var*  *amaster );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_MM_Var( FT_TS_Face      face,
+                 FT_TS_MM_Var*  *amaster );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Done_MM_Var
+   *   FT_TS_Done_MM_Var
    *
    * @description:
-   *   Free the memory allocated by @FT_Get_MM_Var.
+   *   Free the memory allocated by @FT_TS_Get_MM_Var.
    *
    * @input:
    *   library ::
    *     A handle of the face's parent library object that was used in the
-   *     call to @FT_Get_MM_Var to create `amaster`.
+   *     call to @FT_TS_Get_MM_Var to create `amaster`.
    *
    * @return:
    *   FreeType error code.  0~means success.
    */
-  FT_EXPORT( FT_Error )
-  FT_Done_MM_Var( FT_Library   library,
-                  FT_MM_Var   *amaster );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Done_MM_Var( FT_TS_Library   library,
+                  FT_TS_MM_Var   *amaster );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_MM_Design_Coordinates
+   *   FT_TS_Set_MM_Design_Coordinates
    *
    * @description:
    *   For Adobe MM fonts, choose an interpolated font design through design
@@ -358,20 +358,20 @@ FT_BEGIN_HEADER
    *   function with `num_coords` set to zero and `coords` set to `NULL`.
    *
    *   [Since 2.9] If `num_coords` is larger than zero, this function sets
-   *   the @FT_FACE_FLAG_VARIATION bit in @FT_Face's `face_flags` field
-   *   (i.e., @FT_IS_VARIATION will return true).  If `num_coords` is zero,
+   *   the @FT_TS_FACE_FLAG_VARIATION bit in @FT_TS_Face's `face_flags` field
+   *   (i.e., @FT_TS_IS_VARIATION will return true).  If `num_coords` is zero,
    *   this bit flag gets unset.
    */
-  FT_EXPORT( FT_Error )
-  FT_Set_MM_Design_Coordinates( FT_Face   face,
-                                FT_UInt   num_coords,
-                                FT_Long*  coords );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Set_MM_Design_Coordinates( FT_TS_Face   face,
+                                FT_TS_UInt   num_coords,
+                                FT_TS_Long*  coords );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Var_Design_Coordinates
+   *   FT_TS_Set_Var_Design_Coordinates
    *
    * @description:
    *   Choose an interpolated font design through design coordinates.
@@ -401,20 +401,20 @@ FT_BEGIN_HEADER
    *   instance (or the base font if no named instance is selected).
    *
    *   [Since 2.9] If `num_coords` is larger than zero, this function sets
-   *   the @FT_FACE_FLAG_VARIATION bit in @FT_Face's `face_flags` field
-   *   (i.e., @FT_IS_VARIATION will return true).  If `num_coords` is zero,
+   *   the @FT_TS_FACE_FLAG_VARIATION bit in @FT_TS_Face's `face_flags` field
+   *   (i.e., @FT_TS_IS_VARIATION will return true).  If `num_coords` is zero,
    *   this bit flag gets unset.
    */
-  FT_EXPORT( FT_Error )
-  FT_Set_Var_Design_Coordinates( FT_Face    face,
-                                 FT_UInt    num_coords,
-                                 FT_Fixed*  coords );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Set_Var_Design_Coordinates( FT_TS_Face    face,
+                                 FT_TS_UInt    num_coords,
+                                 FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Var_Design_Coordinates
+   *   FT_TS_Get_Var_Design_Coordinates
    *
    * @description:
    *   Get the design coordinates of the currently selected interpolated
@@ -440,16 +440,16 @@ FT_BEGIN_HEADER
    * @since:
    *   2.7.1
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_Var_Design_Coordinates( FT_Face    face,
-                                 FT_UInt    num_coords,
-                                 FT_Fixed*  coords );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_Var_Design_Coordinates( FT_TS_Face    face,
+                                 FT_TS_UInt    num_coords,
+                                 FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_MM_Blend_Coordinates
+   *   FT_TS_Set_MM_Blend_Coordinates
    *
    * @description:
    *   Choose an interpolated font design through normalized blend
@@ -482,20 +482,20 @@ FT_BEGIN_HEADER
    *   instance (or the base font if no named instance is selected).
    *
    *   [Since 2.9] If `num_coords` is larger than zero, this function sets
-   *   the @FT_FACE_FLAG_VARIATION bit in @FT_Face's `face_flags` field
-   *   (i.e., @FT_IS_VARIATION will return true).  If `num_coords` is zero,
+   *   the @FT_TS_FACE_FLAG_VARIATION bit in @FT_TS_Face's `face_flags` field
+   *   (i.e., @FT_TS_IS_VARIATION will return true).  If `num_coords` is zero,
    *   this bit flag gets unset.
    */
-  FT_EXPORT( FT_Error )
-  FT_Set_MM_Blend_Coordinates( FT_Face    face,
-                               FT_UInt    num_coords,
-                               FT_Fixed*  coords );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Set_MM_Blend_Coordinates( FT_TS_Face    face,
+                               FT_TS_UInt    num_coords,
+                               FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_MM_Blend_Coordinates
+   *   FT_TS_Get_MM_Blend_Coordinates
    *
    * @description:
    *   Get the normalized blend coordinates of the currently selected
@@ -523,47 +523,47 @@ FT_BEGIN_HEADER
    * @since:
    *   2.7.1
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_MM_Blend_Coordinates( FT_Face    face,
-                               FT_UInt    num_coords,
-                               FT_Fixed*  coords );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_MM_Blend_Coordinates( FT_TS_Face    face,
+                               FT_TS_UInt    num_coords,
+                               FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Var_Blend_Coordinates
+   *   FT_TS_Set_Var_Blend_Coordinates
    *
    * @description:
-   *   This is another name of @FT_Set_MM_Blend_Coordinates.
+   *   This is another name of @FT_TS_Set_MM_Blend_Coordinates.
    */
-  FT_EXPORT( FT_Error )
-  FT_Set_Var_Blend_Coordinates( FT_Face    face,
-                                FT_UInt    num_coords,
-                                FT_Fixed*  coords );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Set_Var_Blend_Coordinates( FT_TS_Face    face,
+                                FT_TS_UInt    num_coords,
+                                FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Var_Blend_Coordinates
+   *   FT_TS_Get_Var_Blend_Coordinates
    *
    * @description:
-   *   This is another name of @FT_Get_MM_Blend_Coordinates.
+   *   This is another name of @FT_TS_Get_MM_Blend_Coordinates.
    *
    * @since:
    *   2.7.1
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_Var_Blend_Coordinates( FT_Face    face,
-                                FT_UInt    num_coords,
-                                FT_Fixed*  coords );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_Var_Blend_Coordinates( FT_TS_Face    face,
+                                FT_TS_UInt    num_coords,
+                                FT_TS_Fixed*  coords );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_MM_WeightVector
+   *   FT_TS_Set_MM_WeightVector
    *
    * @description:
    *   For Adobe MM fonts, choose an interpolated font design by directly
@@ -602,16 +602,16 @@ FT_BEGIN_HEADER
    * @since:
    *   2.10
    */
-  FT_EXPORT( FT_Error )
-  FT_Set_MM_WeightVector( FT_Face    face,
-                          FT_UInt    len,
-                          FT_Fixed*  weightvector );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Set_MM_WeightVector( FT_TS_Face    face,
+                          FT_TS_UInt    len,
+                          FT_TS_Fixed*  weightvector );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_MM_WeightVector
+   *   FT_TS_Get_MM_WeightVector
    *
    * @description:
    *   For Adobe MM fonts, retrieve the current weight vector of the font.
@@ -625,7 +625,7 @@ FT_BEGIN_HEADER
    *
    *   len ::
    *     A pointer to the size of the array to be filled.  If the size of the
-   *     array is less than the number of designs, `FT_Err_Invalid_Argument`
+   *     array is less than the number of designs, `FT_TS_Err_Invalid_Argument`
    *     is returned, and `len` is set to the required size (the number of
    *     designs).  If the size of the array is greater than the number of
    *     designs, the remaining entries are set to~0.  On successful
@@ -646,35 +646,35 @@ FT_BEGIN_HEADER
    * @since:
    *   2.10
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_MM_WeightVector( FT_Face    face,
-                          FT_UInt*   len,
-                          FT_Fixed*  weightvector );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_MM_WeightVector( FT_TS_Face    face,
+                          FT_TS_UInt*   len,
+                          FT_TS_Fixed*  weightvector );
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_VAR_AXIS_FLAG_XXX
+   *   FT_TS_VAR_AXIS_FLAG_XXX
    *
    * @description:
    *   A list of bit flags used in the return value of
-   *   @FT_Get_Var_Axis_Flags.
+   *   @FT_TS_Get_Var_Axis_Flags.
    *
    * @values:
-   *   FT_VAR_AXIS_FLAG_HIDDEN ::
+   *   FT_TS_VAR_AXIS_FLAG_HIDDEN ::
    *     The variation axis should not be exposed to user interfaces.
    *
    * @since:
    *   2.8.1
    */
-#define FT_VAR_AXIS_FLAG_HIDDEN  1
+#define FT_TS_VAR_AXIS_FLAG_HIDDEN  1
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Var_Axis_Flags
+   *   FT_TS_Get_Var_Axis_Flags
    *
    * @description:
    *   Get the 'flags' field of an OpenType Variation Axis Record.
@@ -690,7 +690,7 @@ FT_BEGIN_HEADER
    *
    * @output:
    *   flags ::
-   *     The 'flags' field.  See @FT_VAR_AXIS_FLAG_XXX for possible values.
+   *     The 'flags' field.  See @FT_TS_VAR_AXIS_FLAG_XXX for possible values.
    *
    * @return:
    *   FreeType error code.  0~means success.
@@ -698,16 +698,16 @@ FT_BEGIN_HEADER
    * @since:
    *   2.8.1
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_Var_Axis_Flags( FT_MM_Var*  master,
-                         FT_UInt     axis_index,
-                         FT_UInt*    flags );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_Var_Axis_Flags( FT_TS_MM_Var*  master,
+                         FT_TS_UInt     axis_index,
+                         FT_TS_UInt*    flags );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Named_Instance
+   *   FT_TS_Set_Named_Instance
    *
    * @description:
    *   Set or change the current named instance.
@@ -727,8 +727,8 @@ FT_BEGIN_HEADER
    * @note:
    *   The function uses the value of `instance_index` to set bits 16-30 of
    *   the face's `face_index` field.  It also resets any variation applied
-   *   to the font, and the @FT_FACE_FLAG_VARIATION bit of the face's
-   *   `face_flags` field gets reset to zero (i.e., @FT_IS_VARIATION will
+   *   to the font, and the @FT_TS_FACE_FLAG_VARIATION bit of the face's
+   *   `face_flags` field gets reset to zero (i.e., @FT_TS_IS_VARIATION will
    *   return false).
    *
    *   For Adobe MM fonts (which don't have named instances) this function
@@ -737,14 +737,14 @@ FT_BEGIN_HEADER
    * @since:
    *   2.9
    */
-  FT_EXPORT( FT_Error )
-  FT_Set_Named_Instance( FT_Face  face,
-                         FT_UInt  instance_index );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Set_Named_Instance( FT_TS_Face  face,
+                         FT_TS_UInt  instance_index );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTMM_H_ */
 

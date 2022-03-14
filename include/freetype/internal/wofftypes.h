@@ -25,7 +25,7 @@
 #include <freetype/internal/ftobjs.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -43,19 +43,19 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF_HeaderRec_
   {
-    FT_ULong   signature;
-    FT_ULong   flavor;
-    FT_ULong   length;
-    FT_UShort  num_tables;
-    FT_UShort  reserved;
-    FT_ULong   totalSfntSize;
-    FT_UShort  majorVersion;
-    FT_UShort  minorVersion;
-    FT_ULong   metaOffset;
-    FT_ULong   metaLength;
-    FT_ULong   metaOrigLength;
-    FT_ULong   privOffset;
-    FT_ULong   privLength;
+    FT_TS_ULong   signature;
+    FT_TS_ULong   flavor;
+    FT_TS_ULong   length;
+    FT_TS_UShort  num_tables;
+    FT_TS_UShort  reserved;
+    FT_TS_ULong   totalSfntSize;
+    FT_TS_UShort  majorVersion;
+    FT_TS_UShort  minorVersion;
+    FT_TS_ULong   metaOffset;
+    FT_TS_ULong   metaLength;
+    FT_TS_ULong   metaOrigLength;
+    FT_TS_ULong   privOffset;
+    FT_TS_ULong   privLength;
 
   } WOFF_HeaderRec, *WOFF_Header;
 
@@ -92,13 +92,13 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF_TableRec_
   {
-    FT_Tag    Tag;           /* table ID                  */
-    FT_ULong  Offset;        /* table file offset         */
-    FT_ULong  CompLength;    /* compressed table length   */
-    FT_ULong  OrigLength;    /* uncompressed table length */
-    FT_ULong  CheckSum;      /* uncompressed checksum     */
+    FT_TS_Tag    Tag;           /* table ID                  */
+    FT_TS_ULong  Offset;        /* table file offset         */
+    FT_TS_ULong  CompLength;    /* compressed table length   */
+    FT_TS_ULong  OrigLength;    /* uncompressed table length */
+    FT_TS_ULong  CheckSum;      /* uncompressed checksum     */
 
-    FT_ULong  OrigOffset;    /* uncompressed table file offset */
+    FT_TS_ULong  OrigOffset;    /* uncompressed table file offset */
                              /* (not in the WOFF file)         */
   } WOFF_TableRec, *WOFF_Table;
 
@@ -124,9 +124,9 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF2_TtcFontRec_
   {
-    FT_ULong    flavor;
-    FT_UShort   num_tables;
-    FT_UShort*  table_indices;
+    FT_TS_ULong    flavor;
+    FT_TS_UShort   num_tables;
+    FT_TS_UShort*  table_indices;
 
   } WOFF2_TtcFontRec, *WOFF2_TtcFont;
 
@@ -152,23 +152,23 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF2_HeaderRec_
   {
-    FT_ULong   signature;
-    FT_ULong   flavor;
-    FT_ULong   length;
-    FT_UShort  num_tables;
-    FT_ULong   totalSfntSize;
-    FT_ULong   totalCompressedSize;
-    FT_ULong   metaOffset;
-    FT_ULong   metaLength;
-    FT_ULong   metaOrigLength;
-    FT_ULong   privOffset;
-    FT_ULong   privLength;
+    FT_TS_ULong   signature;
+    FT_TS_ULong   flavor;
+    FT_TS_ULong   length;
+    FT_TS_UShort  num_tables;
+    FT_TS_ULong   totalSfntSize;
+    FT_TS_ULong   totalCompressedSize;
+    FT_TS_ULong   metaOffset;
+    FT_TS_ULong   metaLength;
+    FT_TS_ULong   metaOrigLength;
+    FT_TS_ULong   privOffset;
+    FT_TS_ULong   privLength;
 
-    FT_ULong   uncompressed_size;    /* uncompressed brotli stream size */
-    FT_ULong   compressed_offset;    /* compressed stream offset        */
-    FT_ULong   header_version;       /* version of original TTC Header  */
-    FT_UShort  num_fonts;            /* number of fonts in TTC          */
-    FT_ULong   actual_sfnt_size;     /* actual size of sfnt stream      */
+    FT_TS_ULong   uncompressed_size;    /* uncompressed brotli stream size */
+    FT_TS_ULong   compressed_offset;    /* compressed stream offset        */
+    FT_TS_ULong   header_version;       /* version of original TTC Header  */
+    FT_TS_UShort  num_fonts;            /* number of fonts in TTC          */
+    FT_TS_ULong   actual_sfnt_size;     /* actual size of sfnt stream      */
 
     WOFF2_TtcFont  ttc_fonts;        /* metadata for fonts in a TTC     */
 
@@ -190,15 +190,15 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF2_TableRec_
   {
-    FT_Byte   FlagByte;           /* table type and flags      */
-    FT_Tag    Tag;                /* table file offset         */
-    FT_ULong  dst_length;         /* uncompressed table length */
-    FT_ULong  TransformLength;    /* transformed length        */
+    FT_TS_Byte   FlagByte;           /* table type and flags      */
+    FT_TS_Tag    Tag;                /* table file offset         */
+    FT_TS_ULong  dst_length;         /* uncompressed table length */
+    FT_TS_ULong  TransformLength;    /* transformed length        */
 
-    FT_ULong  flags;              /* calculated flags          */
-    FT_ULong  src_offset;         /* compressed table offset   */
-    FT_ULong  src_length;         /* compressed table length   */
-    FT_ULong  dst_offset;         /* uncompressed table offset */
+    FT_TS_ULong  flags;              /* calculated flags          */
+    FT_TS_ULong  src_offset;         /* compressed table offset   */
+    FT_TS_ULong  src_length;         /* compressed table length   */
+    FT_TS_ULong  dst_offset;         /* uncompressed table offset */
 
   } WOFF2_TableRec, *WOFF2_Table;
 
@@ -236,10 +236,10 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF2_InfoRec_
   {
-    FT_ULong   header_checksum;
-    FT_UShort  num_glyphs;
-    FT_UShort  num_hmetrics;
-    FT_Short*  x_mins;
+    FT_TS_ULong   header_checksum;
+    FT_TS_UShort  num_glyphs;
+    FT_TS_UShort  num_hmetrics;
+    FT_TS_Short*  x_mins;
 
     WOFF2_Table  glyf_table;
     WOFF2_Table  loca_table;
@@ -269,9 +269,9 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF2_SubstreamRec_
   {
-    FT_ULong  start;
-    FT_ULong  offset;
-    FT_ULong  size;
+    FT_TS_ULong  start;
+    FT_TS_ULong  offset;
+    FT_TS_ULong  size;
 
   } WOFF2_SubstreamRec, *WOFF2_Substream;
 
@@ -297,14 +297,14 @@ FT_BEGIN_HEADER
    */
   typedef struct  WOFF2_PointRec_
   {
-    FT_Int   x;
-    FT_Int   y;
-    FT_Bool  on_curve;
+    FT_TS_Int   x;
+    FT_TS_Int   y;
+    FT_TS_Bool  on_curve;
 
   } WOFF2_PointRec, *WOFF2_Point;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* WOFFTYPES_H_ */
 

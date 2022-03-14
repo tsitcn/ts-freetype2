@@ -86,7 +86,7 @@
   static unsigned int  error_count    = 1;
   static double        error_fraction = 0.0;
 
-  static FT_F26Dot6  font_size = 12 * 64;
+  static FT_TS_F26Dot6  font_size = 12 * 64;
 
   static struct fontlist
   {
@@ -102,114 +102,114 @@
 
 
   static int
-  FT_MoveTo( const FT_Vector  *to,
+  FT_TS_MoveTo( const FT_TS_Vector  *to,
              void             *user )
   {
-    FT_UNUSED( to );
-    FT_UNUSED( user );
+    FT_TS_UNUSED( to );
+    FT_TS_UNUSED( user );
 
     return 0;
   }
 
 
   static int
-  FT_LineTo( const FT_Vector  *to,
+  FT_TS_LineTo( const FT_TS_Vector  *to,
              void             *user )
   {
-    FT_UNUSED( to );
-    FT_UNUSED( user );
+    FT_TS_UNUSED( to );
+    FT_TS_UNUSED( user );
 
     return 0;
   }
 
 
   static int
-  FT_ConicTo( const FT_Vector  *_cp,
-              const FT_Vector  *to,
+  FT_TS_ConicTo( const FT_TS_Vector  *_cp,
+              const FT_TS_Vector  *to,
               void             *user )
   {
-    FT_UNUSED( _cp );
-    FT_UNUSED( to );
-    FT_UNUSED( user );
+    FT_TS_UNUSED( _cp );
+    FT_TS_UNUSED( to );
+    FT_TS_UNUSED( user );
 
     return 0;
   }
 
 
   static int
-  FT_CubicTo( const FT_Vector  *cp1,
-              const FT_Vector  *cp2,
-              const FT_Vector  *to,
+  FT_TS_CubicTo( const FT_TS_Vector  *cp1,
+              const FT_TS_Vector  *cp2,
+              const FT_TS_Vector  *to,
               void             *user )
   {
-    FT_UNUSED( cp1 );
-    FT_UNUSED( cp2 );
-    FT_UNUSED( to );
-    FT_UNUSED( user );
+    FT_TS_UNUSED( cp1 );
+    FT_TS_UNUSED( cp2 );
+    FT_TS_UNUSED( to );
+    FT_TS_UNUSED( user );
 
     return 0;
   }
 
 
-  static FT_Outline_Funcs outlinefuncs =
+  static FT_TS_Outline_Funcs outlinefuncs =
   {
-    FT_MoveTo,
-    FT_LineTo,
-    FT_ConicTo,
-    FT_CubicTo,
+    FT_TS_MoveTo,
+    FT_TS_LineTo,
+    FT_TS_ConicTo,
+    FT_TS_CubicTo,
     0, 0          /* No shift, no delta */
   };
 
 
   static void
-  TestFace( FT_Face  face )
+  TestFace( FT_TS_Face  face )
   {
     unsigned int  gid;
-    int           load_flags = FT_LOAD_DEFAULT;
+    int           load_flags = FT_TS_LOAD_DEFAULT;
 
 
     if ( check_outlines         &&
-         FT_IS_SCALABLE( face ) )
-      load_flags = FT_LOAD_NO_BITMAP;
+         FT_TS_IS_SCALABLE( face ) )
+      load_flags = FT_TS_LOAD_NO_BITMAP;
 
     if ( nohints )
-      load_flags |= FT_LOAD_NO_HINTING;
+      load_flags |= FT_TS_LOAD_NO_HINTING;
 
-    FT_Set_Char_Size( face, 0, font_size, 72, 72 );
+    FT_TS_Set_Char_Size( face, 0, font_size, 72, 72 );
 
     for ( gid = 0; gid < face->num_glyphs; gid++ )
     {
       if ( check_outlines         &&
-           FT_IS_SCALABLE( face ) )
+           FT_TS_IS_SCALABLE( face ) )
       {
-        if ( !FT_Load_Glyph( face, gid, load_flags ) )
-          FT_Outline_Decompose( &face->glyph->outline, &outlinefuncs, NULL );
+        if ( !FT_TS_Load_Glyph( face, gid, load_flags ) )
+          FT_TS_Outline_Decompose( &face->glyph->outline, &outlinefuncs, NULL );
       }
       else
-        FT_Load_Glyph( face, gid, load_flags );
+        FT_TS_Load_Glyph( face, gid, load_flags );
 
       if ( rasterize )
-        FT_Render_Glyph( face->glyph, ft_render_mode_normal );
+        FT_TS_Render_Glyph( face->glyph, ft_render_mode_normal );
     }
 
-    FT_Done_Face( face );
+    FT_TS_Done_Face( face );
   }
 
 
   static void
   ExecuteTest( char*  testfont )
   {
-    FT_Library  context;
-    FT_Face     face;
+    FT_TS_Library  context;
+    FT_TS_Face     face;
 
 
-    if ( FT_Init_FreeType( &context ) )
+    if ( FT_TS_Init_FreeType( &context ) )
     {
       fprintf( stderr, "Can't initialize FreeType.\n" );
       exit( 1 );
     }
 
-    if ( FT_New_Face( context, testfont, 0, &face ) )
+    if ( FT_TS_New_Face( context, testfont, 0, &face ) )
     {
       /* The font is erroneous, so if this fails that's ok. */
       exit( 0 );
@@ -223,16 +223,16 @@
 
 
       num = face->num_faces;
-      FT_Done_Face( face );
+      FT_TS_Done_Face( face );
 
       for ( i = 0; i < num; i++ )
       {
-        if ( !FT_New_Face( context, testfont, i, &face ) )
+        if ( !FT_TS_New_Face( context, testfont, i, &face ) )
           TestFace( face );
       }
     }
 
-    FT_Done_FreeType( context );
+    FT_TS_Done_FreeType( context );
 
     exit( 0 );
   }
@@ -504,7 +504,7 @@
   static void
   abort_test( int  sig )
   {
-    FT_UNUSED( sig );
+    FT_TS_UNUSED( sig );
 
     /* If a time-out happens, then kill the child */
     kill( child_pid, SIGFPE );
@@ -668,7 +668,7 @@
         results_dir = argv[++i];
       else if ( strcmp( pt, "-size" ) == 0 )
       {
-        font_size = (FT_F26Dot6)( strtod( argv[++i], &end ) * 64 );
+        font_size = (FT_TS_F26Dot6)( strtod( argv[++i], &end ) * 64 );
         if ( *end != '\0' || font_size < 64 )
         {
           fprintf( stderr, "Bad value for size: %s\n", argv[i] );

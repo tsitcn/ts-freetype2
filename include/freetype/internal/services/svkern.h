@@ -23,26 +23,26 @@
 #include <freetype/tttables.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-#define FT_SERVICE_ID_KERNING  "kerning"
+#define FT_TS_SERVICE_ID_KERNING  "kerning"
 
 
-  typedef FT_Error
-  (*FT_Kerning_TrackGetFunc)( FT_Face    face,
-                              FT_Fixed   point_size,
-                              FT_Int     degree,
-                              FT_Fixed*  akerning );
+  typedef FT_TS_Error
+  (*FT_TS_Kerning_TrackGetFunc)( FT_TS_Face    face,
+                              FT_TS_Fixed   point_size,
+                              FT_TS_Int     degree,
+                              FT_TS_Fixed*  akerning );
 
-  FT_DEFINE_SERVICE( Kerning )
+  FT_TS_DEFINE_SERVICE( Kerning )
   {
-    FT_Kerning_TrackGetFunc  get_track;
+    FT_TS_Kerning_TrackGetFunc  get_track;
   };
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVKERN_H_ */

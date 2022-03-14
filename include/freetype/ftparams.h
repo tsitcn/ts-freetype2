@@ -2,7 +2,7 @@
  *
  * ftparams.h
  *
- *   FreeType API for possible FT_Parameter tags (specification only).
+ *   FreeType API for possible FT_TS_Parameter tags (specification only).
  *
  * Copyright (C) 2017-2021 by
  * David Turner, Robert Wilhelm, and Werner Lemberg.
@@ -28,7 +28,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -43,7 +43,7 @@ FT_BEGIN_HEADER
    *   Macros for driver property and font loading parameter tags.
    *
    * @description:
-   *   This section contains macros for the @FT_Parameter structure that are
+   *   This section contains macros for the @FT_TS_Parameter structure that are
    *   used with various functions to activate some special functionality or
    *   different behaviour of various components of FreeType.
    *
@@ -53,10 +53,10 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *   FT_PARAM_TAG_IGNORE_TYPOGRAPHIC_FAMILY
+   *   FT_TS_PARAM_TAG_IGNORE_TYPOGRAPHIC_FAMILY
    *
    * @description:
-   *   A tag for @FT_Parameter to make @FT_Open_Face ignore typographic
+   *   A tag for @FT_TS_Parameter to make @FT_TS_Open_Face ignore typographic
    *   family names in the 'name' table (introduced in OpenType version 1.4).
    *   Use this for backward compatibility with legacy systems that have a
    *   four-faces-per-family restriction.
@@ -65,22 +65,22 @@ FT_BEGIN_HEADER
    *   2.8
    *
    */
-#define FT_PARAM_TAG_IGNORE_TYPOGRAPHIC_FAMILY \
-          FT_MAKE_TAG( 'i', 'g', 'p', 'f' )
+#define FT_TS_PARAM_TAG_IGNORE_TYPOGRAPHIC_FAMILY \
+          FT_TS_MAKE_TAG( 'i', 'g', 'p', 'f' )
 
 
   /* this constant is deprecated */
-#define FT_PARAM_TAG_IGNORE_PREFERRED_FAMILY \
-          FT_PARAM_TAG_IGNORE_TYPOGRAPHIC_FAMILY
+#define FT_TS_PARAM_TAG_IGNORE_PREFERRED_FAMILY \
+          FT_TS_PARAM_TAG_IGNORE_TYPOGRAPHIC_FAMILY
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PARAM_TAG_IGNORE_TYPOGRAPHIC_SUBFAMILY
+   *   FT_TS_PARAM_TAG_IGNORE_TYPOGRAPHIC_SUBFAMILY
    *
    * @description:
-   *   A tag for @FT_Parameter to make @FT_Open_Face ignore typographic
+   *   A tag for @FT_TS_Parameter to make @FT_TS_Open_Face ignore typographic
    *   subfamily names in the 'name' table (introduced in OpenType version
    *   1.4).  Use this for backward compatibility with legacy systems that
    *   have a four-faces-per-family restriction.
@@ -89,56 +89,56 @@ FT_BEGIN_HEADER
    *   2.8
    *
    */
-#define FT_PARAM_TAG_IGNORE_TYPOGRAPHIC_SUBFAMILY \
-          FT_MAKE_TAG( 'i', 'g', 'p', 's' )
+#define FT_TS_PARAM_TAG_IGNORE_TYPOGRAPHIC_SUBFAMILY \
+          FT_TS_MAKE_TAG( 'i', 'g', 'p', 's' )
 
 
   /* this constant is deprecated */
-#define FT_PARAM_TAG_IGNORE_PREFERRED_SUBFAMILY \
-          FT_PARAM_TAG_IGNORE_TYPOGRAPHIC_SUBFAMILY
+#define FT_TS_PARAM_TAG_IGNORE_PREFERRED_SUBFAMILY \
+          FT_TS_PARAM_TAG_IGNORE_TYPOGRAPHIC_SUBFAMILY
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PARAM_TAG_INCREMENTAL
+   *   FT_TS_PARAM_TAG_INCREMENTAL
    *
    * @description:
-   *   An @FT_Parameter tag to be used with @FT_Open_Face to indicate
+   *   An @FT_TS_Parameter tag to be used with @FT_TS_Open_Face to indicate
    *   incremental glyph loading.
    *
    */
-#define FT_PARAM_TAG_INCREMENTAL \
-          FT_MAKE_TAG( 'i', 'n', 'c', 'r' )
+#define FT_TS_PARAM_TAG_INCREMENTAL \
+          FT_TS_MAKE_TAG( 'i', 'n', 'c', 'r' )
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PARAM_TAG_LCD_FILTER_WEIGHTS
+   *   FT_TS_PARAM_TAG_LCD_FILTER_WEIGHTS
    *
    * @description:
-   *   An @FT_Parameter tag to be used with @FT_Face_Properties.  The
+   *   An @FT_TS_Parameter tag to be used with @FT_TS_Face_Properties.  The
    *   corresponding argument specifies the five LCD filter weights for a
-   *   given face (if using @FT_LOAD_TARGET_LCD, for example), overriding the
+   *   given face (if using @FT_TS_LOAD_TARGET_LCD, for example), overriding the
    *   global default values or the values set up with
-   *   @FT_Library_SetLcdFilterWeights.
+   *   @FT_TS_Library_SetLcdFilterWeights.
    *
    * @since:
    *   2.8
    *
    */
-#define FT_PARAM_TAG_LCD_FILTER_WEIGHTS \
-          FT_MAKE_TAG( 'l', 'c', 'd', 'f' )
+#define FT_TS_PARAM_TAG_LCD_FILTER_WEIGHTS \
+          FT_TS_MAKE_TAG( 'l', 'c', 'd', 'f' )
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PARAM_TAG_RANDOM_SEED
+   *   FT_TS_PARAM_TAG_RANDOM_SEED
    *
    * @description:
-   *   An @FT_Parameter tag to be used with @FT_Face_Properties.  The
+   *   An @FT_TS_Parameter tag to be used with @FT_TS_Face_Properties.  The
    *   corresponding 32bit signed integer argument overrides the font
    *   driver's random seed value with a face-specific one; see @random-seed.
    *
@@ -146,20 +146,20 @@ FT_BEGIN_HEADER
    *   2.8
    *
    */
-#define FT_PARAM_TAG_RANDOM_SEED \
-          FT_MAKE_TAG( 's', 'e', 'e', 'd' )
+#define FT_TS_PARAM_TAG_RANDOM_SEED \
+          FT_TS_MAKE_TAG( 's', 'e', 'e', 'd' )
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PARAM_TAG_STEM_DARKENING
+   *   FT_TS_PARAM_TAG_STEM_DARKENING
    *
    * @description:
-   *   An @FT_Parameter tag to be used with @FT_Face_Properties.  The
+   *   An @FT_TS_Parameter tag to be used with @FT_TS_Face_Properties.  The
    *   corresponding Boolean argument specifies whether to apply stem
    *   darkening, overriding the global default values or the values set up
-   *   with @FT_Property_Set (see @no-stem-darkening).
+   *   with @FT_TS_Property_Set (see @no-stem-darkening).
    *
    *   This is a passive setting that only takes effect if the font driver or
    *   autohinter honors it, which the CFF, Type~1, and CID drivers always
@@ -170,31 +170,31 @@ FT_BEGIN_HEADER
    *   2.8
    *
    */
-#define FT_PARAM_TAG_STEM_DARKENING \
-          FT_MAKE_TAG( 'd', 'a', 'r', 'k' )
+#define FT_TS_PARAM_TAG_STEM_DARKENING \
+          FT_TS_MAKE_TAG( 'd', 'a', 'r', 'k' )
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_PARAM_TAG_UNPATENTED_HINTING
+   *   FT_TS_PARAM_TAG_UNPATENTED_HINTING
    *
    * @description:
    *   Deprecated, no effect.
    *
-   *   Previously: A constant used as the tag of an @FT_Parameter structure
+   *   Previously: A constant used as the tag of an @FT_TS_Parameter structure
    *   to indicate that unpatented methods only should be used by the
-   *   TrueType bytecode interpreter for a typeface opened by @FT_Open_Face.
+   *   TrueType bytecode interpreter for a typeface opened by @FT_TS_Open_Face.
    *
    */
-#define FT_PARAM_TAG_UNPATENTED_HINTING \
-          FT_MAKE_TAG( 'u', 'n', 'p', 'a' )
+#define FT_TS_PARAM_TAG_UNPATENTED_HINTING \
+          FT_TS_MAKE_TAG( 'u', 'n', 'p', 'a' )
 
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* FTPARAMS_H_ */

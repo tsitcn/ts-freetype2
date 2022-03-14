@@ -33,22 +33,22 @@ THE SOFTWARE.
 #include <freetype/internal/ftstream.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   typedef struct  PCF_TableRec_
   {
-    FT_ULong  type;
-    FT_ULong  format;
-    FT_ULong  size;
-    FT_ULong  offset;
+    FT_TS_ULong  type;
+    FT_TS_ULong  format;
+    FT_TS_ULong  size;
+    FT_TS_ULong  offset;
 
   } PCF_TableRec, *PCF_Table;
 
 
   typedef struct  PCF_TocRec_
   {
-    FT_ULong   version;
-    FT_ULong   count;
+    FT_TS_ULong   version;
+    FT_TS_ULong   count;
     PCF_Table  tables;
 
   } PCF_TocRec, *PCF_Toc;
@@ -56,23 +56,23 @@ FT_BEGIN_HEADER
 
   typedef struct  PCF_ParsePropertyRec_
   {
-    FT_Long  name;
-    FT_Byte  isString;
-    FT_Long  value;
+    FT_TS_Long  name;
+    FT_TS_Byte  isString;
+    FT_TS_Long  value;
 
   } PCF_ParsePropertyRec, *PCF_ParseProperty;
 
 
   typedef struct  PCF_PropertyRec_
   {
-    FT_String*  name;
-    FT_Byte     isString;
+    FT_TS_String*  name;
+    FT_TS_Byte     isString;
 
     union
     {
-      FT_String*  atom;
-      FT_Long     l;
-      FT_ULong    ul;
+      FT_TS_String*  atom;
+      FT_TS_Long     l;
+      FT_TS_ULong    ul;
 
     } value;
 
@@ -81,54 +81,54 @@ FT_BEGIN_HEADER
 
   typedef struct  PCF_Compressed_MetricRec_
   {
-    FT_Byte  leftSideBearing;
-    FT_Byte  rightSideBearing;
-    FT_Byte  characterWidth;
-    FT_Byte  ascent;
-    FT_Byte  descent;
+    FT_TS_Byte  leftSideBearing;
+    FT_TS_Byte  rightSideBearing;
+    FT_TS_Byte  characterWidth;
+    FT_TS_Byte  ascent;
+    FT_TS_Byte  descent;
 
   } PCF_Compressed_MetricRec, *PCF_Compressed_Metric;
 
 
   typedef struct  PCF_MetricRec_
   {
-    FT_Short  leftSideBearing;
-    FT_Short  rightSideBearing;
-    FT_Short  characterWidth;
-    FT_Short  ascent;
-    FT_Short  descent;
-    FT_Short  attributes;
+    FT_TS_Short  leftSideBearing;
+    FT_TS_Short  rightSideBearing;
+    FT_TS_Short  characterWidth;
+    FT_TS_Short  ascent;
+    FT_TS_Short  descent;
+    FT_TS_Short  attributes;
 
-    FT_ULong  bits;  /* offset into the PCF_BITMAPS table */
+    FT_TS_ULong  bits;  /* offset into the PCF_BITMAPS table */
 
   } PCF_MetricRec, *PCF_Metric;
 
 
   typedef struct  PCF_EncRec_
   {
-    FT_UShort   firstCol;
-    FT_UShort   lastCol;
-    FT_UShort   firstRow;
-    FT_UShort   lastRow;
-    FT_UShort   defaultChar;
+    FT_TS_UShort   firstCol;
+    FT_TS_UShort   lastCol;
+    FT_TS_UShort   firstRow;
+    FT_TS_UShort   lastRow;
+    FT_TS_UShort   defaultChar;
 
-    FT_UShort*  offset;
+    FT_TS_UShort*  offset;
 
   } PCF_EncRec, *PCF_Enc;
 
 
   typedef struct  PCF_AccelRec_
   {
-    FT_Byte        noOverlap;
-    FT_Byte        constantMetrics;
-    FT_Byte        terminalFont;
-    FT_Byte        constantWidth;
-    FT_Byte        inkInside;
-    FT_Byte        inkMetrics;
-    FT_Byte        drawDirection;
-    FT_Long        fontAscent;
-    FT_Long        fontDescent;
-    FT_Long        maxOverlap;
+    FT_TS_Byte        noOverlap;
+    FT_TS_Byte        constantMetrics;
+    FT_TS_Byte        terminalFont;
+    FT_TS_Byte        constantWidth;
+    FT_TS_Byte        inkInside;
+    FT_TS_Byte        inkMetrics;
+    FT_TS_Byte        drawDirection;
+    FT_TS_Long        fontAscent;
+    FT_TS_Long        fontDescent;
+    FT_TS_Long        maxOverlap;
     PCF_MetricRec  minbounds;
     PCF_MetricRec  maxbounds;
     PCF_MetricRec  ink_minbounds;
@@ -143,10 +143,10 @@ FT_BEGIN_HEADER
    */
   typedef struct  PCF_FaceRec_
   {
-    FT_FaceRec    root;
+    FT_TS_FaceRec    root;
 
-    FT_StreamRec  comp_stream;
-    FT_Stream     comp_source;
+    FT_TS_StreamRec  comp_stream;
+    FT_TS_Stream     comp_source;
 
     char*         charset_encoding;
     char*         charset_registry;
@@ -157,21 +157,21 @@ FT_BEGIN_HEADER
     int           nprops;
     PCF_Property  properties;
 
-    FT_ULong      nmetrics;
+    FT_TS_ULong      nmetrics;
     PCF_Metric    metrics;
 
     PCF_EncRec    enc;
 
-    FT_ULong      bitmapsFormat;
+    FT_TS_ULong      bitmapsFormat;
 
   } PCF_FaceRec, *PCF_Face;
 
 
   typedef struct  PCF_DriverRec_
   {
-    FT_DriverRec  root;
+    FT_TS_DriverRec  root;
 
-    FT_Bool  no_long_family_names;
+    FT_TS_Bool  no_long_family_names;
 
   } PCF_DriverRec, *PCF_Driver;
 
@@ -238,12 +238,12 @@ FT_BEGIN_HEADER
 
 #define GLYPHPADOPTIONS  4 /* I'm not sure about this */
 
-  FT_LOCAL( FT_Error )
-  pcf_load_font( FT_Stream  stream,
+  FT_TS_LOCAL( FT_TS_Error )
+  pcf_load_font( FT_TS_Stream  stream,
                  PCF_Face   face,
-                 FT_Long    face_index );
+                 FT_TS_Long    face_index );
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* PCF_H_ */
 

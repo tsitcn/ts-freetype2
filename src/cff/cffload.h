@@ -25,98 +25,98 @@
 #include <freetype/internal/cffotypes.h>  /* for CFF_Face */
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_LOCAL( FT_UShort )
-  cff_get_standard_encoding( FT_UInt  charcode );
+  FT_TS_LOCAL( FT_TS_UShort )
+  cff_get_standard_encoding( FT_TS_UInt  charcode );
 
 
-  FT_LOCAL( FT_String* )
+  FT_TS_LOCAL( FT_TS_String* )
   cff_index_get_string( CFF_Font  font,
-                        FT_UInt   element );
+                        FT_TS_UInt   element );
 
-  FT_LOCAL( FT_String* )
+  FT_TS_LOCAL( FT_TS_String* )
   cff_index_get_sid_string( CFF_Font  font,
-                            FT_UInt   sid );
+                            FT_TS_UInt   sid );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_index_access_element( CFF_Index  idx,
-                            FT_UInt    element,
-                            FT_Byte**  pbytes,
-                            FT_ULong*  pbyte_len );
+                            FT_TS_UInt    element,
+                            FT_TS_Byte**  pbytes,
+                            FT_TS_ULong*  pbyte_len );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cff_index_forget_element( CFF_Index  idx,
-                            FT_Byte**  pbytes );
+                            FT_TS_Byte**  pbytes );
 
-  FT_LOCAL( FT_String* )
+  FT_TS_LOCAL( FT_TS_String* )
   cff_index_get_name( CFF_Font  font,
-                      FT_UInt   element );
+                      FT_TS_UInt   element );
 
 
-  FT_LOCAL( FT_UInt )
+  FT_TS_LOCAL( FT_TS_UInt )
   cff_charset_cid_to_gindex( CFF_Charset  charset,
-                             FT_UInt      cid );
+                             FT_TS_UInt      cid );
 
 
-  FT_LOCAL( FT_Error )
-  cff_font_load( FT_Library  library,
-                 FT_Stream   stream,
-                 FT_Int      face_index,
+  FT_TS_LOCAL( FT_TS_Error )
+  cff_font_load( FT_TS_Library  library,
+                 FT_TS_Stream   stream,
+                 FT_TS_Int      face_index,
                  CFF_Font    font,
                  CFF_Face    face,
-                 FT_Bool     pure_cff,
-                 FT_Bool     cff2 );
+                 FT_TS_Bool     pure_cff,
+                 FT_TS_Bool     cff2 );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cff_font_done( CFF_Font  font );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_load_private_dict( CFF_Font     font,
                          CFF_SubFont  subfont,
-                         FT_UInt      lenNDV,
-                         FT_Fixed*    NDV );
+                         FT_TS_UInt      lenNDV,
+                         FT_TS_Fixed*    NDV );
 
-  FT_LOCAL( FT_Byte )
+  FT_TS_LOCAL( FT_TS_Byte )
   cff_fd_select_get( CFF_FDSelect  fdselect,
-                     FT_UInt       glyph_index );
+                     FT_TS_UInt       glyph_index );
 
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   cff_blend_check_vector( CFF_Blend  blend,
-                          FT_UInt    vsindex,
-                          FT_UInt    lenNDV,
-                          FT_Fixed*  NDV );
+                          FT_TS_UInt    vsindex,
+                          FT_TS_UInt    lenNDV,
+                          FT_TS_Fixed*  NDV );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_blend_build_vector( CFF_Blend  blend,
-                          FT_UInt    vsindex,
-                          FT_UInt    lenNDV,
-                          FT_Fixed*  NDV );
+                          FT_TS_UInt    vsindex,
+                          FT_TS_UInt    lenNDV,
+                          FT_TS_Fixed*  NDV );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cff_blend_clear( CFF_SubFont  subFont );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_blend_doBlend( CFF_SubFont  subfont,
                      CFF_Parser   parser,
-                     FT_UInt      numBlends );
+                     FT_TS_UInt      numBlends );
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_get_var_blend( CFF_Face     face,
-                     FT_UInt     *num_coords,
-                     FT_Fixed*   *coords,
-                     FT_Fixed*   *normalizedcoords,
-                     FT_MM_Var*  *mm_var );
+                     FT_TS_UInt     *num_coords,
+                     FT_TS_Fixed*   *coords,
+                     FT_TS_Fixed*   *normalizedcoords,
+                     FT_TS_MM_Var*  *mm_var );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cff_done_blend( CFF_Face  face );
 #endif
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* CFFLOAD_H_ */
 

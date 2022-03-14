@@ -24,7 +24,7 @@
 #include <freetype/internal/ftobjs.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* CFF uses constant parser stack size; */
@@ -50,48 +50,48 @@ FT_BEGIN_HEADER
 
   typedef struct  CFF_ParserRec_
   {
-    FT_Library  library;
-    FT_Byte*    start;
-    FT_Byte*    limit;
-    FT_Byte*    cursor;
+    FT_TS_Library  library;
+    FT_TS_Byte*    start;
+    FT_TS_Byte*    limit;
+    FT_TS_Byte*    cursor;
 
-    FT_Byte**   stack;
-    FT_Byte**   top;
-    FT_UInt     stackSize;  /* allocated size */
+    FT_TS_Byte**   stack;
+    FT_TS_Byte**   top;
+    FT_TS_UInt     stackSize;  /* allocated size */
 
 #ifdef CFF_CONFIG_OPTION_OLD_ENGINE
-    FT_ListRec  t2_strings;
+    FT_TS_ListRec  t2_strings;
 #endif /* CFF_CONFIG_OPTION_OLD_ENGINE */
 
-    FT_UInt     object_code;
+    FT_TS_UInt     object_code;
     void*       object;
 
-    FT_UShort   num_designs; /* a copy of `CFF_FontRecDict->num_designs' */
-    FT_UShort   num_axes;    /* a copy of `CFF_FontRecDict->num_axes'    */
+    FT_TS_UShort   num_designs; /* a copy of `CFF_FontRecDict->num_designs' */
+    FT_TS_UShort   num_axes;    /* a copy of `CFF_FontRecDict->num_axes'    */
 
   } CFF_ParserRec, *CFF_Parser;
 
 
-  FT_LOCAL( FT_Long )
+  FT_TS_LOCAL( FT_TS_Long )
   cff_parse_num( CFF_Parser  parser,
-                 FT_Byte**   d );
+                 FT_TS_Byte**   d );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_parser_init( CFF_Parser  parser,
-                   FT_UInt     code,
+                   FT_TS_UInt     code,
                    void*       object,
-                   FT_Library  library,
-                   FT_UInt     stackSize,
-                   FT_UShort   num_designs,
-                   FT_UShort   num_axes );
+                   FT_TS_Library  library,
+                   FT_TS_UInt     stackSize,
+                   FT_TS_UShort   num_designs,
+                   FT_TS_UShort   num_axes );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cff_parser_done( CFF_Parser  parser );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_parser_run( CFF_Parser  parser,
-                  FT_Byte*    start,
-                  FT_Byte*    limit );
+                  FT_TS_Byte*    start,
+                  FT_TS_Byte*    limit );
 
 
   enum
@@ -111,33 +111,33 @@ FT_BEGIN_HEADER
 
 
   /* now generate handlers for the most simple fields */
-  typedef FT_Error  (*CFF_Field_Reader)( CFF_Parser  parser );
+  typedef FT_TS_Error  (*CFF_Field_Reader)( CFF_Parser  parser );
 
   typedef struct  CFF_Field_Handler_
   {
     int               kind;
     int               code;
-    FT_UInt           offset;
-    FT_Byte           size;
+    FT_TS_UInt           offset;
+    FT_TS_Byte           size;
     CFF_Field_Reader  reader;
-    FT_UInt           array_max;
-    FT_UInt           count_offset;
+    FT_TS_UInt           array_max;
+    FT_TS_UInt           count_offset;
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
     const char*       id;
 #endif
 
   } CFF_Field_Handler;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #ifdef CFF_CONFIG_OPTION_OLD_ENGINE
   typedef struct  CFF_T2_String_
   {
-    FT_Byte*  start;
-    FT_Byte*  limit;
+    FT_TS_Byte*  start;
+    FT_TS_Byte*  limit;
 
   } CFF_T2_StringRec, *CFF_T2_String;
 #endif /* CFF_CONFIG_OPTION_OLD_ENGINE */

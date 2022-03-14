@@ -24,73 +24,73 @@
 
 #include "compiler-macros.h"
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  typedef FT_Error
-  (*FT_Face_InitFunc)( FT_Stream      stream,
-                       FT_Face        face,
-                       FT_Int         typeface_index,
-                       FT_Int         num_params,
-                       FT_Parameter*  parameters );
-
-  typedef void
-  (*FT_Face_DoneFunc)( FT_Face  face );
-
-
-  typedef FT_Error
-  (*FT_Size_InitFunc)( FT_Size  size );
+  typedef FT_TS_Error
+  (*FT_TS_Face_InitFunc)( FT_TS_Stream      stream,
+                       FT_TS_Face        face,
+                       FT_TS_Int         typeface_index,
+                       FT_TS_Int         num_params,
+                       FT_TS_Parameter*  parameters );
 
   typedef void
-  (*FT_Size_DoneFunc)( FT_Size  size );
+  (*FT_TS_Face_DoneFunc)( FT_TS_Face  face );
 
 
-  typedef FT_Error
-  (*FT_Slot_InitFunc)( FT_GlyphSlot  slot );
+  typedef FT_TS_Error
+  (*FT_TS_Size_InitFunc)( FT_TS_Size  size );
 
   typedef void
-  (*FT_Slot_DoneFunc)( FT_GlyphSlot  slot );
+  (*FT_TS_Size_DoneFunc)( FT_TS_Size  size );
 
 
-  typedef FT_Error
-  (*FT_Size_RequestFunc)( FT_Size          size,
-                          FT_Size_Request  req );
+  typedef FT_TS_Error
+  (*FT_TS_Slot_InitFunc)( FT_TS_GlyphSlot  slot );
 
-  typedef FT_Error
-  (*FT_Size_SelectFunc)( FT_Size   size,
-                         FT_ULong  size_index );
-
-  typedef FT_Error
-  (*FT_Slot_LoadFunc)( FT_GlyphSlot  slot,
-                       FT_Size       size,
-                       FT_UInt       glyph_index,
-                       FT_Int32      load_flags );
+  typedef void
+  (*FT_TS_Slot_DoneFunc)( FT_TS_GlyphSlot  slot );
 
 
-  typedef FT_Error
-  (*FT_Face_GetKerningFunc)( FT_Face     face,
-                             FT_UInt     left_glyph,
-                             FT_UInt     right_glyph,
-                             FT_Vector*  kerning );
+  typedef FT_TS_Error
+  (*FT_TS_Size_RequestFunc)( FT_TS_Size          size,
+                          FT_TS_Size_Request  req );
+
+  typedef FT_TS_Error
+  (*FT_TS_Size_SelectFunc)( FT_TS_Size   size,
+                         FT_TS_ULong  size_index );
+
+  typedef FT_TS_Error
+  (*FT_TS_Slot_LoadFunc)( FT_TS_GlyphSlot  slot,
+                       FT_TS_Size       size,
+                       FT_TS_UInt       glyph_index,
+                       FT_TS_Int32      load_flags );
 
 
-  typedef FT_Error
-  (*FT_Face_AttachFunc)( FT_Face    face,
-                         FT_Stream  stream );
+  typedef FT_TS_Error
+  (*FT_TS_Face_GetKerningFunc)( FT_TS_Face     face,
+                             FT_TS_UInt     left_glyph,
+                             FT_TS_UInt     right_glyph,
+                             FT_TS_Vector*  kerning );
 
 
-  typedef FT_Error
-  (*FT_Face_GetAdvancesFunc)( FT_Face    face,
-                              FT_UInt    first,
-                              FT_UInt    count,
-                              FT_Int32   flags,
-                              FT_Fixed*  advances );
+  typedef FT_TS_Error
+  (*FT_TS_Face_AttachFunc)( FT_TS_Face    face,
+                         FT_TS_Stream  stream );
+
+
+  typedef FT_TS_Error
+  (*FT_TS_Face_GetAdvancesFunc)( FT_TS_Face    face,
+                              FT_TS_UInt    first,
+                              FT_TS_UInt    count,
+                              FT_TS_Int32   flags,
+                              FT_TS_Fixed*  advances );
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Driver_ClassRec
+   *   FT_TS_Driver_ClassRec
    *
    * @description:
    *   The font driver class.  This structure mostly contains pointers to
@@ -155,56 +155,56 @@ FT_BEGIN_HEADER
    *
    *   select_size ::
    *     A handle to a function used to select a new fixed size.  It is used
-   *     only if @FT_FACE_FLAG_FIXED_SIZES is set.  Can be set to 0 if the
+   *     only if @FT_TS_FACE_FLAG_FIXED_SIZES is set.  Can be set to 0 if the
    *     scaling done in the base layer suffices.
    * @note:
    *   Most function pointers, with the exception of `load_glyph`, can be set
    *   to 0 to indicate a default behaviour.
    */
-  typedef struct  FT_Driver_ClassRec_
+  typedef struct  FT_TS_Driver_ClassRec_
   {
-    FT_Module_Class          root;
+    FT_TS_Module_Class          root;
 
-    FT_Long                  face_object_size;
-    FT_Long                  size_object_size;
-    FT_Long                  slot_object_size;
+    FT_TS_Long                  face_object_size;
+    FT_TS_Long                  size_object_size;
+    FT_TS_Long                  slot_object_size;
 
-    FT_Face_InitFunc         init_face;
-    FT_Face_DoneFunc         done_face;
+    FT_TS_Face_InitFunc         init_face;
+    FT_TS_Face_DoneFunc         done_face;
 
-    FT_Size_InitFunc         init_size;
-    FT_Size_DoneFunc         done_size;
+    FT_TS_Size_InitFunc         init_size;
+    FT_TS_Size_DoneFunc         done_size;
 
-    FT_Slot_InitFunc         init_slot;
-    FT_Slot_DoneFunc         done_slot;
+    FT_TS_Slot_InitFunc         init_slot;
+    FT_TS_Slot_DoneFunc         done_slot;
 
-    FT_Slot_LoadFunc         load_glyph;
+    FT_TS_Slot_LoadFunc         load_glyph;
 
-    FT_Face_GetKerningFunc   get_kerning;
-    FT_Face_AttachFunc       attach_file;
-    FT_Face_GetAdvancesFunc  get_advances;
+    FT_TS_Face_GetKerningFunc   get_kerning;
+    FT_TS_Face_AttachFunc       attach_file;
+    FT_TS_Face_GetAdvancesFunc  get_advances;
 
     /* since version 2.2 */
-    FT_Size_RequestFunc      request_size;
-    FT_Size_SelectFunc       select_size;
+    FT_TS_Size_RequestFunc      request_size;
+    FT_TS_Size_SelectFunc       select_size;
 
-  } FT_Driver_ClassRec, *FT_Driver_Class;
+  } FT_TS_Driver_ClassRec, *FT_TS_Driver_Class;
 
 
   /**************************************************************************
    *
    * @macro:
-   *   FT_DECLARE_DRIVER
+   *   FT_TS_DECLARE_DRIVER
    *
    * @description:
-   *   Used to create a forward declaration of an FT_Driver_ClassRec struct
+   *   Used to create a forward declaration of an FT_TS_Driver_ClassRec struct
    *   instance.
    *
    * @macro:
-   *   FT_DEFINE_DRIVER
+   *   FT_TS_DEFINE_DRIVER
    *
    * @description:
-   *   Used to initialize an instance of FT_Driver_ClassRec struct.
+   *   Used to initialize an instance of FT_TS_Driver_ClassRec struct.
    *
    *   `ftinit.c` (ft_create_default_module_classes) already contains a
    *   mechanism to call these functions for the default modules described in
@@ -213,11 +213,11 @@ FT_BEGIN_HEADER
    *   The struct will be allocated in the global scope (or the scope where
    *   the macro is used).
    */
-#define FT_DECLARE_DRIVER( class_ )  \
-  FT_CALLBACK_TABLE                  \
-  const FT_Driver_ClassRec  class_;
+#define FT_TS_DECLARE_DRIVER( class_ )  \
+  FT_TS_CALLBACK_TABLE                  \
+  const FT_TS_Driver_ClassRec  class_;
 
-#define FT_DEFINE_DRIVER(                    \
+#define FT_TS_DEFINE_DRIVER(                    \
           class_,                            \
           flags_,                            \
           size_,                             \
@@ -243,10 +243,10 @@ FT_BEGIN_HEADER
           get_advances_,                     \
           request_size_,                     \
           select_size_ )                     \
-  FT_CALLBACK_TABLE_DEF                      \
-  const FT_Driver_ClassRec  class_ =         \
+  FT_TS_CALLBACK_TABLE_DEF                      \
+  const FT_TS_Driver_ClassRec  class_ =         \
   {                                          \
-    FT_DEFINE_ROOT_MODULE( flags_,           \
+    FT_TS_DEFINE_ROOT_MODULE( flags_,           \
                            size_,            \
                            name_,            \
                            version_,         \
@@ -280,7 +280,7 @@ FT_BEGIN_HEADER
   };
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTDRV_H_ */
 

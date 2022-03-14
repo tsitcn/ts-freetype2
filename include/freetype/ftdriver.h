@@ -29,7 +29,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -45,8 +45,8 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   While FreeType's auto-hinter doesn't expose API functions by itself,
-   *   it is possible to control its behaviour with @FT_Property_Set and
-   *   @FT_Property_Get.  The following lists the available properties
+   *   it is possible to control its behaviour with @FT_TS_Property_Set and
+   *   @FT_TS_Property_Get.  The following lists the available properties
    *   together with the necessary macros and structures.
    *
    *   Note that the auto-hinter's module name is 'autofitter' for historical
@@ -74,8 +74,8 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   While FreeType's CFF driver doesn't expose API functions by itself, it
-   *   is possible to control its behaviour with @FT_Property_Set and
-   *   @FT_Property_Get.
+   *   is possible to control its behaviour with @FT_TS_Property_Set and
+   *   @FT_TS_Property_Get.
    *
    *   The CFF driver's module name is 'cff'.
    *
@@ -157,8 +157,8 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   While FreeType's PCF driver doesn't expose API functions by itself, it
-   *   is possible to control its behaviour with @FT_Property_Set and
-   *   @FT_Property_Get.  Right now, there is a single property
+   *   is possible to control its behaviour with @FT_TS_Property_Set and
+   *   @FT_TS_Property_Get.  Right now, there is a single property
    *   @no-long-family-names available if FreeType is compiled with
    *   PCF_CONFIG_OPTION_LONG_FAMILY_NAMES.
    *
@@ -180,7 +180,7 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   It is possible to control the behaviour of FreeType's Type~1 and
-   *   Type~1 CID drivers with @FT_Property_Set and @FT_Property_Get.
+   *   Type~1 CID drivers with @FT_TS_Property_Set and @FT_TS_Property_Get.
    *
    *   Behind the scenes, both drivers use the Adobe CFF engine for hinting;
    *   however, the used properties must be specified separately.
@@ -211,8 +211,8 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   While FreeType's TrueType driver doesn't expose API functions by
-   *   itself, it is possible to control its behaviour with @FT_Property_Set
-   *   and @FT_Property_Get.  The following lists the available properties
+   *   itself, it is possible to control its behaviour with @FT_TS_Property_Set
+   *   and @FT_TS_Property_Get.  The following lists the available properties
    *   together with the necessary macros and structures.
    *
    *   The TrueType driver's module name is 'truetype'.
@@ -313,7 +313,7 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   Driver modules can be controlled by setting and unsetting properties,
-   *   using the functions @FT_Property_Set and @FT_Property_Get.  This
+   *   using the functions @FT_TS_Property_Set and @FT_TS_Property_Get.  This
    *   section documents the available properties, together with auxiliary
    *   macros and structures.
    *
@@ -323,29 +323,29 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *   FT_HINTING_XXX
+   *   FT_TS_HINTING_XXX
    *
    * @description:
    *   A list of constants used for the @hinting-engine property to select
    *   the hinting engine for CFF, Type~1, and CID fonts.
    *
    * @values:
-   *   FT_HINTING_FREETYPE ::
+   *   FT_TS_HINTING_FREETYPE ::
    *     Use the old FreeType hinting engine.
    *
-   *   FT_HINTING_ADOBE ::
+   *   FT_TS_HINTING_ADOBE ::
    *     Use the hinting engine contributed by Adobe.
    *
    * @since:
    *   2.9
    *
    */
-#define FT_HINTING_FREETYPE  0
-#define FT_HINTING_ADOBE     1
+#define FT_TS_HINTING_FREETYPE  0
+#define FT_TS_HINTING_ADOBE     1
 
   /* these constants (introduced in 2.4.12) are deprecated */
-#define FT_CFF_HINTING_FREETYPE  FT_HINTING_FREETYPE
-#define FT_CFF_HINTING_ADOBE     FT_HINTING_ADOBE
+#define FT_TS_CFF_HINTING_FREETYPE  FT_TS_HINTING_FREETYPE
+#define FT_TS_CFF_HINTING_ADOBE     FT_TS_HINTING_ADOBE
 
 
   /**************************************************************************
@@ -366,7 +366,7 @@ FT_BEGIN_HEADER
    *   'type1' and 't1cid' modules, the default engine is 'adobe', too.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
    *   This property can be set via the `FREETYPE_PROPERTIES` environment
    *   variable (using values 'adobe' or 'freetype').
@@ -376,13 +376,13 @@ FT_BEGIN_HEADER
    *   engine for the 'cff' module (omitting the error handling).
    *
    *   ```
-   *     FT_Library  library;
-   *     FT_UInt     hinting_engine = FT_HINTING_ADOBE;
+   *     FT_TS_Library  library;
+   *     FT_TS_UInt     hinting_engine = FT_TS_HINTING_ADOBE;
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_TS_Init_FreeType( &library );
    *
-   *     FT_Property_Set( library, "cff",
+   *     FT_TS_Property_Set( library, "cff",
    *                               "hinting-engine", &hinting_engine );
    *   ```
    *
@@ -407,7 +407,7 @@ FT_BEGIN_HEADER
    *
    *   Stem darkening emboldens glyphs at smaller sizes to make them more
    *   readable on common low-DPI screens when using linear alpha blending
-   *   and gamma correction, see @FT_Render_Glyph.  When not using linear
+   *   and gamma correction, see @FT_TS_Render_Glyph.  When not using linear
    *   alpha blending and gamma correction, glyphs will appear heavy and
    *   fuzzy!
    *
@@ -430,25 +430,25 @@ FT_BEGIN_HEADER
    *   precomputed blue zones.  The smaller the size (especially 9ppem and
    *   down), the higher the loss of emboldening versus the CFF driver.
    *
-   *   Note that stem darkening is never applied if @FT_LOAD_NO_SCALE is set.
+   *   Note that stem darkening is never applied if @FT_TS_LOAD_NO_SCALE is set.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
    *   This property can be set via the `FREETYPE_PROPERTIES` environment
    *   variable (using values 1 and 0 for 'on' and 'off', respectively).  It
-   *   can also be set per face using @FT_Face_Properties with
-   *   @FT_PARAM_TAG_STEM_DARKENING.
+   *   can also be set per face using @FT_TS_Face_Properties with
+   *   @FT_TS_PARAM_TAG_STEM_DARKENING.
    *
    * @example:
    *   ```
-   *     FT_Library  library;
-   *     FT_Bool     no_stem_darkening = TRUE;
+   *     FT_TS_Library  library;
+   *     FT_TS_Bool     no_stem_darkening = TRUE;
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_TS_Init_FreeType( &library );
    *
-   *     FT_Property_Set( library, "cff",
+   *     FT_TS_Property_Set( library, "cff",
    *                               "no-stem-darkening", &no_stem_darkening );
    *   ```
    *
@@ -497,7 +497,7 @@ FT_BEGIN_HEADER
    *   feature.  See @no-stem-darkening for more.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
    *   This property can be set via the `FREETYPE_PROPERTIES` environment
    *   variable, using eight comma-separated integers without spaces.  Here
@@ -510,16 +510,16 @@ FT_BEGIN_HEADER
    *
    * @example:
    *   ```
-   *     FT_Library  library;
-   *     FT_Int      darken_params[8] = {  500, 300,   // x1, y1
+   *     FT_TS_Library  library;
+   *     FT_TS_Int      darken_params[8] = {  500, 300,   // x1, y1
    *                                      1000, 200,   // x2, y2
    *                                      1500, 100,   // x3, y3
    *                                      2000,   0 }; // x4, y4
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_TS_Init_FreeType( &library );
    *
-   *     FT_Property_Set( library, "type1",
+   *     FT_TS_Property_Set( library, "type1",
    *                               "darkening-parameters", darken_params );
    *   ```
    *
@@ -555,8 +555,8 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   This property can be set via the `FREETYPE_PROPERTIES` environment
-   *   variable.  It can also be set per face using @FT_Face_Properties with
-   *   @FT_PARAM_TAG_RANDOM_SEED.
+   *   variable.  It can also be set per face using @FT_TS_Face_Properties with
+   *   @FT_TS_PARAM_TAG_RANDOM_SEED.
    *
    * @since:
    *   2.8 (for 'cff' module)
@@ -587,20 +587,20 @@ FT_BEGIN_HEADER
    *   If `no-long-family-names` is set, this feature gets switched off.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
    *   This property can be set via the `FREETYPE_PROPERTIES` environment
    *   variable (using values 1 and 0 for 'on' and 'off', respectively).
    *
    * @example:
    *   ```
-   *     FT_Library  library;
-   *     FT_Bool     no_long_family_names = TRUE;
+   *     FT_TS_Library  library;
+   *     FT_TS_Bool     no_long_family_names = TRUE;
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_TS_Init_FreeType( &library );
    *
-   *     FT_Property_Set( library, "pcf",
+   *     FT_TS_Property_Set( library, "pcf",
    *                               "no-long-family-names",
    *                               &no_long_family_names );
    *   ```
@@ -650,7 +650,7 @@ FT_BEGIN_HEADER
    *
    *   If FreeType has not been compiled with the configuration option
    *   `TT_CONFIG_OPTION_SUBPIXEL_HINTING`, selecting version~38 or~40 causes
-   *   an `FT_Err_Unimplemented_Feature` error.
+   *   an `FT_TS_Err_Unimplemented_Feature` error.
    *
    *   Depending on the graphics framework, Microsoft uses different bytecode
    *   and rendering engines.  As a consequence, the version numbers returned
@@ -771,7 +771,7 @@ FT_BEGIN_HEADER
    *   to arrive at very similar results.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
    *   This property can be set via the `FREETYPE_PROPERTIES` environment
    *   variable (using values '35', '38', or '40').
@@ -781,14 +781,14 @@ FT_BEGIN_HEADER
    *   hinting (omitting the error handling).
    *
    *   ```
-   *     FT_Library  library;
-   *     FT_Face     face;
-   *     FT_UInt     interpreter_version = TT_INTERPRETER_VERSION_35;
+   *     FT_TS_Library  library;
+   *     FT_TS_Face     face;
+   *     FT_TS_UInt     interpreter_version = TT_INTERPRETER_VERSION_35;
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_TS_Init_FreeType( &library );
    *
-   *     FT_Property_Set( library, "truetype",
+   *     FT_TS_Property_Set( library, "truetype",
    *                               "interpreter-version",
    *                               &interpreter_version );
    *   ```
@@ -819,8 +819,8 @@ FT_BEGIN_HEADER
    *   FreeType.
    *
    *   The mapping between glyph indices and scripts (in the auto-hinter
-   *   sense, see the @FT_AUTOHINTER_SCRIPT_XXX values) is stored as an array
-   *   with `num_glyphs` elements, as found in the font's @FT_Face structure.
+   *   sense, see the @FT_TS_AUTOHINTER_SCRIPT_XXX values) is stored as an array
+   *   with `num_glyphs` elements, as found in the font's @FT_TS_Face structure.
    *   The `glyph-to-script-map` property returns a pointer to this array,
    *   which can be modified as needed.  Note that the modification should
    *   happen before the first glyph gets processed by the auto-hinter so
@@ -832,22 +832,22 @@ FT_BEGIN_HEADER
    *   error handling).
    *
    *   ```
-   *     FT_Library                library;
-   *     FT_Face                   face;
-   *     FT_Prop_GlyphToScriptMap  prop;
+   *     FT_TS_Library                library;
+   *     FT_TS_Face                   face;
+   *     FT_TS_Prop_GlyphToScriptMap  prop;
    *
    *
-   *     FT_Init_FreeType( &library );
-   *     FT_New_Face( library, "foo.ttf", 0, &face );
+   *     FT_TS_Init_FreeType( &library );
+   *     FT_TS_New_Face( library, "foo.ttf", 0, &face );
    *
    *     prop.face = face;
    *
-   *     FT_Property_Get( library, "autofitter",
+   *     FT_TS_Property_Get( library, "autofitter",
    *                               "glyph-to-script-map", &prop );
    *
    *     // adjust `prop.map' as needed right here
    *
-   *     FT_Load_Glyph( face, ..., FT_LOAD_FORCE_AUTOHINT );
+   *     FT_TS_Load_Glyph( face, ..., FT_TS_LOAD_FORCE_AUTOHINT );
    *   ```
    *
    * @since:
@@ -859,7 +859,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *   FT_AUTOHINTER_SCRIPT_XXX
+   *   FT_TS_AUTOHINTER_SCRIPT_XXX
    *
    * @description:
    *   **Experimental only**
@@ -869,10 +869,10 @@ FT_BEGIN_HEADER
    *   particular glyph.
    *
    * @values:
-   *   FT_AUTOHINTER_SCRIPT_NONE ::
+   *   FT_TS_AUTOHINTER_SCRIPT_NONE ::
    *     Don't auto-hint this glyph.
    *
-   *   FT_AUTOHINTER_SCRIPT_LATIN ::
+   *   FT_TS_AUTOHINTER_SCRIPT_LATIN ::
    *     Apply the latin auto-hinter.  For the auto-hinter, 'latin' is a very
    *     broad term, including Cyrillic and Greek also since characters from
    *     those scripts share the same design constraints.
@@ -911,7 +911,7 @@ FT_BEGIN_HEADER
    *      U+1F100 - U+1F1FF // Enclosed Alphanumeric Supplement
    *     ```
    *
-   *   FT_AUTOHINTER_SCRIPT_CJK ::
+   *   FT_TS_AUTOHINTER_SCRIPT_CJK ::
    *     Apply the CJK auto-hinter, covering Chinese, Japanese, Korean, old
    *     Vietnamese, and some other scripts.
    *
@@ -953,7 +953,7 @@ FT_BEGIN_HEADER
    *      U+2F800 - U+2FA1F // CJK Compatibility Ideographs Supplement
    *     ```
    *
-   *   FT_AUTOHINTER_SCRIPT_INDIC ::
+   *   FT_TS_AUTOHINTER_SCRIPT_INDIC ::
    *     Apply the indic auto-hinter, covering all major scripts from the
    *     Indian sub-continent and some other related scripts like Thai, Lao,
    *     or Tibetan.
@@ -978,16 +978,16 @@ FT_BEGIN_HEADER
    *   2.4.11
    *
    */
-#define FT_AUTOHINTER_SCRIPT_NONE   0
-#define FT_AUTOHINTER_SCRIPT_LATIN  1
-#define FT_AUTOHINTER_SCRIPT_CJK    2
-#define FT_AUTOHINTER_SCRIPT_INDIC  3
+#define FT_TS_AUTOHINTER_SCRIPT_NONE   0
+#define FT_TS_AUTOHINTER_SCRIPT_LATIN  1
+#define FT_TS_AUTOHINTER_SCRIPT_CJK    2
+#define FT_TS_AUTOHINTER_SCRIPT_INDIC  3
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Prop_GlyphToScriptMap
+   *   FT_TS_Prop_GlyphToScriptMap
    *
    * @description:
    *   **Experimental only**
@@ -998,12 +998,12 @@ FT_BEGIN_HEADER
    *   2.4.11
    *
    */
-  typedef struct  FT_Prop_GlyphToScriptMap_
+  typedef struct  FT_TS_Prop_GlyphToScriptMap_
   {
-    FT_Face     face;
-    FT_UShort*  map;
+    FT_TS_Face     face;
+    FT_TS_UShort*  map;
 
-  } FT_Prop_GlyphToScriptMap;
+  } FT_TS_Prop_GlyphToScriptMap;
 
 
   /**************************************************************************
@@ -1016,29 +1016,29 @@ FT_BEGIN_HEADER
    *
    *   If no auto-hinter script module can be assigned to a glyph, a fallback
    *   script gets assigned to it (see also the @glyph-to-script-map
-   *   property).  By default, this is @FT_AUTOHINTER_SCRIPT_CJK.  Using the
+   *   property).  By default, this is @FT_TS_AUTOHINTER_SCRIPT_CJK.  Using the
    *   `fallback-script` property, this fallback value can be changed.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
    *   It's important to use the right timing for changing this value: The
    *   creation of the glyph-to-script map that eventually uses the fallback
    *   script value gets triggered either by setting or reading a
    *   face-specific property like @glyph-to-script-map, or by auto-hinting
    *   any glyph from that face.  In particular, if you have already created
-   *   an @FT_Face structure but not loaded any glyph (using the
+   *   an @FT_TS_Face structure but not loaded any glyph (using the
    *   auto-hinter), a change of the fallback script will affect this face.
    *
    * @example:
    *   ```
-   *     FT_Library  library;
-   *     FT_UInt     fallback_script = FT_AUTOHINTER_SCRIPT_NONE;
+   *     FT_TS_Library  library;
+   *     FT_TS_UInt     fallback_script = FT_TS_AUTOHINTER_SCRIPT_NONE;
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_TS_Init_FreeType( &library );
    *
-   *     FT_Property_Set( library, "autofitter",
+   *     FT_TS_Property_Set( library, "autofitter",
    *                               "fallback-script", &fallback_script );
    *   ```
    *
@@ -1056,7 +1056,7 @@ FT_BEGIN_HEADER
    * @description:
    *   **Experimental only**
    *
-   *   If FreeType gets compiled with `FT_CONFIG_OPTION_USE_HARFBUZZ` to make
+   *   If FreeType gets compiled with `FT_TS_CONFIG_OPTION_USE_HARFBUZZ` to make
    *   the HarfBuzz library access OpenType features for getting better glyph
    *   coverages, this property sets the (auto-fitter) script to be used for
    *   the default (OpenType) script data of a font's GSUB table.  Features
@@ -1065,29 +1065,29 @@ FT_BEGIN_HEADER
    *   combination of the characters 'T', 'E', and 'L' to form a 'TEL'
    *   ligature.
    *
-   *   By default, this is @FT_AUTOHINTER_SCRIPT_LATIN.  Using the
+   *   By default, this is @FT_TS_AUTOHINTER_SCRIPT_LATIN.  Using the
    *   `default-script` property, this default value can be changed.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
    *   It's important to use the right timing for changing this value: The
    *   creation of the glyph-to-script map that eventually uses the default
    *   script value gets triggered either by setting or reading a
    *   face-specific property like @glyph-to-script-map, or by auto-hinting
    *   any glyph from that face.  In particular, if you have already created
-   *   an @FT_Face structure but not loaded any glyph (using the
+   *   an @FT_TS_Face structure but not loaded any glyph (using the
    *   auto-hinter), a change of the default script will affect this face.
    *
    * @example:
    *   ```
-   *     FT_Library  library;
-   *     FT_UInt     default_script = FT_AUTOHINTER_SCRIPT_NONE;
+   *     FT_TS_Library  library;
+   *     FT_TS_UInt     default_script = FT_TS_AUTOHINTER_SCRIPT_NONE;
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_TS_Init_FreeType( &library );
    *
-   *     FT_Property_Set( library, "autofitter",
+   *     FT_TS_Property_Set( library, "autofitter",
    *                               "default-script", &default_script );
    *   ```
    *
@@ -1110,26 +1110,26 @@ FT_BEGIN_HEADER
    *   necessary.
    *
    * @note:
-   *   This property can be used with @FT_Property_Get also.
+   *   This property can be used with @FT_TS_Property_Get also.
    *
-   *   Set this value right after calling @FT_Set_Char_Size, but before
+   *   Set this value right after calling @FT_TS_Set_Char_Size, but before
    *   loading any glyph (using the auto-hinter).
    *
    * @example:
    *   ```
-   *     FT_Library               library;
-   *     FT_Face                  face;
-   *     FT_Prop_IncreaseXHeight  prop;
+   *     FT_TS_Library               library;
+   *     FT_TS_Face                  face;
+   *     FT_TS_Prop_IncreaseXHeight  prop;
    *
    *
-   *     FT_Init_FreeType( &library );
-   *     FT_New_Face( library, "foo.ttf", 0, &face );
-   *     FT_Set_Char_Size( face, 10 * 64, 0, 72, 0 );
+   *     FT_TS_Init_FreeType( &library );
+   *     FT_TS_New_Face( library, "foo.ttf", 0, &face );
+   *     FT_TS_Set_Char_Size( face, 10 * 64, 0, 72, 0 );
    *
    *     prop.face  = face;
    *     prop.limit = 14;
    *
-   *     FT_Property_Set( library, "autofitter",
+   *     FT_TS_Property_Set( library, "autofitter",
    *                               "increase-x-height", &prop );
    *   ```
    *
@@ -1142,18 +1142,18 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @struct:
-   *   FT_Prop_IncreaseXHeight
+   *   FT_TS_Prop_IncreaseXHeight
    *
    * @description:
    *   The data exchange structure for the @increase-x-height property.
    *
    */
-  typedef struct  FT_Prop_IncreaseXHeight_
+  typedef struct  FT_TS_Prop_IncreaseXHeight_
   {
-    FT_Face  face;
-    FT_UInt  limit;
+    FT_TS_Face  face;
+    FT_TS_UInt  limit;
 
-  } FT_Prop_IncreaseXHeight;
+  } FT_TS_Prop_IncreaseXHeight;
 
 
   /**************************************************************************
@@ -1184,7 +1184,7 @@ FT_BEGIN_HEADER
  /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* FTDRIVER_H_ */

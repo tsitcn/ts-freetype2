@@ -29,7 +29,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -49,8 +49,8 @@ FT_BEGIN_HEADER
    *   without handling glyph outlines, if possible.
    *
    * @order:
-   *   FT_Get_Advance
-   *   FT_Get_Advances
+   *   FT_TS_Get_Advance
+   *   FT_TS_Get_Advances
    *
    */
 
@@ -58,11 +58,11 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *   FT_ADVANCE_FLAG_FAST_ONLY
+   *   FT_TS_ADVANCE_FLAG_FAST_ONLY
    *
    * @description:
    *   A bit-flag to be OR-ed with the `flags` parameter of the
-   *   @FT_Get_Advance and @FT_Get_Advances functions.
+   *   @FT_TS_Get_Advance and @FT_TS_Get_Advances functions.
    *
    *   If set, it indicates that you want these functions to fail if the
    *   corresponding hinting mode or font driver doesn't allow for very quick
@@ -74,27 +74,27 @@ FT_BEGIN_HEADER
    *   Normal and bytecode hinted modes that require loading, scaling, and
    *   hinting of the glyph outline, are extremely slow by comparison.
    */
-#define FT_ADVANCE_FLAG_FAST_ONLY  0x20000000L
+#define FT_TS_ADVANCE_FLAG_FAST_ONLY  0x20000000L
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Advance
+   *   FT_TS_Get_Advance
    *
    * @description:
-   *   Retrieve the advance value of a given glyph outline in an @FT_Face.
+   *   Retrieve the advance value of a given glyph outline in an @FT_TS_Face.
    *
    * @input:
    *   face ::
-   *     The source @FT_Face handle.
+   *     The source @FT_TS_Face handle.
    *
    *   gindex ::
    *     The glyph index.
    *
    *   load_flags ::
    *     A set of bit flags similar to those used when calling
-   *     @FT_Load_Glyph, used to determine what kind of advances you need.
+   *     @FT_TS_Load_Glyph, used to determine what kind of advances you need.
    *
    * @output:
    *   padvance ::
@@ -102,7 +102,7 @@ FT_BEGIN_HEADER
    *     `load_flags`), the advance value is in 16.16 format.  Otherwise, it
    *     is in font units.
    *
-   *     If @FT_LOAD_VERTICAL_LAYOUT is set, this is the vertical advance
+   *     If @FT_TS_LOAD_VERTICAL_LAYOUT is set, this is the vertical advance
    *     corresponding to a vertical layout.  Otherwise, it is the horizontal
    *     advance in a horizontal layout.
    *
@@ -110,31 +110,31 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0 means success.
    *
    * @note:
-   *   This function may fail if you use @FT_ADVANCE_FLAG_FAST_ONLY and if
+   *   This function may fail if you use @FT_TS_ADVANCE_FLAG_FAST_ONLY and if
    *   the corresponding font backend doesn't have a quick way to retrieve
    *   the advances.
    *
    *   A scaled advance is returned in 16.16 format but isn't transformed by
-   *   the affine transformation specified by @FT_Set_Transform.
+   *   the affine transformation specified by @FT_TS_Set_Transform.
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_Advance( FT_Face    face,
-                  FT_UInt    gindex,
-                  FT_Int32   load_flags,
-                  FT_Fixed  *padvance );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_Advance( FT_TS_Face    face,
+                  FT_TS_UInt    gindex,
+                  FT_TS_Int32   load_flags,
+                  FT_TS_Fixed  *padvance );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Advances
+   *   FT_TS_Get_Advances
    *
    * @description:
-   *   Retrieve the advance values of several glyph outlines in an @FT_Face.
+   *   Retrieve the advance values of several glyph outlines in an @FT_TS_Face.
    *
    * @input:
    *   face ::
-   *     The source @FT_Face handle.
+   *     The source @FT_TS_Face handle.
    *
    *   start ::
    *     The first glyph index.
@@ -144,7 +144,7 @@ FT_BEGIN_HEADER
    *
    *   load_flags ::
    *     A set of bit flags similar to those used when calling
-   *     @FT_Load_Glyph.
+   *     @FT_TS_Load_Glyph.
    *
    * @output:
    *   padvance ::
@@ -155,7 +155,7 @@ FT_BEGIN_HEADER
    *     advance values are in 16.16 format.  Otherwise, they are in font
    *     units.
    *
-   *     If @FT_LOAD_VERTICAL_LAYOUT is set, these are the vertical advances
+   *     If @FT_TS_LOAD_VERTICAL_LAYOUT is set, these are the vertical advances
    *     corresponding to a vertical layout.  Otherwise, they are the
    *     horizontal advances in a horizontal layout.
    *
@@ -163,24 +163,24 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0 means success.
    *
    * @note:
-   *   This function may fail if you use @FT_ADVANCE_FLAG_FAST_ONLY and if
+   *   This function may fail if you use @FT_TS_ADVANCE_FLAG_FAST_ONLY and if
    *   the corresponding font backend doesn't have a quick way to retrieve
    *   the advances.
    *
    *   Scaled advances are returned in 16.16 format but aren't transformed by
-   *   the affine transformation specified by @FT_Set_Transform.
+   *   the affine transformation specified by @FT_TS_Set_Transform.
    */
-  FT_EXPORT( FT_Error )
-  FT_Get_Advances( FT_Face    face,
-                   FT_UInt    start,
-                   FT_UInt    count,
-                   FT_Int32   load_flags,
-                   FT_Fixed  *padvances );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Get_Advances( FT_TS_Face    face,
+                   FT_TS_UInt    start,
+                   FT_TS_UInt    count,
+                   FT_TS_Int32   load_flags,
+                   FT_TS_Fixed  *padvances );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTADVANC_H_ */
 

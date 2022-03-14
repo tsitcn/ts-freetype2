@@ -24,7 +24,7 @@
 #include <freetype/internal/ftstream.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -69,17 +69,17 @@ FT_BEGIN_HEADER
   typedef struct  T1_ParserRec_
   {
     PS_ParserRec  root;
-    FT_Stream     stream;
+    FT_TS_Stream     stream;
 
-    FT_Byte*      base_dict;
-    FT_ULong      base_len;
+    FT_TS_Byte*      base_dict;
+    FT_TS_ULong      base_len;
 
-    FT_Byte*      private_dict;
-    FT_ULong      private_len;
+    FT_TS_Byte*      private_dict;
+    FT_TS_ULong      private_len;
 
-    FT_Bool       in_pfb;
-    FT_Bool       in_memory;
-    FT_Bool       single_block;
+    FT_TS_Bool       in_pfb;
+    FT_TS_Bool       in_memory;
+    FT_TS_Bool       single_block;
 
   } T1_ParserRec, *T1_Parser;
 
@@ -115,21 +115,21 @@ FT_BEGIN_HEADER
           (p)->root.funcs.load_field_table( &(p)->root, f, o, m, pf )
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_New_Parser( T1_Parser      parser,
-                 FT_Stream      stream,
-                 FT_Memory      memory,
+                 FT_TS_Stream      stream,
+                 FT_TS_Memory      memory,
                  PSAux_Service  psaux );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Get_Private_Dict( T1_Parser      parser,
                        PSAux_Service  psaux );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   T1_Finalize_Parser( T1_Parser  parser );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* T1PARSE_H_ */
 

@@ -24,18 +24,18 @@
 #include <freetype/internal/ftobjs.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-#ifdef FT_CONFIG_OPTION_USE_ZLIB
+#ifdef FT_TS_CONFIG_OPTION_USE_ZLIB
 
-  FT_LOCAL( FT_Error )
-  woff_open_font( FT_Stream  stream,
+  FT_TS_LOCAL( FT_TS_Error )
+  woff_open_font( FT_TS_Stream  stream,
                   TT_Face    face );
 
 
 #endif
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SFWOFF_H_ */
 

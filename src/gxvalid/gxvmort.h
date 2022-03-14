@@ -34,15 +34,15 @@
 #include <freetype/ftsnames.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef struct  GXV_mort_featureRec_
   {
-    FT_UShort  featureType;
-    FT_UShort  featureSetting;
-    FT_ULong   enableFlags;
-    FT_ULong   disableFlags;
+    FT_TS_UShort  featureType;
+    FT_TS_UShort  featureSetting;
+    FT_TS_ULong   enableFlags;
+    FT_TS_ULong   disableFlags;
 
   } GXV_mort_featureRec, *GXV_mort_feature;
 
@@ -55,43 +55,43 @@ FT_BEGIN_HEADER
             (f).disableFlags   == 0x00000000UL )
 
 
-  FT_LOCAL( void )
-  gxv_mort_featurearray_validate( FT_Bytes       table,
-                                  FT_Bytes       limit,
-                                  FT_ULong       nFeatureFlags,
+  FT_TS_LOCAL( void )
+  gxv_mort_featurearray_validate( FT_TS_Bytes       table,
+                                  FT_TS_Bytes       limit,
+                                  FT_TS_ULong       nFeatureFlags,
                                   GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_mort_coverage_validate( FT_UShort      coverage,
+  FT_TS_LOCAL( void )
+  gxv_mort_coverage_validate( FT_TS_UShort      coverage,
                               GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type0_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_mort_subtable_type0_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type1_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_mort_subtable_type1_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type2_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_mort_subtable_type2_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type4_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_mort_subtable_type4_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type5_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL( void )
+  gxv_mort_subtable_type5_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* GXVMORT_H_ */
 

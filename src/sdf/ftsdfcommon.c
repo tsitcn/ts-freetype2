@@ -35,13 +35,13 @@
    *
    * Use this to compute the square root of a 16.16 fixed point number.
    */
-  FT_LOCAL_DEF( FT_16D16 )
-  square_root( FT_16D16  val )
+  FT_TS_LOCAL_DEF( FT_TS_16D16 )
+  square_root( FT_TS_16D16  val )
   {
-    FT_ULong  t, q, b, r;
+    FT_TS_ULong  t, q, b, r;
 
 
-    r = (FT_ULong)val;
+    r = (FT_TS_ULong)val;
     b = 0x40000000L;
     q = 0;
 
@@ -61,7 +61,7 @@
 
     q >>= 8;
 
-    return (FT_16D16)q;
+    return (FT_TS_16D16)q;
   }
 
 
@@ -83,19 +83,19 @@
    *
    * You can use this function to map the 16.16 signed values to any
    * format required.  Do note that the output buffer is 8-bit, so only
-   * use an 8-bit format for `FT_SDFFormat`, or increase the buffer size in
+   * use an 8-bit format for `FT_TS_SDFFormat`, or increase the buffer size in
    * `ftsdfrend.c`.
    */
-  FT_LOCAL_DEF( FT_SDFFormat )
-  map_fixed_to_sdf( FT_16D16  dist,
-                    FT_16D16  max_value )
+  FT_TS_LOCAL_DEF( FT_TS_SDFFormat )
+  map_fixed_to_sdf( FT_TS_16D16  dist,
+                    FT_TS_16D16  max_value )
   {
-    FT_SDFFormat  out;
-    FT_16D16      udist;
+    FT_TS_SDFFormat  out;
+    FT_TS_16D16      udist;
 
 
     /* normalize the distance values */
-    dist = FT_DivFix( dist, max_value );
+    dist = FT_TS_DivFix( dist, max_value );
 
     udist = dist < 0 ? -dist : dist;
 
@@ -119,9 +119,9 @@
     /* from [128, 255].  One important thing is that negative values      */
     /* are inverted here, that means [0, 128] maps to [-128, 0] linearly. */
     /* More on that in `freetype.h` near the documentation of             */
-    /* `FT_RENDER_MODE_SDF`.                                              */
-    out = dist < 0 ? 128 - (FT_SDFFormat)udist
-                   : (FT_SDFFormat)udist + 128;
+    /* `FT_TS_RENDER_MODE_SDF`.                                              */
+    out = dist < 0 ? 128 - (FT_TS_SDFFormat)udist
+                   : (FT_TS_SDFFormat)udist + 128;
 
     return out;
   }
@@ -133,12 +133,12 @@
    * chosen format.
    *
    * [Note]: This function should only be used after converting the
-   *         16.16 signed distance values to `FT_SDFFormat`.  If that
+   *         16.16 signed distance values to `FT_TS_SDFFormat`.  If that
    *         conversion has not been done, then simply invert the sign
    *         and use the above function to pack the values.
    */
-  FT_LOCAL_DEF( FT_SDFFormat )
-  invert_sign( FT_SDFFormat  dist )
+  FT_TS_LOCAL_DEF( FT_TS_SDFFormat )
+  invert_sign( FT_TS_SDFFormat  dist )
   {
     return 255 - dist;
   }

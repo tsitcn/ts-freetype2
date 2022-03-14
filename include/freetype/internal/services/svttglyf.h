@@ -22,25 +22,25 @@
 #include <freetype/tttables.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-#define FT_SERVICE_ID_TT_GLYF  "tt-glyf"
+#define FT_TS_SERVICE_ID_TT_GLYF  "tt-glyf"
 
 
-  typedef FT_ULong
-  (*TT_Glyf_GetLocationFunc)( FT_Face    face,
-                              FT_UInt    gindex,
-                              FT_ULong  *psize );
+  typedef FT_TS_ULong
+  (*TT_Glyf_GetLocationFunc)( FT_TS_Face    face,
+                              FT_TS_UInt    gindex,
+                              FT_TS_ULong  *psize );
 
-  FT_DEFINE_SERVICE( TTGlyf )
+  FT_TS_DEFINE_SERVICE( TTGlyf )
   {
     TT_Glyf_GetLocationFunc  get_location;
   };
 
 
-#define FT_DEFINE_SERVICE_TTGLYFREC( class_, get_location_ )  \
-  static const FT_Service_TTGlyfRec  class_ =                 \
+#define FT_TS_DEFINE_SERVICE_TTGLYFREC( class_, get_location_ )  \
+  static const FT_TS_Service_TTGlyfRec  class_ =                 \
   {                                                           \
     get_location_                                             \
   };
@@ -48,7 +48,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SVTTGLYF_H_ */
 

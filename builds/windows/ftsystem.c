@@ -18,7 +18,7 @@
 
 #include <ft2build.h>
   /* we use our special ftconfig.h file, not the standard one */
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/internal/ftdebug.h>
 #include <freetype/ftsystem.h>
 #include <freetype/fterrors.h>
@@ -64,8 +64,8 @@
    * @Return:
    *   The address of newly allocated block.
    */
-  FT_CALLBACK_DEF( void* )
-  ft_alloc( FT_Memory  memory,
+  FT_TS_CALLBACK_DEF( void* )
+  ft_alloc( FT_TS_Memory  memory,
             long       size )
   {
     return HeapAlloc( memory->user, 0, size );
@@ -96,13 +96,13 @@
    * @Return:
    *   The address of the reallocated memory block.
    */
-  FT_CALLBACK_DEF( void* )
-  ft_realloc( FT_Memory  memory,
+  FT_TS_CALLBACK_DEF( void* )
+  ft_realloc( FT_TS_Memory  memory,
               long       cur_size,
               long       new_size,
               void*      block )
   {
-    FT_UNUSED( cur_size );
+    FT_TS_UNUSED( cur_size );
 
     return HeapReAlloc( memory->user, 0, block, new_size );
   }
@@ -123,8 +123,8 @@
    *   block ::
    *     The address of block in memory to be freed.
    */
-  FT_CALLBACK_DEF( void )
-  ft_free( FT_Memory  memory,
+  FT_TS_CALLBACK_DEF( void )
+  ft_free( FT_TS_Memory  memory,
            void*      block )
   {
     HeapFree( memory->user, 0, block );
@@ -140,12 +140,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  io
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  io
 
   /* We use the macro STREAM_FILE for convenience to extract the       */
   /* system-specific stream handle from a given FreeType stream object */
@@ -163,8 +163,8 @@
    * @Input:
    *   stream :: A pointer to the stream object.
    */
-  FT_CALLBACK_DEF( void )
-  ft_close_stream_by_munmap( FT_Stream  stream )
+  FT_TS_CALLBACK_DEF( void )
+  ft_close_stream_by_munmap( FT_TS_Stream  stream )
   {
     UnmapViewOfFile( (LPCVOID)stream->descriptor.pointer );
 
@@ -185,8 +185,8 @@
    * @Input:
    *   stream :: A pointer to the stream object.
    */
-  FT_CALLBACK_DEF( void )
-  ft_close_stream_by_free( FT_Stream  stream )
+  FT_TS_CALLBACK_DEF( void )
+  ft_close_stream_by_free( FT_TS_Stream  stream )
   {
     ft_free( stream->memory, stream->descriptor.pointer );
 
@@ -198,7 +198,7 @@
 
 #ifdef _WIN32_WCE
 
-  FT_LOCAL_DEF( HANDLE )
+  FT_TS_LOCAL_DEF( HANDLE )
   CreateFileA( LPCSTR                lpFileName,
                DWORD                 dwDesiredAccess,
                DWORD                 dwShareMode,
@@ -219,7 +219,7 @@
 
     if ( !len || !lpFileNameW )
     {
-      FT_ERROR(( "FT_Stream_Open: cannot convert file name to LPWSTR\n" ));
+      FT_TS_ERROR(( "FT_TS_Stream_Open: cannot convert file name to LPWSTR\n" ));
       return INVALID_HANDLE_VALUE;
     }
 
@@ -234,7 +234,7 @@
   }
 
 
-  FT_LOCAL_DEF( BOOL )
+  FT_TS_LOCAL_DEF( BOOL )
   GetFileSizeEx( HANDLE         hFile,
                  PLARGE_INTEGER lpFileSize )
   {
@@ -253,8 +253,8 @@
 
   /* documentation is in ftobjs.h */
 
-  FT_BASE_DEF( FT_Error )
-  FT_Stream_Open( FT_Stream    stream,
+  FT_TS_BASE_DEF( FT_TS_Error )
+  FT_TS_Stream_Open( FT_TS_Stream    stream,
                   const char*  filepathname )
   {
     HANDLE         file;
@@ -263,22 +263,22 @@
 
 
     if ( !stream )
-      return FT_THROW( Invalid_Stream_Handle );
+      return FT_TS_THROW( Invalid_Stream_Handle );
 
     /* open the file */
     file = CreateFileA( (LPCSTR)filepathname, GENERIC_READ, FILE_SHARE_READ,
                         NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0 );
     if ( file == INVALID_HANDLE_VALUE )
     {
-      FT_ERROR(( "FT_Stream_Open:" ));
-      FT_ERROR(( " could not open `%s'\n", filepathname ));
-      return FT_THROW( Cannot_Open_Resource );
+      FT_TS_ERROR(( "FT_TS_Stream_Open:" ));
+      FT_TS_ERROR(( " could not open `%s'\n", filepathname ));
+      return FT_TS_THROW( Cannot_Open_Resource );
     }
 
     if ( GetFileSizeEx( file, &size ) == FALSE )
     {
-      FT_ERROR(( "FT_Stream_Open:" ));
-      FT_ERROR(( " could not retrieve size of file `%s'\n", filepathname ));
+      FT_TS_ERROR(( "FT_TS_Stream_Open:" ));
+      FT_TS_ERROR(( " could not retrieve size of file `%s'\n", filepathname ));
       goto Fail_Open;
     }
 
@@ -287,19 +287,19 @@
     /* 2GB, do a test.                                                 */
     if ( size.QuadPart > LONG_MAX )
     {
-      FT_ERROR(( "FT_Stream_Open: file is too big\n" ));
+      FT_TS_ERROR(( "FT_TS_Stream_Open: file is too big\n" ));
       goto Fail_Open;
     }
     else if ( size.QuadPart == 0 )
     {
-      FT_ERROR(( "FT_Stream_Open: zero-length file\n" ));
+      FT_TS_ERROR(( "FT_TS_Stream_Open: zero-length file\n" ));
       goto Fail_Open;
     }
 
     fm = CreateFileMapping( file, NULL, PAGE_READONLY, 0, 0, NULL );
     if ( fm == NULL )
     {
-      FT_ERROR(( "FT_Stream_Open: can not map file\n" ));
+      FT_TS_ERROR(( "FT_TS_Stream_Open: can not map file\n" ));
       goto Fail_Open;
     }
 
@@ -320,15 +320,15 @@
       DWORD  total_read_count;
 
 
-      FT_ERROR(( "FT_Stream_Open:" ));
-      FT_ERROR(( " could not `mmap' file `%s'\n", filepathname ));
+      FT_TS_ERROR(( "FT_TS_Stream_Open:" ));
+      FT_TS_ERROR(( " could not `mmap' file `%s'\n", filepathname ));
 
       stream->base = (unsigned char*)ft_alloc( stream->memory, stream->size );
 
       if ( !stream->base )
       {
-        FT_ERROR(( "FT_Stream_Open:" ));
-        FT_ERROR(( " could not `alloc' memory\n" ));
+        FT_TS_ERROR(( "FT_TS_Stream_Open:" ));
+        FT_TS_ERROR(( " could not `alloc' memory\n" ));
         goto Fail_Open;
       }
 
@@ -343,8 +343,8 @@
                        stream->size - total_read_count,
                        &read_count, NULL ) == FALSE )
         {
-          FT_ERROR(( "FT_Stream_Open:" ));
-          FT_ERROR(( " error while `read'ing file `%s'\n", filepathname ));
+          FT_TS_ERROR(( "FT_TS_Stream_Open:" ));
+          FT_TS_ERROR(( " error while `read'ing file `%s'\n", filepathname ));
           goto Fail_Read;
         }
 
@@ -362,11 +362,11 @@
 
     stream->read = NULL;
 
-    FT_TRACE1(( "FT_Stream_Open:" ));
-    FT_TRACE1(( " opened `%s' (%ld bytes) successfully\n",
+    FT_TS_TRACE1(( "FT_TS_Stream_Open:" ));
+    FT_TS_TRACE1(( " opened `%s' (%ld bytes) successfully\n",
                 filepathname, stream->size ));
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
 
   Fail_Read:
     ft_free( stream->memory, stream->base );
@@ -378,32 +378,32 @@
     stream->size = 0;
     stream->pos  = 0;
 
-    return FT_THROW( Cannot_Open_Stream );
+    return FT_TS_THROW( Cannot_Open_Stream );
   }
 
 
-#ifdef FT_DEBUG_MEMORY
+#ifdef FT_TS_DEBUG_MEMORY
 
-  extern FT_Int
-  ft_mem_debug_init( FT_Memory  memory );
+  extern FT_TS_Int
+  ft_mem_debug_init( FT_TS_Memory  memory );
 
   extern void
-  ft_mem_debug_done( FT_Memory  memory );
+  ft_mem_debug_done( FT_TS_Memory  memory );
 
 #endif
 
 
   /* documentation is in ftobjs.h */
 
-  FT_BASE_DEF( FT_Memory )
-  FT_New_Memory( void )
+  FT_TS_BASE_DEF( FT_TS_Memory )
+  FT_TS_New_Memory( void )
   {
     HANDLE     heap;
-    FT_Memory  memory;
+    FT_TS_Memory  memory;
 
 
     heap   = GetProcessHeap();
-    memory = heap ? (FT_Memory)HeapAlloc( heap, 0, sizeof ( *memory ) )
+    memory = heap ? (FT_TS_Memory)HeapAlloc( heap, 0, sizeof ( *memory ) )
                   : NULL;
 
     if ( memory )
@@ -412,7 +412,7 @@
       memory->alloc   = ft_alloc;
       memory->realloc = ft_realloc;
       memory->free    = ft_free;
-#ifdef FT_DEBUG_MEMORY
+#ifdef FT_TS_DEBUG_MEMORY
       ft_mem_debug_init( memory );
 #endif
     }
@@ -423,10 +423,10 @@
 
   /* documentation is in ftobjs.h */
 
-  FT_BASE_DEF( void )
-  FT_Done_Memory( FT_Memory  memory )
+  FT_TS_BASE_DEF( void )
+  FT_TS_Done_Memory( FT_TS_Memory  memory )
   {
-#ifdef FT_DEBUG_MEMORY
+#ifdef FT_TS_DEBUG_MEMORY
     ft_mem_debug_done( memory );
 #endif
     memory->free( memory, memory );

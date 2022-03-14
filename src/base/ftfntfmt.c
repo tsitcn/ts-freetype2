@@ -23,14 +23,14 @@
 
   /* documentation is in ftfntfmt.h */
 
-  FT_EXPORT_DEF( const char* )
-  FT_Get_Font_Format( FT_Face  face )
+  FT_TS_EXPORT_DEF( const char* )
+  FT_TS_Get_Font_Format( FT_TS_Face  face )
   {
     const char*  result = NULL;
 
 
     if ( face )
-      FT_FACE_FIND_SERVICE( face, result, FONT_FORMAT );
+      FT_TS_FACE_FIND_SERVICE( face, result, FONT_FORMAT );
 
     return result;
   }
@@ -38,14 +38,14 @@
 
   /* deprecated function name; retained for ABI compatibility */
 
-  FT_EXPORT_DEF( const char* )
-  FT_Get_X11_Font_Format( FT_Face  face )
+  FT_TS_EXPORT_DEF( const char* )
+  FT_TS_Get_X11_Font_Format( FT_TS_Face  face )
   {
     const char*  result = NULL;
 
 
     if ( face )
-      FT_FACE_FIND_SERVICE( face, result, FONT_FORMAT );
+      FT_TS_FACE_FIND_SERVICE( face, result, FONT_FORMAT );
 
     return result;
   }

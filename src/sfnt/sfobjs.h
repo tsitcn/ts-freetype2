@@ -24,33 +24,33 @@
 #include <freetype/internal/ftobjs.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
-  sfnt_init_face( FT_Stream      stream,
+  FT_TS_LOCAL( FT_TS_Error )
+  sfnt_init_face( FT_TS_Stream      stream,
                   TT_Face        face,
-                  FT_Int         face_instance_index,
-                  FT_Int         num_params,
-                  FT_Parameter*  params );
+                  FT_TS_Int         face_instance_index,
+                  FT_TS_Int         num_params,
+                  FT_TS_Parameter*  params );
 
-  FT_LOCAL( FT_Error )
-  sfnt_load_face( FT_Stream      stream,
+  FT_TS_LOCAL( FT_TS_Error )
+  sfnt_load_face( FT_TS_Stream      stream,
                   TT_Face        face,
-                  FT_Int         face_instance_index,
-                  FT_Int         num_params,
-                  FT_Parameter*  params );
+                  FT_TS_Int         face_instance_index,
+                  FT_TS_Int         num_params,
+                  FT_TS_Parameter*  params );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   sfnt_done_face( TT_Face  face );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_get_name( TT_Face      face,
-                    FT_UShort    nameid,
-                    FT_String**  name );
+                    FT_TS_UShort    nameid,
+                    FT_TS_String**  name );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SFOBJS_H_ */
 

@@ -22,7 +22,7 @@
 #include <freetype/internal/ftserv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
@@ -31,31 +31,31 @@ FT_BEGIN_HEADER
    *
    */
 
-#define FT_SERVICE_ID_GLYPH_DICT  "glyph-dict"
+#define FT_TS_SERVICE_ID_GLYPH_DICT  "glyph-dict"
 
 
-  typedef FT_Error
-  (*FT_GlyphDict_GetNameFunc)( FT_Face     face,
-                               FT_UInt     glyph_index,
-                               FT_Pointer  buffer,
-                               FT_UInt     buffer_max );
+  typedef FT_TS_Error
+  (*FT_TS_GlyphDict_GetNameFunc)( FT_TS_Face     face,
+                               FT_TS_UInt     glyph_index,
+                               FT_TS_Pointer  buffer,
+                               FT_TS_UInt     buffer_max );
 
-  typedef FT_UInt
-  (*FT_GlyphDict_NameIndexFunc)( FT_Face           face,
-                                 const FT_String*  glyph_name );
+  typedef FT_TS_UInt
+  (*FT_TS_GlyphDict_NameIndexFunc)( FT_TS_Face           face,
+                                 const FT_TS_String*  glyph_name );
 
 
-  FT_DEFINE_SERVICE( GlyphDict )
+  FT_TS_DEFINE_SERVICE( GlyphDict )
   {
-    FT_GlyphDict_GetNameFunc    get_name;
-    FT_GlyphDict_NameIndexFunc  name_index;  /* optional */
+    FT_TS_GlyphDict_GetNameFunc    get_name;
+    FT_TS_GlyphDict_NameIndexFunc  name_index;  /* optional */
   };
 
 
-#define FT_DEFINE_SERVICE_GLYPHDICTREC( class_,                        \
+#define FT_TS_DEFINE_SERVICE_GLYPHDICTREC( class_,                        \
                                         get_name_,                     \
                                         name_index_ )                  \
-  static const FT_Service_GlyphDictRec  class_ =                       \
+  static const FT_TS_Service_GlyphDictRec  class_ =                       \
   {                                                                    \
     get_name_, name_index_                                             \
   };
@@ -63,7 +63,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVGLDICT_H_ */

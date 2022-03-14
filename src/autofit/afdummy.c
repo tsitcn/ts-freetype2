@@ -22,7 +22,7 @@
 #include "aferrors.h"
 
 
-  static FT_Error
+  static FT_TS_Error
   af_dummy_hints_init( AF_GlyphHints    hints,
                        AF_StyleMetrics  metrics )
   {
@@ -33,20 +33,20 @@
     hints->x_delta = metrics->scaler.x_delta;
     hints->y_delta = metrics->scaler.y_delta;
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
-  static FT_Error
-  af_dummy_hints_apply( FT_UInt          glyph_index,
+  static FT_TS_Error
+  af_dummy_hints_apply( FT_TS_UInt          glyph_index,
                         AF_GlyphHints    hints,
-                        FT_Outline*      outline,
+                        FT_TS_Outline*      outline,
                         AF_StyleMetrics  metrics )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
 
-    FT_UNUSED( glyph_index );
-    FT_UNUSED( metrics );
+    FT_TS_UNUSED( glyph_index );
+    FT_TS_UNUSED( metrics );
 
 
     error = af_glyph_hints_reload( hints, outline );

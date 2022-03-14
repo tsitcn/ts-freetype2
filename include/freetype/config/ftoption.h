@@ -23,7 +23,7 @@
 #include <ft2build.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /**************************************************************************
    *
@@ -47,11 +47,11 @@ FT_BEGIN_HEADER
    *   own projects.
    *
    * - Copy the file <ft2build.h> to `$BUILD/ft2build.h` and modify it
-   *   slightly to pre-define the macro `FT_CONFIG_OPTIONS_H` used to locate
+   *   slightly to pre-define the macro `FT_TS_CONFIG_OPTIONS_H` used to locate
    *   this file during the build.  For example,
    *
    *   ```
-   *     #define FT_CONFIG_OPTIONS_H  <myftoptions.h>
+   *     #define FT_TS_CONFIG_OPTIONS_H  <myftoptions.h>
    *     #include <freetype/config/ftheader.h>
    *   ```
    *
@@ -59,7 +59,7 @@ FT_BEGIN_HEADER
    *   definitions.
    *
    *   Note also that you can similarly pre-define the macro
-   *   `FT_CONFIG_MODULES_H` used to locate the file listing of the modules
+   *   `FT_TS_CONFIG_MODULES_H` used to locate the file listing of the modules
    *   that are statically linked to the library at compile time.  By
    *   default, this file is `<freetype/config/ftmodule.h>`.
    *
@@ -109,7 +109,7 @@ FT_BEGIN_HEADER
    * ```
    *
    */
-#define FT_CONFIG_OPTION_ENVIRONMENT_PROPERTIES
+#define FT_TS_CONFIG_OPTION_ENVIRONMENT_PROPERTIES
 
 
   /**************************************************************************
@@ -123,7 +123,7 @@ FT_BEGIN_HEADER
    * When this macro is not defined, FreeType offers alternative LCD
    * rendering technology that produces excellent output.
    */
-/* #define FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
+/* #define FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING */
 
 
   /**************************************************************************
@@ -134,7 +134,7 @@ FT_BEGIN_HEADER
    *
    * For this reason, the use of 64-bit integers is normally disabled when
    * the `__STDC__` macro is defined.  You can however disable this by
-   * defining the macro `FT_CONFIG_OPTION_FORCE_INT64` here.
+   * defining the macro `FT_TS_CONFIG_OPTION_FORCE_INT64` here.
    *
    * For most compilers, this will only create compilation warnings when
    * building the library.
@@ -143,29 +143,29 @@ FT_BEGIN_HEADER
    *         file `ftconfig.h` either statically or through the `configure`
    *         script on supported platforms.
    */
-#undef FT_CONFIG_OPTION_FORCE_INT64
+#undef FT_TS_CONFIG_OPTION_FORCE_INT64
 
 
   /**************************************************************************
    *
    * If this macro is defined, do not try to use an assembler version of
-   * performance-critical functions (e.g., @FT_MulFix).  You should only do
+   * performance-critical functions (e.g., @FT_TS_MulFix).  You should only do
    * that to verify that the assembler function works properly, or to execute
    * benchmark tests of the various implementations.
    */
-/* #define FT_CONFIG_OPTION_NO_ASSEMBLER */
+/* #define FT_TS_CONFIG_OPTION_NO_ASSEMBLER */
 
 
   /**************************************************************************
    *
    * If this macro is defined, try to use an inlined assembler version of the
-   * @FT_MulFix function, which is a 'hotspot' when loading and hinting
+   * @FT_TS_MulFix function, which is a 'hotspot' when loading and hinting
    * glyphs, and which should be executed as fast as possible.
    *
    * Note that if your compiler or CPU is not supported, this will default to
    * the standard and portable implementation found in `ftcalc.c`.
    */
-#define FT_CONFIG_OPTION_INLINE_MULFIX
+#define FT_TS_CONFIG_OPTION_INLINE_MULFIX
 
 
   /**************************************************************************
@@ -180,7 +180,7 @@ FT_BEGIN_HEADER
    *
    *   Define this macro if you want to enable this 'feature'.
    */
-#define FT_CONFIG_OPTION_USE_LZW
+#define FT_TS_CONFIG_OPTION_USE_LZW
 
 
   /**************************************************************************
@@ -193,16 +193,16 @@ FT_BEGIN_HEADER
    *   uncompress the file on the fly (see `src/gzip/ftgzip.c`).
    *
    *   Define this macro if you want to enable this 'feature'.  See also the
-   *   macro `FT_CONFIG_OPTION_SYSTEM_ZLIB` below.
+   *   macro `FT_TS_CONFIG_OPTION_SYSTEM_ZLIB` below.
    */
-#define FT_CONFIG_OPTION_USE_ZLIB
+#define FT_TS_CONFIG_OPTION_USE_ZLIB
 
 
   /**************************************************************************
    *
    * ZLib library selection
    *
-   *   This macro is only used when `FT_CONFIG_OPTION_USE_ZLIB` is defined.
+   *   This macro is only used when `FT_TS_CONFIG_OPTION_USE_ZLIB` is defined.
    *   It allows FreeType's 'ftgzip' component to link to the system's
    *   installation of the ZLib library.  This is useful on systems like
    *   Unix or VMS where it generally is already available.
@@ -220,7 +220,7 @@ FT_BEGIN_HEADER
    *   options set by those programs have precedence, overwriting the value
    *   here with the configured one.
    */
-/* #define FT_CONFIG_OPTION_SYSTEM_ZLIB */
+/* #define FT_TS_CONFIG_OPTION_SYSTEM_ZLIB */
 
 
   /**************************************************************************
@@ -240,7 +240,7 @@ FT_BEGIN_HEADER
    *   options set by those programs have precedence, overwriting the value
    *   here with the configured one.
    */
-/* #define FT_CONFIG_OPTION_USE_BZIP2 */
+/* #define FT_TS_CONFIG_OPTION_USE_BZIP2 */
 
 
   /**************************************************************************
@@ -251,7 +251,7 @@ FT_BEGIN_HEADER
    * stream support, in the cases where file stream support is not necessary
    * such as memory loading of font files.
    */
-/* #define FT_CONFIG_OPTION_DISABLE_STREAM_SUPPORT */
+/* #define FT_TS_CONFIG_OPTION_DISABLE_STREAM_SUPPORT */
 
 
   /**************************************************************************
@@ -269,7 +269,7 @@ FT_BEGIN_HEADER
    *   options set by those programs have precedence, overwriting the value
    *   here with the configured one.
    */
-/* #define FT_CONFIG_OPTION_USE_PNG */
+/* #define FT_TS_CONFIG_OPTION_USE_PNG */
 
 
   /**************************************************************************
@@ -286,7 +286,7 @@ FT_BEGIN_HEADER
    *   options set by those programs have precedence, overwriting the value
    *   here with the configured one.
    */
-/* #define FT_CONFIG_OPTION_USE_HARFBUZZ */
+/* #define FT_TS_CONFIG_OPTION_USE_HARFBUZZ */
 
 
   /**************************************************************************
@@ -302,7 +302,7 @@ FT_BEGIN_HEADER
    *   options set by those programs have precedence, overwriting the value
    *   here with the configured one.
    */
-/* #define FT_CONFIG_OPTION_USE_BROTLI */
+/* #define FT_TS_CONFIG_OPTION_USE_BROTLI */
 
 
   /**************************************************************************
@@ -327,7 +327,7 @@ FT_BEGIN_HEADER
    *   You would normally undefine this configuration macro when building a
    *   version of FreeType that doesn't contain a Type~1 or CFF driver.
    */
-#define FT_CONFIG_OPTION_POSTSCRIPT_NAMES
+#define FT_TS_CONFIG_OPTION_POSTSCRIPT_NAMES
 
 
   /**************************************************************************
@@ -344,7 +344,7 @@ FT_BEGIN_HEADER
    *   in your 'psnames' module.  The Type~1 driver will not be able to
    *   synthesize a Unicode charmap out of the glyphs found in the fonts.
    */
-#define FT_CONFIG_OPTION_ADOBE_GLYPH_LIST
+#define FT_TS_CONFIG_OPTION_ADOBE_GLYPH_LIST
 
 
   /**************************************************************************
@@ -357,7 +357,7 @@ FT_BEGIN_HEADER
    *
    *   Note that the 'FOND' resource isn't checked.
    */
-#define FT_CONFIG_OPTION_MAC_FONTS
+#define FT_TS_CONFIG_OPTION_MAC_FONTS
 
 
   /**************************************************************************
@@ -374,22 +374,22 @@ FT_BEGIN_HEADER
    *   to guess whether such offsets or different file names must be used.
    *
    *   Note that normal, direct access of resource forks is controlled via
-   *   the `FT_CONFIG_OPTION_MAC_FONTS` option.
+   *   the `FT_TS_CONFIG_OPTION_MAC_FONTS` option.
    */
-#ifdef FT_CONFIG_OPTION_MAC_FONTS
-#define FT_CONFIG_OPTION_GUESSING_EMBEDDED_RFORK
+#ifdef FT_TS_CONFIG_OPTION_MAC_FONTS
+#define FT_TS_CONFIG_OPTION_GUESSING_EMBEDDED_RFORK
 #endif
 
 
   /**************************************************************************
    *
-   * Allow the use of `FT_Incremental_Interface` to load typefaces that
+   * Allow the use of `FT_TS_Incremental_Interface` to load typefaces that
    * contain no glyph data, but supply it via a callback function.  This is
    * required by clients supporting document formats which supply font data
    * incrementally as the document is parsed, such as the Ghostscript
    * interpreter for the PostScript language.
    */
-#define FT_CONFIG_OPTION_INCREMENTAL
+#define FT_TS_CONFIG_OPTION_INCREMENTAL
 
 
   /**************************************************************************
@@ -397,17 +397,17 @@ FT_BEGIN_HEADER
    * The size in bytes of the render pool used by the scan-line converter to
    * do all of its work.
    */
-#define FT_RENDER_POOL_SIZE  16384L
+#define FT_TS_RENDER_POOL_SIZE  16384L
 
 
   /**************************************************************************
    *
-   * FT_MAX_MODULES
+   * FT_TS_MAX_MODULES
    *
    *   The maximum number of modules that can be registered in a single
    *   FreeType library object.  32~is the default.
    */
-#define FT_MAX_MODULES  32
+#define FT_TS_MAX_MODULES  32
 
 
   /**************************************************************************
@@ -418,16 +418,16 @@ FT_BEGIN_HEADER
    *   errors are reported through the 'ftdebug' component.  In trace mode,
    *   additional messages are sent to the standard output during execution.
    *
-   *   Define `FT_DEBUG_LEVEL_ERROR` to build the library in debug mode.
-   *   Define `FT_DEBUG_LEVEL_TRACE` to build it in trace mode.
+   *   Define `FT_TS_DEBUG_LEVEL_ERROR` to build the library in debug mode.
+   *   Define `FT_TS_DEBUG_LEVEL_TRACE` to build it in trace mode.
    *
    *   Don't define any of these macros to compile in 'release' mode!
    *
    *   Do not `#undef` these macros here since the build system might define
    *   them for certain configurations only.
    */
-/* #define FT_DEBUG_LEVEL_ERROR */
-/* #define FT_DEBUG_LEVEL_TRACE */
+/* #define FT_TS_DEBUG_LEVEL_ERROR */
+/* #define FT_TS_DEBUG_LEVEL_TRACE */
 
 
   /**************************************************************************
@@ -436,22 +436,22 @@ FT_BEGIN_HEADER
    *
    *   Compiling FreeType in debug or trace mode makes FreeType write error
    *   and trace log messages to `stderr`.  Enabling this macro
-   *   automatically forces the `FT_DEBUG_LEVEL_ERROR` and
-   *   `FT_DEBUG_LEVEL_TRACE` macros and allows FreeType to write error and
+   *   automatically forces the `FT_TS_DEBUG_LEVEL_ERROR` and
+   *   `FT_TS_DEBUG_LEVEL_TRACE` macros and allows FreeType to write error and
    *   trace log messages to a file instead of `stderr`.  For writing logs
    *   to a file, FreeType uses an the external `dlg` library (the source
    *   code is in `src/dlg`).
    *
    *   This option needs a C99 compiler.
    */
-/* #define FT_DEBUG_LOGGING */
+/* #define FT_TS_DEBUG_LOGGING */
 
 
   /**************************************************************************
    *
    * Autofitter debugging
    *
-   *   If `FT_DEBUG_AUTOFIT` is defined, FreeType provides some means to
+   *   If `FT_TS_DEBUG_AUTOFIT` is defined, FreeType provides some means to
    *   control the autofitter behaviour for debugging purposes with global
    *   boolean variables (consequently, you should **never** enable this
    *   while compiling in 'release' mode):
@@ -485,7 +485,7 @@ FT_BEGIN_HEADER
    *   Do not `#undef` these macros here since the build system might define
    *   them for certain configurations only.
    */
-/* #define FT_DEBUG_AUTOFIT */
+/* #define FT_TS_DEBUG_AUTOFIT */
 
 
   /**************************************************************************
@@ -495,7 +495,7 @@ FT_BEGIN_HEADER
    *   FreeType now comes with an integrated memory debugger that is capable
    *   of detecting simple errors like memory leaks or double deletes.  To
    *   compile it within your build of the library, you should define
-   *   `FT_DEBUG_MEMORY` here.
+   *   `FT_TS_DEBUG_MEMORY` here.
    *
    *   Note that the memory debugger is only activated at runtime when when
    *   the _environment_ variable `FT2_DEBUG_MEMORY` is defined also!
@@ -503,7 +503,7 @@ FT_BEGIN_HEADER
    *   Do not `#undef` this macro here since the build system might define it
    *   for certain configurations only.
    */
-/* #define FT_DEBUG_MEMORY */
+/* #define FT_TS_DEBUG_MEMORY */
 
 
   /**************************************************************************
@@ -520,20 +520,20 @@ FT_BEGIN_HEADER
    *
    *   More details can be found in the files `ftmoderr.h` and `fterrors.h`.
    */
-#undef FT_CONFIG_OPTION_USE_MODULE_ERRORS
+#undef FT_TS_CONFIG_OPTION_USE_MODULE_ERRORS
 
 
   /**************************************************************************
    *
    * Error Strings
    *
-   *   If this macro is set, `FT_Error_String` will return meaningful
+   *   If this macro is set, `FT_TS_Error_String` will return meaningful
    *   descriptions.  This is not enabled by default to reduce the overall
    *   size of FreeType.
    *
    *   More details can be found in the file `fterrors.h`.
    */
-/* #define FT_CONFIG_OPTION_ERROR_STRINGS */
+/* #define FT_TS_CONFIG_OPTION_ERROR_STRINGS */
 
 
   /*************************************************************************/
@@ -570,7 +570,7 @@ FT_BEGIN_HEADER
    * file.
    *
    * Note that when you do not compile the 'psnames' module by undefining the
-   * above `FT_CONFIG_OPTION_POSTSCRIPT_NAMES`, the 'sfnt' module will
+   * above `FT_TS_CONFIG_OPTION_POSTSCRIPT_NAMES`, the 'sfnt' module will
    * contain additional code used to read the PS Names table from a font.
    *
    * (By default, the module uses 'psnames' to extract glyph names.)
@@ -636,7 +636,7 @@ FT_BEGIN_HEADER
    *
    * Define `TT_CONFIG_OPTION_SUBPIXEL_HINTING` if you want to compile
    * subpixel hinting support into the TrueType driver.  This modifies the
-   * TrueType hinting mechanism when anything but `FT_RENDER_MODE_MONO` is
+   * TrueType hinting mechanism when anything but `FT_TS_RENDER_MODE_MONO` is
    * requested.
    *
    * In particular, it modifies the bytecode interpreter to interpret (or
@@ -679,7 +679,7 @@ FT_BEGIN_HEADER
    * (interpreter version v35).  Or not, depending on how much hinting blood
    * and testing tears the font designer put into a given font.  If you
    * define one or both subpixel hinting options, you can switch between
-   * between v35 and the ones you define (using `FT_Property_Set`).
+   * between v35 and the ones you define (using `FT_TS_Property_Set`).
    *
    * This option requires `TT_CONFIG_OPTION_BYTECODE_INTERPRETER` to be
    * defined.
@@ -937,7 +937,7 @@ FT_BEGIN_HEADER
    * This macro is obsolete.  Support has been removed in FreeType version
    * 2.5.
    */
-/* #define FT_CONFIG_OPTION_OLD_INTERNALS */
+/* #define FT_TS_CONFIG_OPTION_OLD_INTERNALS */
 
 
   /*
@@ -1002,7 +1002,7 @@ FT_BEGIN_HEADER
 #error "Invalid CFF darkening parameters!"
 #endif
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* FTOPTION_H_ */

@@ -24,37 +24,37 @@
 #include <freetype/internal/cffotypes.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_get_glyph_data( TT_Face    face,
-                      FT_UInt    glyph_index,
-                      FT_Byte**  pointer,
-                      FT_ULong*  length );
-  FT_LOCAL( void )
+                      FT_TS_UInt    glyph_index,
+                      FT_TS_Byte**  pointer,
+                      FT_TS_ULong*  length );
+  FT_TS_LOCAL( void )
   cff_free_glyph_data( TT_Face    face,
-                       FT_Byte**  pointer,
-                       FT_ULong   length );
+                       FT_TS_Byte**  pointer,
+                       FT_TS_ULong   length );
 
 
 #if 0  /* unused until we support pure CFF fonts */
 
   /* Compute the maximum advance width of a font through quick parsing */
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_compute_max_advance( TT_Face  face,
-                           FT_Int*  max_advance );
+                           FT_TS_Int*  max_advance );
 
 #endif /* 0 */
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cff_slot_load( CFF_GlyphSlot  glyph,
                  CFF_Size       size,
-                 FT_UInt        glyph_index,
-                 FT_Int32       load_flags );
+                 FT_TS_UInt        glyph_index,
+                 FT_TS_Int32       load_flags );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* CFFGLOAD_H_ */
 

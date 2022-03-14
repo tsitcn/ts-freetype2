@@ -16,8 +16,8 @@
  */
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  PS_FontInfoRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  PS_FontInfoRec
 #undef  T1CODE
 #define T1CODE        T1_FIELD_LOCATION_FONT_INFO
 
@@ -42,16 +42,16 @@
   T1_FIELD_NUM   ( "UnderlineThickness", underline_thickness,
                    T1_FIELD_DICT_FONTDICT )
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  PS_FontExtraRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  PS_FontExtraRec
 #undef  T1CODE
 #define T1CODE        T1_FIELD_LOCATION_FONT_EXTRA
 
   T1_FIELD_NUM   ( "FSType", fs_type,
                    T1_FIELD_DICT_FONTDICT )
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  PS_PrivateRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  PS_PrivateRec
 #undef  T1CODE
 #define T1CODE        T1_FIELD_LOCATION_PRIVATE
 
@@ -98,8 +98,8 @@
                        T1_FIELD_DICT_PRIVATE )
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  T1_FontRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  T1_FontRec
 #undef  T1CODE
 #define T1CODE        T1_FIELD_LOCATION_FONT_DICT
 
@@ -109,8 +109,8 @@
   T1_FIELD_FIXED( "StrokeWidth", stroke_width, T1_FIELD_DICT_FONTDICT )
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  FT_BBox
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  FT_TS_BBox
 #undef  T1CODE
 #define T1CODE        T1_FIELD_LOCATION_BBOX
 
@@ -119,8 +119,8 @@
 
 #ifndef T1_CONFIG_OPTION_NO_MM_SUPPORT
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  T1_FaceRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  T1_FaceRec
 #undef  T1CODE
 #define T1CODE        T1_FIELD_LOCATION_FACE
 
@@ -128,8 +128,8 @@
   T1_FIELD_NUM( "CDV", cdv_idx, T1_FIELD_DICT_PRIVATE )
 
 
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  PS_BlendRec
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  PS_BlendRec
 #undef  T1CODE
 #define T1CODE        T1_FIELD_LOCATION_BLEND
 

@@ -38,8 +38,8 @@
 #define FTCONFIG_H_
 
 #include <ft2build.h>
-#include FT_CONFIG_OPTIONS_H
-#include FT_CONFIG_STANDARD_LIBRARY_H
+#include FT_TS_CONFIG_OPTIONS_H
+#include FT_TS_CONFIG_STANDARD_LIBRARY_H
 
 #include <freetype/config/integer-types.h>
 #include <freetype/config/public-macros.h>

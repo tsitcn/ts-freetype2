@@ -25,22 +25,22 @@
 #include "ttload.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_load_cpal( TT_Face    face,
-                     FT_Stream  stream );
+                     FT_TS_Stream  stream );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   tt_face_free_cpal( TT_Face  face );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_palette_set( TT_Face  face,
-                       FT_UInt  palette_index );
+                       FT_TS_UInt  palette_index );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* __TTCPAL_H__ */

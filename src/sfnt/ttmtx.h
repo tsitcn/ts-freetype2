@@ -24,29 +24,29 @@
 #include <freetype/internal/tttypes.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_load_hhea( TT_Face    face,
-                     FT_Stream  stream,
-                     FT_Bool    vertical );
+                     FT_TS_Stream  stream,
+                     FT_TS_Bool    vertical );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_load_hmtx( TT_Face    face,
-                     FT_Stream  stream,
-                     FT_Bool    vertical );
+                     FT_TS_Stream  stream,
+                     FT_TS_Bool    vertical );
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   tt_face_get_metrics( TT_Face     face,
-                       FT_Bool     vertical,
-                       FT_UInt     gindex,
-                       FT_Short*   abearing,
-                       FT_UShort*  aadvance );
+                       FT_TS_Bool     vertical,
+                       FT_TS_UInt     gindex,
+                       FT_TS_Short*   abearing,
+                       FT_TS_UShort*  aadvance );
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTMTX_H_ */
 

@@ -53,8 +53,8 @@
                         CF2_Fixed   stemWidth,
                         CF2_Fixed*  darkenAmount,
                         CF2_Fixed   boldenAmount,
-                        FT_Bool     stemDarkened,
-                        FT_Int*     darkenParams )
+                        FT_TS_Bool     stemDarkened,
+                        FT_TS_Int*     darkenParams )
   {
     /*
      * Total darkening amount is computed in 1000 unit character space
@@ -107,7 +107,7 @@
     /* adjusting for emRatio converts darkenAmount to character */
     /* space (font units).                                      */
     CF2_Fixed  stemWidthPer1000, scaledStem;
-    FT_Int     logBase2;
+    FT_TS_Int     logBase2;
 
 
     *darkenAmount = 0;
@@ -121,14 +121,14 @@
 
     if ( stemDarkened )
     {
-      FT_Int  x1 = darkenParams[0];
-      FT_Int  y1 = darkenParams[1];
-      FT_Int  x2 = darkenParams[2];
-      FT_Int  y2 = darkenParams[3];
-      FT_Int  x3 = darkenParams[4];
-      FT_Int  y3 = darkenParams[5];
-      FT_Int  x4 = darkenParams[6];
-      FT_Int  y4 = darkenParams[7];
+      FT_TS_Int  x1 = darkenParams[0];
+      FT_TS_Int  y1 = darkenParams[1];
+      FT_TS_Int  x2 = darkenParams[2];
+      FT_TS_Int  y2 = darkenParams[3];
+      FT_TS_Int  x3 = darkenParams[4];
+      FT_TS_Int  y3 = darkenParams[5];
+      FT_TS_Int  x4 = darkenParams[6];
+      FT_TS_Int  y4 = darkenParams[7];
 
 
       /* convert from true character space to 1000 unit character space; */
@@ -136,7 +136,7 @@
 
       /* `stemWidthPer1000' will not overflow for a legitimate font      */
 
-      stemWidthPer1000 = FT_MulFix( stemWidth + boldenAmount, emRatio );
+      stemWidthPer1000 = FT_TS_MulFix( stemWidth + boldenAmount, emRatio );
 
       /* `scaledStem' can easily overflow, so we must clamp its maximum  */
       /* value; the test doesn't need to be precise, but must be         */
@@ -144,7 +144,7 @@
       /* `darkenAmount' is zero is well below the overflow value of      */
       /* 32767.                                                          */
       /*                                                                 */
-      /* FT_MSB computes the integer part of the base 2 logarithm.  The  */
+      /* FT_TS_MSB computes the integer part of the base 2 logarithm.  The  */
       /* number of bits for the product is 1 or 2 more than the sum of   */
       /* logarithms; remembering that the 16 lowest bits of the fraction */
       /* are dropped this is correct to within a factor of almost 4.     */
@@ -152,50 +152,50 @@
       /* is flagged as possible overflow because 0xFF.FFFF * 0xFF.FFFF = */
       /* 0xFFFF.FE00 is also 23+23.                                      */
 
-      logBase2 = FT_MSB( (FT_UInt32)stemWidthPer1000 ) +
-                   FT_MSB( (FT_UInt32)ppem );
+      logBase2 = FT_TS_MSB( (FT_TS_UInt32)stemWidthPer1000 ) +
+                   FT_TS_MSB( (FT_TS_UInt32)ppem );
 
       if ( logBase2 >= 46 )
         /* possible overflow */
         scaledStem = cf2_intToFixed( x4 );
       else
-        scaledStem = FT_MulFix( stemWidthPer1000, ppem );
+        scaledStem = FT_TS_MulFix( stemWidthPer1000, ppem );
 
       /* now apply the darkening parameters */
 
       if ( scaledStem < cf2_intToFixed( x1 ) )
-        *darkenAmount = FT_DivFix( cf2_intToFixed( y1 ), ppem );
+        *darkenAmount = FT_TS_DivFix( cf2_intToFixed( y1 ), ppem );
 
       else if ( scaledStem < cf2_intToFixed( x2 ) )
       {
-        FT_Int  xdelta = x2 - x1;
-        FT_Int  ydelta = y2 - y1;
-        FT_Int  x      = stemWidthPer1000 -
-                           FT_DivFix( cf2_intToFixed( x1 ), ppem );
+        FT_TS_Int  xdelta = x2 - x1;
+        FT_TS_Int  ydelta = y2 - y1;
+        FT_TS_Int  x      = stemWidthPer1000 -
+                           FT_TS_DivFix( cf2_intToFixed( x1 ), ppem );
 
 
         if ( !xdelta )
           goto Try_x3;
 
-        *darkenAmount = FT_MulDiv( x, ydelta, xdelta ) +
-                          FT_DivFix( cf2_intToFixed( y1 ), ppem );
+        *darkenAmount = FT_TS_MulDiv( x, ydelta, xdelta ) +
+                          FT_TS_DivFix( cf2_intToFixed( y1 ), ppem );
       }
 
       else if ( scaledStem < cf2_intToFixed( x3 ) )
       {
       Try_x3:
         {
-          FT_Int  xdelta = x3 - x2;
-          FT_Int  ydelta = y3 - y2;
-          FT_Int  x      = stemWidthPer1000 -
-                             FT_DivFix( cf2_intToFixed( x2 ), ppem );
+          FT_TS_Int  xdelta = x3 - x2;
+          FT_TS_Int  ydelta = y3 - y2;
+          FT_TS_Int  x      = stemWidthPer1000 -
+                             FT_TS_DivFix( cf2_intToFixed( x2 ), ppem );
 
 
           if ( !xdelta )
             goto Try_x4;
 
-          *darkenAmount = FT_MulDiv( x, ydelta, xdelta ) +
-                            FT_DivFix( cf2_intToFixed( y2 ), ppem );
+          *darkenAmount = FT_TS_MulDiv( x, ydelta, xdelta ) +
+                            FT_TS_DivFix( cf2_intToFixed( y2 ), ppem );
         }
       }
 
@@ -203,29 +203,29 @@
       {
       Try_x4:
         {
-          FT_Int  xdelta = x4 - x3;
-          FT_Int  ydelta = y4 - y3;
-          FT_Int  x      = stemWidthPer1000 -
-                             FT_DivFix( cf2_intToFixed( x3 ), ppem );
+          FT_TS_Int  xdelta = x4 - x3;
+          FT_TS_Int  ydelta = y4 - y3;
+          FT_TS_Int  x      = stemWidthPer1000 -
+                             FT_TS_DivFix( cf2_intToFixed( x3 ), ppem );
 
 
           if ( !xdelta )
             goto Use_y4;
 
-          *darkenAmount = FT_MulDiv( x, ydelta, xdelta ) +
-                            FT_DivFix( cf2_intToFixed( y3 ), ppem );
+          *darkenAmount = FT_TS_MulDiv( x, ydelta, xdelta ) +
+                            FT_TS_DivFix( cf2_intToFixed( y3 ), ppem );
         }
       }
 
       else
       {
       Use_y4:
-        *darkenAmount = FT_DivFix( cf2_intToFixed( y4 ), ppem );
+        *darkenAmount = FT_TS_DivFix( cf2_intToFixed( y4 ), ppem );
       }
 
       /* use half the amount on each side and convert back to true */
       /* character space                                           */
-      *darkenAmount = FT_DivFix( *darkenAmount, 2 * emRatio );
+      *darkenAmount = FT_TS_DivFix( *darkenAmount, 2 * emRatio );
     }
 
     /* add synthetic emboldening effect in character space */
@@ -244,10 +244,10 @@
     /* pointer to parsed font object */
     PS_Decoder*  decoder = font->decoder;
 
-    FT_Bool  needExtraSetup = FALSE;
+    FT_TS_Bool  needExtraSetup = FALSE;
 
     CFF_VStoreRec*  vstore;
-    FT_Bool         hasVariations = FALSE;
+    FT_TS_Bool         hasVariations = FALSE;
 
     /* character space units */
     CF2_Fixed  boldenX = font->syntheticEmboldeningAmountX;
@@ -257,10 +257,10 @@
     CF2_Fixed    ppem;
 
     CF2_UInt   lenNormalizedV = 0;
-    FT_Fixed*  normalizedV    = NULL;
+    FT_TS_Fixed*  normalizedV    = NULL;
 
     /* clear previous error */
-    font->error = FT_Err_Ok;
+    font->error = FT_TS_Err_Ok;
 
     /* if a CID fontDict has changed, we need to recompute some cached */
     /* data                                                            */
@@ -280,7 +280,7 @@
       if ( hasVariations )
       {
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
-        FT_Service_CFFLoad  cffload = (FT_Service_CFFLoad)font->cffload;
+        FT_TS_Service_CFFLoad  cffload = (FT_TS_Service_CFFLoad)font->cffload;
 
 
         /* check whether Private DICT in this subfont needs to be reparsed */
@@ -330,7 +330,7 @@
     }
 
     /* copy hinted flag on each call */
-    font->hinted = FT_BOOL( font->renderingFlags & CF2_FlagsHinted );
+    font->hinted = FT_TS_BOOL( font->renderingFlags & CF2_FlagsHinted );
 
     /* determine if transform has changed;       */
     /* include Fontmatrix but ignore translation */
@@ -365,7 +365,7 @@
     if ( font->stemDarkened != ( font->renderingFlags & CF2_FlagsDarkened ) )
     {
       font->stemDarkened =
-        FT_BOOL( font->renderingFlags & CF2_FlagsDarkened );
+        FT_TS_BOOL( font->renderingFlags & CF2_FlagsDarkened );
 
       /* blue zones depend on darkened flag */
       needExtraSetup = TRUE;
@@ -392,7 +392,7 @@
       if ( unitsPerEm == 0 )
         unitsPerEm = 1000;
 
-      ppem = FT_MAX( cf2_intToFixed( 4 ),
+      ppem = FT_TS_MAX( cf2_intToFixed( 4 ),
                      font->ppem ); /* use minimum ppem of 4 */
 
 #if 0
@@ -408,14 +408,14 @@
       font->stdVW = cf2_getStdVW( decoder );
 
       if ( font->stdVW <= 0 )
-        font->stdVW = FT_DivFix( cf2_intToFixed( 75 ), emRatio );
+        font->stdVW = FT_TS_DivFix( cf2_intToFixed( 75 ), emRatio );
 
       if ( boldenX > 0 )
       {
         /* Ensure that boldenX is at least 1 pixel for synthetic bold font */
         /* (similar to what Avalon does)                                   */
-        boldenX = FT_MAX( boldenX,
-                          FT_DivFix( cf2_intToFixed( unitsPerEm ), ppem ) );
+        boldenX = FT_TS_MAX( boldenX,
+                          FT_TS_DivFix( cf2_intToFixed( unitsPerEm ), ppem ) );
 
         /* Synthetic emboldening adds at least 1 pixel to darkenX, while */
         /* stem darkening adds at most half pixel.  Since the purpose of */
@@ -452,11 +452,11 @@
       stdHW = cf2_getStdHW( decoder );
 
       if ( stdHW > 0 && font->stdVW > MUL_INT32( 2, stdHW ) )
-        font->stdHW = FT_DivFix( cf2_intToFixed( 75 ), emRatio );
+        font->stdHW = FT_TS_DivFix( cf2_intToFixed( 75 ), emRatio );
       else
       {
         /* low contrast font gets less hstem darkening */
-        font->stdHW = FT_DivFix( cf2_intToFixed( 110 ), emRatio );
+        font->stdHW = FT_TS_DivFix( cf2_intToFixed( 110 ), emRatio );
       }
 
       cf2_computeDarkening( emRatio,
@@ -482,22 +482,22 @@
 
 
   /* equivalent to AdobeGetOutline */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   cf2_getGlyphOutline( CF2_Font           font,
                        CF2_Buffer         charstring,
                        const CF2_Matrix*  transform,
                        CF2_F16Dot16*      glyphWidth )
   {
-    FT_Error  lastError = FT_Err_Ok;
+    FT_TS_Error  lastError = FT_TS_Err_Ok;
 
-    FT_Vector  translation;
+    FT_TS_Vector  translation;
 
 #if 0
-    FT_Vector  advancePoint;
+    FT_TS_Vector  advancePoint;
 #endif
 
     CF2_Fixed  advWidth = 0;
-    FT_Bool    needWinding;
+    FT_TS_Bool    needWinding;
 
 
     /* Note: use both integer and fraction for outlines.  This allows bbox */

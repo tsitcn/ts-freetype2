@@ -36,8 +36,8 @@
 #define FTCONFIG_H_
 
 #include <ft2build.h>
-#include FT_CONFIG_OPTIONS_H
-#include FT_CONFIG_STANDARD_LIBRARY_H
+#include FT_TS_CONFIG_OPTIONS_H
+#include FT_TS_CONFIG_STANDARD_LIBRARY_H
 
 #define HAVE_UNISTD_H  1
 #define HAVE_FCNTL_H   1
@@ -45,8 +45,8 @@
 #define SIZEOF_INT   4
 #define SIZEOF_LONG  4
 
-#define FT_SIZEOF_INT   4
-#define FT_SIZEOF_LONG  4
+#define FT_TS_SIZEOF_INT   4
+#define FT_TS_SIZEOF_LONG  4
 
 #include <freetype/config/integer-types.h>
 #include <freetype/config/public-macros.h>

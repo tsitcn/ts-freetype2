@@ -27,36 +27,36 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  t1afm
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  t1afm
 
 
-  FT_LOCAL_DEF( void )
-  T1_Done_Metrics( FT_Memory     memory,
+  FT_TS_LOCAL_DEF( void )
+  T1_Done_Metrics( FT_TS_Memory     memory,
                    AFM_FontInfo  fi )
   {
-    FT_FREE( fi->KernPairs );
+    FT_TS_FREE( fi->KernPairs );
     fi->NumKernPair = 0;
 
-    FT_FREE( fi->TrackKerns );
+    FT_TS_FREE( fi->TrackKerns );
     fi->NumTrackKern = 0;
 
-    FT_FREE( fi );
+    FT_TS_FREE( fi );
   }
 
 
   /* read a glyph name and return the equivalent glyph index */
-  static FT_Int
+  static FT_TS_Int
   t1_get_index( const char*  name,
-                FT_Offset    len,
+                FT_TS_Offset    len,
                 void*        user_data )
   {
     T1_Font  type1 = (T1_Font)user_data;
-    FT_Int   n;
+    FT_TS_Int   n;
 
 
     /* PS string/name length must be < 16-bit */
@@ -79,19 +79,19 @@
 
 
 #undef  KERN_INDEX
-#define KERN_INDEX( g1, g2 )  ( ( (FT_ULong)(g1) << 16 ) | (g2) )
+#define KERN_INDEX( g1, g2 )  ( ( (FT_TS_ULong)(g1) << 16 ) | (g2) )
 
 
   /* compare two kerning pairs */
-  FT_COMPARE_DEF( int )
+  FT_TS_COMPARE_DEF( int )
   compare_kern_pairs( const void*  a,
                       const void*  b )
   {
     AFM_KernPair  pair1 = (AFM_KernPair)a;
     AFM_KernPair  pair2 = (AFM_KernPair)b;
 
-    FT_ULong  index1 = KERN_INDEX( pair1->index1, pair1->index2 );
-    FT_ULong  index2 = KERN_INDEX( pair2->index1, pair2->index2 );
+    FT_TS_ULong  index1 = KERN_INDEX( pair1->index1, pair1->index2 );
+    FT_TS_ULong  index2 = KERN_INDEX( pair2->index1, pair2->index2 );
 
 
     if ( index1 > index2 )
@@ -104,44 +104,44 @@
 
 
   /* parse a PFM file -- for now, only read the kerning pairs */
-  static FT_Error
-  T1_Read_PFM( FT_Face       t1_face,
-               FT_Stream     stream,
+  static FT_TS_Error
+  T1_Read_PFM( FT_TS_Face       t1_face,
+               FT_TS_Stream     stream,
                AFM_FontInfo  fi )
   {
-    FT_Error      error  = FT_Err_Ok;
-    FT_Memory     memory = stream->memory;
-    FT_Byte*      start;
-    FT_Byte*      limit;
-    FT_Byte*      p;
+    FT_TS_Error      error  = FT_TS_Err_Ok;
+    FT_TS_Memory     memory = stream->memory;
+    FT_TS_Byte*      start;
+    FT_TS_Byte*      limit;
+    FT_TS_Byte*      p;
     AFM_KernPair  kp;
-    FT_Int        width_table_length;
-    FT_CharMap    oldcharmap;
-    FT_CharMap    charmap;
-    FT_Int        n;
+    FT_TS_Int        width_table_length;
+    FT_TS_CharMap    oldcharmap;
+    FT_TS_CharMap    charmap;
+    FT_TS_Int        n;
 
 
-    start = (FT_Byte*)stream->cursor;
-    limit = (FT_Byte*)stream->limit;
+    start = (FT_TS_Byte*)stream->cursor;
+    limit = (FT_TS_Byte*)stream->limit;
 
     /* Figure out how long the width table is.          */
     /* This info is a little-endian short at offset 99. */
     p = start + 99;
     if ( p + 2 > limit )
     {
-      error = FT_THROW( Unknown_File_Format );
+      error = FT_TS_THROW( Unknown_File_Format );
       goto Exit;
     }
-    width_table_length = FT_PEEK_USHORT_LE( p );
+    width_table_length = FT_TS_PEEK_USHORT_LE( p );
 
     p += 18 + width_table_length;
-    if ( p + 0x12 > limit || FT_PEEK_USHORT_LE( p ) < 0x12 )
+    if ( p + 0x12 > limit || FT_TS_PEEK_USHORT_LE( p ) < 0x12 )
       /* extension table is probably optional */
       goto Exit;
 
     /* Kerning offset is 14 bytes from start of extensions table. */
     p += 14;
-    p = start + FT_PEEK_ULONG_LE( p );
+    p = start + FT_TS_PEEK_ULONG_LE( p );
 
     if ( p == start )
       /* zero offset means no table */
@@ -149,15 +149,15 @@
 
     if ( p + 2 > limit )
     {
-      error = FT_THROW( Unknown_File_Format );
+      error = FT_TS_THROW( Unknown_File_Format );
       goto Exit;
     }
 
-    fi->NumKernPair = FT_PEEK_USHORT_LE( p );
+    fi->NumKernPair = FT_TS_PEEK_USHORT_LE( p );
     p += 2;
     if ( p + 4 * fi->NumKernPair > limit )
     {
-      error = FT_THROW( Unknown_File_Format );
+      error = FT_TS_THROW( Unknown_File_Format );
       goto Exit;
     }
 
@@ -166,7 +166,7 @@
       goto Exit;
 
     /* allocate the pairs */
-    if ( FT_QNEW_ARRAY( fi->KernPairs, fi->NumKernPair ) )
+    if ( FT_TS_QNEW_ARRAY( fi->KernPairs, fi->NumKernPair ) )
       goto Exit;
 
     /* now, read each kern pair */
@@ -186,7 +186,7 @@
       /* check against PostScript pseudo platform */
       if ( charmap->platform_id == 7 )
       {
-        error = FT_Set_Charmap( t1_face, charmap );
+        error = FT_TS_Set_Charmap( t1_face, charmap );
         if ( error )
           goto Exit;
         break;
@@ -200,17 +200,17 @@
     /*   offset (little-endian short)         */
     for ( ; p < limit; p += 4 )
     {
-      kp->index1 = FT_Get_Char_Index( t1_face, p[0] );
-      kp->index2 = FT_Get_Char_Index( t1_face, p[1] );
+      kp->index1 = FT_TS_Get_Char_Index( t1_face, p[0] );
+      kp->index2 = FT_TS_Get_Char_Index( t1_face, p[1] );
 
-      kp->x = (FT_Int)FT_PEEK_SHORT_LE(p + 2);
+      kp->x = (FT_TS_Int)FT_TS_PEEK_SHORT_LE(p + 2);
       kp->y = 0;
 
       kp++;
     }
 
     if ( oldcharmap )
-      error = FT_Set_Charmap( t1_face, oldcharmap );
+      error = FT_TS_Set_Charmap( t1_face, oldcharmap );
     if ( error )
       goto Exit;
 
@@ -221,7 +221,7 @@
   Exit:
     if ( error )
     {
-      FT_FREE( fi->KernPairs );
+      FT_TS_FREE( fi->KernPairs );
       fi->NumKernPair = 0;
     }
 
@@ -231,30 +231,30 @@
 
   /* parse a metrics file -- either AFM or PFM depending on what */
   /* it turns out to be                                          */
-  FT_LOCAL_DEF( FT_Error )
-  T1_Read_Metrics( FT_Face    t1_face,
-                   FT_Stream  stream )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  T1_Read_Metrics( FT_TS_Face    t1_face,
+                   FT_TS_Stream  stream )
   {
     PSAux_Service  psaux;
-    FT_Memory      memory  = stream->memory;
+    FT_TS_Memory      memory  = stream->memory;
     AFM_ParserRec  parser;
     AFM_FontInfo   fi      = NULL;
-    FT_Error       error   = FT_ERR( Unknown_File_Format );
+    FT_TS_Error       error   = FT_TS_ERR( Unknown_File_Format );
     T1_Face        face    = (T1_Face)t1_face;
     T1_Font        t1_font = &face->type1;
 
 
     if ( face->afm_data )
     {
-      FT_TRACE1(( "T1_Read_Metrics:"
+      FT_TS_TRACE1(( "T1_Read_Metrics:"
                   " Freeing previously attached metrics data.\n" ));
       T1_Done_Metrics( memory, (AFM_FontInfo)face->afm_data );
 
       face->afm_data = NULL;
     }
 
-    if ( FT_NEW( fi )                   ||
-         FT_FRAME_ENTER( stream->size ) )
+    if ( FT_TS_NEW( fi )                   ||
+         FT_TS_FRAME_ENTER( stream->size ) )
       goto Exit;
 
     fi->FontBBox  = t1_font->font_bbox;
@@ -280,15 +280,15 @@
       }
     }
 
-    if ( FT_ERR_EQ( error, Unknown_File_Format ) )
+    if ( FT_TS_ERR_EQ( error, Unknown_File_Format ) )
     {
-      FT_Byte*  start = stream->cursor;
+      FT_TS_Byte*  start = stream->cursor;
 
 
       /* MS Windows allows versions up to 0x3FF without complaining */
       if ( stream->size > 6                              &&
            start[1] < 4                                  &&
-           FT_PEEK_ULONG_LE( start + 2 ) == stream->size )
+           FT_TS_PEEK_ULONG_LE( start + 2 ) == stream->size )
         error = T1_Read_PFM( t1_face, stream, fi );
     }
 
@@ -303,18 +303,18 @@
       t1_face->bbox.yMax = ( fi->FontBBox.yMax + 0xFFFF ) >> 16;
 
       /* no `U' suffix here to 0x8000! */
-      t1_face->ascender  = (FT_Short)( ( fi->Ascender  + 0x8000 ) >> 16 );
-      t1_face->descender = (FT_Short)( ( fi->Descender + 0x8000 ) >> 16 );
+      t1_face->ascender  = (FT_TS_Short)( ( fi->Ascender  + 0x8000 ) >> 16 );
+      t1_face->descender = (FT_TS_Short)( ( fi->Descender + 0x8000 ) >> 16 );
 
       if ( fi->NumKernPair )
       {
-        t1_face->face_flags |= FT_FACE_FLAG_KERNING;
+        t1_face->face_flags |= FT_TS_FACE_FLAG_KERNING;
         face->afm_data       = fi;
         fi                   = NULL;
       }
     }
 
-    FT_FRAME_EXIT();
+    FT_TS_FRAME_EXIT();
 
   Exit:
     if ( fi )
@@ -325,14 +325,14 @@
 
 
   /* find the kerning for a given glyph pair */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   T1_Get_Kerning( AFM_FontInfo  fi,
-                  FT_UInt       glyph1,
-                  FT_UInt       glyph2,
-                  FT_Vector*    kerning )
+                  FT_TS_UInt       glyph1,
+                  FT_TS_UInt       glyph2,
+                  FT_TS_Vector*    kerning )
   {
     AFM_KernPair  min, mid, max;
-    FT_ULong      idx = KERN_INDEX( glyph1, glyph2 );
+    FT_TS_ULong      idx = KERN_INDEX( glyph1, glyph2 );
 
 
     /* simple binary search */
@@ -341,7 +341,7 @@
 
     while ( min <= max )
     {
-      FT_ULong  midi;
+      FT_TS_ULong  midi;
 
 
       mid  = min + ( max - min ) / 2;
@@ -366,18 +366,18 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  T1_Get_Track_Kerning( FT_Face    face,
-                        FT_Fixed   ptsize,
-                        FT_Int     degree,
-                        FT_Fixed*  kerning )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  T1_Get_Track_Kerning( FT_TS_Face    face,
+                        FT_TS_Fixed   ptsize,
+                        FT_TS_Int     degree,
+                        FT_TS_Fixed*  kerning )
   {
     AFM_FontInfo  fi = (AFM_FontInfo)( (T1_Face)face )->afm_data;
-    FT_UInt       i;
+    FT_TS_UInt       i;
 
 
     if ( !fi )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     for ( i = 0; i < fi->NumTrackKern; i++ )
     {
@@ -393,14 +393,14 @@
         *kerning = tk->max_kern;
       else
       {
-        *kerning = FT_MulDiv( ptsize - tk->min_ptsize,
+        *kerning = FT_TS_MulDiv( ptsize - tk->min_ptsize,
                               tk->max_kern - tk->min_kern,
                               tk->max_ptsize - tk->min_ptsize ) +
                    tk->min_kern;
       }
     }
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 #else /* T1_CONFIG_OPTION_NO_AFM */

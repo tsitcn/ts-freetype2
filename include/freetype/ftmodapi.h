@@ -29,7 +29,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -51,7 +51,7 @@ FT_BEGIN_HEADER
    *   properties can also be controlled.
    *
    *   Here is a list of existing values of the `module_name` field in the
-   *   @FT_Module_Class structure.
+   *   @FT_TS_Module_Class structure.
    *
    *   ```
    *     autofitter
@@ -77,72 +77,72 @@ FT_BEGIN_HEADER
    *   Note that the FreeType Cache sub-system is not a FreeType module.
    *
    * @order:
-   *   FT_Module
-   *   FT_Module_Constructor
-   *   FT_Module_Destructor
-   *   FT_Module_Requester
-   *   FT_Module_Class
+   *   FT_TS_Module
+   *   FT_TS_Module_Constructor
+   *   FT_TS_Module_Destructor
+   *   FT_TS_Module_Requester
+   *   FT_TS_Module_Class
    *
-   *   FT_Add_Module
-   *   FT_Get_Module
-   *   FT_Remove_Module
-   *   FT_Add_Default_Modules
+   *   FT_TS_Add_Module
+   *   FT_TS_Get_Module
+   *   FT_TS_Remove_Module
+   *   FT_TS_Add_Default_Modules
    *
-   *   FT_FACE_DRIVER_NAME
-   *   FT_Property_Set
-   *   FT_Property_Get
-   *   FT_Set_Default_Properties
+   *   FT_TS_FACE_DRIVER_NAME
+   *   FT_TS_Property_Set
+   *   FT_TS_Property_Get
+   *   FT_TS_Set_Default_Properties
    *
-   *   FT_New_Library
-   *   FT_Done_Library
-   *   FT_Reference_Library
+   *   FT_TS_New_Library
+   *   FT_TS_Done_Library
+   *   FT_TS_Reference_Library
    *
-   *   FT_Renderer
-   *   FT_Renderer_Class
+   *   FT_TS_Renderer
+   *   FT_TS_Renderer_Class
    *
-   *   FT_Get_Renderer
-   *   FT_Set_Renderer
+   *   FT_TS_Get_Renderer
+   *   FT_TS_Set_Renderer
    *
-   *   FT_Set_Debug_Hook
+   *   FT_TS_Set_Debug_Hook
    *
    */
 
 
   /* module bit flags */
-#define FT_MODULE_FONT_DRIVER         1  /* this module is a font driver  */
-#define FT_MODULE_RENDERER            2  /* this module is a renderer     */
-#define FT_MODULE_HINTER              4  /* this module is a glyph hinter */
-#define FT_MODULE_STYLER              8  /* this module is a styler       */
+#define FT_TS_MODULE_FONT_DRIVER         1  /* this module is a font driver  */
+#define FT_TS_MODULE_RENDERER            2  /* this module is a renderer     */
+#define FT_TS_MODULE_HINTER              4  /* this module is a glyph hinter */
+#define FT_TS_MODULE_STYLER              8  /* this module is a styler       */
 
-#define FT_MODULE_DRIVER_SCALABLE      0x100  /* the driver supports      */
+#define FT_TS_MODULE_DRIVER_SCALABLE      0x100  /* the driver supports      */
                                               /* scalable fonts           */
-#define FT_MODULE_DRIVER_NO_OUTLINES   0x200  /* the driver does not      */
+#define FT_TS_MODULE_DRIVER_NO_OUTLINES   0x200  /* the driver does not      */
                                               /* support vector outlines  */
-#define FT_MODULE_DRIVER_HAS_HINTER    0x400  /* the driver provides its  */
+#define FT_TS_MODULE_DRIVER_HAS_HINTER    0x400  /* the driver provides its  */
                                               /* own hinter               */
-#define FT_MODULE_DRIVER_HINTS_LIGHTLY 0x800  /* the driver's hinter      */
+#define FT_TS_MODULE_DRIVER_HINTS_LIGHTLY 0x800  /* the driver's hinter      */
                                               /* produces LIGHT hints     */
 
 
   /* deprecated values */
-#define ft_module_font_driver         FT_MODULE_FONT_DRIVER
-#define ft_module_renderer            FT_MODULE_RENDERER
-#define ft_module_hinter              FT_MODULE_HINTER
-#define ft_module_styler              FT_MODULE_STYLER
+#define ft_module_font_driver         FT_TS_MODULE_FONT_DRIVER
+#define ft_module_renderer            FT_TS_MODULE_RENDERER
+#define ft_module_hinter              FT_TS_MODULE_HINTER
+#define ft_module_styler              FT_TS_MODULE_STYLER
 
-#define ft_module_driver_scalable       FT_MODULE_DRIVER_SCALABLE
-#define ft_module_driver_no_outlines    FT_MODULE_DRIVER_NO_OUTLINES
-#define ft_module_driver_has_hinter     FT_MODULE_DRIVER_HAS_HINTER
-#define ft_module_driver_hints_lightly  FT_MODULE_DRIVER_HINTS_LIGHTLY
+#define ft_module_driver_scalable       FT_TS_MODULE_DRIVER_SCALABLE
+#define ft_module_driver_no_outlines    FT_TS_MODULE_DRIVER_NO_OUTLINES
+#define ft_module_driver_has_hinter     FT_TS_MODULE_DRIVER_HAS_HINTER
+#define ft_module_driver_hints_lightly  FT_TS_MODULE_DRIVER_HINTS_LIGHTLY
 
 
-  typedef FT_Pointer  FT_Module_Interface;
+  typedef FT_TS_Pointer  FT_TS_Module_Interface;
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Module_Constructor
+   *   FT_TS_Module_Constructor
    *
    * @description:
    *   A function used to initialize (not create) a new module object.
@@ -151,14 +151,14 @@ FT_BEGIN_HEADER
    *   module ::
    *     The module to initialize.
    */
-  typedef FT_Error
-  (*FT_Module_Constructor)( FT_Module  module );
+  typedef FT_TS_Error
+  (*FT_TS_Module_Constructor)( FT_TS_Module  module );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Module_Destructor
+   *   FT_TS_Module_Destructor
    *
    * @description:
    *   A function used to finalize (not destroy) a given module object.
@@ -168,13 +168,13 @@ FT_BEGIN_HEADER
    *     The module to finalize.
    */
   typedef void
-  (*FT_Module_Destructor)( FT_Module  module );
+  (*FT_TS_Module_Destructor)( FT_TS_Module  module );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Module_Requester
+   *   FT_TS_Module_Requester
    *
    * @description:
    *   A function used to query a given module for a specific interface.
@@ -186,15 +186,15 @@ FT_BEGIN_HEADER
    *   name ::
    *     The name of the interface in the module.
    */
-  typedef FT_Module_Interface
-  (*FT_Module_Requester)( FT_Module    module,
+  typedef FT_TS_Module_Interface
+  (*FT_TS_Module_Requester)( FT_TS_Module    module,
                           const char*  name );
 
 
   /**************************************************************************
    *
    * @struct:
-   *   FT_Module_Class
+   *   FT_TS_Module_Class
    *
    * @description:
    *   The module class descriptor.  While being a public structure necessary
@@ -232,27 +232,27 @@ FT_BEGIN_HEADER
    *   get_interface ::
    *     The interface requesting function.
    */
-  typedef struct  FT_Module_Class_
+  typedef struct  FT_TS_Module_Class_
   {
-    FT_ULong               module_flags;
-    FT_Long                module_size;
-    const FT_String*       module_name;
-    FT_Fixed               module_version;
-    FT_Fixed               module_requires;
+    FT_TS_ULong               module_flags;
+    FT_TS_Long                module_size;
+    const FT_TS_String*       module_name;
+    FT_TS_Fixed               module_version;
+    FT_TS_Fixed               module_requires;
 
     const void*            module_interface;
 
-    FT_Module_Constructor  module_init;
-    FT_Module_Destructor   module_done;
-    FT_Module_Requester    get_interface;
+    FT_TS_Module_Constructor  module_init;
+    FT_TS_Module_Destructor   module_done;
+    FT_TS_Module_Requester    get_interface;
 
-  } FT_Module_Class;
+  } FT_TS_Module_Class;
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Add_Module
+   *   FT_TS_Add_Module
    *
    * @description:
    *   Add a new module to a given library instance.
@@ -272,15 +272,15 @@ FT_BEGIN_HEADER
    *   An error will be returned if a module already exists by that name, or
    *   if the module requires a version of FreeType that is too great.
    */
-  FT_EXPORT( FT_Error )
-  FT_Add_Module( FT_Library              library,
-                 const FT_Module_Class*  clazz );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Add_Module( FT_TS_Library              library,
+                 const FT_TS_Module_Class*  clazz );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Module
+   *   FT_TS_Get_Module
    *
    * @description:
    *   Find a module by its name.
@@ -299,15 +299,15 @@ FT_BEGIN_HEADER
    *   FreeType's internal modules aren't documented very well, and you
    *   should look up the source code for details.
    */
-  FT_EXPORT( FT_Module )
-  FT_Get_Module( FT_Library   library,
+  FT_TS_EXPORT( FT_TS_Module )
+  FT_TS_Get_Module( FT_TS_Library   library,
                  const char*  module_name );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Remove_Module
+   *   FT_TS_Remove_Module
    *
    * @description:
    *   Remove a given module from a library instance.
@@ -326,36 +326,36 @@ FT_BEGIN_HEADER
    * @note:
    *   The module object is destroyed by the function in case of success.
    */
-  FT_EXPORT( FT_Error )
-  FT_Remove_Module( FT_Library  library,
-                    FT_Module   module );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Remove_Module( FT_TS_Library  library,
+                    FT_TS_Module   module );
 
 
   /**************************************************************************
    *
    * @macro:
-   *   FT_FACE_DRIVER_NAME
+   *   FT_TS_FACE_DRIVER_NAME
    *
    * @description:
    *   A macro that retrieves the name of a font driver from a face object.
    *
    * @note:
-   *   The font driver name is a valid `module_name` for @FT_Property_Set
-   *   and @FT_Property_Get.  This is not the same as @FT_Get_Font_Format.
+   *   The font driver name is a valid `module_name` for @FT_TS_Property_Set
+   *   and @FT_TS_Property_Get.  This is not the same as @FT_TS_Get_Font_Format.
    *
    * @since:
    *   2.11
    *
    */
-#define FT_FACE_DRIVER_NAME( face )                                     \
-          ( ( *FT_REINTERPRET_CAST( FT_Module_Class**,                  \
+#define FT_TS_FACE_DRIVER_NAME( face )                                     \
+          ( ( *FT_TS_REINTERPRET_CAST( FT_TS_Module_Class**,                  \
                                     ( face )->driver ) )->module_name )
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_Property_Set
+   *    FT_TS_Property_Set
    *
    * @description:
    *    Set a property for a given module.
@@ -390,11 +390,11 @@ FT_BEGIN_HEADER
    *    module 'foo' to value~1.
    *
    *    ```
-   *      FT_UInt  bar;
+   *      FT_TS_UInt  bar;
    *
    *
    *      bar = 1;
-   *      FT_Property_Set( library, "foo", "bar", &bar );
+   *      FT_TS_Property_Set( library, "foo", "bar", &bar );
    *    ```
    *
    *    Note that the FreeType Cache sub-system doesn't recognize module
@@ -403,23 +403,23 @@ FT_BEGIN_HEADER
    *    module property gets changed after @FTC_Manager_New has been called.
    *
    *    It is not possible to set properties of the FreeType Cache sub-system
-   *    itself with FT_Property_Set; use @FTC_Property_Set instead.
+   *    itself with FT_TS_Property_Set; use @FTC_Property_Set instead.
    *
    * @since:
    *   2.4.11
    *
    */
-  FT_EXPORT( FT_Error )
-  FT_Property_Set( FT_Library        library,
-                   const FT_String*  module_name,
-                   const FT_String*  property_name,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Property_Set( FT_TS_Library        library,
+                   const FT_TS_String*  module_name,
+                   const FT_TS_String*  property_name,
                    const void*       value );
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_Property_Get
+   *    FT_TS_Property_Get
    *
    * @description:
    *    Get a module's property value.
@@ -454,38 +454,38 @@ FT_BEGIN_HEADER
    *    ```
    *      typedef  range_
    *      {
-   *        FT_Int32  min;
-   *        FT_Int32  max;
+   *        FT_TS_Int32  min;
+   *        FT_TS_Int32  max;
    *
    *      } range;
    *
    *      range  baz;
    *
    *
-   *      FT_Property_Get( library, "foo", "baz", &baz );
+   *      FT_TS_Property_Get( library, "foo", "baz", &baz );
    *    ```
    *
    *    It is not possible to retrieve properties of the FreeType Cache
-   *    sub-system with FT_Property_Get; use @FTC_Property_Get instead.
+   *    sub-system with FT_TS_Property_Get; use @FTC_Property_Get instead.
    *
    * @since:
    *   2.4.11
    *
    */
-  FT_EXPORT( FT_Error )
-  FT_Property_Get( FT_Library        library,
-                   const FT_String*  module_name,
-                   const FT_String*  property_name,
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Property_Get( FT_TS_Library        library,
+                   const FT_TS_String*  module_name,
+                   const FT_TS_String*  property_name,
                    void*             value );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Default_Properties
+   *   FT_TS_Set_Default_Properties
    *
    * @description:
-   *   If compilation option `FT_CONFIG_OPTION_ENVIRONMENT_PROPERTIES` is
+   *   If compilation option `FT_TS_CONFIG_OPTION_ENVIRONMENT_PROPERTIES` is
    *   set, this function reads the `FREETYPE_PROPERTIES` environment
    *   variable to control driver properties.  See section @properties for
    *   more.
@@ -519,23 +519,23 @@ FT_BEGIN_HEADER
    * @since:
    *   2.8
    */
-  FT_EXPORT( void )
-  FT_Set_Default_Properties( FT_Library  library );
+  FT_TS_EXPORT( void )
+  FT_TS_Set_Default_Properties( FT_TS_Library  library );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Reference_Library
+   *   FT_TS_Reference_Library
    *
    * @description:
-   *   A counter gets initialized to~1 at the time an @FT_Library structure
-   *   is created.  This function increments the counter.  @FT_Done_Library
+   *   A counter gets initialized to~1 at the time an @FT_TS_Library structure
+   *   is created.  This function increments the counter.  @FT_TS_Done_Library
    *   then only destroys a library if the counter is~1, otherwise it simply
    *   decrements the counter.
    *
    *   This function helps in managing life-cycles of structures that
-   *   reference @FT_Library objects.
+   *   reference @FT_TS_Library objects.
    *
    * @input:
    *   library ::
@@ -547,28 +547,28 @@ FT_BEGIN_HEADER
    * @since:
    *   2.4.2
    */
-  FT_EXPORT( FT_Error )
-  FT_Reference_Library( FT_Library  library );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Reference_Library( FT_TS_Library  library );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_New_Library
+   *   FT_TS_New_Library
    *
    * @description:
    *   This function is used to create a new FreeType library instance from a
    *   given memory object.  It is thus possible to use libraries with
    *   distinct memory allocators within the same program.  Note, however,
-   *   that the used @FT_Memory structure is expected to remain valid for the
-   *   life of the @FT_Library object.
+   *   that the used @FT_TS_Memory structure is expected to remain valid for the
+   *   life of the @FT_TS_Library object.
    *
    *   Normally, you would call this function (followed by a call to
-   *   @FT_Add_Default_Modules or a series of calls to @FT_Add_Module, and a
-   *   call to @FT_Set_Default_Properties) instead of @FT_Init_FreeType to
+   *   @FT_TS_Add_Default_Modules or a series of calls to @FT_TS_Add_Module, and a
+   *   call to @FT_TS_Set_Default_Properties) instead of @FT_TS_Init_FreeType to
    *   initialize the FreeType library.
    *
-   *   Don't use @FT_Done_FreeType but @FT_Done_Library to destroy a library
+   *   Don't use @FT_TS_Done_FreeType but @FT_TS_Done_Library to destroy a library
    *   instance.
    *
    * @input:
@@ -584,17 +584,17 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   See the discussion of reference counters in the description of
-   *   @FT_Reference_Library.
+   *   @FT_TS_Reference_Library.
    */
-  FT_EXPORT( FT_Error )
-  FT_New_Library( FT_Memory    memory,
-                  FT_Library  *alibrary );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_New_Library( FT_TS_Memory    memory,
+                  FT_TS_Library  *alibrary );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Done_Library
+   *   FT_TS_Done_Library
    *
    * @description:
    *   Discard a given library object.  This closes all drivers and discards
@@ -609,16 +609,16 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   See the discussion of reference counters in the description of
-   *   @FT_Reference_Library.
+   *   @FT_TS_Reference_Library.
    */
-  FT_EXPORT( FT_Error )
-  FT_Done_Library( FT_Library  library );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Done_Library( FT_TS_Library  library );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_DebugHook_Func
+   *   FT_TS_DebugHook_Func
    *
    * @description:
    *   A drop-in replacement (or rather a wrapper) for the bytecode or
@@ -645,29 +645,29 @@ FT_BEGIN_HEADER
    *     it is bytecode interpreter's execution context, `TT_ExecContext`,
    *     which is declared in FreeType's internal header file `tttypes.h`.
    */
-  typedef FT_Error
-  (*FT_DebugHook_Func)( void*  arg );
+  typedef FT_TS_Error
+  (*FT_TS_DebugHook_Func)( void*  arg );
 
 
   /**************************************************************************
    *
    * @enum:
-   *   FT_DEBUG_HOOK_XXX
+   *   FT_TS_DEBUG_HOOK_XXX
    *
    * @description:
    *   A list of named debug hook indices.
    *
    * @values:
-   *   FT_DEBUG_HOOK_TRUETYPE::
+   *   FT_TS_DEBUG_HOOK_TRUETYPE::
    *     This hook index identifies the TrueType bytecode debugger.
    */
-#define FT_DEBUG_HOOK_TRUETYPE  0
+#define FT_TS_DEBUG_HOOK_TRUETYPE  0
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Debug_Hook
+   *   FT_TS_Set_Debug_Hook
    *
    * @description:
    *   Set a debug hook function for debugging the interpreter of a font
@@ -686,7 +686,7 @@ FT_BEGIN_HEADER
    * @input:
    *   hook_index ::
    *     The index of the debug hook.  You should use defined enumeration
-   *     macros like @FT_DEBUG_HOOK_TRUETYPE.
+   *     macros like @FT_TS_DEBUG_HOOK_TRUETYPE.
    *
    *   debug_hook ::
    *     The function used to debug the interpreter.
@@ -695,28 +695,28 @@ FT_BEGIN_HEADER
    *   Currently, four debug hook slots are available, but only one (for the
    *   TrueType interpreter) is defined.
    */
-  FT_EXPORT( void )
-  FT_Set_Debug_Hook( FT_Library         library,
-                     FT_UInt            hook_index,
-                     FT_DebugHook_Func  debug_hook );
+  FT_TS_EXPORT( void )
+  FT_TS_Set_Debug_Hook( FT_TS_Library         library,
+                     FT_TS_UInt            hook_index,
+                     FT_TS_DebugHook_Func  debug_hook );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Add_Default_Modules
+   *   FT_TS_Add_Default_Modules
    *
    * @description:
    *   Add the set of default drivers to a given library object.  This is
-   *   only useful when you create a library object with @FT_New_Library
+   *   only useful when you create a library object with @FT_TS_New_Library
    *   (usually to plug a custom memory manager).
    *
    * @inout:
    *   library ::
    *     A handle to a new library object.
    */
-  FT_EXPORT( void )
-  FT_Add_Default_Modules( FT_Library  library );
+  FT_TS_EXPORT( void )
+  FT_TS_Add_Default_Modules( FT_TS_Library  library );
 
 
 
@@ -741,21 +741,21 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *    FT_TrueTypeEngineType
+   *    FT_TS_TrueTypeEngineType
    *
    * @description:
    *    A list of values describing which kind of TrueType bytecode engine is
-   *    implemented in a given FT_Library instance.  It is used by the
-   *    @FT_Get_TrueType_Engine_Type function.
+   *    implemented in a given FT_TS_Library instance.  It is used by the
+   *    @FT_TS_Get_TrueType_Engine_Type function.
    *
    * @values:
-   *    FT_TRUETYPE_ENGINE_TYPE_NONE ::
+   *    FT_TS_TRUETYPE_ENGINE_TYPE_NONE ::
    *      The library doesn't implement any kind of bytecode interpreter.
    *
-   *    FT_TRUETYPE_ENGINE_TYPE_UNPATENTED ::
+   *    FT_TS_TRUETYPE_ENGINE_TYPE_UNPATENTED ::
    *      Deprecated and removed.
    *
-   *    FT_TRUETYPE_ENGINE_TYPE_PATENTED ::
+   *    FT_TS_TRUETYPE_ENGINE_TYPE_PATENTED ::
    *      The library implements a bytecode interpreter that covers the full
    *      instruction set of the TrueType virtual machine (this was governed
    *      by patents until May 2010, hence the name).
@@ -764,22 +764,22 @@ FT_BEGIN_HEADER
    *    2.2
    *
    */
-  typedef enum  FT_TrueTypeEngineType_
+  typedef enum  FT_TS_TrueTypeEngineType_
   {
-    FT_TRUETYPE_ENGINE_TYPE_NONE = 0,
-    FT_TRUETYPE_ENGINE_TYPE_UNPATENTED,
-    FT_TRUETYPE_ENGINE_TYPE_PATENTED
+    FT_TS_TRUETYPE_ENGINE_TYPE_NONE = 0,
+    FT_TS_TRUETYPE_ENGINE_TYPE_UNPATENTED,
+    FT_TS_TRUETYPE_ENGINE_TYPE_PATENTED
 
-  } FT_TrueTypeEngineType;
+  } FT_TS_TrueTypeEngineType;
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_Get_TrueType_Engine_Type
+   *    FT_TS_Get_TrueType_Engine_Type
    *
    * @description:
-   *    Return an @FT_TrueTypeEngineType value to indicate which level of the
+   *    Return an @FT_TS_TrueTypeEngineType value to indicate which level of the
    *    TrueType virtual machine a given library instance supports.
    *
    * @input:
@@ -793,13 +793,13 @@ FT_BEGIN_HEADER
    *    2.2
    *
    */
-  FT_EXPORT( FT_TrueTypeEngineType )
-  FT_Get_TrueType_Engine_Type( FT_Library  library );
+  FT_TS_EXPORT( FT_TS_TrueTypeEngineType )
+  FT_TS_Get_TrueType_Engine_Type( FT_TS_Library  library );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTMODAPI_H_ */
 

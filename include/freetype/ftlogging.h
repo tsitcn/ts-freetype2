@@ -21,10 +21,10 @@
 
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -36,11 +36,11 @@ FT_BEGIN_HEADER
    *   External Debugging APIs
    *
    * @abstract:
-   *   Public APIs to control the `FT_DEBUG_LOGGING` macro.
+   *   Public APIs to control the `FT_TS_DEBUG_LOGGING` macro.
    *
    * @description:
    *   This section contains the declarations of public functions that
-   *   enables fine control of what the `FT_DEBUG_LOGGING` macro outputs.
+   *   enables fine control of what the `FT_TS_DEBUG_LOGGING` macro outputs.
    *
    */
 
@@ -48,7 +48,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_Trace_Set_Level
+   *   FT_TS_Trace_Set_Level
    *
    * @description:
    *   Change the levels of tracing components of FreeType at run time.
@@ -62,25 +62,25 @@ FT_BEGIN_HEADER
    *   component.
    *
    *   ```
-   *   FT_Trace_Set_Level( "any:7 memory:0 );
+   *   FT_TS_Trace_Set_Level( "any:7 memory:0 );
    *   ```
    *
    * @note:
-   *   This function does nothing if compilation option `FT_DEBUG_LOGGING`
+   *   This function does nothing if compilation option `FT_TS_DEBUG_LOGGING`
    *   isn't set.
    *
    * @since:
    *   2.11
    *
    */
-  FT_EXPORT( void )
-  FT_Trace_Set_Level( const char*  tracing_level );
+  FT_TS_EXPORT( void )
+  FT_TS_Trace_Set_Level( const char*  tracing_level );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Trace_Set_Default_Level
+   *   FT_TS_Trace_Set_Default_Level
    *
    * @description:
    *   Reset tracing value of FreeType's components to the default value
@@ -88,21 +88,21 @@ FT_BEGIN_HEADER
    *   if `FT2_DEBUG` is not set).
    *
    * @note:
-   *   This function does nothing if compilation option `FT_DEBUG_LOGGING`
+   *   This function does nothing if compilation option `FT_TS_DEBUG_LOGGING`
    *   isn't set.
    *
    * @since:
    *   2.11
    *
    */
-  FT_EXPORT( void )
-  FT_Trace_Set_Default_Level( void );
+  FT_TS_EXPORT( void )
+  FT_TS_Trace_Set_Default_Level( void );
 
 
   /**************************************************************************
    *
    * @functype:
-   *   FT_Custom_Log_Handler
+   *   FT_TS_Custom_Log_Handler
    *
    * @description:
    *   A function typedef that is used to handle the logging of tracing and
@@ -110,7 +110,7 @@ FT_BEGIN_HEADER
    *
    * @input:
    *   ft_component ::
-   *     The name of `FT_COMPONENT` from which the current debug or error
+   *     The name of `FT_TS_COMPONENT` from which the current debug or error
    *     message is produced.
    *
    *   fmt ::
@@ -124,7 +124,7 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*FT_Custom_Log_Handler)( const char*  ft_component,
+  (*FT_TS_Custom_Log_Handler)( const char*  ft_component,
                             const char*  fmt,
                             va_list      args );
 
@@ -132,7 +132,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Log_Handler
+   *   FT_TS_Set_Log_Handler
    *
    * @description:
    *   A function to set a custom log handler.
@@ -142,41 +142,41 @@ FT_BEGIN_HEADER
    *     New logging function.
    *
    * @note:
-   *   This function does nothing if compilation option `FT_DEBUG_LOGGING`
+   *   This function does nothing if compilation option `FT_TS_DEBUG_LOGGING`
    *   isn't set.
    *
    * @since:
    *   2.11
    *
    */
-  FT_EXPORT( void )
-  FT_Set_Log_Handler( FT_Custom_Log_Handler  handler );
+  FT_TS_EXPORT( void )
+  FT_TS_Set_Log_Handler( FT_TS_Custom_Log_Handler  handler );
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Set_Default_Log_Handler
+   *   FT_TS_Set_Default_Log_Handler
    *
    * @description:
-   *   A function to undo the effect of @FT_Set_Log_Handler, resetting the
+   *   A function to undo the effect of @FT_TS_Set_Log_Handler, resetting the
    *   log handler to FreeType's built-in version.
    *
    * @note:
-   *   This function does nothing if compilation option `FT_DEBUG_LOGGING`
+   *   This function does nothing if compilation option `FT_TS_DEBUG_LOGGING`
    *   isn't set.
    *
    * @since:
    *   2.11
    *
    */
-  FT_EXPORT( void )
-  FT_Set_Default_Log_Handler( void );
+  FT_TS_EXPORT( void )
+  FT_TS_Set_Default_Log_Handler( void );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTLOGGING_H_ */
 

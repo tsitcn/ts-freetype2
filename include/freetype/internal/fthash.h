@@ -46,87 +46,87 @@
 #include <freetype/freetype.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  typedef union  FT_Hashkey_
+  typedef union  FT_TS_Hashkey_
   {
-    FT_Int       num;
+    FT_TS_Int       num;
     const char*  str;
 
-  } FT_Hashkey;
+  } FT_TS_Hashkey;
 
 
-  typedef struct  FT_HashnodeRec_
+  typedef struct  FT_TS_HashnodeRec_
   {
-    FT_Hashkey  key;
+    FT_TS_Hashkey  key;
     size_t      data;
 
-  } FT_HashnodeRec;
+  } FT_TS_HashnodeRec;
 
-  typedef struct FT_HashnodeRec_  *FT_Hashnode;
-
-
-  typedef FT_ULong
-  (*FT_Hash_LookupFunc)( FT_Hashkey*  key );
-
-  typedef FT_Bool
-  (*FT_Hash_CompareFunc)( FT_Hashkey*  a,
-                          FT_Hashkey*  b );
+  typedef struct FT_TS_HashnodeRec_  *FT_TS_Hashnode;
 
 
-  typedef struct  FT_HashRec_
+  typedef FT_TS_ULong
+  (*FT_TS_Hash_LookupFunc)( FT_TS_Hashkey*  key );
+
+  typedef FT_TS_Bool
+  (*FT_TS_Hash_CompareFunc)( FT_TS_Hashkey*  a,
+                          FT_TS_Hashkey*  b );
+
+
+  typedef struct  FT_TS_HashRec_
   {
-    FT_UInt  limit;
-    FT_UInt  size;
-    FT_UInt  used;
+    FT_TS_UInt  limit;
+    FT_TS_UInt  size;
+    FT_TS_UInt  used;
 
-    FT_Hash_LookupFunc   lookup;
-    FT_Hash_CompareFunc  compare;
+    FT_TS_Hash_LookupFunc   lookup;
+    FT_TS_Hash_CompareFunc  compare;
 
-    FT_Hashnode*  table;
+    FT_TS_Hashnode*  table;
 
-  } FT_HashRec;
+  } FT_TS_HashRec;
 
-  typedef struct FT_HashRec_  *FT_Hash;
+  typedef struct FT_TS_HashRec_  *FT_TS_Hash;
 
 
-  FT_Error
-  ft_hash_str_init( FT_Hash    hash,
-                    FT_Memory  memory );
+  FT_TS_Error
+  ft_hash_str_init( FT_TS_Hash    hash,
+                    FT_TS_Memory  memory );
 
-  FT_Error
-  ft_hash_num_init( FT_Hash    hash,
-                    FT_Memory  memory );
+  FT_TS_Error
+  ft_hash_num_init( FT_TS_Hash    hash,
+                    FT_TS_Memory  memory );
 
   void
-  ft_hash_str_free( FT_Hash    hash,
-                    FT_Memory  memory );
+  ft_hash_str_free( FT_TS_Hash    hash,
+                    FT_TS_Memory  memory );
 
 #define ft_hash_num_free  ft_hash_str_free
 
-  FT_Error
+  FT_TS_Error
   ft_hash_str_insert( const char*  key,
                       size_t       data,
-                      FT_Hash      hash,
-                      FT_Memory    memory );
+                      FT_TS_Hash      hash,
+                      FT_TS_Memory    memory );
 
-  FT_Error
-  ft_hash_num_insert( FT_Int     num,
+  FT_TS_Error
+  ft_hash_num_insert( FT_TS_Int     num,
                       size_t     data,
-                      FT_Hash    hash,
-                      FT_Memory  memory );
+                      FT_TS_Hash    hash,
+                      FT_TS_Memory  memory );
 
   size_t*
   ft_hash_str_lookup( const char*  key,
-                      FT_Hash      hash );
+                      FT_TS_Hash      hash );
 
   size_t*
-  ft_hash_num_lookup( FT_Int   num,
-                      FT_Hash  hash );
+  ft_hash_num_lookup( FT_TS_Int   num,
+                      FT_TS_Hash  hash );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* FTHASH_H_ */

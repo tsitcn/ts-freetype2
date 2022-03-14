@@ -43,47 +43,47 @@
 #define COLOR_SIZE                 4U
 
 
-  /* all data from `CPAL' not covered in FT_Palette_Data */
+  /* all data from `CPAL' not covered in FT_TS_Palette_Data */
   typedef struct Cpal_
   {
-    FT_UShort  version;        /* Table version number (0 or 1 supported). */
-    FT_UShort  num_colors;               /* Total number of color records, */
+    FT_TS_UShort  version;        /* Table version number (0 or 1 supported). */
+    FT_TS_UShort  num_colors;               /* Total number of color records, */
                                          /* combined for all palettes.     */
-    FT_Byte*  colors;                              /* RGBA array of colors */
-    FT_Byte*  color_indices; /* Index of each palette's first color record */
+    FT_TS_Byte*  colors;                              /* RGBA array of colors */
+    FT_TS_Byte*  color_indices; /* Index of each palette's first color record */
                              /* in the combined color record array.        */
 
     /* The memory which backs up the `CPAL' table. */
     void*     table;
-    FT_ULong  table_size;
+    FT_TS_ULong  table_size;
 
   } Cpal;
 
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  ttcpal
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  ttcpal
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_cpal( TT_Face    face,
-                     FT_Stream  stream )
+                     FT_TS_Stream  stream )
   {
-    FT_Error   error;
-    FT_Memory  memory = face->root.memory;
+    FT_TS_Error   error;
+    FT_TS_Memory  memory = face->root.memory;
 
-    FT_Byte*  table = NULL;
-    FT_Byte*  p     = NULL;
+    FT_TS_Byte*  table = NULL;
+    FT_TS_Byte*  p     = NULL;
 
     Cpal*  cpal = NULL;
 
-    FT_ULong  colors_offset;
-    FT_ULong  table_size;
+    FT_TS_ULong  colors_offset;
+    FT_TS_ULong  table_size;
 
 
     error = face->goto_table( face, TTAG_CPAL, stream, &table_size );
@@ -93,23 +93,23 @@
     if ( table_size < CPAL_V0_HEADER_BASE_SIZE )
       goto InvalidTable;
 
-    if ( FT_FRAME_EXTRACT( table_size, table ) )
+    if ( FT_TS_FRAME_EXTRACT( table_size, table ) )
       goto NoCpal;
 
     p = table;
 
-    if ( FT_NEW( cpal ) )
+    if ( FT_TS_NEW( cpal ) )
       goto NoCpal;
 
-    cpal->version = FT_NEXT_USHORT( p );
+    cpal->version = FT_TS_NEXT_USHORT( p );
     if ( cpal->version > 1 )
       goto InvalidTable;
 
-    face->palette_data.num_palette_entries = FT_NEXT_USHORT( p );
-    face->palette_data.num_palettes        = FT_NEXT_USHORT( p );
+    face->palette_data.num_palette_entries = FT_TS_NEXT_USHORT( p );
+    face->palette_data.num_palettes        = FT_TS_NEXT_USHORT( p );
 
-    cpal->num_colors = FT_NEXT_USHORT( p );
-    colors_offset    = FT_NEXT_ULONG( p );
+    cpal->num_colors = FT_TS_NEXT_USHORT( p );
+    colors_offset    = FT_TS_NEXT_ULONG( p );
 
     if ( CPAL_V0_HEADER_BASE_SIZE             +
          face->palette_data.num_palettes * 2U > table_size )
@@ -124,14 +124,14 @@
       goto InvalidTable;
 
     cpal->color_indices = p;
-    cpal->colors        = (FT_Byte*)( table + colors_offset );
+    cpal->colors        = (FT_TS_Byte*)( table + colors_offset );
 
     if ( cpal->version == 1 )
     {
-      FT_ULong    type_offset, label_offset, entry_label_offset;
-      FT_UShort*  array = NULL;
-      FT_UShort*  limit;
-      FT_UShort*  q;
+      FT_TS_ULong    type_offset, label_offset, entry_label_offset;
+      FT_TS_UShort*  array = NULL;
+      FT_TS_UShort*  limit;
+      FT_TS_UShort*  q;
 
 
       if ( CPAL_V0_HEADER_BASE_SIZE             +
@@ -141,9 +141,9 @@
 
       p += face->palette_data.num_palettes * 2U;
 
-      type_offset        = FT_NEXT_ULONG( p );
-      label_offset       = FT_NEXT_ULONG( p );
-      entry_label_offset = FT_NEXT_ULONG( p );
+      type_offset        = FT_TS_NEXT_ULONG( p );
+      label_offset       = FT_TS_NEXT_ULONG( p );
+      entry_label_offset = FT_TS_NEXT_ULONG( p );
 
       if ( type_offset )
       {
@@ -153,7 +153,7 @@
                table_size - type_offset )
           goto InvalidTable;
 
-        if ( FT_QNEW_ARRAY( array, face->palette_data.num_palettes ) )
+        if ( FT_TS_QNEW_ARRAY( array, face->palette_data.num_palettes ) )
           goto NoCpal;
 
         p     = table + type_offset;
@@ -161,7 +161,7 @@
         limit = q + face->palette_data.num_palettes;
 
         while ( q < limit )
-          *q++ = FT_NEXT_USHORT( p );
+          *q++ = FT_TS_NEXT_USHORT( p );
 
         face->palette_data.palette_flags = array;
       }
@@ -174,7 +174,7 @@
                table_size - label_offset )
           goto InvalidTable;
 
-        if ( FT_QNEW_ARRAY( array, face->palette_data.num_palettes ) )
+        if ( FT_TS_QNEW_ARRAY( array, face->palette_data.num_palettes ) )
           goto NoCpal;
 
         p     = table + label_offset;
@@ -182,7 +182,7 @@
         limit = q + face->palette_data.num_palettes;
 
         while ( q < limit )
-          *q++ = FT_NEXT_USHORT( p );
+          *q++ = FT_TS_NEXT_USHORT( p );
 
         face->palette_data.palette_name_ids = array;
       }
@@ -195,7 +195,7 @@
                table_size - entry_label_offset )
           goto InvalidTable;
 
-        if ( FT_QNEW_ARRAY( array, face->palette_data.num_palette_entries ) )
+        if ( FT_TS_QNEW_ARRAY( array, face->palette_data.num_palette_entries ) )
           goto NoCpal;
 
         p     = table + entry_label_offset;
@@ -203,7 +203,7 @@
         limit = q + face->palette_data.num_palette_entries;
 
         while ( q < limit )
-          *q++ = FT_NEXT_USHORT( p );
+          *q++ = FT_TS_NEXT_USHORT( p );
 
         face->palette_data.palette_entry_name_ids = array;
       }
@@ -215,21 +215,21 @@
     face->cpal = cpal;
 
     /* set up default palette */
-    if ( FT_NEW_ARRAY( face->palette,
+    if ( FT_TS_NEW_ARRAY( face->palette,
                        face->palette_data.num_palette_entries ) )
       goto NoCpal;
 
     if ( tt_face_palette_set( face, 0 ) )
       goto InvalidTable;
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
 
   InvalidTable:
-    error = FT_THROW( Invalid_Table );
+    error = FT_TS_THROW( Invalid_Table );
 
   NoCpal:
-    FT_FRAME_RELEASE( table );
-    FT_FREE( cpal );
+    FT_TS_FRAME_RELEASE( table );
+    FT_TS_FREE( cpal );
 
     face->cpal = NULL;
 
@@ -240,47 +240,47 @@
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   tt_face_free_cpal( TT_Face  face )
   {
-    FT_Stream  stream = face->root.stream;
-    FT_Memory  memory = face->root.memory;
+    FT_TS_Stream  stream = face->root.stream;
+    FT_TS_Memory  memory = face->root.memory;
 
     Cpal*  cpal = (Cpal*)face->cpal;
 
 
     if ( cpal )
     {
-      FT_FRAME_RELEASE( cpal->table );
-      FT_FREE( cpal );
+      FT_TS_FRAME_RELEASE( cpal->table );
+      FT_TS_FREE( cpal );
     }
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_palette_set( TT_Face  face,
-                       FT_UInt  palette_index )
+                       FT_TS_UInt  palette_index )
   {
     Cpal*  cpal = (Cpal*)face->cpal;
 
-    FT_Byte*   offset;
-    FT_Byte*   p;
+    FT_TS_Byte*   offset;
+    FT_TS_Byte*   p;
 
-    FT_Color*  q;
-    FT_Color*  limit;
+    FT_TS_Color*  q;
+    FT_TS_Color*  limit;
 
-    FT_UShort  color_index;
+    FT_TS_UShort  color_index;
 
 
     if ( !cpal || palette_index >= face->palette_data.num_palettes )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     offset      = cpal->color_indices + 2 * palette_index;
-    color_index = FT_PEEK_USHORT( offset );
+    color_index = FT_TS_PEEK_USHORT( offset );
 
     if ( color_index + face->palette_data.num_palette_entries >
            cpal->num_colors )
-      return FT_THROW( Invalid_Table );
+      return FT_TS_THROW( Invalid_Table );
 
     p     = cpal->colors + COLOR_SIZE * color_index;
     q     = face->palette;
@@ -288,15 +288,15 @@
 
     while ( q < limit )
     {
-      q->blue  = FT_NEXT_BYTE( p );
-      q->green = FT_NEXT_BYTE( p );
-      q->red   = FT_NEXT_BYTE( p );
-      q->alpha = FT_NEXT_BYTE( p );
+      q->blue  = FT_TS_NEXT_BYTE( p );
+      q->green = FT_TS_NEXT_BYTE( p );
+      q->red   = FT_TS_NEXT_BYTE( p );
+      q->alpha = FT_TS_NEXT_BYTE( p );
 
       q++;
     }
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 

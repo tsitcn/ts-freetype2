@@ -31,12 +31,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmort
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmort
 
 
   static void
@@ -48,24 +48,24 @@
       GXV_TRACE(( "featureType %d is out of registered range, "
                   "setting %d is unchecked\n",
                   f->featureType, f->featureSetting ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+      GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_DATA );
     }
     else if ( !gxv_feat_registry[f->featureType].existence )
     {
       GXV_TRACE(( "featureType %d is within registered area "
                   "but undefined, setting %d is unchecked\n",
                   f->featureType, f->featureSetting ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+      GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_DATA );
     }
     else
     {
-      FT_Byte  nSettings_max;
+      FT_TS_Byte  nSettings_max;
 
 
       /* nSettings in gxvfeat.c is halved for exclusive on/off settings */
       nSettings_max = gxv_feat_registry[f->featureType].nSettings;
       if ( gxv_feat_registry[f->featureType].exclusive )
-        nSettings_max = (FT_Byte)( 2 * nSettings_max );
+        nSettings_max = (FT_TS_Byte)( 2 * nSettings_max );
 
       GXV_TRACE(( "featureType %d is registered", f->featureType ));
       GXV_TRACE(( "setting %d", f->featureSetting ));
@@ -73,7 +73,7 @@
       if ( f->featureSetting > nSettings_max )
       {
         GXV_TRACE(( "out of defined range %d", nSettings_max ));
-        GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+        GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_DATA );
       }
       GXV_TRACE(( "\n" ));
     }
@@ -83,17 +83,17 @@
 
 
   /*
-   * nFeatureFlags is typed to FT_ULong to accept that in
-   * mort (typed FT_UShort) and morx (typed FT_ULong).
+   * nFeatureFlags is typed to FT_TS_ULong to accept that in
+   * mort (typed FT_TS_UShort) and morx (typed FT_TS_ULong).
    */
-  FT_LOCAL_DEF( void )
-  gxv_mort_featurearray_validate( FT_Bytes       table,
-                                  FT_Bytes       limit,
-                                  FT_ULong       nFeatureFlags,
+  FT_TS_LOCAL_DEF( void )
+  gxv_mort_featurearray_validate( FT_TS_Bytes       table,
+                                  FT_TS_Bytes       limit,
+                                  FT_TS_ULong       nFeatureFlags,
                                   GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
-    FT_ULong  i;
+    FT_TS_Bytes  p = table;
+    FT_TS_ULong  i;
 
     GXV_mort_featureRec  f = GXV_MORT_FEATURE_OFF;
 
@@ -102,30 +102,30 @@
     for ( i = 0; i < nFeatureFlags; i++ )
     {
       GXV_LIMIT_CHECK( 2 + 2 + 4 + 4 );
-      f.featureType    = FT_NEXT_USHORT( p );
-      f.featureSetting = FT_NEXT_USHORT( p );
-      f.enableFlags    = FT_NEXT_ULONG( p );
-      f.disableFlags   = FT_NEXT_ULONG( p );
+      f.featureType    = FT_TS_NEXT_USHORT( p );
+      f.featureSetting = FT_TS_NEXT_USHORT( p );
+      f.enableFlags    = FT_TS_NEXT_ULONG( p );
+      f.disableFlags   = FT_TS_NEXT_ULONG( p );
 
       gxv_mort_feature_validate( &f, gxvalid );
     }
 
     if ( !IS_GXV_MORT_FEATURE_OFF( f ) )
-      FT_INVALID_DATA;
+      FT_TS_INVALID_DATA;
 
-    gxvalid->subtable_length = (FT_ULong)( p - table );
+    gxvalid->subtable_length = (FT_TS_ULong)( p - table );
     GXV_EXIT;
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_mort_coverage_validate( FT_UShort      coverage,
+  FT_TS_LOCAL_DEF( void )
+  gxv_mort_coverage_validate( FT_TS_UShort      coverage,
                               GXV_Validator  gxvalid )
   {
-    FT_UNUSED( gxvalid );
-    FT_UNUSED( coverage );
+    FT_TS_UNUSED( gxvalid );
+    FT_TS_UNUSED( coverage );
 
-#ifdef FT_DEBUG_LEVEL_TRACE
+#ifdef FT_TS_DEBUG_LEVEL_TRACE
     if ( coverage & 0x8000U )
       GXV_TRACE(( " this subtable is for vertical text only\n" ));
     else
@@ -149,12 +149,12 @@
 
 
   static void
-  gxv_mort_subtables_validate( FT_Bytes       table,
-                               FT_Bytes       limit,
-                               FT_UShort      nSubtables,
+  gxv_mort_subtables_validate( FT_TS_Bytes       table,
+                               FT_TS_Bytes       limit,
+                               FT_TS_UShort      nSubtables,
                                GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
     GXV_Validate_Func fmt_funcs_table[] =
     {
@@ -167,7 +167,7 @@
 
     };
 
-    FT_UShort  i;
+    FT_TS_UShort  i;
 
 
     GXV_NAME_ENTER( "subtables in a chain" );
@@ -176,20 +176,20 @@
     {
       GXV_Validate_Func  func;
 
-      FT_UShort  length;
-      FT_UShort  coverage;
+      FT_TS_UShort  length;
+      FT_TS_UShort  coverage;
 #ifdef GXV_LOAD_UNUSED_VARS
-      FT_ULong   subFeatureFlags;
+      FT_TS_ULong   subFeatureFlags;
 #endif
-      FT_UInt    type;
-      FT_UInt    rest;
+      FT_TS_UInt    type;
+      FT_TS_UInt    rest;
 
 
       GXV_LIMIT_CHECK( 2 + 2 + 4 );
-      length          = FT_NEXT_USHORT( p );
-      coverage        = FT_NEXT_USHORT( p );
+      length          = FT_TS_NEXT_USHORT( p );
+      coverage        = FT_TS_NEXT_USHORT( p );
 #ifdef GXV_LOAD_UNUSED_VARS
-      subFeatureFlags = FT_NEXT_ULONG( p );
+      subFeatureFlags = FT_TS_NEXT_ULONG( p );
 #else
       p += 4;
 #endif
@@ -203,7 +203,7 @@
       gxv_mort_coverage_validate( coverage, gxvalid );
 
       if ( type > 5 )
-        FT_INVALID_FORMAT;
+        FT_TS_INVALID_FORMAT;
 
       func = fmt_funcs_table[type];
       if ( !func )
@@ -215,37 +215,37 @@
       /* TODO: validate subFeatureFlags */
     }
 
-    gxvalid->subtable_length = (FT_ULong)( p - table );
+    gxvalid->subtable_length = (FT_TS_ULong)( p - table );
 
     GXV_EXIT;
   }
 
 
   static void
-  gxv_mort_chain_validate( FT_Bytes       table,
-                           FT_Bytes       limit,
+  gxv_mort_chain_validate( FT_TS_Bytes       table,
+                           FT_TS_Bytes       limit,
                            GXV_Validator  gxvalid )
   {
-    FT_Bytes   p = table;
+    FT_TS_Bytes   p = table;
 #ifdef GXV_LOAD_UNUSED_VARS
-    FT_ULong   defaultFlags;
+    FT_TS_ULong   defaultFlags;
 #endif
-    FT_ULong   chainLength;
-    FT_UShort  nFeatureFlags;
-    FT_UShort  nSubtables;
+    FT_TS_ULong   chainLength;
+    FT_TS_UShort  nFeatureFlags;
+    FT_TS_UShort  nSubtables;
 
 
     GXV_NAME_ENTER( "mort chain header" );
 
     GXV_LIMIT_CHECK( 4 + 4 + 2 + 2 );
 #ifdef GXV_LOAD_UNUSED_VARS
-    defaultFlags  = FT_NEXT_ULONG( p );
+    defaultFlags  = FT_TS_NEXT_ULONG( p );
 #else
     p += 4;
 #endif
-    chainLength   = FT_NEXT_ULONG( p );
-    nFeatureFlags = FT_NEXT_USHORT( p );
-    nSubtables    = FT_NEXT_USHORT( p );
+    chainLength   = FT_TS_NEXT_ULONG( p );
+    nFeatureFlags = FT_TS_NEXT_USHORT( p );
+    nSubtables    = FT_TS_NEXT_USHORT( p );
 
     gxv_mort_featurearray_validate( p, table + chainLength,
                                     nFeatureFlags, gxvalid );
@@ -258,33 +258,33 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_mort_validate( FT_Bytes      table,
-                     FT_Face       face,
-                     FT_Validator  ftvalid )
+  FT_TS_LOCAL_DEF( void )
+  gxv_mort_validate( FT_TS_Bytes      table,
+                     FT_TS_Face       face,
+                     FT_TS_Validator  ftvalid )
   {
     GXV_ValidatorRec  gxvalidrec;
     GXV_Validator     gxvalid = &gxvalidrec;
-    FT_Bytes          p     = table;
-    FT_Bytes          limit = 0;
-    FT_ULong          version;
-    FT_ULong          nChains;
-    FT_ULong          i;
+    FT_TS_Bytes          p     = table;
+    FT_TS_Bytes          limit = 0;
+    FT_TS_ULong          version;
+    FT_TS_ULong          nChains;
+    FT_TS_ULong          i;
 
 
     gxvalid->root = ftvalid;
     gxvalid->face = face;
     limit         = gxvalid->root->limit;
 
-    FT_TRACE3(( "validating `mort' table\n" ));
+    FT_TS_TRACE3(( "validating `mort' table\n" ));
     GXV_INIT;
 
     GXV_LIMIT_CHECK( 4 + 4 );
-    version = FT_NEXT_ULONG( p );
-    nChains = FT_NEXT_ULONG( p );
+    version = FT_TS_NEXT_ULONG( p );
+    nChains = FT_TS_NEXT_ULONG( p );
 
     if (version != 0x00010000UL)
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
 
     for ( i = 0; i < nChains; i++ )
     {
@@ -294,7 +294,7 @@
       p += gxvalid->subtable_length;
     }
 
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
   }
 
 

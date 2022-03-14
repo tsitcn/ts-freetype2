@@ -30,21 +30,21 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmorx
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmorx
 
 
   static void
-  gxv_morx_subtables_validate( FT_Bytes       table,
-                               FT_Bytes       limit,
-                               FT_UShort      nSubtables,
+  gxv_morx_subtables_validate( FT_TS_Bytes       table,
+                               FT_TS_Bytes       limit,
+                               FT_TS_UShort      nSubtables,
                                GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
     GXV_Validate_Func fmt_funcs_table[] =
     {
@@ -57,7 +57,7 @@
 
     };
 
-    FT_UShort  i;
+    FT_TS_UShort  i;
 
 
     GXV_NAME_ENTER( "subtables in a chain" );
@@ -66,20 +66,20 @@
     {
       GXV_Validate_Func  func;
 
-      FT_ULong  length;
-      FT_ULong  coverage;
+      FT_TS_ULong  length;
+      FT_TS_ULong  coverage;
 #ifdef GXV_LOAD_UNUSED_VARS
-      FT_ULong  subFeatureFlags;
+      FT_TS_ULong  subFeatureFlags;
 #endif
-      FT_ULong  type;
-      FT_ULong  rest;
+      FT_TS_ULong  type;
+      FT_TS_ULong  rest;
 
 
       GXV_LIMIT_CHECK( 4 + 4 + 4 );
-      length          = FT_NEXT_ULONG( p );
-      coverage        = FT_NEXT_ULONG( p );
+      length          = FT_TS_NEXT_ULONG( p );
+      coverage        = FT_TS_NEXT_ULONG( p );
 #ifdef GXV_LOAD_UNUSED_VARS
-      subFeatureFlags = FT_NEXT_ULONG( p );
+      subFeatureFlags = FT_TS_NEXT_ULONG( p );
 #else
       p += 4;
 #endif
@@ -92,10 +92,10 @@
       GXV_LIMIT_CHECK( rest );
 
       /* morx coverage consists of mort_coverage & 16bit padding */
-      gxv_mort_coverage_validate( (FT_UShort)( ( coverage >> 16 ) | coverage ),
+      gxv_mort_coverage_validate( (FT_TS_UShort)( ( coverage >> 16 ) | coverage ),
                                   gxvalid );
       if ( type > 5 )
-        FT_INVALID_FORMAT;
+        FT_TS_INVALID_FORMAT;
 
       func = fmt_funcs_table[type];
       if ( !func )
@@ -107,47 +107,47 @@
       p += rest;
     }
 
-    gxvalid->subtable_length = (FT_ULong)( p - table );
+    gxvalid->subtable_length = (FT_TS_ULong)( p - table );
 
     GXV_EXIT;
   }
 
 
   static void
-  gxv_morx_chain_validate( FT_Bytes       table,
-                           FT_Bytes       limit,
+  gxv_morx_chain_validate( FT_TS_Bytes       table,
+                           FT_TS_Bytes       limit,
                            GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 #ifdef GXV_LOAD_UNUSED_VARS
-    FT_ULong  defaultFlags;
+    FT_TS_ULong  defaultFlags;
 #endif
-    FT_ULong  chainLength;
-    FT_ULong  nFeatureFlags;
-    FT_ULong  nSubtables;
+    FT_TS_ULong  chainLength;
+    FT_TS_ULong  nFeatureFlags;
+    FT_TS_ULong  nSubtables;
 
 
     GXV_NAME_ENTER( "morx chain header" );
 
     GXV_LIMIT_CHECK( 4 + 4 + 4 + 4 );
 #ifdef GXV_LOAD_UNUSED_VARS
-    defaultFlags  = FT_NEXT_ULONG( p );
+    defaultFlags  = FT_TS_NEXT_ULONG( p );
 #else
     p += 4;
 #endif
-    chainLength   = FT_NEXT_ULONG( p );
-    nFeatureFlags = FT_NEXT_ULONG( p );
-    nSubtables    = FT_NEXT_ULONG( p );
+    chainLength   = FT_TS_NEXT_ULONG( p );
+    nFeatureFlags = FT_TS_NEXT_ULONG( p );
+    nSubtables    = FT_TS_NEXT_ULONG( p );
 
     /* feature-array of morx is same with that of mort */
     gxv_mort_featurearray_validate( p, limit, nFeatureFlags, gxvalid );
     p += gxvalid->subtable_length;
 
     if ( nSubtables >= 0x10000L )
-      FT_INVALID_DATA;
+      FT_TS_INVALID_DATA;
 
     gxv_morx_subtables_validate( p, table + chainLength,
-                                 (FT_UShort)nSubtables, gxvalid );
+                                 (FT_TS_UShort)nSubtables, gxvalid );
 
     gxvalid->subtable_length = chainLength;
 
@@ -157,32 +157,32 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_morx_validate( FT_Bytes      table,
-                     FT_Face       face,
-                     FT_Validator  ftvalid )
+  FT_TS_LOCAL_DEF( void )
+  gxv_morx_validate( FT_TS_Bytes      table,
+                     FT_TS_Face       face,
+                     FT_TS_Validator  ftvalid )
   {
     GXV_ValidatorRec  gxvalidrec;
     GXV_Validator     gxvalid = &gxvalidrec;
-    FT_Bytes          p     = table;
-    FT_Bytes          limit = 0;
-    FT_ULong          version;
-    FT_ULong          nChains;
-    FT_ULong          i;
+    FT_TS_Bytes          p     = table;
+    FT_TS_Bytes          limit = 0;
+    FT_TS_ULong          version;
+    FT_TS_ULong          nChains;
+    FT_TS_ULong          i;
 
 
     gxvalid->root = ftvalid;
     gxvalid->face = face;
 
-    FT_TRACE3(( "validating `morx' table\n" ));
+    FT_TS_TRACE3(( "validating `morx' table\n" ));
     GXV_INIT;
 
     GXV_LIMIT_CHECK( 4 + 4 );
-    version = FT_NEXT_ULONG( p );
-    nChains = FT_NEXT_ULONG( p );
+    version = FT_TS_NEXT_ULONG( p );
+    nChains = FT_TS_NEXT_ULONG( p );
 
     if ( version != 0x00020000UL )
-      FT_INVALID_FORMAT;
+      FT_TS_INVALID_FORMAT;
 
     for ( i = 0; i < nChains; i++ )
     {
@@ -192,7 +192,7 @@
       p += gxvalid->subtable_length;
     }
 
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
   }
 
 

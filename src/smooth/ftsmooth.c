@@ -26,10 +26,10 @@
 
 
   /* sets render-specific mode */
-  static FT_Error
-  ft_smooth_set_mode( FT_Renderer  render,
-                      FT_ULong     mode_tag,
-                      FT_Pointer   data )
+  static FT_TS_Error
+  ft_smooth_set_mode( FT_TS_Renderer  render,
+                      FT_TS_ULong     mode_tag,
+                      FT_TS_Pointer   data )
   {
     /* we simply pass it to the raster */
     return render->clazz->raster_class->raster_set_mode( render->raster,
@@ -38,26 +38,26 @@
   }
 
   /* transform a given glyph image */
-  static FT_Error
-  ft_smooth_transform( FT_Renderer       render,
-                       FT_GlyphSlot      slot,
-                       const FT_Matrix*  matrix,
-                       const FT_Vector*  delta )
+  static FT_TS_Error
+  ft_smooth_transform( FT_TS_Renderer       render,
+                       FT_TS_GlyphSlot      slot,
+                       const FT_TS_Matrix*  matrix,
+                       const FT_TS_Vector*  delta )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     if ( slot->format != render->glyph_format )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( matrix )
-      FT_Outline_Transform( &slot->outline, matrix );
+      FT_TS_Outline_Transform( &slot->outline, matrix );
 
     if ( delta )
-      FT_Outline_Translate( &slot->outline, delta->x, delta->y );
+      FT_TS_Outline_Translate( &slot->outline, delta->x, delta->y );
 
   Exit:
     return error;
@@ -66,14 +66,14 @@
 
   /* return the glyph's control box */
   static void
-  ft_smooth_get_cbox( FT_Renderer   render,
-                      FT_GlyphSlot  slot,
-                      FT_BBox*      cbox )
+  ft_smooth_get_cbox( FT_TS_Renderer   render,
+                      FT_TS_GlyphSlot  slot,
+                      FT_TS_BBox*      cbox )
   {
-    FT_ZERO( cbox );
+    FT_TS_ZERO( cbox );
 
     if ( slot->format == render->glyph_format )
-      FT_Outline_Get_CBox( &slot->outline, cbox );
+      FT_TS_Outline_Get_CBox( &slot->outline, cbox );
   }
 
   typedef struct TOrigin_
@@ -83,13 +83,13 @@
 
   } TOrigin;
 
-#ifndef FT_CONFIG_OPTION_SUBPIXEL_RENDERING
+#ifndef FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING
 
   /* initialize renderer -- init its raster */
-  static FT_Error
-  ft_smooth_init( FT_Renderer  render )
+  static FT_TS_Error
+  ft_smooth_init( FT_TS_Renderer  render )
   {
-    FT_Vector*  sub = render->root.library->lcd_geometry;
+    FT_TS_Vector*  sub = render->root.library->lcd_geometry;
 
 
     /* set up default subpixel geometry for striped RGB panels. */
@@ -110,7 +110,7 @@
   static void
   ft_smooth_lcd_spans( int             y,
                        int             count,
-                       const FT_Span*  spans,
+                       const FT_TS_Span*  spans,
                        TOrigin*        target )
   {
     unsigned char*  dst_line = target->origin - y * target->pitch;
@@ -124,24 +124,24 @@
   }
 
 
-  static FT_Error
-  ft_smooth_raster_lcd( FT_Renderer  render,
-                        FT_Outline*  outline,
-                        FT_Bitmap*   bitmap )
+  static FT_TS_Error
+  ft_smooth_raster_lcd( FT_TS_Renderer  render,
+                        FT_TS_Outline*  outline,
+                        FT_TS_Bitmap*   bitmap )
   {
-    FT_Error      error = FT_Err_Ok;
-    FT_Vector*    sub   = render->root.library->lcd_geometry;
-    FT_Pos        x, y;
+    FT_TS_Error      error = FT_TS_Err_Ok;
+    FT_TS_Vector*    sub   = render->root.library->lcd_geometry;
+    FT_TS_Pos        x, y;
 
-    FT_Raster_Params   params;
+    FT_TS_Raster_Params   params;
     TOrigin            target;
 
 
     /* Render 3 separate coverage bitmaps, shifting the outline.  */
     /* Set up direct rendering to record them on each third byte. */
     params.source     = outline;
-    params.flags      = FT_RASTER_FLAG_AA | FT_RASTER_FLAG_DIRECT;
-    params.gray_spans = (FT_SpanFunc)ft_smooth_lcd_spans;
+    params.flags      = FT_TS_RASTER_FLAG_AA | FT_TS_RASTER_FLAG_DIRECT;
+    params.gray_spans = (FT_TS_SpanFunc)ft_smooth_lcd_spans;
     params.user       = &target;
 
     params.clip_box.xMin = 0;
@@ -157,7 +157,7 @@
 
     target.pitch = bitmap->pitch;
 
-    FT_Outline_Translate( outline,
+    FT_TS_Outline_Translate( outline,
                           -sub[0].x,
                           -sub[0].y );
     error = render->raster_render( render->raster, &params );
@@ -167,7 +167,7 @@
       goto Exit;
 
     target.origin++;
-    FT_Outline_Translate( outline,
+    FT_TS_Outline_Translate( outline,
                           sub[0].x - sub[1].x,
                           sub[0].y - sub[1].y );
     error = render->raster_render( render->raster, &params );
@@ -177,7 +177,7 @@
       goto Exit;
 
     target.origin++;
-    FT_Outline_Translate( outline,
+    FT_TS_Outline_Translate( outline,
                           sub[1].x - sub[2].x,
                           sub[1].y - sub[2].y );
     error = render->raster_render( render->raster, &params );
@@ -185,28 +185,28 @@
     y = sub[2].y;
 
   Exit:
-    FT_Outline_Translate( outline, x, y );
+    FT_TS_Outline_Translate( outline, x, y );
 
     return error;
   }
 
 
-  static FT_Error
-  ft_smooth_raster_lcdv( FT_Renderer  render,
-                         FT_Outline*  outline,
-                         FT_Bitmap*   bitmap )
+  static FT_TS_Error
+  ft_smooth_raster_lcdv( FT_TS_Renderer  render,
+                         FT_TS_Outline*  outline,
+                         FT_TS_Bitmap*   bitmap )
   {
-    FT_Error     error = FT_Err_Ok;
+    FT_TS_Error     error = FT_TS_Err_Ok;
     int          pitch = bitmap->pitch;
-    FT_Vector*   sub   = render->root.library->lcd_geometry;
-    FT_Pos       x, y;
+    FT_TS_Vector*   sub   = render->root.library->lcd_geometry;
+    FT_TS_Pos       x, y;
 
-    FT_Raster_Params  params;
+    FT_TS_Raster_Params  params;
 
 
     params.target = bitmap;
     params.source = outline;
-    params.flags  = FT_RASTER_FLAG_AA;
+    params.flags  = FT_TS_RASTER_FLAG_AA;
 
     /* Render 3 separate coverage bitmaps, shifting the outline. */
     /* Notice that the subpixel geometry vectors are rotated.    */
@@ -214,7 +214,7 @@
     bitmap->pitch *= 3;
     bitmap->rows  /= 3;
 
-    FT_Outline_Translate( outline,
+    FT_TS_Outline_Translate( outline,
                           -sub[0].y,
                           sub[0].x );
     error = render->raster_render( render->raster, &params );
@@ -224,7 +224,7 @@
       goto Exit;
 
     bitmap->buffer += pitch;
-    FT_Outline_Translate( outline,
+    FT_TS_Outline_Translate( outline,
                           sub[0].y - sub[1].y,
                           sub[1].x - sub[0].x );
     error = render->raster_render( render->raster, &params );
@@ -235,7 +235,7 @@
       goto Exit;
 
     bitmap->buffer += 2 * pitch;
-    FT_Outline_Translate( outline,
+    FT_TS_Outline_Translate( outline,
                           sub[1].y - sub[2].y,
                           sub[2].x - sub[1].x );
     error = render->raster_render( render->raster, &params );
@@ -244,7 +244,7 @@
     bitmap->buffer -= 2 * pitch;
 
   Exit:
-    FT_Outline_Translate( outline, x, y );
+    FT_TS_Outline_Translate( outline, x, y );
 
     bitmap->pitch /= 3;
     bitmap->rows  *= 3;
@@ -252,14 +252,14 @@
     return error;
   }
 
-#else   /* FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
+#else   /* FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING */
 
   /* initialize renderer -- init its raster */
-  static FT_Error
-  ft_smooth_init( FT_Renderer  render )
+  static FT_TS_Error
+  ft_smooth_init( FT_TS_Renderer  render )
   {
     /* set up default LCD filtering */
-    FT_Library_SetLcdFilter( render->root.library, FT_LCD_FILTER_DEFAULT );
+    FT_TS_Library_SetLcdFilter( render->root.library, FT_TS_LCD_FILTER_DEFAULT );
 
     render->clazz->raster_class->raster_reset( render->raster, NULL, 0 );
 
@@ -267,22 +267,22 @@
   }
 
 
-  static FT_Error
-  ft_smooth_raster_lcd( FT_Renderer  render,
-                        FT_Outline*  outline,
-                        FT_Bitmap*   bitmap )
+  static FT_TS_Error
+  ft_smooth_raster_lcd( FT_TS_Renderer  render,
+                        FT_TS_Outline*  outline,
+                        FT_TS_Bitmap*   bitmap )
   {
-    FT_Error    error      = FT_Err_Ok;
-    FT_Vector*  points     = outline->points;
-    FT_Vector*  points_end = FT_OFFSET( points, outline->n_points );
-    FT_Vector*  vec;
+    FT_TS_Error    error      = FT_TS_Err_Ok;
+    FT_TS_Vector*  points     = outline->points;
+    FT_TS_Vector*  points_end = FT_TS_OFFSET( points, outline->n_points );
+    FT_TS_Vector*  vec;
 
-    FT_Raster_Params  params;
+    FT_TS_Raster_Params  params;
 
 
     params.target = bitmap;
     params.source = outline;
-    params.flags  = FT_RASTER_FLAG_AA;
+    params.flags  = FT_TS_RASTER_FLAG_AA;
 
     /* implode outline */
     for ( vec = points; vec < points_end; vec++ )
@@ -299,22 +299,22 @@
   }
 
 
-  static FT_Error
-  ft_smooth_raster_lcdv( FT_Renderer  render,
-                         FT_Outline*  outline,
-                         FT_Bitmap*   bitmap )
+  static FT_TS_Error
+  ft_smooth_raster_lcdv( FT_TS_Renderer  render,
+                         FT_TS_Outline*  outline,
+                         FT_TS_Bitmap*   bitmap )
   {
-    FT_Error    error      = FT_Err_Ok;
-    FT_Vector*  points     = outline->points;
-    FT_Vector*  points_end = FT_OFFSET( points, outline->n_points );
-    FT_Vector*  vec;
+    FT_TS_Error    error      = FT_TS_Err_Ok;
+    FT_TS_Vector*  points     = outline->points;
+    FT_TS_Vector*  points_end = FT_TS_OFFSET( points, outline->n_points );
+    FT_TS_Vector*  vec;
 
-    FT_Raster_Params  params;
+    FT_TS_Raster_Params  params;
 
 
     params.target = bitmap;
     params.source = outline;
-    params.flags  = FT_RASTER_FLAG_AA;
+    params.flags  = FT_TS_RASTER_FLAG_AA;
 
     /* implode outline */
     for ( vec = points; vec < points_end; vec++ )
@@ -330,7 +330,7 @@
     return error;
   }
 
-#endif  /* FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
+#endif  /* FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING */
 
 /* Oversampling scale to be used in rendering overlaps */
 #define SCALE  ( 1 << 2 )
@@ -339,7 +339,7 @@
   static void
   ft_smooth_overlap_spans( int             y,
                            int             count,
-                           const FT_Span*  spans,
+                           const FT_TS_Span*  spans,
                            TOrigin*        target )
   {
     unsigned char*  dst = target->origin - ( y / SCALE ) * target->pitch;
@@ -364,29 +364,29 @@
   }
 
 
-  static FT_Error
-  ft_smooth_raster_overlap( FT_Renderer  render,
-                            FT_Outline*  outline,
-                            FT_Bitmap*   bitmap )
+  static FT_TS_Error
+  ft_smooth_raster_overlap( FT_TS_Renderer  render,
+                            FT_TS_Outline*  outline,
+                            FT_TS_Bitmap*   bitmap )
   {
-    FT_Error    error      = FT_Err_Ok;
-    FT_Vector*  points     = outline->points;
-    FT_Vector*  points_end = FT_OFFSET( points, outline->n_points );
-    FT_Vector*  vec;
+    FT_TS_Error    error      = FT_TS_Err_Ok;
+    FT_TS_Vector*  points     = outline->points;
+    FT_TS_Vector*  points_end = FT_TS_OFFSET( points, outline->n_points );
+    FT_TS_Vector*  vec;
 
-    FT_Raster_Params   params;
+    FT_TS_Raster_Params   params;
     TOrigin            target;
 
 
-    /* Reject outlines that are too wide for 16-bit FT_Span.       */
+    /* Reject outlines that are too wide for 16-bit FT_TS_Span.       */
     /* Other limits are applied upstream with the same error code. */
     if ( bitmap->width * SCALE > 0x7FFF )
-      return FT_THROW( Raster_Overflow );
+      return FT_TS_THROW( Raster_Overflow );
 
     /* Set up direct rendering to average oversampled spans. */
     params.source     = outline;
-    params.flags      = FT_RASTER_FLAG_AA | FT_RASTER_FLAG_DIRECT;
-    params.gray_spans = (FT_SpanFunc)ft_smooth_overlap_spans;
+    params.flags      = FT_TS_RASTER_FLAG_AA | FT_TS_RASTER_FLAG_DIRECT;
+    params.gray_spans = (FT_TS_SpanFunc)ft_smooth_overlap_spans;
     params.user       = &target;
 
     params.clip_box.xMin = 0;
@@ -424,47 +424,47 @@
 
 #undef SCALE
 
-  static FT_Error
-  ft_smooth_render( FT_Renderer       render,
-                    FT_GlyphSlot      slot,
-                    FT_Render_Mode    mode,
-                    const FT_Vector*  origin )
+  static FT_TS_Error
+  ft_smooth_render( FT_TS_Renderer       render,
+                    FT_TS_GlyphSlot      slot,
+                    FT_TS_Render_Mode    mode,
+                    const FT_TS_Vector*  origin )
   {
-    FT_Error     error   = FT_Err_Ok;
-    FT_Outline*  outline = &slot->outline;
-    FT_Bitmap*   bitmap  = &slot->bitmap;
-    FT_Memory    memory  = render->root.memory;
-    FT_Pos       x_shift = 0;
-    FT_Pos       y_shift = 0;
+    FT_TS_Error     error   = FT_TS_Err_Ok;
+    FT_TS_Outline*  outline = &slot->outline;
+    FT_TS_Bitmap*   bitmap  = &slot->bitmap;
+    FT_TS_Memory    memory  = render->root.memory;
+    FT_TS_Pos       x_shift = 0;
+    FT_TS_Pos       y_shift = 0;
 
 
     /* check glyph image format */
     if ( slot->format != render->glyph_format )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     /* check mode */
-    if ( mode != FT_RENDER_MODE_NORMAL &&
-         mode != FT_RENDER_MODE_LIGHT  &&
-         mode != FT_RENDER_MODE_LCD    &&
-         mode != FT_RENDER_MODE_LCD_V  )
+    if ( mode != FT_TS_RENDER_MODE_NORMAL &&
+         mode != FT_TS_RENDER_MODE_LIGHT  &&
+         mode != FT_TS_RENDER_MODE_LCD    &&
+         mode != FT_TS_RENDER_MODE_LCD_V  )
     {
-      error = FT_THROW( Cannot_Render_Glyph );
+      error = FT_TS_THROW( Cannot_Render_Glyph );
       goto Exit;
     }
 
     /* release old bitmap buffer */
-    if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
+    if ( slot->internal->flags & FT_TS_GLYPH_OWN_BITMAP )
     {
-      FT_FREE( bitmap->buffer );
-      slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
+      FT_TS_FREE( bitmap->buffer );
+      slot->internal->flags &= ~FT_TS_GLYPH_OWN_BITMAP;
     }
 
     if ( ft_glyphslot_preset_bitmap( slot, mode, origin ) )
     {
-      error = FT_THROW( Raster_Overflow );
+      error = FT_TS_THROW( Raster_Overflow );
       goto Exit;
     }
 
@@ -472,17 +472,17 @@
       goto Exit;
 
     /* allocate new one */
-    if ( FT_ALLOC_MULT( bitmap->buffer, bitmap->rows, bitmap->pitch ) )
+    if ( FT_TS_ALLOC_MULT( bitmap->buffer, bitmap->rows, bitmap->pitch ) )
       goto Exit;
 
-    slot->internal->flags |= FT_GLYPH_OWN_BITMAP;
+    slot->internal->flags |= FT_TS_GLYPH_OWN_BITMAP;
 
     x_shift = 64 * -slot->bitmap_left;
     y_shift = 64 * -slot->bitmap_top;
-    if ( bitmap->pixel_mode == FT_PIXEL_MODE_LCD_V )
-      y_shift += 64 * (FT_Int)bitmap->rows / 3;
+    if ( bitmap->pixel_mode == FT_TS_PIXEL_MODE_LCD_V )
+      y_shift += 64 * (FT_TS_Int)bitmap->rows / 3;
     else
-      y_shift += 64 * (FT_Int)bitmap->rows;
+      y_shift += 64 * (FT_TS_Int)bitmap->rows;
 
     if ( origin )
     {
@@ -492,38 +492,38 @@
 
     /* translate outline to render it into the bitmap */
     if ( x_shift || y_shift )
-      FT_Outline_Translate( outline, x_shift, y_shift );
+      FT_TS_Outline_Translate( outline, x_shift, y_shift );
 
-    if ( mode == FT_RENDER_MODE_NORMAL ||
-         mode == FT_RENDER_MODE_LIGHT  )
+    if ( mode == FT_TS_RENDER_MODE_NORMAL ||
+         mode == FT_TS_RENDER_MODE_LIGHT  )
     {
-      if ( outline->flags & FT_OUTLINE_OVERLAP )
+      if ( outline->flags & FT_TS_OUTLINE_OVERLAP )
         error = ft_smooth_raster_overlap( render, outline, bitmap );
       else
       {
-        FT_Raster_Params  params;
+        FT_TS_Raster_Params  params;
 
 
         params.target = bitmap;
         params.source = outline;
-        params.flags  = FT_RASTER_FLAG_AA;
+        params.flags  = FT_TS_RASTER_FLAG_AA;
 
         error = render->raster_render( render->raster, &params );
       }
     }
     else
     {
-      if ( mode == FT_RENDER_MODE_LCD )
+      if ( mode == FT_TS_RENDER_MODE_LCD )
         error = ft_smooth_raster_lcd ( render, outline, bitmap );
-      else if ( mode == FT_RENDER_MODE_LCD_V )
+      else if ( mode == FT_TS_RENDER_MODE_LCD_V )
         error = ft_smooth_raster_lcdv( render, outline, bitmap );
 
-#ifdef FT_CONFIG_OPTION_SUBPIXEL_RENDERING
+#ifdef FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING
 
       /* finally apply filtering */
       {
-        FT_Byte*                 lcd_weights;
-        FT_Bitmap_LcdFilterFunc  lcd_filter_func;
+        FT_TS_Byte*                 lcd_weights;
+        FT_TS_Bitmap_LcdFilterFunc  lcd_filter_func;
 
 
         /* Per-face LCD filtering takes priority if set up. */
@@ -542,7 +542,7 @@
           lcd_filter_func( bitmap, lcd_weights );
       }
 
-#endif /* FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
+#endif /* FT_TS_CONFIG_OPTION_SUBPIXEL_RENDERING */
 
     }
 
@@ -550,26 +550,26 @@
     if ( !error )
     {
       /* everything is fine; the glyph is now officially a bitmap */
-      slot->format = FT_GLYPH_FORMAT_BITMAP;
+      slot->format = FT_TS_GLYPH_FORMAT_BITMAP;
     }
-    else if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
+    else if ( slot->internal->flags & FT_TS_GLYPH_OWN_BITMAP )
     {
-      FT_FREE( bitmap->buffer );
-      slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
+      FT_TS_FREE( bitmap->buffer );
+      slot->internal->flags &= ~FT_TS_GLYPH_OWN_BITMAP;
     }
 
     if ( x_shift || y_shift )
-      FT_Outline_Translate( outline, -x_shift, -y_shift );
+      FT_TS_Outline_Translate( outline, -x_shift, -y_shift );
 
     return error;
   }
 
 
-  FT_DEFINE_RENDERER(
+  FT_TS_DEFINE_RENDERER(
     ft_smooth_renderer_class,
 
-      FT_MODULE_RENDERER,
-      sizeof ( FT_RendererRec ),
+      FT_TS_MODULE_RENDERER,
+      sizeof ( FT_TS_RendererRec ),
 
       "smooth",
       0x10000L,
@@ -577,18 +577,18 @@
 
       NULL,    /* module specific interface */
 
-      (FT_Module_Constructor)ft_smooth_init,  /* module_init   */
-      (FT_Module_Destructor) NULL,            /* module_done   */
-      (FT_Module_Requester)  NULL,            /* get_interface */
+      (FT_TS_Module_Constructor)ft_smooth_init,  /* module_init   */
+      (FT_TS_Module_Destructor) NULL,            /* module_done   */
+      (FT_TS_Module_Requester)  NULL,            /* get_interface */
 
-    FT_GLYPH_FORMAT_OUTLINE,
+    FT_TS_GLYPH_FORMAT_OUTLINE,
 
-    (FT_Renderer_RenderFunc)   ft_smooth_render,     /* render_glyph    */
-    (FT_Renderer_TransformFunc)ft_smooth_transform,  /* transform_glyph */
-    (FT_Renderer_GetCBoxFunc)  ft_smooth_get_cbox,   /* get_glyph_cbox  */
-    (FT_Renderer_SetModeFunc)  ft_smooth_set_mode,   /* set_mode        */
+    (FT_TS_Renderer_RenderFunc)   ft_smooth_render,     /* render_glyph    */
+    (FT_TS_Renderer_TransformFunc)ft_smooth_transform,  /* transform_glyph */
+    (FT_TS_Renderer_GetCBoxFunc)  ft_smooth_get_cbox,   /* get_glyph_cbox  */
+    (FT_TS_Renderer_SetModeFunc)  ft_smooth_set_mode,   /* set_mode        */
 
-    (FT_Raster_Funcs*)&ft_grays_raster               /* raster_class    */
+    (FT_TS_Raster_Funcs*)&ft_grays_raster               /* raster_class    */
   )
 
 

@@ -27,28 +27,28 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  ttkern
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  ttkern
 
 
 #undef  TT_KERN_INDEX
-#define TT_KERN_INDEX( g1, g2 )  ( ( (FT_ULong)(g1) << 16 ) | (g2) )
+#define TT_KERN_INDEX( g1, g2 )  ( ( (FT_TS_ULong)(g1) << 16 ) | (g2) )
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_kern( TT_Face    face,
-                     FT_Stream  stream )
+                     FT_TS_Stream  stream )
   {
-    FT_Error   error;
-    FT_ULong   table_size;
-    FT_Byte*   p;
-    FT_Byte*   p_limit;
-    FT_UInt    nn, num_tables;
-    FT_UInt32  avail = 0, ordered = 0;
+    FT_TS_Error   error;
+    FT_TS_ULong   table_size;
+    FT_TS_Byte*   p;
+    FT_TS_Byte*   p_limit;
+    FT_TS_UInt    nn, num_tables;
+    FT_TS_UInt32  avail = 0, ordered = 0;
 
 
     /* the kern table is optional; exit silently if it is missing */
@@ -58,15 +58,15 @@
 
     if ( table_size < 4 )  /* the case of a malformed table */
     {
-      FT_ERROR(( "tt_face_load_kern:"
+      FT_TS_ERROR(( "tt_face_load_kern:"
                  " kerning table is too small - ignored\n" ));
-      error = FT_THROW( Table_Missing );
+      error = FT_TS_THROW( Table_Missing );
       goto Exit;
     }
 
-    if ( FT_FRAME_EXTRACT( table_size, face->kern_table ) )
+    if ( FT_TS_FRAME_EXTRACT( table_size, face->kern_table ) )
     {
-      FT_ERROR(( "tt_face_load_kern:"
+      FT_TS_ERROR(( "tt_face_load_kern:"
                  " could not extract kerning table\n" ));
       goto Exit;
     }
@@ -77,16 +77,16 @@
     p_limit = p + table_size;
 
     p         += 2; /* skip version */
-    num_tables = FT_NEXT_USHORT( p );
+    num_tables = FT_TS_NEXT_USHORT( p );
 
     if ( num_tables > 32 ) /* we only support up to 32 sub-tables */
       num_tables = 32;
 
     for ( nn = 0; nn < num_tables; nn++ )
     {
-      FT_UInt    num_pairs, length, coverage, format;
-      FT_Byte*   p_next;
-      FT_UInt32  mask = (FT_UInt32)1UL << nn;
+      FT_TS_UInt    num_pairs, length, coverage, format;
+      FT_TS_Byte*   p_next;
+      FT_TS_UInt32  mask = (FT_TS_UInt32)1UL << nn;
 
 
       if ( p + 6 > p_limit )
@@ -95,8 +95,8 @@
       p_next = p;
 
       p += 2; /* skip version */
-      length   = FT_NEXT_USHORT( p );
-      coverage = FT_NEXT_USHORT( p );
+      length   = FT_TS_NEXT_USHORT( p );
+      coverage = FT_TS_NEXT_USHORT( p );
 
       if ( length <= 6 + 8 )
         break;
@@ -117,11 +117,11 @@
            p + 8 > p_next              )
         goto NextTable;
 
-      num_pairs = FT_NEXT_USHORT( p );
+      num_pairs = FT_TS_NEXT_USHORT( p );
       p        += 6;
 
       if ( ( p_next - p ) < 6 * (int)num_pairs ) /* handle broken count */
-        num_pairs = (FT_UInt)( ( p_next - p ) / 6 );
+        num_pairs = (FT_TS_UInt)( ( p_next - p ) / 6 );
 
       avail |= mask;
 
@@ -131,19 +131,19 @@
        */
       if ( num_pairs > 0 )
       {
-        FT_ULong  count;
-        FT_ULong  old_pair;
+        FT_TS_ULong  count;
+        FT_TS_ULong  old_pair;
 
 
-        old_pair = FT_NEXT_ULONG( p );
+        old_pair = FT_TS_NEXT_ULONG( p );
         p       += 2;
 
         for ( count = num_pairs - 1; count > 0; count-- )
         {
-          FT_UInt32  cur_pair;
+          FT_TS_UInt32  cur_pair;
 
 
-          cur_pair = FT_NEXT_ULONG( p );
+          cur_pair = FT_TS_NEXT_ULONG( p );
           if ( cur_pair <= old_pair )
             break;
 
@@ -168,13 +168,13 @@
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   tt_face_done_kern( TT_Face  face )
   {
-    FT_Stream  stream = face->root.stream;
+    FT_TS_Stream  stream = face->root.stream;
 
 
-    FT_FRAME_RELEASE( face->kern_table );
+    FT_TS_FRAME_RELEASE( face->kern_table );
     face->kern_table_size = 0;
     face->num_kern_tables = 0;
     face->kern_avail_bits = 0;
@@ -182,15 +182,15 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Int )
+  FT_TS_LOCAL_DEF( FT_TS_Int )
   tt_face_get_kerning( TT_Face  face,
-                       FT_UInt  left_glyph,
-                       FT_UInt  right_glyph )
+                       FT_TS_UInt  left_glyph,
+                       FT_TS_UInt  right_glyph )
   {
-    FT_Int    result = 0;
-    FT_UInt   count, mask;
-    FT_Byte*  p       = face->kern_table;
-    FT_Byte*  p_limit = p + face->kern_table_size;
+    FT_TS_Int    result = 0;
+    FT_TS_UInt   count, mask;
+    FT_TS_Byte*  p       = face->kern_table;
+    FT_TS_Byte*  p_limit = p + face->kern_table_size;
 
 
     p   += 4;
@@ -200,15 +200,15 @@
           count > 0 && p + 6 <= p_limit;
           count--, mask <<= 1 )
     {
-      FT_Byte* base     = p;
-      FT_Byte* next;
-      FT_UInt  version  = FT_NEXT_USHORT( p );
-      FT_UInt  length   = FT_NEXT_USHORT( p );
-      FT_UInt  coverage = FT_NEXT_USHORT( p );
-      FT_UInt  num_pairs;
-      FT_Int   value    = 0;
+      FT_TS_Byte* base     = p;
+      FT_TS_Byte* next;
+      FT_TS_UInt  version  = FT_TS_NEXT_USHORT( p );
+      FT_TS_UInt  length   = FT_TS_NEXT_USHORT( p );
+      FT_TS_UInt  coverage = FT_TS_NEXT_USHORT( p );
+      FT_TS_UInt  num_pairs;
+      FT_TS_Int   value    = 0;
 
-      FT_UNUSED( version );
+      FT_TS_UNUSED( version );
 
 
       next = base + length;
@@ -219,39 +219,39 @@
       if ( ( face->kern_avail_bits & mask ) == 0 )
         goto NextTable;
 
-      FT_ASSERT( p + 8 <= next ); /* tested in tt_face_load_kern */
+      FT_TS_ASSERT( p + 8 <= next ); /* tested in tt_face_load_kern */
 
-      num_pairs = FT_NEXT_USHORT( p );
+      num_pairs = FT_TS_NEXT_USHORT( p );
       p        += 6;
 
       if ( ( next - p ) < 6 * (int)num_pairs )  /* handle broken count  */
-        num_pairs = (FT_UInt)( ( next - p ) / 6 );
+        num_pairs = (FT_TS_UInt)( ( next - p ) / 6 );
 
       switch ( coverage >> 8 )
       {
       case 0:
         {
-          FT_ULong  key0 = TT_KERN_INDEX( left_glyph, right_glyph );
+          FT_TS_ULong  key0 = TT_KERN_INDEX( left_glyph, right_glyph );
 
 
           if ( face->kern_order_bits & mask )   /* binary search */
           {
-            FT_UInt   min = 0;
-            FT_UInt   max = num_pairs;
+            FT_TS_UInt   min = 0;
+            FT_TS_UInt   max = num_pairs;
 
 
             while ( min < max )
             {
-              FT_UInt   mid = ( min + max ) >> 1;
-              FT_Byte*  q   = p + 6 * mid;
-              FT_ULong  key;
+              FT_TS_UInt   mid = ( min + max ) >> 1;
+              FT_TS_Byte*  q   = p + 6 * mid;
+              FT_TS_ULong  key;
 
 
-              key = FT_NEXT_ULONG( q );
+              key = FT_TS_NEXT_ULONG( q );
 
               if ( key == key0 )
               {
-                value = FT_PEEK_SHORT( q );
+                value = FT_TS_PEEK_SHORT( q );
                 goto Found;
               }
               if ( key < key0 )
@@ -262,17 +262,17 @@
           }
           else /* linear search */
           {
-            FT_UInt  count2;
+            FT_TS_UInt  count2;
 
 
             for ( count2 = num_pairs; count2 > 0; count2-- )
             {
-              FT_ULong  key = FT_NEXT_ULONG( p );
+              FT_TS_ULong  key = FT_TS_NEXT_ULONG( p );
 
 
               if ( key == key0 )
               {
-                value = FT_PEEK_SHORT( p );
+                value = FT_TS_PEEK_SHORT( p );
                 goto Found;
               }
               p += 2;

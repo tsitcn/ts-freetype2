@@ -23,13 +23,13 @@
 #include <freetype/ftrender.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_DECLARE_RENDERER( ft_raster1_renderer_class )
+  FT_TS_DECLARE_RENDERER( ft_raster1_renderer_class )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTREND1_H_ */
 

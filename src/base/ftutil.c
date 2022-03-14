@@ -24,12 +24,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  memory
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  memory
 
 
   /*************************************************************************/
@@ -45,41 +45,41 @@
   /*************************************************************************/
 
 
-  FT_BASE_DEF( FT_Pointer )
-  ft_mem_alloc( FT_Memory  memory,
-                FT_Long    size,
-                FT_Error  *p_error )
+  FT_TS_BASE_DEF( FT_TS_Pointer )
+  ft_mem_alloc( FT_TS_Memory  memory,
+                FT_TS_Long    size,
+                FT_TS_Error  *p_error )
   {
-    FT_Error    error;
-    FT_Pointer  block = ft_mem_qalloc( memory, size, &error );
+    FT_TS_Error    error;
+    FT_TS_Pointer  block = ft_mem_qalloc( memory, size, &error );
 
     if ( !error && block && size > 0 )
-      FT_MEM_ZERO( block, size );
+      FT_TS_MEM_ZERO( block, size );
 
     *p_error = error;
     return block;
   }
 
 
-  FT_BASE_DEF( FT_Pointer )
-  ft_mem_qalloc( FT_Memory  memory,
-                 FT_Long    size,
-                 FT_Error  *p_error )
+  FT_TS_BASE_DEF( FT_TS_Pointer )
+  ft_mem_qalloc( FT_TS_Memory  memory,
+                 FT_TS_Long    size,
+                 FT_TS_Error  *p_error )
   {
-    FT_Error    error = FT_Err_Ok;
-    FT_Pointer  block = NULL;
+    FT_TS_Error    error = FT_TS_Err_Ok;
+    FT_TS_Pointer  block = NULL;
 
 
     if ( size > 0 )
     {
       block = memory->alloc( memory, size );
       if ( !block )
-        error = FT_THROW( Out_Of_Memory );
+        error = FT_TS_THROW( Out_Of_Memory );
     }
     else if ( size < 0 )
     {
       /* may help catch/prevent security issues */
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
     }
 
     *p_error = error;
@@ -87,21 +87,21 @@
   }
 
 
-  FT_BASE_DEF( FT_Pointer )
-  ft_mem_realloc( FT_Memory  memory,
-                  FT_Long    item_size,
-                  FT_Long    cur_count,
-                  FT_Long    new_count,
+  FT_TS_BASE_DEF( FT_TS_Pointer )
+  ft_mem_realloc( FT_TS_Memory  memory,
+                  FT_TS_Long    item_size,
+                  FT_TS_Long    cur_count,
+                  FT_TS_Long    new_count,
                   void*      block,
-                  FT_Error  *p_error )
+                  FT_TS_Error  *p_error )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     block = ft_mem_qrealloc( memory, item_size,
                              cur_count, new_count, block, &error );
     if ( !error && block && new_count > cur_count )
-      FT_MEM_ZERO( (char*)block + cur_count * item_size,
+      FT_TS_MEM_ZERO( (char*)block + cur_count * item_size,
                    ( new_count - cur_count ) * item_size );
 
     *p_error = error;
@@ -109,15 +109,15 @@
   }
 
 
-  FT_BASE_DEF( FT_Pointer )
-  ft_mem_qrealloc( FT_Memory  memory,
-                   FT_Long    item_size,
-                   FT_Long    cur_count,
-                   FT_Long    new_count,
+  FT_TS_BASE_DEF( FT_TS_Pointer )
+  ft_mem_qrealloc( FT_TS_Memory  memory,
+                   FT_TS_Long    item_size,
+                   FT_TS_Long    cur_count,
+                   FT_TS_Long    new_count,
                    void*      block,
-                   FT_Error  *p_error )
+                   FT_TS_Error  *p_error )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     /* Note that we now accept `item_size == 0' as a valid parameter, in
@@ -127,35 +127,35 @@
     if ( cur_count < 0 || new_count < 0 || item_size < 0 )
     {
       /* may help catch/prevent nasty security issues */
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
     }
     else if ( new_count == 0 || item_size == 0 )
     {
       ft_mem_free( memory, block );
       block = NULL;
     }
-    else if ( new_count > FT_INT_MAX / item_size )
+    else if ( new_count > FT_TS_INT_MAX / item_size )
     {
-      error = FT_THROW( Array_Too_Large );
+      error = FT_TS_THROW( Array_Too_Large );
     }
     else if ( cur_count == 0 )
     {
-      FT_ASSERT( !block );
+      FT_TS_ASSERT( !block );
 
       block = memory->alloc( memory, new_count * item_size );
       if ( block == NULL )
-        error = FT_THROW( Out_Of_Memory );
+        error = FT_TS_THROW( Out_Of_Memory );
     }
     else
     {
-      FT_Pointer  block2;
-      FT_Long     cur_size = cur_count * item_size;
-      FT_Long     new_size = new_count * item_size;
+      FT_TS_Pointer  block2;
+      FT_TS_Long     cur_size = cur_count * item_size;
+      FT_TS_Long     new_size = new_count * item_size;
 
 
       block2 = memory->realloc( memory, cur_size, new_size, block );
       if ( !block2 )
-        error = FT_THROW( Out_Of_Memory );
+        error = FT_TS_THROW( Out_Of_Memory );
       else
         block = block2;
     }
@@ -165,8 +165,8 @@
   }
 
 
-  FT_BASE_DEF( void )
-  ft_mem_free( FT_Memory   memory,
+  FT_TS_BASE_DEF( void )
+  ft_mem_free( FT_TS_Memory   memory,
                const void *P )
   {
     if ( P )
@@ -174,14 +174,14 @@
   }
 
 
-  FT_BASE_DEF( FT_Pointer )
-  ft_mem_dup( FT_Memory    memory,
+  FT_TS_BASE_DEF( FT_TS_Pointer )
+  ft_mem_dup( FT_TS_Memory    memory,
               const void*  address,
-              FT_ULong     size,
-              FT_Error    *p_error )
+              FT_TS_ULong     size,
+              FT_TS_Error    *p_error )
   {
-    FT_Error    error;
-    FT_Pointer  p = ft_mem_qalloc( memory, (FT_Long)size, &error );
+    FT_TS_Error    error;
+    FT_TS_Pointer  p = ft_mem_qalloc( memory, (FT_TS_Long)size, &error );
 
 
     if ( !error && address && size > 0 )
@@ -192,12 +192,12 @@
   }
 
 
-  FT_BASE_DEF( FT_Pointer )
-  ft_mem_strdup( FT_Memory    memory,
+  FT_TS_BASE_DEF( FT_TS_Pointer )
+  ft_mem_strdup( FT_TS_Memory    memory,
                  const char*  str,
-                 FT_Error    *p_error )
+                 FT_TS_Error    *p_error )
   {
-    FT_ULong  len = str ? (FT_ULong)ft_strlen( str ) + 1
+    FT_TS_ULong  len = str ? (FT_TS_ULong)ft_strlen( str ) + 1
                         : 0;
 
 
@@ -205,10 +205,10 @@
   }
 
 
-  FT_BASE_DEF( FT_Int )
+  FT_TS_BASE_DEF( FT_TS_Int )
   ft_mem_strcpyn( char*        dst,
                   const char*  src,
-                  FT_ULong     size )
+                  FT_TS_ULong     size )
   {
     while ( size > 1 && *src != 0 )
     {
@@ -234,16 +234,16 @@
   /*************************************************************************/
   /*************************************************************************/
 
-#undef  FT_COMPONENT
-#define FT_COMPONENT  list
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  list
 
   /* documentation is in ftlist.h */
 
-  FT_EXPORT_DEF( FT_ListNode )
-  FT_List_Find( FT_List  list,
+  FT_TS_EXPORT_DEF( FT_TS_ListNode )
+  FT_TS_List_Find( FT_TS_List  list,
                 void*    data )
   {
-    FT_ListNode  cur;
+    FT_TS_ListNode  cur;
 
 
     if ( !list )
@@ -264,11 +264,11 @@
 
   /* documentation is in ftlist.h */
 
-  FT_EXPORT_DEF( void )
-  FT_List_Add( FT_List      list,
-               FT_ListNode  node )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_List_Add( FT_TS_List      list,
+               FT_TS_ListNode  node )
   {
-    FT_ListNode  before;
+    FT_TS_ListNode  before;
 
 
     if ( !list || !node )
@@ -290,11 +290,11 @@
 
   /* documentation is in ftlist.h */
 
-  FT_EXPORT_DEF( void )
-  FT_List_Insert( FT_List      list,
-                  FT_ListNode  node )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_List_Insert( FT_TS_List      list,
+                  FT_TS_ListNode  node )
   {
-    FT_ListNode  after;
+    FT_TS_ListNode  after;
 
 
     if ( !list || !node )
@@ -316,11 +316,11 @@
 
   /* documentation is in ftlist.h */
 
-  FT_EXPORT_DEF( void )
-  FT_List_Remove( FT_List      list,
-                  FT_ListNode  node )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_List_Remove( FT_TS_List      list,
+                  FT_TS_ListNode  node )
   {
-    FT_ListNode  before, after;
+    FT_TS_ListNode  before, after;
 
 
     if ( !list || !node )
@@ -343,11 +343,11 @@
 
   /* documentation is in ftlist.h */
 
-  FT_EXPORT_DEF( void )
-  FT_List_Up( FT_List      list,
-              FT_ListNode  node )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_List_Up( FT_TS_List      list,
+              FT_TS_ListNode  node )
   {
-    FT_ListNode  before, after;
+    FT_TS_ListNode  before, after;
 
 
     if ( !list || !node )
@@ -376,23 +376,23 @@
 
   /* documentation is in ftlist.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_List_Iterate( FT_List           list,
-                   FT_List_Iterator  iterator,
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_List_Iterate( FT_TS_List           list,
+                   FT_TS_List_Iterator  iterator,
                    void*             user )
   {
-    FT_ListNode  cur;
-    FT_Error     error = FT_Err_Ok;
+    FT_TS_ListNode  cur;
+    FT_TS_Error     error = FT_TS_Err_Ok;
 
 
     if ( !list || !iterator )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     cur = list->head;
 
     while ( cur )
     {
-      FT_ListNode  next = cur->next;
+      FT_TS_ListNode  next = cur->next;
 
 
       error = iterator( cur, user );
@@ -408,13 +408,13 @@
 
   /* documentation is in ftlist.h */
 
-  FT_EXPORT_DEF( void )
-  FT_List_Finalize( FT_List             list,
-                    FT_List_Destructor  destroy,
-                    FT_Memory           memory,
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_List_Finalize( FT_TS_List             list,
+                    FT_TS_List_Destructor  destroy,
+                    FT_TS_Memory           memory,
                     void*               user )
   {
-    FT_ListNode  cur;
+    FT_TS_ListNode  cur;
 
 
     if ( !list || !memory )
@@ -423,14 +423,14 @@
     cur = list->head;
     while ( cur )
     {
-      FT_ListNode  next = cur->next;
+      FT_TS_ListNode  next = cur->next;
       void*        data = cur->data;
 
 
       if ( destroy )
         destroy( memory, data, user );
 
-      FT_FREE( cur );
+      FT_TS_FREE( cur );
       cur = next;
     }
 

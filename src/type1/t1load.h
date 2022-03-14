@@ -27,28 +27,28 @@
 #include "t1parse.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef struct  T1_Loader_
   {
     T1_ParserRec  parser;          /* parser used to read the stream */
 
-    FT_Int        num_chars;       /* number of characters in encoding */
+    FT_TS_Int        num_chars;       /* number of characters in encoding */
     PS_TableRec   encoding_table;  /* PS_Table used to store the       */
                                    /* encoding character names         */
 
-    FT_Int        num_glyphs;
+    FT_TS_Int        num_glyphs;
     PS_TableRec   glyph_names;
     PS_TableRec   charstrings;
     PS_TableRec   swap_table;      /* For moving .notdef glyph to index 0. */
 
-    FT_Int        num_subrs;
+    FT_TS_Int        num_subrs;
     PS_TableRec   subrs;
-    FT_Hash       subrs_hash;
-    FT_Bool       fontdata;
+    FT_TS_Hash       subrs_hash;
+    FT_TS_Bool       fontdata;
 
-    FT_UInt       keywords_encountered; /* T1_LOADER_ENCOUNTERED_XXX */
+    FT_TS_UInt       keywords_encountered; /* T1_LOADER_ENCOUNTERED_XXX */
 
   } T1_LoaderRec, *T1_Loader;
 
@@ -60,65 +60,65 @@ FT_BEGIN_HEADER
 #define T1_FONTDIR_AFTER_PRIVATE  ( 1 << 1 )
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Open_Face( T1_Face  face );
 
 #ifndef T1_CONFIG_OPTION_NO_MM_SUPPORT
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Get_Multi_Master( T1_Face           face,
-                       FT_Multi_Master*  master );
+                       FT_TS_Multi_Master*  master );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Get_MM_Var( T1_Face      face,
-                 FT_MM_Var*  *master );
+                 FT_TS_MM_Var*  *master );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Set_MM_Blend( T1_Face    face,
-                   FT_UInt    num_coords,
-                   FT_Fixed*  coords );
+                   FT_TS_UInt    num_coords,
+                   FT_TS_Fixed*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Get_MM_Blend( T1_Face    face,
-                   FT_UInt    num_coords,
-                   FT_Fixed*  coords );
+                   FT_TS_UInt    num_coords,
+                   FT_TS_Fixed*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Set_MM_Design( T1_Face   face,
-                    FT_UInt   num_coords,
-                    FT_Long*  coords );
+                    FT_TS_UInt   num_coords,
+                    FT_TS_Long*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Reset_MM_Blend( T1_Face  face,
-                     FT_UInt  instance_index );
+                     FT_TS_UInt  instance_index );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Get_Var_Design( T1_Face    face,
-                     FT_UInt    num_coords,
-                     FT_Fixed*  coords );
+                     FT_TS_UInt    num_coords,
+                     FT_TS_Fixed*  coords );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Set_Var_Design( T1_Face    face,
-                     FT_UInt    num_coords,
-                     FT_Fixed*  coords );
+                     FT_TS_UInt    num_coords,
+                     FT_TS_Fixed*  coords );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   T1_Done_Blend( T1_Face  face );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Set_MM_WeightVector( T1_Face    face,
-                          FT_UInt    len,
-                          FT_Fixed*  weightvector );
+                          FT_TS_UInt    len,
+                          FT_TS_Fixed*  weightvector );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   T1_Get_MM_WeightVector( T1_Face    face,
-                          FT_UInt*   len,
-                          FT_Fixed*  weightvector );
+                          FT_TS_UInt*   len,
+                          FT_TS_Fixed*  weightvector );
 
 #endif /* !T1_CONFIG_OPTION_NO_MM_SUPPORT */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* T1LOAD_H_ */
 

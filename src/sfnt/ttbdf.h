@@ -24,16 +24,16 @@
 #include <freetype/ftbdf.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
 #ifdef TT_CONFIG_OPTION_BDF
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   tt_face_free_bdf_props( TT_Face  face );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_face_find_bdf_prop( TT_Face           face,
                          const char*       property_name,
                          BDF_PropertyRec  *aprop );
@@ -41,7 +41,7 @@ FT_BEGIN_HEADER
 #endif /* TT_CONFIG_OPTION_BDF */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTBDF_H_ */
 

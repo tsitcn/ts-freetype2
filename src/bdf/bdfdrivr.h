@@ -33,20 +33,20 @@ THE SOFTWARE.
 #include "bdf.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef struct  BDF_encoding_el_
   {
-    FT_ULong   enc;
-    FT_UShort  glyph;
+    FT_TS_ULong   enc;
+    FT_TS_UShort  glyph;
 
   } BDF_encoding_el;
 
 
   typedef struct  BDF_FaceRec_
   {
-    FT_FaceRec        root;
+    FT_TS_FaceRec        root;
 
     char*             charset_encoding;
     char*             charset_registry;
@@ -55,15 +55,15 @@ FT_BEGIN_HEADER
 
     BDF_encoding_el*  en_table;
 
-    FT_UInt           default_glyph;
+    FT_TS_UInt           default_glyph;
 
   } BDF_FaceRec, *BDF_Face;
 
 
-  FT_EXPORT_VAR( const FT_Driver_ClassRec )  bdf_driver_class;
+  FT_TS_EXPORT_VAR( const FT_TS_Driver_ClassRec )  bdf_driver_class;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* BDFDRIVR_H_ */

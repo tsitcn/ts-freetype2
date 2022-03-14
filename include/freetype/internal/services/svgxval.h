@@ -31,31 +31,31 @@
 #include <freetype/ftgxval.h>
 #include <freetype/internal/ftvalid.h>
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-#define FT_SERVICE_ID_GX_VALIDATE           "truetypegx-validate"
-#define FT_SERVICE_ID_CLASSICKERN_VALIDATE  "classickern-validate"
+#define FT_TS_SERVICE_ID_GX_VALIDATE           "truetypegx-validate"
+#define FT_TS_SERVICE_ID_CLASSICKERN_VALIDATE  "classickern-validate"
 
-  typedef FT_Error
-  (*gxv_validate_func)( FT_Face   face,
-                        FT_UInt   gx_flags,
-                        FT_Bytes  tables[FT_VALIDATE_GX_LENGTH],
-                        FT_UInt   table_length );
-
-
-  typedef FT_Error
-  (*ckern_validate_func)( FT_Face   face,
-                          FT_UInt   ckern_flags,
-                          FT_Bytes  *ckern_table );
+  typedef FT_TS_Error
+  (*gxv_validate_func)( FT_TS_Face   face,
+                        FT_TS_UInt   gx_flags,
+                        FT_TS_Bytes  tables[FT_TS_VALIDATE_GX_LENGTH],
+                        FT_TS_UInt   table_length );
 
 
-  FT_DEFINE_SERVICE( GXvalidate )
+  typedef FT_TS_Error
+  (*ckern_validate_func)( FT_TS_Face   face,
+                          FT_TS_UInt   ckern_flags,
+                          FT_TS_Bytes  *ckern_table );
+
+
+  FT_TS_DEFINE_SERVICE( GXvalidate )
   {
     gxv_validate_func  validate;
   };
 
-  FT_DEFINE_SERVICE( CKERNvalidate )
+  FT_TS_DEFINE_SERVICE( CKERNvalidate )
   {
     ckern_validate_func  validate;
   };
@@ -63,7 +63,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVGXVAL_H_ */

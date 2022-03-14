@@ -43,15 +43,15 @@
 #include "pserror.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* need to define the struct here (not opaque) so it can be allocated by */
   /* clients                                                               */
   typedef struct  CF2_ArrStackRec_
   {
-    FT_Memory  memory;
-    FT_Error*  error;
+    FT_TS_Memory  memory;
+    FT_TS_Error*  error;
 
     size_t  sizeItem;       /* bytes per element             */
     size_t  allocated;      /* items allocated               */
@@ -63,34 +63,34 @@ FT_BEGIN_HEADER
   } CF2_ArrStackRec, *CF2_ArrStack;
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_arrstack_init( CF2_ArrStack  arrstack,
-                     FT_Memory     memory,
-                     FT_Error*     error,
+                     FT_TS_Memory     memory,
+                     FT_TS_Error*     error,
                      size_t        sizeItem );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_arrstack_finalize( CF2_ArrStack  arrstack );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_arrstack_setCount( CF2_ArrStack  arrstack,
                          size_t        numElements );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_arrstack_clear( CF2_ArrStack  arrstack );
-  FT_LOCAL( size_t )
+  FT_TS_LOCAL( size_t )
   cf2_arrstack_size( const CF2_ArrStack  arrstack );
 
-  FT_LOCAL( void* )
+  FT_TS_LOCAL( void* )
   cf2_arrstack_getBuffer( const CF2_ArrStack  arrstack );
-  FT_LOCAL( void* )
+  FT_TS_LOCAL( void* )
   cf2_arrstack_getPointer( const CF2_ArrStack  arrstack,
                            size_t              idx );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_arrstack_push( CF2_ArrStack  arrstack,
                      const void*   ptr );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSARRST_H_ */

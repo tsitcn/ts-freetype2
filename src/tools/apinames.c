@@ -3,7 +3,7 @@
  * find the declaration of all public APIs.  This is easy, because
  * they all look like the following:
  *
- *   FT_EXPORT( return_type )
+ *   FT_TS_EXPORT( return_type )
  *   function_name( function arguments );
  *
  * You must pass the list of header files as arguments.  Wildcards are
@@ -244,7 +244,7 @@ names_dump( FILE*         out,
 
 typedef enum  State_
 {
-  STATE_START = 0,  /* waiting for FT_EXPORT keyword and return type */
+  STATE_START = 0,  /* waiting for FT_TS_EXPORT keyword and return type */
   STATE_TYPE        /* type was read, waiting for function name      */
 
 } State;
@@ -279,7 +279,7 @@ read_header_file( FILE*  file,
     switch ( state )
     {
     case STATE_START:
-      if ( memcmp( p, "FT_EXPORT(", 10 ) != 0 )
+      if ( memcmp( p, "FT_TS_EXPORT(", 10 ) != 0 )
         break;
 
       p += 10;
@@ -300,7 +300,7 @@ read_header_file( FILE*  file,
       state = STATE_TYPE;
 
       /*
-       * Sometimes, the name is just after `FT_EXPORT(...)', so skip
+       * Sometimes, the name is just after `FT_TS_EXPORT(...)', so skip
        * whitespace and fall-through if we find an alphanumeric character.
        */
       while ( *p == ' ' || *p == '\t' )

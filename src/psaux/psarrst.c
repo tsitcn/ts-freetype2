@@ -52,13 +52,13 @@
    * recorded.
    */
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_arrstack_init( CF2_ArrStack  arrstack,
-                     FT_Memory     memory,
-                     FT_Error*     error,
+                     FT_TS_Memory     memory,
+                     FT_TS_Error*     error,
                      size_t        sizeItem )
   {
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     /* initialize the structure */
     arrstack->memory    = memory;
@@ -71,45 +71,45 @@
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_arrstack_finalize( CF2_ArrStack  arrstack )
   {
-    FT_Memory  memory = arrstack->memory;     /* for FT_FREE */
+    FT_TS_Memory  memory = arrstack->memory;     /* for FT_TS_FREE */
 
 
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     arrstack->allocated = 0;
     arrstack->count     = 0;
     arrstack->totalSize = 0;
 
     /* free the data buffer */
-    FT_FREE( arrstack->ptr );
+    FT_TS_FREE( arrstack->ptr );
   }
 
 
   /* allocate or reallocate the buffer size; */
   /* return false on memory error */
-  static FT_Bool
+  static FT_TS_Bool
   cf2_arrstack_setNumElements( CF2_ArrStack  arrstack,
                                size_t        numElements )
   {
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     {
-      FT_Error   error  = FT_Err_Ok;        /* for FT_REALLOC */
-      FT_Memory  memory = arrstack->memory; /* for FT_REALLOC */
+      FT_TS_Error   error  = FT_TS_Err_Ok;        /* for FT_TS_REALLOC */
+      FT_TS_Memory  memory = arrstack->memory; /* for FT_TS_REALLOC */
 
       size_t  newSize = numElements * arrstack->sizeItem;
 
 
-      if ( numElements > FT_LONG_MAX / arrstack->sizeItem )
+      if ( numElements > FT_TS_LONG_MAX / arrstack->sizeItem )
         goto exit;
 
 
-      FT_ASSERT( newSize > 0 );   /* avoid realloc with zero size */
+      FT_TS_ASSERT( newSize > 0 );   /* avoid realloc with zero size */
 
-      if ( !FT_QREALLOC( arrstack->ptr, arrstack->totalSize, newSize ) )
+      if ( !FT_TS_QREALLOC( arrstack->ptr, arrstack->totalSize, newSize ) )
       {
         arrstack->allocated = numElements;
         arrstack->totalSize = newSize;
@@ -135,11 +135,11 @@
 
 
   /* set the count, ensuring allocation is sufficient */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_arrstack_setCount( CF2_ArrStack  arrstack,
                          size_t        numElements )
   {
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     if ( numElements > arrstack->allocated )
     {
@@ -153,43 +153,43 @@
 
 
   /* clear the count */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_arrstack_clear( CF2_ArrStack  arrstack )
   {
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     arrstack->count = 0;
   }
 
 
   /* current number of items */
-  FT_LOCAL_DEF( size_t )
+  FT_TS_LOCAL_DEF( size_t )
   cf2_arrstack_size( const CF2_ArrStack  arrstack )
   {
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     return arrstack->count;
   }
 
 
-  FT_LOCAL_DEF( void* )
+  FT_TS_LOCAL_DEF( void* )
   cf2_arrstack_getBuffer( const CF2_ArrStack  arrstack )
   {
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     return arrstack->ptr;
   }
 
 
   /* return pointer to the given element */
-  FT_LOCAL_DEF( void* )
+  FT_TS_LOCAL_DEF( void* )
   cf2_arrstack_getPointer( const CF2_ArrStack  arrstack,
                            size_t              idx )
   {
     void*  newPtr;
 
 
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     if ( idx >= arrstack->count )
     {
@@ -198,7 +198,7 @@
       idx = 0;    /* choose safe default */
     }
 
-    newPtr = (FT_Byte*)arrstack->ptr + idx * arrstack->sizeItem;
+    newPtr = (FT_TS_Byte*)arrstack->ptr + idx * arrstack->sizeItem;
 
     return newPtr;
   }
@@ -207,11 +207,11 @@
   /* push (append) an element at the end of the list;         */
   /* return false on memory error                             */
   /* TODO: should there be a length param for extra checking? */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_arrstack_push( CF2_ArrStack  arrstack,
                      const void*   ptr )
   {
-    FT_ASSERT( arrstack );
+    FT_TS_ASSERT( arrstack );
 
     if ( arrstack->count == arrstack->allocated )
     {
@@ -224,14 +224,14 @@
       }
     }
 
-    FT_ASSERT( ptr );
+    FT_TS_ASSERT( ptr );
 
     {
       size_t  offset = arrstack->count * arrstack->sizeItem;
-      void*   newPtr = (FT_Byte*)arrstack->ptr + offset;
+      void*   newPtr = (FT_TS_Byte*)arrstack->ptr + offset;
 
 
-      FT_MEM_COPY( newPtr, ptr, arrstack->sizeItem );
+      FT_TS_MEM_COPY( newPtr, ptr, arrstack->sizeItem );
       arrstack->count += 1;
     }
   }

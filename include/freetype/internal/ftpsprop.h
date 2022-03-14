@@ -23,22 +23,22 @@
 #include <freetype/freetype.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-  FT_BASE_CALLBACK( FT_Error )
-  ps_property_set( FT_Module    module,         /* PS_Driver */
+  FT_TS_BASE_CALLBACK( FT_TS_Error )
+  ps_property_set( FT_TS_Module    module,         /* PS_Driver */
                    const char*  property_name,
                    const void*  value,
-                   FT_Bool      value_is_string );
+                   FT_TS_Bool      value_is_string );
 
-  FT_BASE_CALLBACK( FT_Error )
-  ps_property_get( FT_Module    module,         /* PS_Driver */
+  FT_TS_BASE_CALLBACK( FT_TS_Error )
+  ps_property_get( FT_TS_Module    module,         /* PS_Driver */
                    const char*  property_name,
                    void*        value );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* FTPSPROP_H_ */

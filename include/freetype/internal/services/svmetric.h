@@ -22,7 +22,7 @@
 #include <freetype/internal/ftserv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
@@ -30,70 +30,70 @@ FT_BEGIN_HEADER
    *
    */
 
-#define FT_SERVICE_ID_METRICS_VARIATIONS  "metrics-variations"
+#define FT_TS_SERVICE_ID_METRICS_VARIATIONS  "metrics-variations"
 
 
   /* HVAR */
 
-  typedef FT_Error
-  (*FT_HAdvance_Adjust_Func)( FT_Face  face,
-                              FT_UInt  gindex,
-                              FT_Int  *avalue );
+  typedef FT_TS_Error
+  (*FT_TS_HAdvance_Adjust_Func)( FT_TS_Face  face,
+                              FT_TS_UInt  gindex,
+                              FT_TS_Int  *avalue );
 
-  typedef FT_Error
-  (*FT_LSB_Adjust_Func)( FT_Face  face,
-                         FT_UInt  gindex,
-                         FT_Int  *avalue );
+  typedef FT_TS_Error
+  (*FT_TS_LSB_Adjust_Func)( FT_TS_Face  face,
+                         FT_TS_UInt  gindex,
+                         FT_TS_Int  *avalue );
 
-  typedef FT_Error
-  (*FT_RSB_Adjust_Func)( FT_Face  face,
-                         FT_UInt  gindex,
-                         FT_Int  *avalue );
+  typedef FT_TS_Error
+  (*FT_TS_RSB_Adjust_Func)( FT_TS_Face  face,
+                         FT_TS_UInt  gindex,
+                         FT_TS_Int  *avalue );
 
   /* VVAR */
 
-  typedef FT_Error
-  (*FT_VAdvance_Adjust_Func)( FT_Face  face,
-                              FT_UInt  gindex,
-                              FT_Int  *avalue );
+  typedef FT_TS_Error
+  (*FT_TS_VAdvance_Adjust_Func)( FT_TS_Face  face,
+                              FT_TS_UInt  gindex,
+                              FT_TS_Int  *avalue );
 
-  typedef FT_Error
-  (*FT_TSB_Adjust_Func)( FT_Face  face,
-                         FT_UInt  gindex,
-                         FT_Int  *avalue );
+  typedef FT_TS_Error
+  (*FT_TS_TSB_Adjust_Func)( FT_TS_Face  face,
+                         FT_TS_UInt  gindex,
+                         FT_TS_Int  *avalue );
 
-  typedef FT_Error
-  (*FT_BSB_Adjust_Func)( FT_Face  face,
-                         FT_UInt  gindex,
-                         FT_Int  *avalue );
+  typedef FT_TS_Error
+  (*FT_TS_BSB_Adjust_Func)( FT_TS_Face  face,
+                         FT_TS_UInt  gindex,
+                         FT_TS_Int  *avalue );
 
-  typedef FT_Error
-  (*FT_VOrg_Adjust_Func)( FT_Face  face,
-                          FT_UInt  gindex,
-                          FT_Int  *avalue );
+  typedef FT_TS_Error
+  (*FT_TS_VOrg_Adjust_Func)( FT_TS_Face  face,
+                          FT_TS_UInt  gindex,
+                          FT_TS_Int  *avalue );
 
   /* MVAR */
 
   typedef void
-  (*FT_Metrics_Adjust_Func)( FT_Face  face );
+  (*FT_TS_Metrics_Adjust_Func)( FT_TS_Face  face );
 
 
-  FT_DEFINE_SERVICE( MetricsVariations )
+  FT_TS_DEFINE_SERVICE( MetricsVariations )
   {
-    FT_HAdvance_Adjust_Func  hadvance_adjust;
-    FT_LSB_Adjust_Func       lsb_adjust;
-    FT_RSB_Adjust_Func       rsb_adjust;
+    FT_TS_HAdvance_Adjust_Func  hadvance_adjust;
+    FT_TS_LSB_Adjust_Func       lsb_adjust;
+    FT_TS_RSB_Adjust_Func       rsb_adjust;
 
-    FT_VAdvance_Adjust_Func  vadvance_adjust;
-    FT_TSB_Adjust_Func       tsb_adjust;
-    FT_BSB_Adjust_Func       bsb_adjust;
-    FT_VOrg_Adjust_Func      vorg_adjust;
+    FT_TS_VAdvance_Adjust_Func  vadvance_adjust;
+    FT_TS_TSB_Adjust_Func       tsb_adjust;
+    FT_TS_BSB_Adjust_Func       bsb_adjust;
+    FT_TS_VOrg_Adjust_Func      vorg_adjust;
 
-    FT_Metrics_Adjust_Func   metrics_adjust;
+    FT_TS_Metrics_Adjust_Func   metrics_adjust;
   };
 
 
-#define FT_DEFINE_SERVICE_METRICSVARIATIONSREC( class_,            \
+#define FT_TS_DEFINE_SERVICE_METRICSVARIATIONSREC( class_,            \
                                                 hadvance_adjust_,  \
                                                 lsb_adjust_,       \
                                                 rsb_adjust_,       \
@@ -102,7 +102,7 @@ FT_BEGIN_HEADER
                                                 bsb_adjust_,       \
                                                 vorg_adjust_,      \
                                                 metrics_adjust_  ) \
-  static const FT_Service_MetricsVariationsRec  class_ =           \
+  static const FT_TS_Service_MetricsVariationsRec  class_ =           \
   {                                                                \
     hadvance_adjust_,                                              \
     lsb_adjust_,                                                   \
@@ -117,7 +117,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SVMETRIC_H_ */
 

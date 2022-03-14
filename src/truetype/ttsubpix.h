@@ -23,7 +23,7 @@
 #include "ttinterp.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
 #ifdef TT_SUPPORT_SUBPIXEL_HINTING_INFINALITY
@@ -71,25 +71,25 @@ FT_BEGIN_HEADER
 #define SPH_TWEAK_SKIP_NONPIXEL_Y_MOVES_DELTAP    0x0080000UL
 
 
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   sph_test_tweak( TT_Face               face,
-                  const FT_String*      family,
-                  FT_UInt               ppem,
-                  const FT_String*      style,
-                  FT_UInt               glyph_index,
+                  const FT_TS_String*      family,
+                  FT_TS_UInt               ppem,
+                  const FT_TS_String*      style,
+                  FT_TS_UInt               glyph_index,
                   const SPH_TweakRule*  rule,
-                  FT_UInt               num_rules );
+                  FT_TS_UInt               num_rules );
 
-  FT_LOCAL( FT_UInt )
+  FT_TS_LOCAL( FT_TS_UInt )
   sph_test_tweak_x_scaling( TT_Face           face,
-                            const FT_String*  family,
-                            FT_UInt           ppem,
-                            const FT_String*  style,
-                            FT_UInt           glyph_index );
+                            const FT_TS_String*  family,
+                            FT_TS_UInt           ppem,
+                            const FT_TS_String*  style,
+                            FT_TS_UInt           glyph_index );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   sph_set_tweaks( TT_Loader  loader,
-                  FT_UInt    glyph_index );
+                  FT_TS_UInt    glyph_index );
 
 
   /* These macros are defined absent a method for setting them */
@@ -102,7 +102,7 @@ FT_BEGIN_HEADER
 #endif /* TT_SUPPORT_SUBPIXEL_HINTING_INFINALITY */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTSUBPIX_H_ */
 

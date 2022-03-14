@@ -455,7 +455,7 @@
   ;
 
 
-#define FT_NUM_MAC_NAMES  258
+#define FT_TS_NUM_MAC_NAMES  258
 
   /* Values are offsets into the `ft_standard_glyph_names' table */
 
@@ -466,7 +466,7 @@
   extern
 #endif
 #endif
-  const short  ft_mac_names[FT_NUM_MAC_NAMES]
+  const short  ft_mac_names[FT_TS_NUM_MAC_NAMES]
 #ifdef  DEFINE_PS_TABLES_DATA
   =
   {
@@ -494,7 +494,7 @@
   ;
 
 
-#define FT_NUM_SID_NAMES  391
+#define FT_TS_NUM_SID_NAMES  391
 
   /* Values are offsets into the `ft_standard_glyph_names' table */
 
@@ -505,7 +505,7 @@
   extern
 #endif
 #endif
-  const short  ft_sid_names[FT_NUM_SID_NAMES]
+  const short  ft_sid_names[FT_TS_NUM_SID_NAMES]
 #ifdef  DEFINE_PS_TABLES_DATA
   =
   {
@@ -617,7 +617,7 @@
    * is defined below the table.
    */
 
-#ifdef FT_CONFIG_OPTION_ADOBE_GLYPH_LIST
+#ifdef FT_TS_CONFIG_OPTION_ADOBE_GLYPH_LIST
 
 #ifndef  DEFINE_PS_TABLES_DATA
 #ifdef  __cplusplus
@@ -4232,7 +4232,7 @@
   }
 #endif /* DEFINE_PS_TABLES */
 
-#endif /* FT_CONFIG_OPTION_ADOBE_GLYPH_LIST */
+#endif /* FT_TS_CONFIG_OPTION_ADOBE_GLYPH_LIST */
 
 
 /* END */

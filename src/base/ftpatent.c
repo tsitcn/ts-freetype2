@@ -26,10 +26,10 @@
 
   /* documentation is in freetype.h */
 
-  FT_EXPORT_DEF( FT_Bool )
-  FT_Face_CheckTrueTypePatents( FT_Face  face )
+  FT_TS_EXPORT_DEF( FT_TS_Bool )
+  FT_TS_Face_CheckTrueTypePatents( FT_TS_Face  face )
   {
-    FT_UNUSED( face );
+    FT_TS_UNUSED( face );
 
     return FALSE;
   }
@@ -37,12 +37,12 @@
 
   /* documentation is in freetype.h */
 
-  FT_EXPORT_DEF( FT_Bool )
-  FT_Face_SetUnpatentedHinting( FT_Face  face,
-                                FT_Bool  value )
+  FT_TS_EXPORT_DEF( FT_TS_Bool )
+  FT_TS_Face_SetUnpatentedHinting( FT_TS_Face  face,
+                                FT_TS_Bool  value )
   {
-    FT_UNUSED( face );
-    FT_UNUSED( value );
+    FT_TS_UNUSED( face );
+    FT_TS_UNUSED( value );
 
     return FALSE;
   }

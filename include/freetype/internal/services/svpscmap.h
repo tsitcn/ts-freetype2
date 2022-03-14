@@ -22,29 +22,29 @@
 #include <freetype/internal/ftobjs.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-#define FT_SERVICE_ID_POSTSCRIPT_CMAPS  "postscript-cmaps"
+#define FT_TS_SERVICE_ID_POSTSCRIPT_CMAPS  "postscript-cmaps"
 
 
   /*
    * Adobe glyph name to unicode value.
    */
-  typedef FT_UInt32
+  typedef FT_TS_UInt32
   (*PS_Unicode_ValueFunc)( const char*  glyph_name );
 
   /*
    * Macintosh name id to glyph name.  `NULL` if invalid index.
    */
   typedef const char*
-  (*PS_Macintosh_NameFunc)( FT_UInt  name_index );
+  (*PS_Macintosh_NameFunc)( FT_TS_UInt  name_index );
 
   /*
    * Adobe standard string ID to glyph name.  `NULL` if invalid index.
    */
   typedef const char*
-  (*PS_Adobe_Std_StringsFunc)( FT_UInt  string_index );
+  (*PS_Adobe_Std_StringsFunc)( FT_TS_UInt  string_index );
 
 
   /*
@@ -52,8 +52,8 @@ FT_BEGIN_HEADER
    */
   typedef struct  PS_UniMap_
   {
-    FT_UInt32  unicode;      /* bit 31 set: is glyph variant */
-    FT_UInt    glyph_index;
+    FT_TS_UInt32  unicode;      /* bit 31 set: is glyph variant */
+    FT_TS_UInt    glyph_index;
 
   } PS_UniMap;
 
@@ -62,8 +62,8 @@ FT_BEGIN_HEADER
 
   typedef struct  PS_UnicodesRec_
   {
-    FT_CMapRec  cmap;
-    FT_UInt     num_maps;
+    FT_TS_CMapRec  cmap;
+    FT_TS_UInt     num_maps;
     PS_UniMap*  maps;
 
   } PS_UnicodesRec;
@@ -74,35 +74,35 @@ FT_BEGIN_HEADER
    * `NULL` if invalid index.
    */
   typedef const char*
-  (*PS_GetGlyphNameFunc)( FT_Pointer  data,
-                          FT_UInt     string_index );
+  (*PS_GetGlyphNameFunc)( FT_TS_Pointer  data,
+                          FT_TS_UInt     string_index );
 
   /*
    * A function used to release the glyph name returned by
    * PS_GetGlyphNameFunc, when needed
    */
   typedef void
-  (*PS_FreeGlyphNameFunc)( FT_Pointer  data,
+  (*PS_FreeGlyphNameFunc)( FT_TS_Pointer  data,
                            const char*  name );
 
-  typedef FT_Error
-  (*PS_Unicodes_InitFunc)( FT_Memory             memory,
+  typedef FT_TS_Error
+  (*PS_Unicodes_InitFunc)( FT_TS_Memory             memory,
                            PS_Unicodes           unicodes,
-                           FT_UInt               num_glyphs,
+                           FT_TS_UInt               num_glyphs,
                            PS_GetGlyphNameFunc   get_glyph_name,
                            PS_FreeGlyphNameFunc  free_glyph_name,
-                           FT_Pointer            glyph_data );
+                           FT_TS_Pointer            glyph_data );
 
-  typedef FT_UInt
+  typedef FT_TS_UInt
   (*PS_Unicodes_CharIndexFunc)( PS_Unicodes  unicodes,
-                                FT_UInt32    unicode );
+                                FT_TS_UInt32    unicode );
 
-  typedef FT_UInt32
+  typedef FT_TS_UInt32
   (*PS_Unicodes_CharNextFunc)( PS_Unicodes  unicodes,
-                               FT_UInt32   *unicode );
+                               FT_TS_UInt32   *unicode );
 
 
-  FT_DEFINE_SERVICE( PsCMaps )
+  FT_TS_DEFINE_SERVICE( PsCMaps )
   {
     PS_Unicode_ValueFunc       unicode_value;
 
@@ -117,7 +117,7 @@ FT_BEGIN_HEADER
   };
 
 
-#define FT_DEFINE_SERVICE_PSCMAPSREC( class_,                               \
+#define FT_TS_DEFINE_SERVICE_PSCMAPSREC( class_,                               \
                                       unicode_value_,                       \
                                       unicodes_init_,                       \
                                       unicodes_char_index_,                 \
@@ -126,7 +126,7 @@ FT_BEGIN_HEADER
                                       adobe_std_strings_,                   \
                                       adobe_std_encoding_,                  \
                                       adobe_expert_encoding_ )              \
-  static const FT_Service_PsCMapsRec  class_ =                              \
+  static const FT_TS_Service_PsCMapsRec  class_ =                              \
   {                                                                         \
     unicode_value_, unicodes_init_,                                         \
     unicodes_char_index_, unicodes_char_next_, macintosh_name_,             \
@@ -136,7 +136,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVPSCMAP_H_ */

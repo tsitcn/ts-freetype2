@@ -42,7 +42,7 @@
 #include <freetype/freetype.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
@@ -60,15 +60,15 @@ FT_BEGIN_HEADER
 
 
   /* integers at least 32 bits wide */
-#define CF2_UInt  FT_UFast
-#define CF2_Int   FT_Fast
+#define CF2_UInt  FT_TS_UFast
+#define CF2_Int   FT_TS_Fast
 
 
   /* fixed-float numbers */
-  typedef FT_Int32  CF2_F16Dot16;
+  typedef FT_TS_Int32  CF2_F16Dot16;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSTYPES_H_ */

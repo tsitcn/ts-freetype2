@@ -26,7 +26,7 @@
 #include <freetype/internal/pshints.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef TT_Face  CFF_Face;
@@ -42,8 +42,8 @@ FT_BEGIN_HEADER
    */
   typedef struct  CFF_SizeRec_
   {
-    FT_SizeRec  root;
-    FT_ULong    strike_index;    /* 0xFFFFFFFF to indicate invalid */
+    FT_TS_SizeRec  root;
+    FT_TS_ULong    strike_index;    /* 0xFFFFFFFF to indicate invalid */
 
   } CFF_SizeRec, *CFF_Size;
 
@@ -58,13 +58,13 @@ FT_BEGIN_HEADER
    */
   typedef struct  CFF_GlyphSlotRec_
   {
-    FT_GlyphSlotRec  root;
+    FT_TS_GlyphSlotRec  root;
 
-    FT_Bool  hint;
-    FT_Bool  scaled;
+    FT_TS_Bool  hint;
+    FT_TS_Bool  scaled;
 
-    FT_Fixed  x_scale;
-    FT_Fixed  y_scale;
+    FT_TS_Fixed  x_scale;
+    FT_TS_Fixed  y_scale;
 
   } CFF_GlyphSlotRec, *CFF_GlyphSlot;
 
@@ -75,7 +75,7 @@ FT_BEGIN_HEADER
    *   CFF_Internal
    *
    * @description:
-   *   The interface to the 'internal' field of `FT_Size`.
+   *   The interface to the 'internal' field of `FT_TS_Size`.
    */
   typedef struct  CFF_InternalRec_
   {
@@ -91,14 +91,14 @@ FT_BEGIN_HEADER
    */
   typedef struct  CFF_Transform_
   {
-    FT_Fixed    xx, xy;     /* transformation matrix coefficients */
-    FT_Fixed    yx, yy;
-    FT_F26Dot6  ox, oy;     /* offsets                            */
+    FT_TS_Fixed    xx, xy;     /* transformation matrix coefficients */
+    FT_TS_Fixed    yx, yy;
+    FT_TS_F26Dot6  ox, oy;     /* offsets                            */
 
   } CFF_Transform;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* CFFOTYPES_H_ */

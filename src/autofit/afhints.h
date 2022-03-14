@@ -23,7 +23,7 @@
 
 #define xxAF_SORT_SEGMENTS
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /*
    * The definition of outline glyph hints.  These are shared by all
@@ -240,19 +240,19 @@ FT_BEGIN_HEADER
 
   typedef struct  AF_PointRec_
   {
-    FT_UShort  flags;    /* point flags used by hinter   */
-    FT_Char    in_dir;   /* direction of inwards vector  */
-    FT_Char    out_dir;  /* direction of outwards vector */
+    FT_TS_UShort  flags;    /* point flags used by hinter   */
+    FT_TS_Char    in_dir;   /* direction of inwards vector  */
+    FT_TS_Char    out_dir;  /* direction of outwards vector */
 
-    FT_Pos     ox, oy;   /* original, scaled position                   */
-    FT_Short   fx, fy;   /* original, unscaled position (in font units) */
-    FT_Pos     x, y;     /* current position                            */
-    FT_Pos     u, v;     /* current (x,y) or (y,x) depending on context */
+    FT_TS_Pos     ox, oy;   /* original, scaled position                   */
+    FT_TS_Short   fx, fy;   /* original, unscaled position (in font units) */
+    FT_TS_Pos     x, y;     /* current position                            */
+    FT_TS_Pos     u, v;     /* current (x,y) or (y,x) depending on context */
 
     AF_Point   next;     /* next point in contour     */
     AF_Point   prev;     /* previous point in contour */
 
-#ifdef FT_DEBUG_AUTOFIT
+#ifdef FT_TS_DEBUG_AUTOFIT
     /* track `before' and `after' edges for strong points */
     AF_Edge    before[2];
     AF_Edge    after[2];
@@ -263,21 +263,21 @@ FT_BEGIN_HEADER
 
   typedef struct  AF_SegmentRec_
   {
-    FT_Byte     flags;       /* edge/segment flags for this segment */
-    FT_Char     dir;         /* segment direction                   */
-    FT_Short    pos;         /* position of segment                 */
-    FT_Short    delta;       /* deviation from segment position     */
-    FT_Short    min_coord;   /* minimum coordinate of segment       */
-    FT_Short    max_coord;   /* maximum coordinate of segment       */
-    FT_Short    height;      /* the hinted segment height           */
+    FT_TS_Byte     flags;       /* edge/segment flags for this segment */
+    FT_TS_Char     dir;         /* segment direction                   */
+    FT_TS_Short    pos;         /* position of segment                 */
+    FT_TS_Short    delta;       /* deviation from segment position     */
+    FT_TS_Short    min_coord;   /* minimum coordinate of segment       */
+    FT_TS_Short    max_coord;   /* maximum coordinate of segment       */
+    FT_TS_Short    height;      /* the hinted segment height           */
 
     AF_Edge     edge;        /* the segment's parent edge           */
     AF_Segment  edge_next;   /* link to next segment in parent edge */
 
     AF_Segment  link;        /* (stem) link segment        */
     AF_Segment  serif;       /* primary segment for serifs */
-    FT_Pos      score;       /* used during stem matching  */
-    FT_Pos      len;         /* used during stem matching  */
+    FT_TS_Pos      score;       /* used during stem matching  */
+    FT_TS_Pos      len;         /* used during stem matching  */
 
     AF_Point    first;       /* first point in edge segment */
     AF_Point    last;        /* last point in edge segment  */
@@ -287,18 +287,18 @@ FT_BEGIN_HEADER
 
   typedef struct  AF_EdgeRec_
   {
-    FT_Short    fpos;       /* original, unscaled position (in font units) */
-    FT_Pos      opos;       /* original, scaled position                   */
-    FT_Pos      pos;        /* current position                            */
+    FT_TS_Short    fpos;       /* original, unscaled position (in font units) */
+    FT_TS_Pos      opos;       /* original, scaled position                   */
+    FT_TS_Pos      pos;        /* current position                            */
 
-    FT_Byte     flags;      /* edge flags                                   */
-    FT_Char     dir;        /* edge direction                               */
-    FT_Fixed    scale;      /* used to speed up interpolation between edges */
+    FT_TS_Byte     flags;      /* edge flags                                   */
+    FT_TS_Char     dir;        /* edge direction                               */
+    FT_TS_Fixed    scale;      /* used to speed up interpolation between edges */
 
     AF_Width    blue_edge;  /* non-NULL if this is a blue edge */
     AF_Edge     link;       /* link edge                       */
     AF_Edge     serif;      /* primary edge for serifs         */
-    FT_Int      score;      /* used during stem matching       */
+    FT_TS_Int      score;      /* used during stem matching       */
 
     AF_Segment  first;      /* first segment in edge */
     AF_Segment  last;       /* last segment in edge  */
@@ -310,15 +310,15 @@ FT_BEGIN_HEADER
 
   typedef struct  AF_AxisHintsRec_
   {
-    FT_Int        num_segments; /* number of used segments      */
-    FT_Int        max_segments; /* number of allocated segments */
+    FT_TS_Int        num_segments; /* number of used segments      */
+    FT_TS_Int        max_segments; /* number of allocated segments */
     AF_Segment    segments;     /* segments array               */
 #ifdef AF_SORT_SEGMENTS
-    FT_Int        mid_segments;
+    FT_TS_Int        mid_segments;
 #endif
 
-    FT_Int        num_edges;    /* number of used edges      */
-    FT_Int        max_edges;    /* number of allocated edges */
+    FT_TS_Int        num_edges;    /* number of used edges      */
+    FT_TS_Int        max_edges;    /* number of allocated edges */
     AF_Edge       edges;        /* edges array               */
 
     AF_Direction  major_dir;    /* either vertical or horizontal */
@@ -339,26 +339,26 @@ FT_BEGIN_HEADER
 
   typedef struct  AF_GlyphHintsRec_
   {
-    FT_Memory        memory;
+    FT_TS_Memory        memory;
 
-    FT_Fixed         x_scale;
-    FT_Pos           x_delta;
+    FT_TS_Fixed         x_scale;
+    FT_TS_Pos           x_delta;
 
-    FT_Fixed         y_scale;
-    FT_Pos           y_delta;
+    FT_TS_Fixed         y_scale;
+    FT_TS_Pos           y_delta;
 
-    FT_Int           max_points;    /* number of allocated points */
-    FT_Int           num_points;    /* number of used points      */
+    FT_TS_Int           max_points;    /* number of allocated points */
+    FT_TS_Int           num_points;    /* number of used points      */
     AF_Point         points;        /* points array               */
 
-    FT_Int           max_contours;  /* number of allocated contours */
-    FT_Int           num_contours;  /* number of used contours      */
+    FT_TS_Int           max_contours;  /* number of allocated contours */
+    FT_TS_Int           num_contours;  /* number of used contours      */
     AF_Point*        contours;      /* contours array               */
 
     AF_AxisHintsRec  axis[AF_DIMENSION_MAX];
 
-    FT_UInt32        scaler_flags;  /* copy of scaler flags    */
-    FT_UInt32        other_flags;   /* free for style-specific */
+    FT_TS_UInt32        scaler_flags;  /* copy of scaler flags    */
+    FT_TS_UInt32        other_flags;   /* free for style-specific */
                                     /* implementations         */
     AF_StyleMetrics  metrics;
 
@@ -377,7 +377,7 @@ FT_BEGIN_HEADER
 #define AF_HINTS_TEST_OTHER( h, f )   ( (h)->other_flags  & (f) )
 
 
-#ifdef FT_DEBUG_AUTOFIT
+#ifdef FT_TS_DEBUG_AUTOFIT
 
 #define AF_HINTS_DO_HORIZONTAL( h )                                     \
           ( !_af_debug_disable_horz_hints                            && \
@@ -389,7 +389,7 @@ FT_BEGIN_HEADER
 
 #define AF_HINTS_DO_BLUES( h )  ( !_af_debug_disable_blue_hints )
 
-#else /* !FT_DEBUG_AUTOFIT */
+#else /* !FT_TS_DEBUG_AUTOFIT */
 
 #define AF_HINTS_DO_HORIZONTAL( h )                                \
           !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_HORIZONTAL )
@@ -399,60 +399,60 @@ FT_BEGIN_HEADER
 
 #define AF_HINTS_DO_BLUES( h )  1
 
-#endif /* !FT_DEBUG_AUTOFIT */
+#endif /* !FT_TS_DEBUG_AUTOFIT */
 
 
 #define AF_HINTS_DO_ADVANCE( h )                                \
           !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_ADVANCE )
 
 
-  FT_LOCAL( AF_Direction )
-  af_direction_compute( FT_Pos  dx,
-                        FT_Pos  dy );
+  FT_TS_LOCAL( AF_Direction )
+  af_direction_compute( FT_TS_Pos  dx,
+                        FT_TS_Pos  dy );
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_axis_hints_new_segment( AF_AxisHints  axis,
-                             FT_Memory     memory,
+                             FT_TS_Memory     memory,
                              AF_Segment   *asegment );
 
-  FT_LOCAL( FT_Error)
+  FT_TS_LOCAL( FT_TS_Error)
   af_axis_hints_new_edge( AF_AxisHints  axis,
-                          FT_Int        fpos,
+                          FT_TS_Int        fpos,
                           AF_Direction  dir,
-                          FT_Bool       top_to_bottom_hinting,
-                          FT_Memory     memory,
+                          FT_TS_Bool       top_to_bottom_hinting,
+                          FT_TS_Memory     memory,
                           AF_Edge      *edge );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_glyph_hints_init( AF_GlyphHints  hints,
-                       FT_Memory      memory );
+                       FT_TS_Memory      memory );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_glyph_hints_rescale( AF_GlyphHints    hints,
                           AF_StyleMetrics  metrics );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_glyph_hints_reload( AF_GlyphHints  hints,
-                         FT_Outline*    outline );
+                         FT_TS_Outline*    outline );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_glyph_hints_save( AF_GlyphHints  hints,
-                       FT_Outline*    outline );
+                       FT_TS_Outline*    outline );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_glyph_hints_align_edge_points( AF_GlyphHints  hints,
                                     AF_Dimension   dim );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_glyph_hints_align_strong_points( AF_GlyphHints  hints,
                                       AF_Dimension   dim );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_glyph_hints_align_weak_points( AF_GlyphHints  hints,
                                     AF_Dimension   dim );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_glyph_hints_done( AF_GlyphHints  hints );
 
 /* */
@@ -464,7 +464,7 @@ FT_BEGIN_HEADER
                                            : (seg2)->pos - (seg1)->pos )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFHINTS_H_ */
 

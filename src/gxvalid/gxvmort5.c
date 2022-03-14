@@ -31,12 +31,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmort
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmort
 
 
   /*
@@ -49,28 +49,28 @@
 
   typedef struct  GXV_mort_subtable_type5_StateOptRec_
   {
-    FT_UShort   classTable;
-    FT_UShort   stateArray;
-    FT_UShort   entryTable;
+    FT_TS_UShort   classTable;
+    FT_TS_UShort   stateArray;
+    FT_TS_UShort   entryTable;
 
 #define GXV_MORT_SUBTABLE_TYPE5_HEADER_SIZE  GXV_STATETABLE_HEADER_SIZE
 
-    FT_UShort*  classTable_length_p;
-    FT_UShort*  stateArray_length_p;
-    FT_UShort*  entryTable_length_p;
+    FT_TS_UShort*  classTable_length_p;
+    FT_TS_UShort*  stateArray_length_p;
+    FT_TS_UShort*  entryTable_length_p;
 
   }  GXV_mort_subtable_type5_StateOptRec,
     *GXV_mort_subtable_type5_StateOptRecData;
 
 
   static void
-  gxv_mort_subtable_type5_subtable_setup( FT_UShort      table_size,
-                                          FT_UShort      classTable,
-                                          FT_UShort      stateArray,
-                                          FT_UShort      entryTable,
-                                          FT_UShort*     classTable_length_p,
-                                          FT_UShort*     stateArray_length_p,
-                                          FT_UShort*     entryTable_length_p,
+  gxv_mort_subtable_type5_subtable_setup( FT_TS_UShort      table_size,
+                                          FT_TS_UShort      classTable,
+                                          FT_TS_UShort      stateArray,
+                                          FT_TS_UShort      entryTable,
+                                          FT_TS_UShort*     classTable_length_p,
+                                          FT_TS_UShort*     stateArray_length_p,
+                                          FT_TS_UShort*     entryTable_length_p,
                                           GXV_Validator  gxvalid )
   {
     GXV_mort_subtable_type5_StateOptRecData  optdata =
@@ -97,17 +97,17 @@
 
 
   static void
-  gxv_mort_subtable_type5_InsertList_validate( FT_UShort      offset,
-                                               FT_UShort      count,
-                                               FT_Bytes       table,
-                                               FT_Bytes       limit,
+  gxv_mort_subtable_type5_InsertList_validate( FT_TS_UShort      offset,
+                                               FT_TS_UShort      count,
+                                               FT_TS_Bytes       table,
+                                               FT_TS_Bytes       limit,
                                                GXV_Validator  gxvalid )
   {
     /*
      * We don't know the range of insertion-glyph-list.
      * Set range by whole of state table.
      */
-    FT_Bytes  p = table + offset;
+    FT_TS_Bytes  p = table + offset;
 
     GXV_mort_subtable_type5_StateOptRecData  optdata =
       (GXV_mort_subtable_type5_StateOptRecData)gxvalid->statetable.optdata;
@@ -127,11 +127,11 @@
 #else
     while ( p < table + offset + ( count * 2 ) )
     {
-      FT_UShort insert_glyphID;
+      FT_TS_UShort insert_glyphID;
 
 
       GXV_LIMIT_CHECK( 2 );
-      insert_glyphID = FT_NEXT_USHORT( p );
+      insert_glyphID = FT_TS_NEXT_USHORT( p );
       GXV_TRACE(( " 0x%04x", insert_glyphID ));
     }
     GXV_TRACE(( "\n" ));
@@ -141,43 +141,43 @@
 
   static void
   gxv_mort_subtable_type5_entry_validate(
-    FT_Byte                         state,
-    FT_UShort                       flags,
+    FT_TS_Byte                         state,
+    FT_TS_UShort                       flags,
     GXV_StateTable_GlyphOffsetCPtr  glyphOffset,
-    FT_Bytes                        table,
-    FT_Bytes                        limit,
+    FT_TS_Bytes                        table,
+    FT_TS_Bytes                        limit,
     GXV_Validator                   gxvalid )
   {
 #ifdef GXV_LOAD_UNUSED_VARS
-    FT_Bool    setMark;
-    FT_Bool    dontAdvance;
-    FT_Bool    currentIsKashidaLike;
-    FT_Bool    markedIsKashidaLike;
-    FT_Bool    currentInsertBefore;
-    FT_Bool    markedInsertBefore;
+    FT_TS_Bool    setMark;
+    FT_TS_Bool    dontAdvance;
+    FT_TS_Bool    currentIsKashidaLike;
+    FT_TS_Bool    markedIsKashidaLike;
+    FT_TS_Bool    currentInsertBefore;
+    FT_TS_Bool    markedInsertBefore;
 #endif
-    FT_Byte    currentInsertCount;
-    FT_Byte    markedInsertCount;
-    FT_UShort  currentInsertList;
-    FT_UShort  markedInsertList;
+    FT_TS_Byte    currentInsertCount;
+    FT_TS_Byte    markedInsertCount;
+    FT_TS_UShort  currentInsertList;
+    FT_TS_UShort  markedInsertList;
 
-    FT_UNUSED( state );
+    FT_TS_UNUSED( state );
 
 
 #ifdef GXV_LOAD_UNUSED_VARS
-    setMark              = FT_BOOL( ( flags >> 15 ) & 1 );
-    dontAdvance          = FT_BOOL( ( flags >> 14 ) & 1 );
-    currentIsKashidaLike = FT_BOOL( ( flags >> 13 ) & 1 );
-    markedIsKashidaLike  = FT_BOOL( ( flags >> 12 ) & 1 );
-    currentInsertBefore  = FT_BOOL( ( flags >> 11 ) & 1 );
-    markedInsertBefore   = FT_BOOL( ( flags >> 10 ) & 1 );
+    setMark              = FT_TS_BOOL( ( flags >> 15 ) & 1 );
+    dontAdvance          = FT_TS_BOOL( ( flags >> 14 ) & 1 );
+    currentIsKashidaLike = FT_TS_BOOL( ( flags >> 13 ) & 1 );
+    markedIsKashidaLike  = FT_TS_BOOL( ( flags >> 12 ) & 1 );
+    currentInsertBefore  = FT_TS_BOOL( ( flags >> 11 ) & 1 );
+    markedInsertBefore   = FT_TS_BOOL( ( flags >> 10 ) & 1 );
 #endif
 
-    currentInsertCount   = (FT_Byte)( ( flags >> 5 ) & 0x1F   );
-    markedInsertCount    = (FT_Byte)(   flags        & 0x001F );
+    currentInsertCount   = (FT_TS_Byte)( ( flags >> 5 ) & 0x1F   );
+    markedInsertCount    = (FT_TS_Byte)(   flags        & 0x001F );
 
-    currentInsertList    = (FT_UShort)( glyphOffset->ul >> 16 );
-    markedInsertList     = (FT_UShort)( glyphOffset->ul       );
+    currentInsertList    = (FT_TS_UShort)( glyphOffset->ul >> 16 );
+    markedInsertList     = (FT_TS_UShort)( glyphOffset->ul       );
 
     if ( 0 != currentInsertList && 0 != currentInsertCount )
     {
@@ -199,12 +199,12 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_mort_subtable_type5_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL_DEF( void )
+  gxv_mort_subtable_type5_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
     GXV_mort_subtable_type5_StateOptRec      et_rec;
     GXV_mort_subtable_type5_StateOptRecData  et = &et_rec;

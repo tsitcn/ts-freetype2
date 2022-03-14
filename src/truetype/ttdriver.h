@@ -23,11 +23,11 @@
 #include <freetype/internal/ftdrv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_DECLARE_DRIVER( tt_driver_class )
+  FT_TS_DECLARE_DRIVER( tt_driver_class )
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTDRIVER_H_ */
 

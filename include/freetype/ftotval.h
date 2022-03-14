@@ -39,7 +39,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -58,10 +58,10 @@ FT_BEGIN_HEADER
    *   OpenType tables (BASE, GDEF, GPOS, GSUB, JSTF, MATH).
    *
    * @order:
-   *   FT_OpenType_Validate
-   *   FT_OpenType_Free
+   *   FT_TS_OpenType_Validate
+   *   FT_TS_OpenType_Free
    *
-   *   FT_VALIDATE_OTXXX
+   *   FT_TS_VALIDATE_OTXXX
    *
    */
 
@@ -69,54 +69,54 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *    FT_VALIDATE_OTXXX
+   *    FT_TS_VALIDATE_OTXXX
    *
    * @description:
-   *    A list of bit-field constants used with @FT_OpenType_Validate to
+   *    A list of bit-field constants used with @FT_TS_OpenType_Validate to
    *    indicate which OpenType tables should be validated.
    *
    * @values:
-   *    FT_VALIDATE_BASE ::
+   *    FT_TS_VALIDATE_BASE ::
    *      Validate BASE table.
    *
-   *    FT_VALIDATE_GDEF ::
+   *    FT_TS_VALIDATE_GDEF ::
    *      Validate GDEF table.
    *
-   *    FT_VALIDATE_GPOS ::
+   *    FT_TS_VALIDATE_GPOS ::
    *      Validate GPOS table.
    *
-   *    FT_VALIDATE_GSUB ::
+   *    FT_TS_VALIDATE_GSUB ::
    *      Validate GSUB table.
    *
-   *    FT_VALIDATE_JSTF ::
+   *    FT_TS_VALIDATE_JSTF ::
    *      Validate JSTF table.
    *
-   *    FT_VALIDATE_MATH ::
+   *    FT_TS_VALIDATE_MATH ::
    *      Validate MATH table.
    *
-   *    FT_VALIDATE_OT ::
+   *    FT_TS_VALIDATE_OT ::
    *      Validate all OpenType tables (BASE, GDEF, GPOS, GSUB, JSTF, MATH).
    *
    */
-#define FT_VALIDATE_BASE  0x0100
-#define FT_VALIDATE_GDEF  0x0200
-#define FT_VALIDATE_GPOS  0x0400
-#define FT_VALIDATE_GSUB  0x0800
-#define FT_VALIDATE_JSTF  0x1000
-#define FT_VALIDATE_MATH  0x2000
+#define FT_TS_VALIDATE_BASE  0x0100
+#define FT_TS_VALIDATE_GDEF  0x0200
+#define FT_TS_VALIDATE_GPOS  0x0400
+#define FT_TS_VALIDATE_GSUB  0x0800
+#define FT_TS_VALIDATE_JSTF  0x1000
+#define FT_TS_VALIDATE_MATH  0x2000
 
-#define FT_VALIDATE_OT  ( FT_VALIDATE_BASE | \
-                          FT_VALIDATE_GDEF | \
-                          FT_VALIDATE_GPOS | \
-                          FT_VALIDATE_GSUB | \
-                          FT_VALIDATE_JSTF | \
-                          FT_VALIDATE_MATH )
+#define FT_TS_VALIDATE_OT  ( FT_TS_VALIDATE_BASE | \
+                          FT_TS_VALIDATE_GDEF | \
+                          FT_TS_VALIDATE_GPOS | \
+                          FT_TS_VALIDATE_GSUB | \
+                          FT_TS_VALIDATE_JSTF | \
+                          FT_TS_VALIDATE_MATH )
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_OpenType_Validate
+   *    FT_TS_OpenType_Validate
    *
    * @description:
    *    Validate various OpenType tables to assure that all offsets and
@@ -130,7 +130,7 @@ FT_BEGIN_HEADER
    *
    *    validation_flags ::
    *      A bit field that specifies the tables to be validated.  See
-   *      @FT_VALIDATE_OTXXX for possible values.
+   *      @FT_TS_VALIDATE_OTXXX for possible values.
    *
    * @output:
    *    BASE_table ::
@@ -156,24 +156,24 @@ FT_BEGIN_HEADER
    *   otherwise.
    *
    *   After use, the application should deallocate the five tables with
-   *   @FT_OpenType_Free.  A `NULL` value indicates that the table either
+   *   @FT_TS_OpenType_Free.  A `NULL` value indicates that the table either
    *   doesn't exist in the font, or the application hasn't asked for
    *   validation.
    */
-  FT_EXPORT( FT_Error )
-  FT_OpenType_Validate( FT_Face    face,
-                        FT_UInt    validation_flags,
-                        FT_Bytes  *BASE_table,
-                        FT_Bytes  *GDEF_table,
-                        FT_Bytes  *GPOS_table,
-                        FT_Bytes  *GSUB_table,
-                        FT_Bytes  *JSTF_table );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_OpenType_Validate( FT_TS_Face    face,
+                        FT_TS_UInt    validation_flags,
+                        FT_TS_Bytes  *BASE_table,
+                        FT_TS_Bytes  *GDEF_table,
+                        FT_TS_Bytes  *GPOS_table,
+                        FT_TS_Bytes  *GSUB_table,
+                        FT_TS_Bytes  *JSTF_table );
 
 
   /**************************************************************************
    *
    * @function:
-   *    FT_OpenType_Free
+   *    FT_TS_OpenType_Free
    *
    * @description:
    *    Free the buffer allocated by OpenType validator.
@@ -184,21 +184,21 @@ FT_BEGIN_HEADER
    *
    *    table ::
    *      The pointer to the buffer that is allocated by
-   *      @FT_OpenType_Validate.
+   *      @FT_TS_OpenType_Validate.
    *
    * @note:
    *   This function must be used to free the buffer allocated by
-   *   @FT_OpenType_Validate only.
+   *   @FT_TS_OpenType_Validate only.
    */
-  FT_EXPORT( void )
-  FT_OpenType_Free( FT_Face   face,
-                    FT_Bytes  table );
+  FT_TS_EXPORT( void )
+  FT_TS_OpenType_Free( FT_TS_Face   face,
+                    FT_TS_Bytes  table );
 
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTOTVAL_H_ */
 

@@ -30,9 +30,9 @@
 
 #undef FTERRORS_H_
 
-#undef  FT_ERR_PREFIX
-#define FT_ERR_PREFIX  TT_Err_
-#define FT_ERR_BASE    FT_Mod_Err_TrueType
+#undef  FT_TS_ERR_PREFIX
+#define FT_TS_ERR_PREFIX  TT_Err_
+#define FT_TS_ERR_BASE    FT_TS_Mod_Err_TrueType
 
 #include <freetype/fterrors.h>
 

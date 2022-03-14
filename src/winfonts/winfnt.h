@@ -25,40 +25,40 @@
 #include <freetype/internal/ftdrv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef struct  WinMZ_HeaderRec_
   {
-    FT_UShort  magic;
+    FT_TS_UShort  magic;
     /* skipped content */
-    FT_UShort  lfanew;
+    FT_TS_UShort  lfanew;
 
   } WinMZ_HeaderRec;
 
 
   typedef struct  WinNE_HeaderRec_
   {
-    FT_UShort  magic;
+    FT_TS_UShort  magic;
     /* skipped content */
-    FT_UShort  resource_tab_offset;
-    FT_UShort  rname_tab_offset;
+    FT_TS_UShort  resource_tab_offset;
+    FT_TS_UShort  rname_tab_offset;
 
   } WinNE_HeaderRec;
 
 
   typedef struct  WinPE32_HeaderRec_
   {
-    FT_ULong   magic;
-    FT_UShort  machine;
-    FT_UShort  number_of_sections;
+    FT_TS_ULong   magic;
+    FT_TS_UShort  machine;
+    FT_TS_UShort  number_of_sections;
     /* skipped content */
-    FT_UShort  size_of_optional_header;
+    FT_TS_UShort  size_of_optional_header;
     /* skipped content */
-    FT_UShort  magic32;
+    FT_TS_UShort  magic32;
     /* skipped content */
-    FT_ULong   rsrc_virtual_address;
-    FT_ULong   rsrc_size;
+    FT_TS_ULong   rsrc_virtual_address;
+    FT_TS_ULong   rsrc_size;
     /* skipped content */
 
   } WinPE32_HeaderRec;
@@ -66,11 +66,11 @@ FT_BEGIN_HEADER
 
   typedef struct  WinPE32_SectionRec_
   {
-    FT_Byte   name[8];
+    FT_TS_Byte   name[8];
     /* skipped content */
-    FT_ULong  virtual_address;
-    FT_ULong  size_of_raw_data;
-    FT_ULong  pointer_to_raw_data;
+    FT_TS_ULong  virtual_address;
+    FT_TS_ULong  size_of_raw_data;
+    FT_TS_ULong  pointer_to_raw_data;
     /* skipped content */
 
   } WinPE32_SectionRec;
@@ -78,50 +78,50 @@ FT_BEGIN_HEADER
 
   typedef struct  WinPE_RsrcDirRec_
   {
-    FT_ULong   characteristics;
-    FT_ULong   time_date_stamp;
-    FT_UShort  major_version;
-    FT_UShort  minor_version;
-    FT_UShort  number_of_named_entries;
-    FT_UShort  number_of_id_entries;
+    FT_TS_ULong   characteristics;
+    FT_TS_ULong   time_date_stamp;
+    FT_TS_UShort  major_version;
+    FT_TS_UShort  minor_version;
+    FT_TS_UShort  number_of_named_entries;
+    FT_TS_UShort  number_of_id_entries;
 
   } WinPE_RsrcDirRec;
 
 
   typedef struct  WinPE_RsrcDirEntryRec_
   {
-    FT_ULong  name;
-    FT_ULong  offset;
+    FT_TS_ULong  name;
+    FT_TS_ULong  offset;
 
   } WinPE_RsrcDirEntryRec;
 
 
   typedef struct  WinPE_RsrcDataEntryRec_
   {
-    FT_ULong  offset_to_data;
-    FT_ULong  size;
-    FT_ULong  code_page;
-    FT_ULong  reserved;
+    FT_TS_ULong  offset_to_data;
+    FT_TS_ULong  size;
+    FT_TS_ULong  code_page;
+    FT_TS_ULong  reserved;
 
   } WinPE_RsrcDataEntryRec;
 
 
   typedef struct  WinNameInfoRec_
   {
-    FT_UShort  offset;
-    FT_UShort  length;
-    FT_UShort  flags;
-    FT_UShort  id;
-    FT_UShort  handle;
-    FT_UShort  usage;
+    FT_TS_UShort  offset;
+    FT_TS_UShort  length;
+    FT_TS_UShort  flags;
+    FT_TS_UShort  id;
+    FT_TS_UShort  handle;
+    FT_TS_UShort  usage;
 
   } WinNameInfoRec;
 
 
   typedef struct  WinResourceInfoRec_
   {
-    FT_UShort  type_id;
-    FT_UShort  count;
+    FT_TS_UShort  type_id;
+    FT_TS_UShort  count;
 
   } WinResourceInfoRec;
 
@@ -133,29 +133,29 @@ FT_BEGIN_HEADER
 
   typedef struct  FNT_FontRec_
   {
-    FT_ULong             offset;
+    FT_TS_ULong             offset;
 
-    FT_WinFNT_HeaderRec  header;
+    FT_TS_WinFNT_HeaderRec  header;
 
-    FT_Byte*             fnt_frame;
-    FT_ULong             fnt_size;
-    FT_String*           family_name;
+    FT_TS_Byte*             fnt_frame;
+    FT_TS_ULong             fnt_size;
+    FT_TS_String*           family_name;
 
   } FNT_FontRec, *FNT_Font;
 
 
   typedef struct  FNT_FaceRec_
   {
-    FT_FaceRec     root;
+    FT_TS_FaceRec     root;
     FNT_Font       font;
 
   } FNT_FaceRec, *FNT_Face;
 
 
-  FT_EXPORT_VAR( const FT_Driver_ClassRec )  winfnt_driver_class;
+  FT_TS_EXPORT_VAR( const FT_TS_Driver_ClassRec )  winfnt_driver_class;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* WINFNT_H_ */

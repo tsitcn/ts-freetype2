@@ -23,26 +23,26 @@
 #include "cidobjs.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
 #if 0
 
   /* Compute the maximum advance width of a font through quick parsing */
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cid_face_compute_max_advance( CID_Face  face,
-                                FT_Int*   max_advance );
+                                FT_TS_Int*   max_advance );
 
 #endif /* 0 */
 
-  FT_LOCAL( FT_Error )
-  cid_slot_load_glyph( FT_GlyphSlot  glyph,         /* CID_Glyph_Slot */
-                       FT_Size       size,          /* CID_Size       */
-                       FT_UInt       glyph_index,
-                       FT_Int32      load_flags );
+  FT_TS_LOCAL( FT_TS_Error )
+  cid_slot_load_glyph( FT_TS_GlyphSlot  glyph,         /* CID_Glyph_Slot */
+                       FT_TS_Size       size,          /* CID_Size       */
+                       FT_TS_UInt       glyph_index,
+                       FT_TS_Int32      load_flags );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* CIDGLOAD_H_ */
 

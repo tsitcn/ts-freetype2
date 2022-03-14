@@ -22,11 +22,11 @@
 
 #include <ft2build.h>
 #include <freetype/internal/ftobjs.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/internal/t1types.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /* The following structures must be defined by the hinter */
@@ -89,20 +89,20 @@ FT_BEGIN_HEADER
    */
   typedef struct  T1_SizeRec_
   {
-    FT_SizeRec  root;
+    FT_TS_SizeRec  root;
 
   } T1_SizeRec;
 
 
-  FT_LOCAL( void )
-  T1_Size_Done( FT_Size  size );
+  FT_TS_LOCAL( void )
+  T1_Size_Done( FT_TS_Size  size );
 
-  FT_LOCAL( FT_Error )
-  T1_Size_Request( FT_Size          size,
-                   FT_Size_Request  req );
+  FT_TS_LOCAL( FT_TS_Error )
+  T1_Size_Request( FT_TS_Size          size,
+                   FT_TS_Size_Request  req );
 
-  FT_LOCAL( FT_Error )
-  T1_Size_Init( FT_Size  size );
+  FT_TS_LOCAL( FT_TS_Error )
+  T1_Size_Init( FT_TS_Size  size );
 
 
   /**************************************************************************
@@ -115,44 +115,44 @@ FT_BEGIN_HEADER
    */
   typedef struct  T1_GlyphSlotRec_
   {
-    FT_GlyphSlotRec  root;
+    FT_TS_GlyphSlotRec  root;
 
-    FT_Bool          hint;
-    FT_Bool          scaled;
+    FT_TS_Bool          hint;
+    FT_TS_Bool          scaled;
 
-    FT_Fixed         x_scale;
-    FT_Fixed         y_scale;
+    FT_TS_Fixed         x_scale;
+    FT_TS_Fixed         y_scale;
 
-    FT_Int           max_points;
-    FT_Int           max_contours;
+    FT_TS_Int           max_points;
+    FT_TS_Int           max_contours;
 
   } T1_GlyphSlotRec;
 
 
-  FT_LOCAL( FT_Error )
-  T1_Face_Init( FT_Stream      stream,
-                FT_Face        face,
-                FT_Int         face_index,
-                FT_Int         num_params,
-                FT_Parameter*  params );
+  FT_TS_LOCAL( FT_TS_Error )
+  T1_Face_Init( FT_TS_Stream      stream,
+                FT_TS_Face        face,
+                FT_TS_Int         face_index,
+                FT_TS_Int         num_params,
+                FT_TS_Parameter*  params );
 
-  FT_LOCAL( void )
-  T1_Face_Done( FT_Face  face );
+  FT_TS_LOCAL( void )
+  T1_Face_Done( FT_TS_Face  face );
 
-  FT_LOCAL( FT_Error )
-  T1_GlyphSlot_Init( FT_GlyphSlot  slot );
+  FT_TS_LOCAL( FT_TS_Error )
+  T1_GlyphSlot_Init( FT_TS_GlyphSlot  slot );
 
-  FT_LOCAL( void )
-  T1_GlyphSlot_Done( FT_GlyphSlot  slot );
+  FT_TS_LOCAL( void )
+  T1_GlyphSlot_Done( FT_TS_GlyphSlot  slot );
 
-  FT_LOCAL( FT_Error )
-  T1_Driver_Init( FT_Module  driver );
+  FT_TS_LOCAL( FT_TS_Error )
+  T1_Driver_Init( FT_TS_Module  driver );
 
-  FT_LOCAL( void )
-  T1_Driver_Done( FT_Module  driver );
+  FT_TS_LOCAL( void )
+  T1_Driver_Done( FT_TS_Module  driver );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* T1OBJS_H_ */
 

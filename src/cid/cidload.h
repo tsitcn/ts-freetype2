@@ -24,27 +24,27 @@
 #include "cidparse.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef struct  CID_Loader_
   {
     CID_Parser  parser;          /* parser used to read the stream */
-    FT_Int      num_chars;       /* number of characters in encoding */
+    FT_TS_Int      num_chars;       /* number of characters in encoding */
 
   } CID_Loader;
 
 
-  FT_LOCAL( FT_ULong )
-  cid_get_offset( FT_Byte**  start,
-                  FT_UInt    offsize );
+  FT_TS_LOCAL( FT_TS_ULong )
+  cid_get_offset( FT_TS_Byte**  start,
+                  FT_TS_UInt    offsize );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   cid_face_open( CID_Face  face,
-                 FT_Int    face_index );
+                 FT_TS_Int    face_index );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* CIDLOAD_H_ */
 

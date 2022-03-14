@@ -23,12 +23,12 @@
 #include <freetype/internal/ftdrv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_CALLBACK_TABLE
-  const FT_Driver_ClassRec  t1cid_driver_class;
+  FT_TS_CALLBACK_TABLE
+  const FT_TS_Driver_ClassRec  t1cid_driver_class;
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* CIDRIVER_H_ */
 

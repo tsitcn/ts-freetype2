@@ -21,12 +21,12 @@
 
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/ftimage.h>
 
 #include <freetype/internal/compiler-macros.h>
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -36,10 +36,10 @@ FT_BEGIN_HEADER
    */
 /* #define STANDALONE_ */
 
-  FT_EXPORT_VAR( const FT_Raster_Funcs )  ft_standard_raster;
+  FT_TS_EXPORT_VAR( const FT_TS_Raster_Funcs )  ft_standard_raster;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTRASTER_H_ */
 

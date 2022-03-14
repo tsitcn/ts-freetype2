@@ -25,12 +25,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  psconv
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  psconv
 
 
   /* The following array is used by various functions to quickly convert */
@@ -39,7 +39,7 @@
 #if 'A' == 65
   /* ASCII */
 
-  static const FT_Char  ft_char_table[128] =
+  static const FT_TS_Char  ft_char_table[128] =
   {
     /* 0x00 */
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -60,7 +60,7 @@
 #if 'A' == 193
   /* EBCDIC */
 
-  static const FT_Char  ft_char_table[128] =
+  static const FT_TS_Char  ft_char_table[128] =
   {
     /* 0x80 */
     -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, -1, -1, -1, -1, -1, -1,
@@ -79,19 +79,19 @@
 #endif /* 'A' == 193 */
 
 
-  FT_LOCAL_DEF( FT_Long )
-  PS_Conv_Strtol( FT_Byte**  cursor,
-                  FT_Byte*   limit,
-                  FT_Long    base )
+  FT_TS_LOCAL_DEF( FT_TS_Long )
+  PS_Conv_Strtol( FT_TS_Byte**  cursor,
+                  FT_TS_Byte*   limit,
+                  FT_TS_Long    base )
   {
-    FT_Byte*  p = *cursor;
+    FT_TS_Byte*  p = *cursor;
 
-    FT_Long   num           = 0;
-    FT_Bool   sign          = 0;
-    FT_Bool   have_overflow = 0;
+    FT_TS_Long   num           = 0;
+    FT_TS_Bool   sign          = 0;
+    FT_TS_Bool   have_overflow = 0;
 
-    FT_Long   num_limit;
-    FT_Char   c_limit;
+    FT_TS_Long   num_limit;
+    FT_TS_Char   c_limit;
 
 
     if ( p >= limit )
@@ -99,13 +99,13 @@
 
     if ( base < 2 || base > 36 )
     {
-      FT_TRACE4(( "!!!INVALID BASE:!!!" ));
+      FT_TS_TRACE4(( "!!!INVALID BASE:!!!" ));
       return 0;
     }
 
     if ( *p == '-' || *p == '+' )
     {
-      sign = FT_BOOL( *p == '-' );
+      sign = FT_TS_BOOL( *p == '-' );
 
       p++;
       if ( p == limit )
@@ -117,11 +117,11 @@
     }
 
     num_limit = 0x7FFFFFFFL / base;
-    c_limit   = (FT_Char)( 0x7FFFFFFFL % base );
+    c_limit   = (FT_TS_Char)( 0x7FFFFFFFL % base );
 
     for ( ; p < limit; p++ )
     {
-      FT_Char  c;
+      FT_TS_Char  c;
 
 
       if ( IS_PS_SPACE( *p ) || *p OP 0x80 )
@@ -143,7 +143,7 @@
     if ( have_overflow )
     {
       num = 0x7FFFFFFFL;
-      FT_TRACE4(( "!!!OVERFLOW:!!!" ));
+      FT_TS_TRACE4(( "!!!OVERFLOW:!!!" ));
     }
 
     if ( sign )
@@ -152,20 +152,20 @@
     return num;
 
   Bad:
-    FT_TRACE4(( "!!!END OF DATA:!!!" ));
+    FT_TS_TRACE4(( "!!!END OF DATA:!!!" ));
     return 0;
   }
 
 
-  FT_LOCAL_DEF( FT_Long )
-  PS_Conv_ToInt( FT_Byte**  cursor,
-                 FT_Byte*   limit )
+  FT_TS_LOCAL_DEF( FT_TS_Long )
+  PS_Conv_ToInt( FT_TS_Byte**  cursor,
+                 FT_TS_Byte*   limit )
 
   {
-    FT_Byte*  p = *cursor;
-    FT_Byte*  curp;
+    FT_TS_Byte*  p = *cursor;
+    FT_TS_Byte*  curp;
 
-    FT_Long   num;
+    FT_TS_Long   num;
 
 
     curp = p;
@@ -191,21 +191,21 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Fixed )
-  PS_Conv_ToFixed( FT_Byte**  cursor,
-                   FT_Byte*   limit,
-                   FT_Long    power_ten )
+  FT_TS_LOCAL_DEF( FT_TS_Fixed )
+  PS_Conv_ToFixed( FT_TS_Byte**  cursor,
+                   FT_TS_Byte*   limit,
+                   FT_TS_Long    power_ten )
   {
-    FT_Byte*  p = *cursor;
-    FT_Byte*  curp;
+    FT_TS_Byte*  p = *cursor;
+    FT_TS_Byte*  curp;
 
-    FT_Fixed  integral = 0;
-    FT_Long   decimal  = 0;
-    FT_Long   divider  = 1;
+    FT_TS_Fixed  integral = 0;
+    FT_TS_Long   decimal  = 0;
+    FT_TS_Long   divider  = 1;
 
-    FT_Bool   sign           = 0;
-    FT_Bool   have_overflow  = 0;
-    FT_Bool   have_underflow = 0;
+    FT_TS_Bool   sign           = 0;
+    FT_TS_Bool   have_overflow  = 0;
+    FT_TS_Bool   have_underflow = 0;
 
 
     if ( p >= limit )
@@ -213,7 +213,7 @@
 
     if ( *p == '-' || *p == '+' )
     {
-      sign = FT_BOOL( *p == '-' );
+      sign = FT_TS_BOOL( *p == '-' );
 
       p++;
       if ( p == limit )
@@ -236,7 +236,7 @@
       if ( integral > 0x7FFF )
         have_overflow = 1;
       else
-        integral = (FT_Fixed)( (FT_UInt32)integral << 16 );
+        integral = (FT_TS_Fixed)( (FT_TS_UInt32)integral << 16 );
     }
 
     /* read the decimal part */
@@ -246,7 +246,7 @@
 
       for ( ; p < limit; p++ )
       {
-        FT_Char  c;
+        FT_TS_Char  c;
 
 
         if ( IS_PS_SPACE( *p ) || *p OP 0x80 )
@@ -273,7 +273,7 @@
     /* read exponent, if any */
     if ( p + 1 < limit && ( *p == 'e' || *p == 'E' ) )
     {
-      FT_Long  exponent;
+      FT_TS_Long  exponent;
 
 
       p++;
@@ -337,7 +337,7 @@
 
     if ( decimal )
     {
-      decimal = FT_DivFix( decimal, divider );
+      decimal = FT_TS_DivFix( decimal, divider );
       /* it's not necessary to check this addition for overflow */
       /* due to the structure of the real number representation */
       integral += decimal;
@@ -350,34 +350,34 @@
     return integral;
 
   Bad:
-    FT_TRACE4(( "!!!END OF DATA:!!!" ));
+    FT_TS_TRACE4(( "!!!END OF DATA:!!!" ));
     return 0;
 
   Overflow:
     integral = 0x7FFFFFFFL;
-    FT_TRACE4(( "!!!OVERFLOW:!!!" ));
+    FT_TS_TRACE4(( "!!!OVERFLOW:!!!" ));
     goto Exit;
 
   Underflow:
-    FT_TRACE4(( "!!!UNDERFLOW:!!!" ));
+    FT_TS_TRACE4(( "!!!UNDERFLOW:!!!" ));
     return 0;
   }
 
 
 #if 0
-  FT_LOCAL_DEF( FT_UInt )
-  PS_Conv_StringDecode( FT_Byte**  cursor,
-                        FT_Byte*   limit,
-                        FT_Byte*   buffer,
-                        FT_Offset  n )
+  FT_TS_LOCAL_DEF( FT_TS_UInt )
+  PS_Conv_StringDecode( FT_TS_Byte**  cursor,
+                        FT_TS_Byte*   limit,
+                        FT_TS_Byte*   buffer,
+                        FT_TS_Offset  n )
   {
-    FT_Byte*  p;
-    FT_UInt   r = 0;
+    FT_TS_Byte*  p;
+    FT_TS_UInt   r = 0;
 
 
     for ( p = *cursor; r < n && p < limit; p++ )
     {
-      FT_Byte  b;
+      FT_TS_Byte  b;
 
 
       if ( *p != '\\' )
@@ -460,16 +460,16 @@
 #endif /* 0 */
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  PS_Conv_ASCIIHexDecode( FT_Byte**  cursor,
-                          FT_Byte*   limit,
-                          FT_Byte*   buffer,
-                          FT_Offset  n )
+  FT_TS_LOCAL_DEF( FT_TS_UInt )
+  PS_Conv_ASCIIHexDecode( FT_TS_Byte**  cursor,
+                          FT_TS_Byte*   limit,
+                          FT_TS_Byte*   buffer,
+                          FT_TS_Offset  n )
   {
-    FT_Byte*  p;
-    FT_UInt   r   = 0;
-    FT_UInt   w   = 0;
-    FT_UInt   pad = 0x01;
+    FT_TS_Byte*  p;
+    FT_TS_UInt   r   = 0;
+    FT_TS_UInt   w   = 0;
+    FT_TS_UInt   pad = 0x01;
 
 
     n *= 2;
@@ -481,13 +481,13 @@
     if ( p >= limit )
       return 0;
 
-    if ( n > (FT_UInt)( limit - p ) )
-      n = (FT_UInt)( limit - p );
+    if ( n > (FT_TS_UInt)( limit - p ) )
+      n = (FT_TS_UInt)( limit - p );
 
     /* we try to process two nibbles at a time to be as fast as possible */
     for ( ; r < n; r++ )
     {
-      FT_UInt  c = p[r];
+      FT_TS_UInt  c = p[r];
 
 
       if ( IS_PS_SPACE( c ) )
@@ -496,20 +496,20 @@
       if ( c OP 0x80 )
         break;
 
-      c = (FT_UInt)ft_char_table[c & 0x7F];
+      c = (FT_TS_UInt)ft_char_table[c & 0x7F];
       if ( c >= 16 )
         break;
 
       pad = ( pad << 4 ) | c;
       if ( pad & 0x100 )
       {
-        buffer[w++] = (FT_Byte)pad;
+        buffer[w++] = (FT_TS_Byte)pad;
         pad         = 0x01;
       }
     }
 
     if ( pad != 0x01 )
-      buffer[w++] = (FT_Byte)( pad << 4 );
+      buffer[w++] = (FT_TS_Byte)( pad << 4 );
 
     *cursor = p + r;
 
@@ -519,7 +519,7 @@
 
     for ( r = 0; r < n; r++ )
     {
-      FT_Char  c;
+      FT_TS_Char  c;
 
 
       if ( IS_PS_SPACE( *p ) )
@@ -535,11 +535,11 @@
 
       if ( r & 1 )
       {
-        *buffer = (FT_Byte)(*buffer + c);
+        *buffer = (FT_TS_Byte)(*buffer + c);
         buffer++;
       }
       else
-        *buffer = (FT_Byte)(c << 4);
+        *buffer = (FT_TS_Byte)(c << 4);
 
       r++;
     }
@@ -553,16 +553,16 @@
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  PS_Conv_EexecDecode( FT_Byte**   cursor,
-                       FT_Byte*    limit,
-                       FT_Byte*    buffer,
-                       FT_Offset   n,
-                       FT_UShort*  seed )
+  FT_TS_LOCAL_DEF( FT_TS_UInt )
+  PS_Conv_EexecDecode( FT_TS_Byte**   cursor,
+                       FT_TS_Byte*    limit,
+                       FT_TS_Byte*    buffer,
+                       FT_TS_Offset   n,
+                       FT_TS_UShort*  seed )
   {
-    FT_Byte*  p;
-    FT_UInt   r;
-    FT_UInt   s = *seed;
+    FT_TS_Byte*  p;
+    FT_TS_UInt   r;
+    FT_TS_UInt   s = *seed;
 
 
 #if 1
@@ -572,30 +572,30 @@
     if ( p >= limit )
       return 0;
 
-    if ( n > (FT_UInt)(limit - p) )
-      n = (FT_UInt)(limit - p);
+    if ( n > (FT_TS_UInt)(limit - p) )
+      n = (FT_TS_UInt)(limit - p);
 
     for ( r = 0; r < n; r++ )
     {
-      FT_UInt  val = p[r];
-      FT_UInt  b   = ( val ^ ( s >> 8 ) );
+      FT_TS_UInt  val = p[r];
+      FT_TS_UInt  b   = ( val ^ ( s >> 8 ) );
 
 
       s         = ( (val + s)*52845U + 22719 ) & 0xFFFFU;
-      buffer[r] = (FT_Byte) b;
+      buffer[r] = (FT_TS_Byte) b;
     }
 
     *cursor = p + n;
-    *seed   = (FT_UShort)s;
+    *seed   = (FT_TS_UShort)s;
 
 #else /* 0 */
 
     for ( r = 0, p = *cursor; r < n && p < limit; r++, p++ )
     {
-      FT_Byte  b = (FT_Byte)( *p ^ ( s >> 8 ) );
+      FT_TS_Byte  b = (FT_TS_Byte)( *p ^ ( s >> 8 ) );
 
 
-      s = (FT_UShort)( ( *p + s ) * 52845U + 22719 );
+      s = (FT_TS_UShort)( ( *p + s ) * 52845U + 22719 );
       *buffer++ = b;
     }
     *cursor = p;

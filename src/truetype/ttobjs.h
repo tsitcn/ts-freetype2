@@ -24,7 +24,7 @@
 #include <freetype/internal/tttypes.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -47,10 +47,10 @@ FT_BEGIN_HEADER
    *   A handle to a TrueType glyph slot object.
    *
    * @Note:
-   *   This is a direct typedef of FT_GlyphSlot, as there is nothing
+   *   This is a direct typedef of FT_TS_GlyphSlot, as there is nothing
    *   specific about the TrueType glyph slot.
    */
-  typedef FT_GlyphSlot  TT_GlyphSlot;
+  typedef FT_TS_GlyphSlot  TT_GlyphSlot;
 
 
   /**************************************************************************
@@ -63,49 +63,49 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_GraphicsState_
   {
-    FT_UShort      rp0;
-    FT_UShort      rp1;
-    FT_UShort      rp2;
+    FT_TS_UShort      rp0;
+    FT_TS_UShort      rp1;
+    FT_TS_UShort      rp2;
 
-    FT_UnitVector  dualVector;
-    FT_UnitVector  projVector;
-    FT_UnitVector  freeVector;
+    FT_TS_UnitVector  dualVector;
+    FT_TS_UnitVector  projVector;
+    FT_TS_UnitVector  freeVector;
 
-    FT_Long        loop;
-    FT_F26Dot6     minimum_distance;
-    FT_Int         round_state;
+    FT_TS_Long        loop;
+    FT_TS_F26Dot6     minimum_distance;
+    FT_TS_Int         round_state;
 
-    FT_Bool        auto_flip;
-    FT_F26Dot6     control_value_cutin;
-    FT_F26Dot6     single_width_cutin;
-    FT_F26Dot6     single_width_value;
-    FT_UShort      delta_base;
-    FT_UShort      delta_shift;
+    FT_TS_Bool        auto_flip;
+    FT_TS_F26Dot6     control_value_cutin;
+    FT_TS_F26Dot6     single_width_cutin;
+    FT_TS_F26Dot6     single_width_value;
+    FT_TS_UShort      delta_base;
+    FT_TS_UShort      delta_shift;
 
-    FT_Byte        instruct_control;
+    FT_TS_Byte        instruct_control;
     /* According to Greg Hitchcock from Microsoft, the `scan_control'     */
     /* variable as documented in the TrueType specification is a 32-bit   */
     /* integer; the high-word part holds the SCANTYPE value, the low-word */
     /* part the SCANCTRL value.  We separate it into two fields.          */
-    FT_Bool        scan_control;
-    FT_Int         scan_type;
+    FT_TS_Bool        scan_control;
+    FT_TS_Int         scan_type;
 
-    FT_UShort      gep0;
-    FT_UShort      gep1;
-    FT_UShort      gep2;
+    FT_TS_UShort      gep0;
+    FT_TS_UShort      gep1;
+    FT_TS_UShort      gep2;
 
   } TT_GraphicsState;
 
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   tt_glyphzone_done( TT_GlyphZone  zone );
 
-  FT_LOCAL( FT_Error )
-  tt_glyphzone_new( FT_Memory     memory,
-                    FT_UShort     maxPoints,
-                    FT_Short      maxContours,
+  FT_TS_LOCAL( FT_TS_Error )
+  tt_glyphzone_new( FT_TS_Memory     memory,
+                    FT_TS_UShort     maxPoints,
+                    FT_TS_Short      maxContours,
                     TT_GlyphZone  zone );
 
 #endif /* TT_USE_BYTECODE_INTERPRETER */
@@ -143,8 +143,8 @@ FT_BEGIN_HEADER
 
   typedef struct  TT_CodeRange_
   {
-    FT_Byte*  base;
-    FT_Long   size;
+    FT_TS_Byte*  base;
+    FT_TS_Long   size;
 
   } TT_CodeRange;
 
@@ -157,13 +157,13 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_DefRecord_
   {
-    FT_Int    range;          /* in which code range is it located?     */
-    FT_Long   start;          /* where does it start?                   */
-    FT_Long   end;            /* where does it end?                     */
-    FT_UInt   opc;            /* function #, or instruction code        */
-    FT_Bool   active;         /* is it active?                          */
-    FT_Bool   inline_delta;   /* is function that defines inline delta? */
-    FT_ULong  sph_fdef_flags; /* flags to identify special functions    */
+    FT_TS_Int    range;          /* in which code range is it located?     */
+    FT_TS_Long   start;          /* where does it start?                   */
+    FT_TS_Long   end;            /* where does it end?                     */
+    FT_TS_UInt   opc;            /* function #, or instruction code        */
+    FT_TS_Bool   active;         /* is it active?                          */
+    FT_TS_Bool   inline_delta;   /* is function that defines inline delta? */
+    FT_TS_ULong  sph_fdef_flags; /* flags to identify special functions    */
 
   } TT_DefRecord, *TT_DefArray;
 
@@ -174,9 +174,9 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_Transform_
   {
-    FT_Fixed    xx, xy;     /* transformation matrix coefficients */
-    FT_Fixed    yx, yy;
-    FT_F26Dot6  ox, oy;     /* offsets                            */
+    FT_TS_Fixed    xx, xy;     /* transformation matrix coefficients */
+    FT_TS_Fixed    yx, yy;
+    FT_TS_F26Dot6  ox, oy;     /* offsets                            */
 
   } TT_Transform;
 
@@ -250,19 +250,19 @@ FT_BEGIN_HEADER
   typedef struct  TT_Size_Metrics_
   {
     /* for non-square pixels */
-    FT_Long     x_ratio;
-    FT_Long     y_ratio;
+    FT_TS_Long     x_ratio;
+    FT_TS_Long     y_ratio;
 
-    FT_UShort   ppem;               /* maximum ppem size              */
-    FT_Long     ratio;              /* current ratio                  */
-    FT_Fixed    scale;
+    FT_TS_UShort   ppem;               /* maximum ppem size              */
+    FT_TS_Long     ratio;              /* current ratio                  */
+    FT_TS_Fixed    scale;
 
-    FT_F26Dot6  compensations[4];   /* device-specific compensations  */
+    FT_TS_F26Dot6  compensations[4];   /* device-specific compensations  */
 
-    FT_Bool     valid;
+    FT_TS_Bool     valid;
 
-    FT_Bool     rotated;            /* `is the glyph rotated?'-flag   */
-    FT_Bool     stretched;          /* `is the glyph stretched?'-flag */
+    FT_TS_Bool     rotated;            /* `is the glyph rotated?'-flag   */
+    FT_TS_Bool     stretched;          /* `is the glyph stretched?'-flag */
 
   } TT_Size_Metrics;
 
@@ -273,41 +273,41 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_SizeRec_
   {
-    FT_SizeRec         root;
+    FT_TS_SizeRec         root;
 
     /* we have our own copy of metrics so that we can modify */
     /* it without affecting auto-hinting (when used)         */
-    FT_Size_Metrics*   metrics;        /* for the current rendering mode */
-    FT_Size_Metrics    hinted_metrics; /* for the hinted rendering mode  */
+    FT_TS_Size_Metrics*   metrics;        /* for the current rendering mode */
+    FT_TS_Size_Metrics    hinted_metrics; /* for the hinted rendering mode  */
 
     TT_Size_Metrics    ttmetrics;
 
-    FT_ULong           strike_index;      /* 0xFFFFFFFF to indicate invalid */
+    FT_TS_ULong           strike_index;      /* 0xFFFFFFFF to indicate invalid */
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
 
-    FT_Long            point_size;    /* for the `MPS' bytecode instruction */
+    FT_TS_Long            point_size;    /* for the `MPS' bytecode instruction */
 
-    FT_UInt            num_function_defs; /* number of function definitions */
-    FT_UInt            max_function_defs;
+    FT_TS_UInt            num_function_defs; /* number of function definitions */
+    FT_TS_UInt            max_function_defs;
     TT_DefArray        function_defs;     /* table of function definitions  */
 
-    FT_UInt            num_instruction_defs;  /* number of ins. definitions */
-    FT_UInt            max_instruction_defs;
+    FT_TS_UInt            num_instruction_defs;  /* number of ins. definitions */
+    FT_TS_UInt            max_instruction_defs;
     TT_DefArray        instruction_defs;      /* table of ins. definitions  */
 
-    FT_UInt            max_func;
-    FT_UInt            max_ins;
+    FT_TS_UInt            max_func;
+    FT_TS_UInt            max_ins;
 
     TT_CodeRangeTable  codeRangeTable;
 
     TT_GraphicsState   GS;
 
-    FT_ULong           cvt_size;      /* the scaled control value table */
-    FT_Long*           cvt;
+    FT_TS_ULong           cvt_size;      /* the scaled control value table */
+    FT_TS_Long*           cvt;
 
-    FT_UShort          storage_size; /* The storage area is now part of */
-    FT_Long*           storage;      /* the instance                    */
+    FT_TS_UShort          storage_size; /* The storage area is now part of */
+    FT_TS_Long*           storage;      /* the instance                    */
 
     TT_GlyphZoneRec    twilight;     /* The instance's twilight zone    */
 
@@ -315,8 +315,8 @@ FT_BEGIN_HEADER
 
     /* if negative, `fpgm' (resp. `prep'), wasn't executed yet; */
     /* otherwise it is the returned error code                  */
-    FT_Error           bytecode_ready;
-    FT_Error           cvt_ready;
+    FT_TS_Error           bytecode_ready;
+    FT_TS_Error           cvt_ready;
 
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
@@ -329,20 +329,20 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_DriverRec_
   {
-    FT_DriverRec  root;
+    FT_TS_DriverRec  root;
 
     TT_GlyphZoneRec  zone;     /* glyph loader points zone */
 
-    FT_UInt  interpreter_version;
+    FT_TS_UInt  interpreter_version;
 
   } TT_DriverRec;
 
 
   /* Note: All of the functions below (except tt_size_reset()) are used    */
-  /* as function pointers in a FT_Driver_ClassRec.  Therefore their        */
-  /* parameters are of types FT_Face, FT_Size, etc., rather than TT_Face,  */
+  /* as function pointers in a FT_TS_Driver_ClassRec.  Therefore their        */
+  /* parameters are of types FT_TS_Face, FT_TS_Size, etc., rather than TT_Face,  */
   /* TT_Size, etc., so that the compiler can confirm that the types and    */
-  /* number of parameters are correct.  In all cases the FT_xxx types are  */
+  /* number of parameters are correct.  In all cases the FT_TS_xxx types are  */
   /* cast to their TT_xxx counterparts inside the functions since FreeType */
   /* will always use the TT driver to create them.                         */
 
@@ -351,72 +351,72 @@ FT_BEGIN_HEADER
    *
    * Face functions
    */
-  FT_LOCAL( FT_Error )
-  tt_face_init( FT_Stream      stream,
-                FT_Face        ttface,      /* TT_Face */
-                FT_Int         face_index,
-                FT_Int         num_params,
-                FT_Parameter*  params );
+  FT_TS_LOCAL( FT_TS_Error )
+  tt_face_init( FT_TS_Stream      stream,
+                FT_TS_Face        ttface,      /* TT_Face */
+                FT_TS_Int         face_index,
+                FT_TS_Int         num_params,
+                FT_TS_Parameter*  params );
 
-  FT_LOCAL( void )
-  tt_face_done( FT_Face  ttface );          /* TT_Face */
+  FT_TS_LOCAL( void )
+  tt_face_done( FT_TS_Face  ttface );          /* TT_Face */
 
 
   /**************************************************************************
    *
    * Size functions
    */
-  FT_LOCAL( FT_Error )
-  tt_size_init( FT_Size  ttsize );          /* TT_Size */
+  FT_TS_LOCAL( FT_TS_Error )
+  tt_size_init( FT_TS_Size  ttsize );          /* TT_Size */
 
-  FT_LOCAL( void )
-  tt_size_done( FT_Size  ttsize );          /* TT_Size */
+  FT_TS_LOCAL( void )
+  tt_size_done( FT_TS_Size  ttsize );          /* TT_Size */
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_size_run_fpgm( TT_Size  size,
-                    FT_Bool  pedantic );
+                    FT_TS_Bool  pedantic );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_size_run_prep( TT_Size  size,
-                    FT_Bool  pedantic );
+                    FT_TS_Bool  pedantic );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_size_ready_bytecode( TT_Size  size,
-                          FT_Bool  pedantic );
+                          FT_TS_Bool  pedantic );
 
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   tt_size_reset( TT_Size  size,
-                 FT_Bool  only_height );
+                 FT_TS_Bool  only_height );
 
 
   /**************************************************************************
    *
    * Driver functions
    */
-  FT_LOCAL( FT_Error )
-  tt_driver_init( FT_Module  ttdriver );    /* TT_Driver */
+  FT_TS_LOCAL( FT_TS_Error )
+  tt_driver_init( FT_TS_Module  ttdriver );    /* TT_Driver */
 
-  FT_LOCAL( void )
-  tt_driver_done( FT_Module  ttdriver );    /* TT_Driver */
+  FT_TS_LOCAL( void )
+  tt_driver_done( FT_TS_Module  ttdriver );    /* TT_Driver */
 
 
   /**************************************************************************
    *
    * Slot functions
    */
-  FT_LOCAL( FT_Error )
-  tt_slot_init( FT_GlyphSlot  slot );
+  FT_TS_LOCAL( FT_TS_Error )
+  tt_slot_init( FT_TS_GlyphSlot  slot );
 
 
   /* auxiliary */
-#define IS_HINTED( flags )  ( ( flags & FT_LOAD_NO_HINTING ) == 0 )
+#define IS_HINTED( flags )  ( ( flags & FT_TS_LOAD_NO_HINTING ) == 0 )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* TTOBJS_H_ */
 

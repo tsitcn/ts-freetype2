@@ -40,12 +40,12 @@
 
 #include "afblue.h"
 
-#ifdef FT_DEBUG_AUTOFIT
-#include FT_CONFIG_STANDARD_LIBRARY_H
+#ifdef FT_TS_DEBUG_AUTOFIT
+#include FT_TS_CONFIG_STANDARD_LIBRARY_H
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /*************************************************************************/
   /*************************************************************************/
@@ -55,14 +55,14 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-#ifdef FT_DEBUG_AUTOFIT
+#ifdef FT_TS_DEBUG_AUTOFIT
 
 extern int    _af_debug_disable_horz_hints;
 extern int    _af_debug_disable_vert_hints;
 extern int    _af_debug_disable_blue_hints;
 extern void*  _af_debug_hints;
 
-#endif /* FT_DEBUG_AUTOFIT */
+#endif /* FT_TS_DEBUG_AUTOFIT */
 
 
   /*************************************************************************/
@@ -75,21 +75,21 @@ extern void*  _af_debug_hints;
 
   typedef struct  AF_WidthRec_
   {
-    FT_Pos  org;  /* original position/width in font units             */
-    FT_Pos  cur;  /* current/scaled position/width in device subpixels */
-    FT_Pos  fit;  /* current/fitted position/width in device subpixels */
+    FT_TS_Pos  org;  /* original position/width in font units             */
+    FT_TS_Pos  cur;  /* current/scaled position/width in device subpixels */
+    FT_TS_Pos  fit;  /* current/fitted position/width in device subpixels */
 
   } AF_WidthRec, *AF_Width;
 
 
-  FT_LOCAL( void )
-  af_sort_pos( FT_UInt  count,
-               FT_Pos*  table );
+  FT_TS_LOCAL( void )
+  af_sort_pos( FT_TS_UInt  count,
+               FT_TS_Pos*  table );
 
-  FT_LOCAL( void )
-  af_sort_and_quantize_widths( FT_UInt*  count,
+  FT_TS_LOCAL( void )
+  af_sort_and_quantize_widths( FT_TS_UInt*  count,
                                AF_Width  widths,
-                               FT_Pos    threshold );
+                               FT_TS_Pos    threshold );
 
 
   /*
@@ -119,13 +119,13 @@ extern void*  _af_debug_hints;
 
   typedef struct  AF_ScalerRec_
   {
-    FT_Face         face;        /* source font face                        */
-    FT_Fixed        x_scale;     /* from font units to 1/64th device pixels */
-    FT_Fixed        y_scale;     /* from font units to 1/64th device pixels */
-    FT_Pos          x_delta;     /* in 1/64th device pixels                 */
-    FT_Pos          y_delta;     /* in 1/64th device pixels                 */
-    FT_Render_Mode  render_mode; /* monochrome, anti-aliased, LCD, etc.     */
-    FT_UInt32       flags;       /* additional control flags, see above     */
+    FT_TS_Face         face;        /* source font face                        */
+    FT_TS_Fixed        x_scale;     /* from font units to 1/64th device pixels */
+    FT_TS_Fixed        y_scale;     /* from font units to 1/64th device pixels */
+    FT_TS_Pos          x_delta;     /* in 1/64th device pixels                 */
+    FT_TS_Pos          y_delta;     /* in 1/64th device pixels                 */
+    FT_TS_Render_Mode  render_mode; /* monochrome, anti-aliased, LCD, etc.     */
+    FT_TS_UInt32       flags;       /* additional control flags, see above     */
 
   } AF_ScalerRec, *AF_Scaler;
 
@@ -140,12 +140,12 @@ extern void*  _af_debug_hints;
   typedef struct AF_StyleMetricsRec_*  AF_StyleMetrics;
 
   /*
-   * This function parses an FT_Face to compute global metrics for
+   * This function parses an FT_TS_Face to compute global metrics for
    * a specific style.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*AF_WritingSystem_InitMetricsFunc)( AF_StyleMetrics  metrics,
-                                       FT_Face          face );
+                                       FT_TS_Face          face );
 
   typedef void
   (*AF_WritingSystem_ScaleMetricsFunc)( AF_StyleMetrics  metrics,
@@ -156,18 +156,18 @@ extern void*  _af_debug_hints;
 
   typedef void
   (*AF_WritingSystem_GetStdWidthsFunc)( AF_StyleMetrics  metrics,
-                                        FT_Pos*          stdHW,
-                                        FT_Pos*          stdVW );
+                                        FT_TS_Pos*          stdHW,
+                                        FT_TS_Pos*          stdVW );
 
 
-  typedef FT_Error
+  typedef FT_TS_Error
   (*AF_WritingSystem_InitHintsFunc)( AF_GlyphHints    hints,
                                      AF_StyleMetrics  metrics );
 
-  typedef FT_Error
-  (*AF_WritingSystem_ApplyHintsFunc)( FT_UInt          glyph_index,
+  typedef FT_TS_Error
+  (*AF_WritingSystem_ApplyHintsFunc)( FT_TS_UInt          glyph_index,
                                       AF_GlyphHints    hints,
-                                      FT_Outline*      outline,
+                                      FT_TS_Outline*      outline,
                                       AF_StyleMetrics  metrics );
 
 
@@ -217,7 +217,7 @@ extern void*  _af_debug_hints;
   {
     AF_WritingSystem  writing_system;
 
-    FT_Offset                          style_metrics_size;
+    FT_TS_Offset                          style_metrics_size;
     AF_WritingSystem_InitMetricsFunc   style_metrics_init;
     AF_WritingSystem_ScaleMetricsFunc  style_metrics_scale;
     AF_WritingSystem_DoneMetricsFunc   style_metrics_done;
@@ -265,12 +265,12 @@ extern void*  _af_debug_hints;
 
   typedef struct  AF_Script_UniRangeRec_
   {
-    FT_UInt32  first;
-    FT_UInt32  last;
+    FT_TS_UInt32  first;
+    FT_TS_UInt32  last;
 
   } AF_Script_UniRangeRec;
 
-#define AF_UNIRANGE_REC( a, b ) { (FT_UInt32)(a), (FT_UInt32)(b) }
+#define AF_UNIRANGE_REC( a, b ) { (FT_TS_UInt32)(a), (FT_TS_UInt32)(b) }
 
   typedef const AF_Script_UniRangeRec*  AF_Script_UniRange;
 
@@ -283,7 +283,7 @@ extern void*  _af_debug_hints;
     AF_Script_UniRange  script_uni_ranges;
     AF_Script_UniRange  script_uni_nonbase_ranges;
 
-    FT_Bool  top_to_bottom_hinting;
+    FT_TS_Bool  top_to_bottom_hinting;
 
     const char*  standard_charstring;      /* for default width and height */
 
@@ -414,7 +414,7 @@ extern void*  _af_debug_hints;
   {
     AF_StyleClass   style_class;
     AF_ScalerRec    scaler;
-    FT_Bool         digits_have_same_width;
+    FT_TS_Bool         digits_have_same_width;
 
     AF_FaceGlobals  globals;    /* to access properties */
 
@@ -427,7 +427,7 @@ extern void*  _af_debug_hints;
 
   /* Declare and define vtables for classes */
 #define AF_DECLARE_WRITING_SYSTEM_CLASS( writing_system_class ) \
-  FT_CALLBACK_TABLE const AF_WritingSystemClassRec              \
+  FT_TS_CALLBACK_TABLE const AF_WritingSystemClassRec              \
   writing_system_class;
 
 #define AF_DEFINE_WRITING_SYSTEM_CLASS(                  \
@@ -440,7 +440,7 @@ extern void*  _af_debug_hints;
           m_stdw,                                        \
           h_init,                                        \
           h_apply )                                      \
-  FT_CALLBACK_TABLE_DEF                                  \
+  FT_TS_CALLBACK_TABLE_DEF                                  \
   const AF_WritingSystemClassRec  writing_system_class = \
   {                                                      \
     system,                                              \
@@ -458,7 +458,7 @@ extern void*  _af_debug_hints;
 
 
 #define AF_DECLARE_SCRIPT_CLASS( script_class ) \
-  FT_CALLBACK_TABLE const AF_ScriptClassRec     \
+  FT_TS_CALLBACK_TABLE const AF_ScriptClassRec     \
   script_class;
 
 #define AF_DEFINE_SCRIPT_CLASS(           \
@@ -468,7 +468,7 @@ extern void*  _af_debug_hints;
           nonbase_ranges,                 \
           top_to_bottom,                  \
           std_charstring )                \
-  FT_CALLBACK_TABLE_DEF                   \
+  FT_TS_CALLBACK_TABLE_DEF                   \
   const AF_ScriptClassRec  script_class = \
   {                                       \
     script,                               \
@@ -480,7 +480,7 @@ extern void*  _af_debug_hints;
 
 
 #define AF_DECLARE_STYLE_CLASS( style_class ) \
-  FT_CALLBACK_TABLE const AF_StyleClassRec    \
+  FT_TS_CALLBACK_TABLE const AF_StyleClassRec    \
   style_class;
 
 #define AF_DEFINE_STYLE_CLASS(          \
@@ -490,7 +490,7 @@ extern void*  _af_debug_hints;
           script,                       \
           blue_stringset,               \
           coverage )                    \
-  FT_CALLBACK_TABLE_DEF                 \
+  FT_TS_CALLBACK_TABLE_DEF                 \
   const AF_StyleClassRec  style_class = \
   {                                     \
     style,                              \
@@ -503,7 +503,7 @@ extern void*  _af_debug_hints;
 /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFTYPES_H_ */
 

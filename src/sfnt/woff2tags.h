@@ -24,16 +24,16 @@
 #include <freetype/internal/compiler-macros.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-#ifdef FT_CONFIG_OPTION_USE_BROTLI
+#ifdef FT_TS_CONFIG_OPTION_USE_BROTLI
 
-  FT_LOCAL( FT_Tag )
-  woff2_known_tags( FT_Byte  index );
+  FT_TS_LOCAL( FT_TS_Tag )
+  woff2_known_tags( FT_TS_Byte  index );
 
 #endif
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* WOFF2TAGS_H */
 

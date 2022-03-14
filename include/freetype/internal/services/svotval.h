@@ -22,23 +22,23 @@
 #include <freetype/ftotval.h>
 #include <freetype/internal/ftvalid.h>
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-#define FT_SERVICE_ID_OPENTYPE_VALIDATE  "opentype-validate"
+#define FT_TS_SERVICE_ID_OPENTYPE_VALIDATE  "opentype-validate"
 
 
-  typedef FT_Error
-  (*otv_validate_func)( FT_Face volatile  face,
-                        FT_UInt           ot_flags,
-                        FT_Bytes         *base,
-                        FT_Bytes         *gdef,
-                        FT_Bytes         *gpos,
-                        FT_Bytes         *gsub,
-                        FT_Bytes         *jstf );
+  typedef FT_TS_Error
+  (*otv_validate_func)( FT_TS_Face volatile  face,
+                        FT_TS_UInt           ot_flags,
+                        FT_TS_Bytes         *base,
+                        FT_TS_Bytes         *gdef,
+                        FT_TS_Bytes         *gpos,
+                        FT_TS_Bytes         *gsub,
+                        FT_TS_Bytes         *jstf );
 
 
-  FT_DEFINE_SERVICE( OTvalidate )
+  FT_TS_DEFINE_SERVICE( OTvalidate )
   {
     otv_validate_func  validate;
   };
@@ -46,7 +46,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* SVOTVAL_H_ */

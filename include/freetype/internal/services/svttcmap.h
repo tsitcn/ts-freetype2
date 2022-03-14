@@ -26,10 +26,10 @@
 #include <freetype/tttables.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-#define FT_SERVICE_ID_TT_CMAP  "tt-cmaps"
+#define FT_TS_SERVICE_ID_TT_CMAP  "tt-cmaps"
 
 
   /**************************************************************************
@@ -39,8 +39,8 @@ FT_BEGIN_HEADER
    *
    * @description:
    *   A structure used to store TrueType/sfnt specific cmap information
-   *   which is not covered by the generic @FT_CharMap structure.  This
-   *   structure can be accessed with the @FT_Get_TT_CMap_Info function.
+   *   which is not covered by the generic @FT_TS_CharMap structure.  This
+   *   structure can be accessed with the @FT_TS_Get_TT_CMap_Info function.
    *
    * @fields:
    *   language ::
@@ -56,25 +56,25 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_CMapInfo_
   {
-    FT_ULong  language;
-    FT_Long   format;
+    FT_TS_ULong  language;
+    FT_TS_Long   format;
 
   } TT_CMapInfo;
 
 
-  typedef FT_Error
-  (*TT_CMap_Info_GetFunc)( FT_CharMap    charmap,
+  typedef FT_TS_Error
+  (*TT_CMap_Info_GetFunc)( FT_TS_CharMap    charmap,
                            TT_CMapInfo  *cmap_info );
 
 
-  FT_DEFINE_SERVICE( TTCMaps )
+  FT_TS_DEFINE_SERVICE( TTCMaps )
   {
     TT_CMap_Info_GetFunc  get_cmap_info;
   };
 
 
-#define FT_DEFINE_SERVICE_TTCMAPSREC( class_, get_cmap_info_ )  \
-  static const FT_Service_TTCMapsRec  class_ =                  \
+#define FT_TS_DEFINE_SERVICE_TTCMAPSREC( class_, get_cmap_info_ )  \
+  static const FT_TS_Service_TTCMapsRec  class_ =                  \
   {                                                             \
     get_cmap_info_                                              \
   };
@@ -82,7 +82,7 @@ FT_BEGIN_HEADER
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SVTTCMAP_H_ */
 

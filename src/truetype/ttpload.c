@@ -32,12 +32,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  ttpload
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  ttpload
 
 
   /**************************************************************************
@@ -59,13 +59,13 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_loca( TT_Face    face,
-                     FT_Stream  stream )
+                     FT_TS_Stream  stream )
   {
-    FT_Error  error;
-    FT_ULong  table_len;
-    FT_Int    shift;
+    FT_TS_Error  error;
+    FT_TS_ULong  table_len;
+    FT_TS_Int    shift;
 
 
     /* we need the size of the `glyf' table for malformed `loca' tables */
@@ -73,7 +73,7 @@
 
     /* it is possible that a font doesn't have a glyf table at all */
     /* or its size is zero                                         */
-    if ( FT_ERR_EQ( error, Table_Missing ) )
+    if ( FT_TS_ERR_EQ( error, Table_Missing ) )
     {
       face->glyf_len    = 0;
       face->glyf_offset = 0;
@@ -82,19 +82,19 @@
       goto Exit;
     else
     {
-#ifdef FT_CONFIG_OPTION_INCREMENTAL
+#ifdef FT_TS_CONFIG_OPTION_INCREMENTAL
       if ( face->root.internal->incremental_interface )
         face->glyf_offset = 0;
       else
 #endif
-        face->glyf_offset = FT_STREAM_POS();
+        face->glyf_offset = FT_TS_STREAM_POS();
     }
 
-    FT_TRACE2(( "Locations " ));
+    FT_TS_TRACE2(( "Locations " ));
     error = face->goto_table( face, TTAG_loca, stream, &table_len );
     if ( error )
     {
-      error = FT_THROW( Locations_Missing );
+      error = FT_TS_THROW( Locations_Missing );
       goto Exit;
     }
 
@@ -102,35 +102,35 @@
 
     if ( table_len > 0x10000UL << shift )
     {
-      FT_TRACE2(( "table too large\n" ));
+      FT_TS_TRACE2(( "table too large\n" ));
       table_len = 0x10000UL << shift;
     }
 
     face->num_locations = table_len >> shift;
 
-    if ( face->num_locations != (FT_ULong)face->root.num_glyphs + 1 )
+    if ( face->num_locations != (FT_TS_ULong)face->root.num_glyphs + 1 )
     {
-      FT_TRACE2(( "glyph count mismatch!  loca: %ld, maxp: %ld\n",
+      FT_TS_TRACE2(( "glyph count mismatch!  loca: %ld, maxp: %ld\n",
                   face->num_locations - 1, face->root.num_glyphs ));
 
       /* we only handle the case where `maxp' gives a larger value */
-      if ( face->num_locations < (FT_ULong)face->root.num_glyphs + 1 )
+      if ( face->num_locations < (FT_TS_ULong)face->root.num_glyphs + 1 )
       {
-        FT_ULong  new_loca_len =
-                    ( (FT_ULong)face->root.num_glyphs + 1 ) << shift;
+        FT_TS_ULong  new_loca_len =
+                    ( (FT_TS_ULong)face->root.num_glyphs + 1 ) << shift;
 
         TT_Table  entry = face->dir_tables;
         TT_Table  limit = entry + face->num_tables;
 
-        FT_Long  pos   = (FT_Long)FT_STREAM_POS();
-        FT_Long  dist  = 0x7FFFFFFFL;
-        FT_Bool  found = 0;
+        FT_TS_Long  pos   = (FT_TS_Long)FT_TS_STREAM_POS();
+        FT_TS_Long  dist  = 0x7FFFFFFFL;
+        FT_TS_Bool  found = 0;
 
 
         /* compute the distance to next table in font file */
         for ( ; entry < limit; entry++ )
         {
-          FT_Long  diff = (FT_Long)entry->Offset - pos;
+          FT_TS_Long  diff = (FT_TS_Long)entry->Offset - pos;
 
 
           if ( diff > 0 && diff < dist )
@@ -143,23 +143,23 @@
         if ( !found )
         {
           /* `loca' is the last table */
-          dist = (FT_Long)stream->size - pos;
+          dist = (FT_TS_Long)stream->size - pos;
         }
 
-        if ( new_loca_len <= (FT_ULong)dist )
+        if ( new_loca_len <= (FT_TS_ULong)dist )
         {
-          face->num_locations = (FT_ULong)face->root.num_glyphs + 1;
+          face->num_locations = (FT_TS_ULong)face->root.num_glyphs + 1;
           table_len           = new_loca_len;
 
-          FT_TRACE2(( "adjusting num_locations to %ld\n",
+          FT_TS_TRACE2(( "adjusting num_locations to %ld\n",
                       face->num_locations ));
         }
         else
         {
           face->root.num_glyphs = face->num_locations
-                                    ? (FT_Long)face->num_locations - 1 : 0;
+                                    ? (FT_TS_Long)face->num_locations - 1 : 0;
 
-          FT_TRACE2(( "adjusting num_glyphs to %ld\n",
+          FT_TS_TRACE2(( "adjusting num_glyphs to %ld\n",
                       face->root.num_glyphs ));
         }
       }
@@ -169,24 +169,24 @@
      * Extract the frame.  We don't need to decompress it since
      * we are able to parse it directly.
      */
-    if ( FT_FRAME_EXTRACT( table_len, face->glyph_locations ) )
+    if ( FT_TS_FRAME_EXTRACT( table_len, face->glyph_locations ) )
       goto Exit;
 
-    FT_TRACE2(( "loaded\n" ));
+    FT_TS_TRACE2(( "loaded\n" ));
 
   Exit:
     return error;
   }
 
 
-  FT_LOCAL_DEF( FT_ULong )
+  FT_TS_LOCAL_DEF( FT_TS_ULong )
   tt_face_get_location( TT_Face   face,
-                        FT_UInt   gindex,
-                        FT_UInt  *asize )
+                        FT_TS_UInt   gindex,
+                        FT_TS_UInt  *asize )
   {
-    FT_ULong  pos1, pos2;
-    FT_Byte*  p;
-    FT_Byte*  p_limit;
+    FT_TS_ULong  pos1, pos2;
+    FT_TS_Byte*  p;
+    FT_TS_Byte*  p_limit;
 
 
     pos1 = pos2 = 0;
@@ -198,22 +198,22 @@
         p       = face->glyph_locations + gindex * 4;
         p_limit = face->glyph_locations + face->num_locations * 4;
 
-        pos1 = FT_NEXT_ULONG( p );
+        pos1 = FT_TS_NEXT_ULONG( p );
         pos2 = pos1;
 
         if ( p + 4 <= p_limit )
-          pos2 = FT_NEXT_ULONG( p );
+          pos2 = FT_TS_NEXT_ULONG( p );
       }
       else
       {
         p       = face->glyph_locations + gindex * 2;
         p_limit = face->glyph_locations + face->num_locations * 2;
 
-        pos1 = FT_NEXT_USHORT( p );
+        pos1 = FT_TS_NEXT_USHORT( p );
         pos2 = pos1;
 
         if ( p + 2 <= p_limit )
-          pos2 = FT_NEXT_USHORT( p );
+          pos2 = FT_TS_NEXT_USHORT( p );
 
         pos1 <<= 1;
         pos2 <<= 1;
@@ -223,10 +223,10 @@
     /* Check broken location data. */
     if ( pos1 > face->glyf_len )
     {
-      FT_TRACE1(( "tt_face_get_location:"
+      FT_TS_TRACE1(( "tt_face_get_location:"
                   " too large offset (0x%08lx) found for glyph index %d,\n",
                   pos1, gindex ));
-      FT_TRACE1(( "                     "
+      FT_TS_TRACE1(( "                     "
                   " exceeding the end of `glyf' table (0x%08lx)\n",
                   face->glyf_len ));
       *asize = 0;
@@ -238,20 +238,20 @@
       /* We try to sanitize the last `loca' entry. */
       if ( gindex == face->num_locations - 2 )
       {
-        FT_TRACE1(( "tt_face_get_location:"
+        FT_TS_TRACE1(( "tt_face_get_location:"
                     " too large size (%ld bytes) found for glyph index %d,\n",
                     pos2 - pos1, gindex ));
-        FT_TRACE1(( "                     "
+        FT_TS_TRACE1(( "                     "
                     " truncating at the end of `glyf' table to %ld bytes\n",
                     face->glyf_len - pos1 ));
         pos2 = face->glyf_len;
       }
       else
       {
-        FT_TRACE1(( "tt_face_get_location:"
+        FT_TS_TRACE1(( "tt_face_get_location:"
                     " too large offset (0x%08lx) found for glyph index %d,\n",
                     pos2, gindex + 1 ));
-        FT_TRACE1(( "                     "
+        FT_TS_TRACE1(( "                     "
                     " exceeding the end of `glyf' table (0x%08lx)\n",
                     face->glyf_len ));
         *asize = 0;
@@ -268,21 +268,21 @@
     /* We get (intentionally) a wrong, non-zero result in case the  */
     /* `glyf' table is missing.                                     */
     if ( pos2 >= pos1 )
-      *asize = (FT_UInt)( pos2 - pos1 );
+      *asize = (FT_TS_UInt)( pos2 - pos1 );
     else
-      *asize = (FT_UInt)( face->glyf_len - pos1 );
+      *asize = (FT_TS_UInt)( face->glyf_len - pos1 );
 
     return pos1;
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   tt_face_done_loca( TT_Face  face )
   {
-    FT_Stream  stream = face->root.stream;
+    FT_TS_Stream  stream = face->root.stream;
 
 
-    FT_FRAME_RELEASE( face->glyph_locations );
+    FT_TS_FRAME_RELEASE( face->glyph_locations );
     face->num_locations = 0;
   }
 
@@ -307,50 +307,50 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_cvt( TT_Face    face,
-                    FT_Stream  stream )
+                    FT_TS_Stream  stream )
   {
 #ifdef TT_USE_BYTECODE_INTERPRETER
 
-    FT_Error   error;
-    FT_Memory  memory = stream->memory;
-    FT_ULong   table_len;
+    FT_TS_Error   error;
+    FT_TS_Memory  memory = stream->memory;
+    FT_TS_ULong   table_len;
 
 
-    FT_TRACE2(( "CVT " ));
+    FT_TS_TRACE2(( "CVT " ));
 
     error = face->goto_table( face, TTAG_cvt, stream, &table_len );
     if ( error )
     {
-      FT_TRACE2(( "is missing\n" ));
+      FT_TS_TRACE2(( "is missing\n" ));
 
       face->cvt_size = 0;
       face->cvt      = NULL;
-      error          = FT_Err_Ok;
+      error          = FT_TS_Err_Ok;
 
       goto Exit;
     }
 
     face->cvt_size = table_len / 2;
 
-    if ( FT_QNEW_ARRAY( face->cvt, face->cvt_size ) )
+    if ( FT_TS_QNEW_ARRAY( face->cvt, face->cvt_size ) )
       goto Exit;
 
-    if ( FT_FRAME_ENTER( face->cvt_size * 2L ) )
+    if ( FT_TS_FRAME_ENTER( face->cvt_size * 2L ) )
       goto Exit;
 
     {
-      FT_Int32*  cur   = face->cvt;
-      FT_Int32*  limit = cur + face->cvt_size;
+      FT_TS_Int32*  cur   = face->cvt;
+      FT_TS_Int32*  limit = cur + face->cvt_size;
 
 
       for ( ; cur < limit; cur++ )
-        *cur = FT_GET_SHORT() * 64;
+        *cur = FT_TS_GET_SHORT() * 64;
     }
 
-    FT_FRAME_EXIT();
-    FT_TRACE2(( "loaded\n" ));
+    FT_TS_FRAME_EXIT();
+    FT_TS_TRACE2(( "loaded\n" ));
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
     if ( face->doblend )
@@ -362,10 +362,10 @@
 
 #else /* !TT_USE_BYTECODE_INTERPRETER */
 
-    FT_UNUSED( face   );
-    FT_UNUSED( stream );
+    FT_TS_UNUSED( face   );
+    FT_TS_UNUSED( stream );
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
 
 #endif
   }
@@ -390,17 +390,17 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_fpgm( TT_Face    face,
-                     FT_Stream  stream )
+                     FT_TS_Stream  stream )
   {
 #ifdef TT_USE_BYTECODE_INTERPRETER
 
-    FT_Error  error;
-    FT_ULong  table_len;
+    FT_TS_Error  error;
+    FT_TS_ULong  table_len;
 
 
-    FT_TRACE2(( "Font program " ));
+    FT_TS_TRACE2(( "Font program " ));
 
     /* The font program is optional */
     error = face->goto_table( face, TTAG_fpgm, stream, &table_len );
@@ -408,17 +408,17 @@
     {
       face->font_program      = NULL;
       face->font_program_size = 0;
-      error                   = FT_Err_Ok;
+      error                   = FT_TS_Err_Ok;
 
-      FT_TRACE2(( "is missing\n" ));
+      FT_TS_TRACE2(( "is missing\n" ));
     }
     else
     {
       face->font_program_size = table_len;
-      if ( FT_FRAME_EXTRACT( table_len, face->font_program ) )
+      if ( FT_TS_FRAME_EXTRACT( table_len, face->font_program ) )
         goto Exit;
 
-      FT_TRACE2(( "loaded, %12ld bytes\n", face->font_program_size ));
+      FT_TS_TRACE2(( "loaded, %12ld bytes\n", face->font_program_size ));
     }
 
   Exit:
@@ -426,10 +426,10 @@
 
 #else /* !TT_USE_BYTECODE_INTERPRETER */
 
-    FT_UNUSED( face   );
-    FT_UNUSED( stream );
+    FT_TS_UNUSED( face   );
+    FT_TS_UNUSED( stream );
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
 
 #endif
   }
@@ -454,34 +454,34 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_prep( TT_Face    face,
-                     FT_Stream  stream )
+                     FT_TS_Stream  stream )
   {
 #ifdef TT_USE_BYTECODE_INTERPRETER
 
-    FT_Error  error;
-    FT_ULong  table_len;
+    FT_TS_Error  error;
+    FT_TS_ULong  table_len;
 
 
-    FT_TRACE2(( "Prep program " ));
+    FT_TS_TRACE2(( "Prep program " ));
 
     error = face->goto_table( face, TTAG_prep, stream, &table_len );
     if ( error )
     {
       face->cvt_program      = NULL;
       face->cvt_program_size = 0;
-      error                  = FT_Err_Ok;
+      error                  = FT_TS_Err_Ok;
 
-      FT_TRACE2(( "is missing\n" ));
+      FT_TS_TRACE2(( "is missing\n" ));
     }
     else
     {
       face->cvt_program_size = table_len;
-      if ( FT_FRAME_EXTRACT( table_len, face->cvt_program ) )
+      if ( FT_TS_FRAME_EXTRACT( table_len, face->cvt_program ) )
         goto Exit;
 
-      FT_TRACE2(( "loaded, %12ld bytes\n", face->cvt_program_size ));
+      FT_TS_TRACE2(( "loaded, %12ld bytes\n", face->cvt_program_size ));
     }
 
   Exit:
@@ -489,10 +489,10 @@
 
 #else /* !TT_USE_BYTECODE_INTERPRETER */
 
-    FT_UNUSED( face   );
-    FT_UNUSED( stream );
+    FT_TS_UNUSED( face   );
+    FT_TS_UNUSED( stream );
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
 
 #endif
   }
@@ -517,24 +517,24 @@
    *   FreeType error code.  0 means success.
    */
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_hdmx( TT_Face    face,
-                     FT_Stream  stream )
+                     FT_TS_Stream  stream )
   {
-    FT_Error   error;
-    FT_Memory  memory = stream->memory;
-    FT_UInt    nn, num_records;
-    FT_ULong   table_size, record_size;
-    FT_Byte*   p;
-    FT_Byte*   limit;
+    FT_TS_Error   error;
+    FT_TS_Memory  memory = stream->memory;
+    FT_TS_UInt    nn, num_records;
+    FT_TS_ULong   table_size, record_size;
+    FT_TS_Byte*   p;
+    FT_TS_Byte*   limit;
 
 
     /* this table is optional */
     error = face->goto_table( face, TTAG_hdmx, stream, &table_size );
     if ( error || table_size < 8 )
-      return FT_Err_Ok;
+      return FT_TS_Err_Ok;
 
-    if ( FT_FRAME_EXTRACT( table_size, face->hdmx_table ) )
+    if ( FT_TS_FRAME_EXTRACT( table_size, face->hdmx_table ) )
       goto Exit;
 
     p     = face->hdmx_table;
@@ -544,8 +544,8 @@
     /* variation fonts introduced in OpenType 1.8 must not have this    */
     /* table) we no longer test for a correct `version' field.          */
     p          += 2;
-    num_records = FT_NEXT_USHORT( p );
-    record_size = FT_NEXT_ULONG( p );
+    num_records = FT_TS_NEXT_USHORT( p );
+    record_size = FT_TS_NEXT_ULONG( p );
 
     /* There are at least two fonts, HANNOM-A and HANNOM-B version */
     /* 2.0 (2005), which get this wrong: The upper two bytes of    */
@@ -555,26 +555,26 @@
     if ( record_size >= 0xFFFF0000UL )
       record_size &= 0xFFFFU;
 
-    FT_TRACE2(( "Hdmx " ));
+    FT_TS_TRACE2(( "Hdmx " ));
 
     /* The limit for `num_records' is a heuristic value. */
     if ( num_records > 255 || num_records == 0 )
     {
-      FT_TRACE2(( "with unreasonable %u records rejected\n", num_records ));
+      FT_TS_TRACE2(( "with unreasonable %u records rejected\n", num_records ));
       goto Fail;
     }
 
     /* Out-of-spec tables are rejected.  The record size must be */
     /* equal to the number of glyphs + 2 + 32-bit padding.       */
-    if ( (FT_Long)record_size != ( ( face->root.num_glyphs + 2 + 3 ) & ~3 ) )
+    if ( (FT_TS_Long)record_size != ( ( face->root.num_glyphs + 2 + 3 ) & ~3 ) )
     {
-      FT_TRACE2(( "with record size off by %ld bytes rejected\n",
-                  (FT_Long)record_size -
+      FT_TS_TRACE2(( "with record size off by %ld bytes rejected\n",
+                  (FT_TS_Long)record_size -
                     ( ( face->root.num_glyphs + 2 + 3 ) & ~3 ) ));
       goto Fail;
     }
 
-    if ( FT_QNEW_ARRAY( face->hdmx_record_sizes, num_records ) )
+    if ( FT_TS_QNEW_ARRAY( face->hdmx_record_sizes, num_records ) )
       goto Fail;
 
     /* XXX: We do not check if the records are sorted by ppem */
@@ -592,27 +592,27 @@
     face->hdmx_table_size   = table_size;
     face->hdmx_record_size  = record_size;
 
-    FT_TRACE2(( "%ux%lu loaded\n", num_records, record_size ));
+    FT_TS_TRACE2(( "%ux%lu loaded\n", num_records, record_size ));
 
   Exit:
     return error;
 
   Fail:
-    FT_FRAME_RELEASE( face->hdmx_table );
+    FT_TS_FRAME_RELEASE( face->hdmx_table );
     face->hdmx_table_size = 0;
     goto Exit;
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   tt_face_free_hdmx( TT_Face  face )
   {
-    FT_Stream  stream = face->root.stream;
-    FT_Memory  memory = stream->memory;
+    FT_TS_Stream  stream = face->root.stream;
+    FT_TS_Memory  memory = stream->memory;
 
 
-    FT_FREE( face->hdmx_record_sizes );
-    FT_FRAME_RELEASE( face->hdmx_table );
+    FT_TS_FREE( face->hdmx_record_sizes );
+    FT_TS_FRAME_RELEASE( face->hdmx_table );
   }
 
 
@@ -621,15 +621,15 @@
    * Return the advance width table for a given pixel size if it is found
    * in the font's `hdmx' table (if any).
    */
-  FT_LOCAL_DEF( FT_Byte* )
+  FT_TS_LOCAL_DEF( FT_TS_Byte* )
   tt_face_get_device_metrics( TT_Face  face,
-                              FT_UInt  ppem,
-                              FT_UInt  gindex )
+                              FT_TS_UInt  ppem,
+                              FT_TS_UInt  gindex )
   {
-    FT_UInt   nn;
-    FT_Byte*  result      = NULL;
-    FT_ULong  record_size = face->hdmx_record_size;
-    FT_Byte*  record      = FT_OFFSET( face->hdmx_table, 8 );
+    FT_TS_UInt   nn;
+    FT_TS_Byte*  result      = NULL;
+    FT_TS_ULong  record_size = face->hdmx_record_size;
+    FT_TS_Byte*  record      = FT_TS_OFFSET( face->hdmx_table, 8 );
 
 
     for ( nn = 0; nn < face->hdmx_record_count; nn++ )

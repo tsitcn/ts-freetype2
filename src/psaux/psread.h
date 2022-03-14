@@ -40,26 +40,26 @@
 #define PSREAD_H_
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   typedef struct  CF2_BufferRec_
   {
-    FT_Error*       error;
-    const FT_Byte*  start;
-    const FT_Byte*  end;
-    const FT_Byte*  ptr;
+    FT_TS_Error*       error;
+    const FT_TS_Byte*  start;
+    const FT_TS_Byte*  end;
+    const FT_TS_Byte*  ptr;
 
   } CF2_BufferRec, *CF2_Buffer;
 
 
-  FT_LOCAL( CF2_Int )
+  FT_TS_LOCAL( CF2_Int )
   cf2_buf_readByte( CF2_Buffer  buf );
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   cf2_buf_isEnd( CF2_Buffer  buf );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSREAD_H_ */

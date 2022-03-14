@@ -24,30 +24,30 @@
 
 #include "compiler-macros.h"
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
    *
-   * FT_MulDiv() and FT_MulFix() are declared in freetype.h.
+   * FT_TS_MulDiv() and FT_TS_MulFix() are declared in freetype.h.
    *
    */
 
-#ifndef  FT_CONFIG_OPTION_NO_ASSEMBLER
+#ifndef  FT_TS_CONFIG_OPTION_NO_ASSEMBLER
   /* Provide assembler fragments for performance-critical functions. */
   /* These must be defined `static __inline__' with GCC.             */
 
 #if defined( __CC_ARM ) || defined( __ARMCC__ )  /* RVCT */
 
-#define FT_MULFIX_ASSEMBLER  FT_MulFix_arm
+#define FT_TS_MULFIX_ASSEMBLER  FT_TS_MulFix_arm
 
   /* documentation is in freetype.h */
 
-  static __inline FT_Int32
-  FT_MulFix_arm( FT_Int32  a,
-                 FT_Int32  b )
+  static __inline FT_TS_Int32
+  FT_TS_MulFix_arm( FT_TS_Int32  a,
+                 FT_TS_Int32  b )
   {
-    FT_Int32  t, t2;
+    FT_TS_Int32  t, t2;
 
 
     __asm
@@ -72,15 +72,15 @@ FT_BEGIN_HEADER
     ( !defined( __thumb__ ) || defined( __thumb2__ ) ) && \
     !( defined( __CC_ARM ) || defined( __ARMCC__ ) )
 
-#define FT_MULFIX_ASSEMBLER  FT_MulFix_arm
+#define FT_TS_MULFIX_ASSEMBLER  FT_TS_MulFix_arm
 
   /* documentation is in freetype.h */
 
-  static __inline__ FT_Int32
-  FT_MulFix_arm( FT_Int32  a,
-                 FT_Int32  b )
+  static __inline__ FT_TS_Int32
+  FT_TS_MulFix_arm( FT_TS_Int32  a,
+                 FT_TS_Int32  b )
   {
-    FT_Int32  t, t2;
+    FT_TS_Int32  t, t2;
 
 
     __asm__ __volatile__ (
@@ -108,15 +108,15 @@ FT_BEGIN_HEADER
 
 #if defined( __i386__ )
 
-#define FT_MULFIX_ASSEMBLER  FT_MulFix_i386
+#define FT_TS_MULFIX_ASSEMBLER  FT_TS_MulFix_i386
 
   /* documentation is in freetype.h */
 
-  static __inline__ FT_Int32
-  FT_MulFix_i386( FT_Int32  a,
-                  FT_Int32  b )
+  static __inline__ FT_TS_Int32
+  FT_TS_MulFix_i386( FT_TS_Int32  a,
+                  FT_TS_Int32  b )
   {
-    FT_Int32  result;
+    FT_TS_Int32  result;
 
 
     __asm__ __volatile__ (
@@ -144,15 +144,15 @@ FT_BEGIN_HEADER
 
 #ifdef _M_IX86
 
-#define FT_MULFIX_ASSEMBLER  FT_MulFix_i386
+#define FT_TS_MULFIX_ASSEMBLER  FT_TS_MulFix_i386
 
   /* documentation is in freetype.h */
 
-  static __inline FT_Int32
-  FT_MulFix_i386( FT_Int32  a,
-                  FT_Int32  b )
+  static __inline FT_TS_Int32
+  FT_TS_MulFix_i386( FT_TS_Int32  a,
+                  FT_TS_Int32  b )
   {
-    FT_Int32  result;
+    FT_TS_Int32  result;
 
     __asm
     {
@@ -179,11 +179,11 @@ FT_BEGIN_HEADER
 
 #if defined( __GNUC__ ) && defined( __x86_64__ )
 
-#define FT_MULFIX_ASSEMBLER  FT_MulFix_x86_64
+#define FT_TS_MULFIX_ASSEMBLER  FT_TS_MulFix_x86_64
 
-  static __inline__ FT_Int32
-  FT_MulFix_x86_64( FT_Int32  a,
-                    FT_Int32  b )
+  static __inline__ FT_TS_Int32
+  FT_TS_MulFix_x86_64( FT_TS_Int32  a,
+                    FT_TS_Int32  b )
   {
     /* Temporarily disable the warning that C90 doesn't support */
     /* `long long'.                                             */
@@ -202,7 +202,7 @@ FT_BEGIN_HEADER
     tmp  = ret >> 63;
     ret += 0x8000 + tmp;
 
-    return (FT_Int32)( ret >> 16 );
+    return (FT_TS_Int32)( ret >> 16 );
 #else
 
     /* For some reason, GCC 4.6 on Ubuntu 12.04 generates invalid machine  */
@@ -226,7 +226,7 @@ FT_BEGIN_HEADER
       : "r"(wide_b)
       : "cc" );
 
-    return (FT_Int32)result;
+    return (FT_TS_Int32)result;
 #endif
 
 #if __GNUC__ > 4 || ( __GNUC__ == 4 && __GNUC_MINOR__ >= 6 )
@@ -236,12 +236,12 @@ FT_BEGIN_HEADER
 
 #endif /* __GNUC__ && __x86_64__ */
 
-#endif /* !FT_CONFIG_OPTION_NO_ASSEMBLER */
+#endif /* !FT_TS_CONFIG_OPTION_NO_ASSEMBLER */
 
 
-#ifdef FT_CONFIG_OPTION_INLINE_MULFIX
-#ifdef FT_MULFIX_ASSEMBLER
-#define FT_MulFix( a, b )  FT_MULFIX_ASSEMBLER( (FT_Int32)(a), (FT_Int32)(b) )
+#ifdef FT_TS_CONFIG_OPTION_INLINE_MULFIX
+#ifdef FT_TS_MULFIX_ASSEMBLER
+#define FT_TS_MulFix( a, b )  FT_TS_MULFIX_ASSEMBLER( (FT_TS_Int32)(a), (FT_TS_Int32)(b) )
 #endif
 #endif
 
@@ -249,7 +249,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_MulDiv_No_Round
+   *   FT_TS_MulDiv_No_Round
    *
    * @description:
    *   A very simple function used to perform the computation '(a*b)/c'
@@ -272,23 +272,23 @@ FT_BEGIN_HEADER
    *   divide by zero; it simply returns 'MaxInt' or 'MinInt' depending on
    *   the signs of 'a' and 'b'.
    */
-  FT_BASE( FT_Long )
-  FT_MulDiv_No_Round( FT_Long  a,
-                      FT_Long  b,
-                      FT_Long  c );
+  FT_TS_BASE( FT_TS_Long )
+  FT_TS_MulDiv_No_Round( FT_TS_Long  a,
+                      FT_TS_Long  b,
+                      FT_TS_Long  c );
 
 
   /*
-   * A variant of FT_Matrix_Multiply which scales its result afterwards.  The
+   * A variant of FT_TS_Matrix_Multiply which scales its result afterwards.  The
    * idea is that both `a' and `b' are scaled by factors of 10 so that the
    * values are as precise as possible to get a correct result during the
    * 64bit multiplication.  Let `sa' and `sb' be the scaling factors of `a'
    * and `b', respectively, then the scaling factor of the result is `sa*sb'.
    */
-  FT_BASE( void )
-  FT_Matrix_Multiply_Scaled( const FT_Matrix*  a,
-                             FT_Matrix        *b,
-                             FT_Long           scaling );
+  FT_TS_BASE( void )
+  FT_TS_Matrix_Multiply_Scaled( const FT_TS_Matrix*  a,
+                             FT_TS_Matrix        *b,
+                             FT_TS_Long           scaling );
 
 
   /*
@@ -302,18 +302,18 @@ FT_BEGIN_HEADER
    *
    * Value 50 is heuristic.
    */
-  FT_BASE( FT_Bool )
-  FT_Matrix_Check( const FT_Matrix*  matrix );
+  FT_TS_BASE( FT_TS_Bool )
+  FT_TS_Matrix_Check( const FT_TS_Matrix*  matrix );
 
 
   /*
-   * A variant of FT_Vector_Transform.  See comments for
-   * FT_Matrix_Multiply_Scaled.
+   * A variant of FT_TS_Vector_Transform.  See comments for
+   * FT_TS_Matrix_Multiply_Scaled.
    */
-  FT_BASE( void )
-  FT_Vector_Transform_Scaled( FT_Vector*        vector,
-                              const FT_Matrix*  matrix,
-                              FT_Long           scaling );
+  FT_TS_BASE( void )
+  FT_TS_Vector_Transform_Scaled( FT_TS_Vector*        vector,
+                              const FT_TS_Matrix*  matrix,
+                              FT_TS_Long           scaling );
 
 
   /*
@@ -324,8 +324,8 @@ FT_BEGIN_HEADER
    * without divisions and square roots relying on Newton's iterations
    * instead.
    */
-  FT_BASE( FT_UInt32 )
-  FT_Vector_NormLen( FT_Vector*  vector );
+  FT_TS_BASE( FT_TS_UInt32 )
+  FT_TS_Vector_NormLen( FT_TS_Vector*  vector );
 
 
   /*
@@ -334,11 +334,11 @@ FT_BEGIN_HEADER
    * upwards.  The function returns +1 if the corner turns to the left, -1 to
    * the right, and 0 for undecidable cases.
    */
-  FT_BASE( FT_Int )
-  ft_corner_orientation( FT_Pos  in_x,
-                         FT_Pos  in_y,
-                         FT_Pos  out_x,
-                         FT_Pos  out_y );
+  FT_TS_BASE( FT_TS_Int )
+  ft_corner_orientation( FT_TS_Pos  in_x,
+                         FT_TS_Pos  in_y,
+                         FT_TS_Pos  out_x,
+                         FT_TS_Pos  out_y );
 
 
   /*
@@ -346,29 +346,29 @@ FT_BEGIN_HEADER
    * saying that the corner point is close to its neighbors, or inside an
    * ellipse defined by the neighbor focal points to be more precise.
    */
-  FT_BASE( FT_Int )
-  ft_corner_is_flat( FT_Pos  in_x,
-                     FT_Pos  in_y,
-                     FT_Pos  out_x,
-                     FT_Pos  out_y );
+  FT_TS_BASE( FT_TS_Int )
+  ft_corner_is_flat( FT_TS_Pos  in_x,
+                     FT_TS_Pos  in_y,
+                     FT_TS_Pos  out_x,
+                     FT_TS_Pos  out_y );
 
 
   /*
    * Return the most significant bit index.
    */
 
-#ifndef  FT_CONFIG_OPTION_NO_ASSEMBLER
+#ifndef  FT_TS_CONFIG_OPTION_NO_ASSEMBLER
 
 #if defined( __clang__ ) || ( defined( __GNUC__ )                &&  \
     ( __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ >= 4 ) ) )
 
-#if FT_SIZEOF_INT == 4
+#if FT_TS_SIZEOF_INT == 4
 
-#define FT_MSB( x )  ( 31 - __builtin_clz( x ) )
+#define FT_TS_MSB( x )  ( 31 - __builtin_clz( x ) )
 
-#elif FT_SIZEOF_LONG == 4
+#elif FT_TS_SIZEOF_LONG == 4
 
-#define FT_MSB( x )  ( 31 - __builtin_clzl( x ) )
+#define FT_TS_MSB( x )  ( 31 - __builtin_clzl( x ) )
 
 #endif
 
@@ -379,32 +379,32 @@ FT_BEGIN_HEADER
 #include <cmnintrin.h>
 #pragma intrinsic( _CountLeadingZeros )
 
-#define FT_MSB( x )  ( 31 - _CountLeadingZeros( x ) )
+#define FT_TS_MSB( x )  ( 31 - _CountLeadingZeros( x ) )
 
 #elif defined( _M_ARM64 ) || defined( _M_ARM )
 
 #include <intrin.h>
 #pragma intrinsic( _CountLeadingZeros )
 
-#define FT_MSB( x )  ( 31 - _CountLeadingZeros( x ) )
+#define FT_TS_MSB( x )  ( 31 - _CountLeadingZeros( x ) )
 
 #elif defined( _M_IX86 ) || defined( _M_AMD64 ) || defined( _M_IA64 )
 
 #include <intrin.h>
 #pragma intrinsic( _BitScanReverse )
 
-  static __inline FT_Int32
-  FT_MSB_i386( FT_UInt32  x )
+  static __inline FT_TS_Int32
+  FT_TS_MSB_i386( FT_TS_UInt32  x )
   {
     unsigned long  where;
 
 
     _BitScanReverse( &where, x );
 
-    return (FT_Int32)where;
+    return (FT_TS_Int32)where;
   }
 
-#define FT_MSB( x )  FT_MSB_i386( x )
+#define FT_TS_MSB( x )  FT_TS_MSB_i386( x )
 
 #endif
 
@@ -412,34 +412,34 @@ FT_BEGIN_HEADER
 
 #include <builtins.h>
 
-#define FT_MSB( x )  (FT_Int)( 63 - _leadz( x ) )
+#define FT_TS_MSB( x )  (FT_TS_Int)( 63 - _leadz( x ) )
 
 #elif defined( _CRAYC )
 
 #include <intrinsics.h>
 
-#define FT_MSB( x )  (FT_Int)( 31 - _leadz32( x ) )
+#define FT_TS_MSB( x )  (FT_TS_Int)( 31 - _leadz32( x ) )
 
-#endif /* FT_MSB macro definitions */
+#endif /* FT_TS_MSB macro definitions */
 
-#endif /* !FT_CONFIG_OPTION_NO_ASSEMBLER */
+#endif /* !FT_TS_CONFIG_OPTION_NO_ASSEMBLER */
 
 
-#ifndef FT_MSB
+#ifndef FT_TS_MSB
 
-  FT_BASE( FT_Int )
-  FT_MSB( FT_UInt32  z );
+  FT_TS_BASE( FT_TS_Int )
+  FT_TS_MSB( FT_TS_UInt32  z );
 
 #endif
 
 
   /*
-   * Return sqrt(x*x+y*y), which is the same as `FT_Vector_Length' but uses
+   * Return sqrt(x*x+y*y), which is the same as `FT_TS_Vector_Length' but uses
    * two fixed-point arguments instead.
    */
-  FT_BASE( FT_Fixed )
-  FT_Hypot( FT_Fixed  x,
-            FT_Fixed  y );
+  FT_TS_BASE( FT_TS_Fixed )
+  FT_TS_Hypot( FT_TS_Fixed  x,
+            FT_TS_Fixed  y );
 
 
 #if 0
@@ -447,7 +447,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_SqrtFixed
+   *   FT_TS_SqrtFixed
    *
    * @description:
    *   Computes the square root of a 16.16 fixed-point value.
@@ -462,17 +462,17 @@ FT_BEGIN_HEADER
    * @note:
    *   This function is not very fast.
    */
-  FT_BASE( FT_Int32 )
-  FT_SqrtFixed( FT_Int32  x );
+  FT_TS_BASE( FT_TS_Int32 )
+  FT_TS_SqrtFixed( FT_TS_Int32  x );
 
 #endif /* 0 */
 
 
-#define INT_TO_F26DOT6( x )    ( (FT_Long)(x) * 64  )    /* << 6  */
-#define INT_TO_F2DOT14( x )    ( (FT_Long)(x) * 16384 )  /* << 14 */
-#define INT_TO_FIXED( x )      ( (FT_Long)(x) * 65536 )  /* << 16 */
-#define F2DOT14_TO_FIXED( x )  ( (FT_Long)(x) * 4 )      /* << 2  */
-#define FIXED_TO_INT( x )      ( FT_RoundFix( x ) >> 16 )
+#define INT_TO_F26DOT6( x )    ( (FT_TS_Long)(x) * 64  )    /* << 6  */
+#define INT_TO_F2DOT14( x )    ( (FT_TS_Long)(x) * 16384 )  /* << 14 */
+#define INT_TO_FIXED( x )      ( (FT_TS_Long)(x) * 65536 )  /* << 16 */
+#define F2DOT14_TO_FIXED( x )  ( (FT_TS_Long)(x) * 4 )      /* << 2  */
+#define FIXED_TO_INT( x )      ( FT_TS_RoundFix( x ) >> 16 )
 
 #define ROUND_F26DOT6( x )     ( ( (x) + 32 - ( x < 0 ) ) & -64 )
 
@@ -486,47 +486,47 @@ FT_BEGIN_HEADER
    * Use with care!
    */
 #define ADD_INT( a, b )                           \
-          (FT_Int)( (FT_UInt)(a) + (FT_UInt)(b) )
+          (FT_TS_Int)( (FT_TS_UInt)(a) + (FT_TS_UInt)(b) )
 #define SUB_INT( a, b )                           \
-          (FT_Int)( (FT_UInt)(a) - (FT_UInt)(b) )
+          (FT_TS_Int)( (FT_TS_UInt)(a) - (FT_TS_UInt)(b) )
 #define MUL_INT( a, b )                           \
-          (FT_Int)( (FT_UInt)(a) * (FT_UInt)(b) )
+          (FT_TS_Int)( (FT_TS_UInt)(a) * (FT_TS_UInt)(b) )
 #define NEG_INT( a )                              \
-          (FT_Int)( (FT_UInt)0 - (FT_UInt)(a) )
+          (FT_TS_Int)( (FT_TS_UInt)0 - (FT_TS_UInt)(a) )
 
 #define ADD_LONG( a, b )                             \
-          (FT_Long)( (FT_ULong)(a) + (FT_ULong)(b) )
+          (FT_TS_Long)( (FT_TS_ULong)(a) + (FT_TS_ULong)(b) )
 #define SUB_LONG( a, b )                             \
-          (FT_Long)( (FT_ULong)(a) - (FT_ULong)(b) )
+          (FT_TS_Long)( (FT_TS_ULong)(a) - (FT_TS_ULong)(b) )
 #define MUL_LONG( a, b )                             \
-          (FT_Long)( (FT_ULong)(a) * (FT_ULong)(b) )
+          (FT_TS_Long)( (FT_TS_ULong)(a) * (FT_TS_ULong)(b) )
 #define NEG_LONG( a )                                \
-          (FT_Long)( (FT_ULong)0 - (FT_ULong)(a) )
+          (FT_TS_Long)( (FT_TS_ULong)0 - (FT_TS_ULong)(a) )
 
 #define ADD_INT32( a, b )                               \
-          (FT_Int32)( (FT_UInt32)(a) + (FT_UInt32)(b) )
+          (FT_TS_Int32)( (FT_TS_UInt32)(a) + (FT_TS_UInt32)(b) )
 #define SUB_INT32( a, b )                               \
-          (FT_Int32)( (FT_UInt32)(a) - (FT_UInt32)(b) )
+          (FT_TS_Int32)( (FT_TS_UInt32)(a) - (FT_TS_UInt32)(b) )
 #define MUL_INT32( a, b )                               \
-          (FT_Int32)( (FT_UInt32)(a) * (FT_UInt32)(b) )
+          (FT_TS_Int32)( (FT_TS_UInt32)(a) * (FT_TS_UInt32)(b) )
 #define NEG_INT32( a )                                  \
-          (FT_Int32)( (FT_UInt32)0 - (FT_UInt32)(a) )
+          (FT_TS_Int32)( (FT_TS_UInt32)0 - (FT_TS_UInt32)(a) )
 
-#ifdef FT_INT64
+#ifdef FT_TS_INT64
 
 #define ADD_INT64( a, b )                               \
-          (FT_Int64)( (FT_UInt64)(a) + (FT_UInt64)(b) )
+          (FT_TS_Int64)( (FT_TS_UInt64)(a) + (FT_TS_UInt64)(b) )
 #define SUB_INT64( a, b )                               \
-          (FT_Int64)( (FT_UInt64)(a) - (FT_UInt64)(b) )
+          (FT_TS_Int64)( (FT_TS_UInt64)(a) - (FT_TS_UInt64)(b) )
 #define MUL_INT64( a, b )                               \
-          (FT_Int64)( (FT_UInt64)(a) * (FT_UInt64)(b) )
+          (FT_TS_Int64)( (FT_TS_UInt64)(a) * (FT_TS_UInt64)(b) )
 #define NEG_INT64( a )                                  \
-          (FT_Int64)( (FT_UInt64)0 - (FT_UInt64)(a) )
+          (FT_TS_Int64)( (FT_TS_UInt64)0 - (FT_TS_UInt64)(a) )
 
-#endif /* FT_INT64 */
+#endif /* FT_TS_INT64 */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTCALC_H_ */
 

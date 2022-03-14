@@ -26,26 +26,26 @@
 
 
   /* finalize a given glyph image node */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   ftc_inode_free( FTC_Node   ftcinode,
                   FTC_Cache  cache )
   {
     FTC_INode  inode = (FTC_INode)ftcinode;
-    FT_Memory  memory = cache->memory;
+    FT_TS_Memory  memory = cache->memory;
 
 
     if ( inode->glyph )
     {
-      FT_Done_Glyph( inode->glyph );
+      FT_TS_Done_Glyph( inode->glyph );
       inode->glyph = NULL;
     }
 
     FTC_GNode_Done( FTC_GNODE( inode ), cache );
-    FT_FREE( inode );
+    FT_TS_FREE( inode );
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   FTC_INode_Free( FTC_INode  inode,
                   FTC_Cache  cache )
   {
@@ -54,21 +54,21 @@
 
 
   /* initialize a new glyph image node */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   FTC_INode_New( FTC_INode   *pinode,
                  FTC_GQuery   gquery,
                  FTC_Cache    cache )
   {
-    FT_Memory  memory = cache->memory;
-    FT_Error   error;
+    FT_TS_Memory  memory = cache->memory;
+    FT_TS_Error   error;
     FTC_INode  inode  = NULL;
 
 
-    if ( !FT_NEW( inode ) )
+    if ( !FT_TS_NEW( inode ) )
     {
       FTC_GNode         gnode  = FTC_GNODE( inode );
       FTC_Family        family = gquery->family;
-      FT_UInt           gindex = gquery->gindex;
+      FT_TS_UInt           gindex = gquery->gindex;
       FTC_IFamilyClass  clazz  = FTC_CACHE_IFAMILY_CLASS( cache );
 
 
@@ -90,9 +90,9 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   ftc_inode_new( FTC_Node   *ftcpinode,
-                 FT_Pointer  ftcgquery,
+                 FT_TS_Pointer  ftcgquery,
                  FTC_Cache   cache )
   {
     FTC_INode  *pinode = (FTC_INode*)ftcpinode;
@@ -103,39 +103,39 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Offset )
+  FT_TS_LOCAL_DEF( FT_TS_Offset )
   ftc_inode_weight( FTC_Node   ftcinode,
                     FTC_Cache  ftccache )
   {
     FTC_INode  inode = (FTC_INode)ftcinode;
-    FT_Offset  size  = 0;
-    FT_Glyph   glyph = inode->glyph;
+    FT_TS_Offset  size  = 0;
+    FT_TS_Glyph   glyph = inode->glyph;
 
-    FT_UNUSED( ftccache );
+    FT_TS_UNUSED( ftccache );
 
 
     switch ( glyph->format )
     {
-    case FT_GLYPH_FORMAT_BITMAP:
+    case FT_TS_GLYPH_FORMAT_BITMAP:
       {
-        FT_BitmapGlyph  bitg;
+        FT_TS_BitmapGlyph  bitg;
 
 
-        bitg = (FT_BitmapGlyph)glyph;
-        size = bitg->bitmap.rows * (FT_Offset)FT_ABS( bitg->bitmap.pitch ) +
+        bitg = (FT_TS_BitmapGlyph)glyph;
+        size = bitg->bitmap.rows * (FT_TS_Offset)FT_TS_ABS( bitg->bitmap.pitch ) +
                sizeof ( *bitg );
       }
       break;
 
-    case FT_GLYPH_FORMAT_OUTLINE:
+    case FT_TS_GLYPH_FORMAT_OUTLINE:
       {
-        FT_OutlineGlyph  outg;
+        FT_TS_OutlineGlyph  outg;
 
 
-        outg = (FT_OutlineGlyph)glyph;
-        size = (FT_Offset)outg->outline.n_points *
-                 ( sizeof ( FT_Vector ) + sizeof ( FT_Byte ) ) +
-               (FT_Offset)outg->outline.n_contours * sizeof ( FT_Short ) +
+        outg = (FT_TS_OutlineGlyph)glyph;
+        size = (FT_TS_Offset)outg->outline.n_points *
+                 ( sizeof ( FT_TS_Vector ) + sizeof ( FT_TS_Byte ) ) +
+               (FT_TS_Offset)outg->outline.n_contours * sizeof ( FT_TS_Short ) +
                sizeof ( *outg );
       }
       break;
@@ -151,7 +151,7 @@
 
 #if 0
 
-  FT_LOCAL_DEF( FT_Offset )
+  FT_TS_LOCAL_DEF( FT_TS_Offset )
   FTC_INode_Weight( FTC_INode  inode )
   {
     return ftc_inode_weight( FTC_NODE( inode ), NULL );

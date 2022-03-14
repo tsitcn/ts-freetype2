@@ -31,12 +31,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  gxvmort
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  gxvmort
 
 
   static const char* GXV_Mort_IndicScript_Msg[] =
@@ -63,33 +63,33 @@
 
   static void
   gxv_mort_subtable_type0_entry_validate(
-    FT_Byte                         state,
-    FT_UShort                       flags,
+    FT_TS_Byte                         state,
+    FT_TS_UShort                       flags,
     GXV_StateTable_GlyphOffsetCPtr  glyphOffset_p,
-    FT_Bytes                        table,
-    FT_Bytes                        limit,
+    FT_TS_Bytes                        table,
+    FT_TS_Bytes                        limit,
     GXV_Validator                   gxvalid )
   {
-    FT_UShort  markFirst;
-    FT_UShort  dontAdvance;
-    FT_UShort  markLast;
-    FT_UShort  reserved;
-    FT_UShort  verb = 0;
+    FT_TS_UShort  markFirst;
+    FT_TS_UShort  dontAdvance;
+    FT_TS_UShort  markLast;
+    FT_TS_UShort  reserved;
+    FT_TS_UShort  verb = 0;
 
-    FT_UNUSED( state );
-    FT_UNUSED( table );
-    FT_UNUSED( limit );
+    FT_TS_UNUSED( state );
+    FT_TS_UNUSED( table );
+    FT_TS_UNUSED( limit );
 
-    FT_UNUSED( GXV_Mort_IndicScript_Msg[verb] ); /* for the non-debugging */
-    FT_UNUSED( glyphOffset_p );                  /* case                  */
+    FT_TS_UNUSED( GXV_Mort_IndicScript_Msg[verb] ); /* for the non-debugging */
+    FT_TS_UNUSED( glyphOffset_p );                  /* case                  */
 
 
-    markFirst   = (FT_UShort)( ( flags >> 15 ) & 1 );
-    dontAdvance = (FT_UShort)( ( flags >> 14 ) & 1 );
-    markLast    = (FT_UShort)( ( flags >> 13 ) & 1 );
+    markFirst   = (FT_TS_UShort)( ( flags >> 15 ) & 1 );
+    dontAdvance = (FT_TS_UShort)( ( flags >> 14 ) & 1 );
+    markLast    = (FT_TS_UShort)( ( flags >> 13 ) & 1 );
 
-    reserved = (FT_UShort)( flags & 0x1FF0 );
-    verb     = (FT_UShort)( flags & 0x000F );
+    reserved = (FT_TS_UShort)( flags & 0x1FF0 );
+    verb     = (FT_TS_UShort)( flags & 0x000F );
 
     GXV_TRACE(( "  IndicScript MorphRule for glyphOffset 0x%04x",
                 glyphOffset_p->u ));
@@ -103,32 +103,32 @@
     {
       GXV_TRACE(( "  [odd] a glyph is marked as the first and last"
                   "  in Indic rearrangement\n" ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+      GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_DATA );
     }
 
     if ( markFirst > 0 && dontAdvance > 0 )
     {
       GXV_TRACE(( "  [odd] the first glyph is marked as dontAdvance"
                   " in Indic rearrangement\n" ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+      GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_DATA );
     }
 
     if ( 0 < reserved )
     {
       GXV_TRACE(( " non-zero bits found in reserved range\n" ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+      GXV_SET_ERR_IF_PARANOID( FT_TS_INVALID_DATA );
     }
     else
       GXV_TRACE(( "\n" ));
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_mort_subtable_type0_validate( FT_Bytes       table,
-                                    FT_Bytes       limit,
+  FT_TS_LOCAL_DEF( void )
+  gxv_mort_subtable_type0_validate( FT_TS_Bytes       table,
+                                    FT_TS_Bytes       limit,
                                     GXV_Validator  gxvalid )
   {
-    FT_Bytes  p = table;
+    FT_TS_Bytes  p = table;
 
 
     GXV_NAME_ENTER(

@@ -23,41 +23,41 @@
 #include <freetype/internal/ftserv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
-#define FT_SERVICE_ID_PFR_METRICS  "pfr-metrics"
+#define FT_TS_SERVICE_ID_PFR_METRICS  "pfr-metrics"
 
 
-  typedef FT_Error
-  (*FT_PFR_GetMetricsFunc)( FT_Face    face,
-                            FT_UInt   *aoutline,
-                            FT_UInt   *ametrics,
-                            FT_Fixed  *ax_scale,
-                            FT_Fixed  *ay_scale );
+  typedef FT_TS_Error
+  (*FT_TS_PFR_GetMetricsFunc)( FT_TS_Face    face,
+                            FT_TS_UInt   *aoutline,
+                            FT_TS_UInt   *ametrics,
+                            FT_TS_Fixed  *ax_scale,
+                            FT_TS_Fixed  *ay_scale );
 
-  typedef FT_Error
-  (*FT_PFR_GetKerningFunc)( FT_Face     face,
-                            FT_UInt     left,
-                            FT_UInt     right,
-                            FT_Vector  *avector );
+  typedef FT_TS_Error
+  (*FT_TS_PFR_GetKerningFunc)( FT_TS_Face     face,
+                            FT_TS_UInt     left,
+                            FT_TS_UInt     right,
+                            FT_TS_Vector  *avector );
 
-  typedef FT_Error
-  (*FT_PFR_GetAdvanceFunc)( FT_Face   face,
-                            FT_UInt   gindex,
-                            FT_Pos   *aadvance );
+  typedef FT_TS_Error
+  (*FT_TS_PFR_GetAdvanceFunc)( FT_TS_Face   face,
+                            FT_TS_UInt   gindex,
+                            FT_TS_Pos   *aadvance );
 
 
-  FT_DEFINE_SERVICE( PfrMetrics )
+  FT_TS_DEFINE_SERVICE( PfrMetrics )
   {
-    FT_PFR_GetMetricsFunc  get_metrics;
-    FT_PFR_GetKerningFunc  get_kerning;
-    FT_PFR_GetAdvanceFunc  get_advance;
+    FT_TS_PFR_GetMetricsFunc  get_metrics;
+    FT_TS_PFR_GetKerningFunc  get_kerning;
+    FT_TS_PFR_GetAdvanceFunc  get_advance;
 
   };
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SVPFR_H_ */
 

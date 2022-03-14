@@ -46,12 +46,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  cf2blues
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  cf2blues
 
 
   /*
@@ -62,7 +62,7 @@
 #define cf2_blueToFixed( x )  cf2_intToFixed( x )
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_blues_init( CF2_Blues  blues,
                   CF2_Font   font )
   {
@@ -78,10 +78,10 @@
     size_t  numFamilyBlues;
     size_t  numFamilyOtherBlues;
 
-    FT_Pos*  blueValues;
-    FT_Pos*  otherBlues;
-    FT_Pos*  familyBlues;
-    FT_Pos*  familyOtherBlues;
+    FT_TS_Pos*  blueValues;
+    FT_TS_Pos*  otherBlues;
+    FT_TS_Pos*  familyBlues;
+    FT_TS_Pos*  familyOtherBlues;
 
     size_t     i;
     CF2_Fixed  emBoxBottom, emBoxTop;
@@ -94,7 +94,7 @@
       unitsPerEm = 1000;
 #endif
 
-    FT_ZERO( blues );
+    FT_TS_ZERO( blues );
     blues->scale = font->innerTransform.d;
 
     cf2_getBlueMetrics( decoder,
@@ -159,7 +159,7 @@
 
       blues->emBoxBottomEdge.csCoord = emBoxBottom - CF2_FIXED_EPSILON;
       blues->emBoxBottomEdge.dsCoord = cf2_fixedRound(
-                                         FT_MulFix(
+                                         FT_TS_MulFix(
                                            blues->emBoxBottomEdge.csCoord,
                                            blues->scale ) ) -
                                        CF2_MIN_COUNTER;
@@ -171,7 +171,7 @@
       blues->emBoxTopEdge.csCoord = emBoxTop + CF2_FIXED_EPSILON +
                                     2 * font->darkenY;
       blues->emBoxTopEdge.dsCoord = cf2_fixedRound(
-                                      FT_MulFix(
+                                      FT_TS_MulFix(
                                         blues->emBoxTopEdge.csCoord,
                                         blues->scale ) ) +
                                     CF2_MIN_COUNTER;
@@ -199,7 +199,7 @@
 
       if ( zoneHeight < 0 )
       {
-        FT_TRACE4(( "cf2_blues_init: ignoring negative zone height\n" ));
+        FT_TS_TRACE4(( "cf2_blues_init: ignoring negative zone height\n" ));
         continue;   /* reject this zone */
       }
 
@@ -248,7 +248,7 @@
 
       if ( zoneHeight < 0 )
       {
-        FT_TRACE4(( "cf2_blues_init: ignoring negative zone height\n" ));
+        FT_TS_TRACE4(( "cf2_blues_init: ignoring negative zone height\n" ));
         continue;   /* reject this zone */
       }
 
@@ -276,7 +276,7 @@
     /* `FamilyOtherBlues'.  According to the Black Book, any matching edge */
     /* must be within one device pixel                                     */
 
-    csUnitsPerPixel = FT_DivFix( cf2_intToFixed( 1 ), blues->scale );
+    csUnitsPerPixel = FT_TS_DivFix( cf2_intToFixed( 1 ), blues->scale );
 
     /* loop on all zones in this font */
     for ( i = 0; i < blues->count; i++ )
@@ -363,11 +363,11 @@
 
     if ( maxZoneHeight > 0 )
     {
-      if ( blues->blueScale > FT_DivFix( cf2_intToFixed( 1 ),
+      if ( blues->blueScale > FT_TS_DivFix( cf2_intToFixed( 1 ),
                                          maxZoneHeight ) )
       {
         /* clamp at maximum scale */
-        blues->blueScale = FT_DivFix( cf2_intToFixed( 1 ),
+        blues->blueScale = FT_TS_DivFix( cf2_intToFixed( 1 ),
                                       maxZoneHeight );
       }
 
@@ -409,7 +409,7 @@
       /*       10ppem Arial                                             */
 
       blues->boost = cf2_doubleToFixed( .6 ) -
-                       FT_MulDiv( cf2_doubleToFixed ( .6 ),
+                       FT_TS_MulDiv( cf2_doubleToFixed ( .6 ),
                                   blues->scale,
                                   blues->blueScale );
       if ( blues->boost > 0x7FFF )
@@ -430,13 +430,13 @@
     {
       if ( blues->zone[i].bottomZone )
         blues->zone[i].dsFlatEdge = cf2_fixedRound(
-                                      FT_MulFix(
+                                      FT_TS_MulFix(
                                         blues->zone[i].csFlatEdge,
                                         blues->scale ) -
                                       blues->boost );
       else
         blues->zone[i].dsFlatEdge = cf2_fixedRound(
-                                      FT_MulFix(
+                                      FT_TS_MulFix(
                                         blues->zone[i].csFlatEdge,
                                         blues->scale ) +
                                       blues->boost );
@@ -461,7 +461,7 @@
    *    edge at the nearest device pixel.
    *
    */
-  FT_LOCAL_DEF( FT_Bool )
+  FT_TS_LOCAL_DEF( FT_TS_Bool )
   cf2_blues_capture( const CF2_Blues  blues,
                      CF2_Hint         bottomHintEdge,
                      CF2_Hint         topHintEdge )
@@ -475,12 +475,12 @@
     /* amount that hint is moved when positioned */
     CF2_Fixed  dsMove = 0;
 
-    FT_Bool   captured = FALSE;
+    FT_TS_Bool   captured = FALSE;
     CF2_UInt  i;
 
 
     /* assert edge flags are consistent */
-    FT_ASSERT( !cf2_hint_isTop( bottomHintEdge ) &&
+    FT_TS_ASSERT( !cf2_hint_isTop( bottomHintEdge ) &&
                !cf2_hint_isBottom( topHintEdge ) );
 
     /* TODO: search once without blue fuzz for compatibility with coretype? */
@@ -504,7 +504,7 @@
                       blues->blueShift )
           {
             /* guarantee minimum of 1 pixel overshoot */
-            dsNew = FT_MIN(
+            dsNew = FT_TS_MIN(
                       cf2_fixedRound( bottomHintEdge->dsCoord ),
                       SUB_INT32( blues->zone[i].dsFlatEdge,
                                  cf2_intToFixed( 1 ) ) );
@@ -540,7 +540,7 @@
                       blues->blueShift )
           {
             /* guarantee minimum of 1 pixel overshoot */
-            dsNew = FT_MAX(
+            dsNew = FT_TS_MAX(
                       cf2_fixedRound( topHintEdge->dsCoord ),
                       blues->zone[i].dsFlatEdge + cf2_intToFixed( 1 ) );
           }

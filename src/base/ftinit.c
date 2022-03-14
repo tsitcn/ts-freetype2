@@ -20,17 +20,17 @@
    * The purpose of this file is to implement the following two
    * functions:
    *
-   * FT_Add_Default_Modules():
+   * FT_TS_Add_Default_Modules():
    *   This function is used to add the set of default modules to a
    *   fresh new library object.  The set is taken from the header file
    *   `freetype/config/ftmodule.h'.  See the document `FreeType 2.0
    *   Build System' for more information.
    *
-   * FT_Init_FreeType():
+   * FT_TS_Init_FreeType():
    *   This function creates a system object for the current platform,
-   *   builds a library out of it, then calls FT_Default_Drivers().
+   *   builds a library out of it, then calls FT_TS_Default_Drivers().
    *
-   * Note that even if FT_Init_FreeType() uses the implementation of the
+   * Note that even if FT_TS_Init_FreeType() uses the implementation of the
    * system object defined at build time, client applications are still
    * able to provide their own `ftsystem.c'.
    *
@@ -38,7 +38,7 @@
 
 
 #include <ft2build.h>
-#include FT_CONFIG_CONFIG_H
+#include FT_TS_CONFIG_CONFIG_H
 #include <freetype/internal/ftobjs.h>
 #include <freetype/internal/ftdebug.h>
 #include <freetype/ftmodapi.h>
@@ -46,55 +46,55 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  init
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  init
 
 
-#undef  FT_USE_MODULE
+#undef  FT_TS_USE_MODULE
 #ifdef __cplusplus
-#define FT_USE_MODULE( type, x )  extern "C" const type  x;
+#define FT_TS_USE_MODULE( type, x )  extern "C" const type  x;
 #else
-#define FT_USE_MODULE( type, x )  extern const type  x;
+#define FT_TS_USE_MODULE( type, x )  extern const type  x;
 #endif
 
-#include FT_CONFIG_MODULES_H
+#include FT_TS_CONFIG_MODULES_H
 
-#undef  FT_USE_MODULE
-#define FT_USE_MODULE( type, x )  (const FT_Module_Class*)&(x),
+#undef  FT_TS_USE_MODULE
+#define FT_TS_USE_MODULE( type, x )  (const FT_TS_Module_Class*)&(x),
 
   static
-  const FT_Module_Class*  const ft_default_modules[] =
+  const FT_TS_Module_Class*  const ft_default_modules[] =
   {
-#include FT_CONFIG_MODULES_H
+#include FT_TS_CONFIG_MODULES_H
     0
   };
 
 
   /* documentation is in ftmodapi.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Add_Default_Modules( FT_Library  library )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Add_Default_Modules( FT_TS_Library  library )
   {
-    FT_Error                       error;
-    const FT_Module_Class* const*  cur;
+    FT_TS_Error                       error;
+    const FT_TS_Module_Class* const*  cur;
 
 
     /* GCC 4.6 warns the type difference:
-     *   FT_Module_Class** != const FT_Module_Class* const*
+     *   FT_TS_Module_Class** != const FT_TS_Module_Class* const*
      */
-    cur = (const FT_Module_Class* const*)ft_default_modules;
+    cur = (const FT_TS_Module_Class* const*)ft_default_modules;
 
-    /* test for valid `library' delayed to FT_Add_Module() */
+    /* test for valid `library' delayed to FT_TS_Add_Module() */
     while ( *cur )
     {
-      error = FT_Add_Module( library, *cur );
+      error = FT_TS_Add_Module( library, *cur );
       /* notify errors, but don't stop */
       if ( error )
-        FT_TRACE0(( "FT_Add_Default_Module:"
+        FT_TS_TRACE0(( "FT_TS_Add_Default_Module:"
                     " Cannot install `%s', error = 0x%x\n",
                     (*cur)->module_name, error ));
       cur++;
@@ -102,14 +102,14 @@
   }
 
 
-#ifdef FT_CONFIG_OPTION_ENVIRONMENT_PROPERTIES
+#ifdef FT_TS_CONFIG_OPTION_ENVIRONMENT_PROPERTIES
 
 #define MAX_LENGTH  128
 
   /* documentation is in ftmodapi.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Set_Default_Properties( FT_Library  library )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Set_Default_Properties( FT_TS_Library  library )
   {
     const char*  env;
     const char*  p;
@@ -184,10 +184,10 @@
 
 #else
 
-  FT_EXPORT_DEF( void )
-  FT_Set_Default_Properties( FT_Library  library )
+  FT_TS_EXPORT_DEF( void )
+  FT_TS_Set_Default_Properties( FT_TS_Library  library )
   {
-    FT_UNUSED( library );
+    FT_TS_UNUSED( library );
   }
 
 #endif
@@ -195,39 +195,39 @@
 
   /* documentation is in freetype.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Init_FreeType( FT_Library  *alibrary )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Init_FreeType( FT_TS_Library  *alibrary )
   {
-    FT_Error   error;
-    FT_Memory  memory;
+    FT_TS_Error   error;
+    FT_TS_Memory  memory;
 
 
-#ifdef FT_DEBUG_LOGGING
+#ifdef FT_TS_DEBUG_LOGGING
     ft_logging_init();
 #endif
 
-    /* check of `alibrary' delayed to `FT_New_Library' */
+    /* check of `alibrary' delayed to `FT_TS_New_Library' */
 
     /* First of all, allocate a new system object -- this function is part */
     /* of the system-specific component, i.e. `ftsystem.c'.                */
 
-    memory = FT_New_Memory();
+    memory = FT_TS_New_Memory();
     if ( !memory )
     {
-      FT_ERROR(( "FT_Init_FreeType: cannot find memory manager\n" ));
-      return FT_THROW( Unimplemented_Feature );
+      FT_TS_ERROR(( "FT_TS_Init_FreeType: cannot find memory manager\n" ));
+      return FT_TS_THROW( Unimplemented_Feature );
     }
 
     /* build a library out of it, then fill it with the set of */
     /* default drivers.                                        */
 
-    error = FT_New_Library( memory, alibrary );
+    error = FT_TS_New_Library( memory, alibrary );
     if ( error )
-      FT_Done_Memory( memory );
+      FT_TS_Done_Memory( memory );
     else
-      FT_Add_Default_Modules( *alibrary );
+      FT_TS_Add_Default_Modules( *alibrary );
 
-    FT_Set_Default_Properties( *alibrary );
+    FT_TS_Set_Default_Properties( *alibrary );
 
     return error;
   }
@@ -235,28 +235,28 @@
 
   /* documentation is in freetype.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Done_FreeType( FT_Library  library )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Done_FreeType( FT_TS_Library  library )
   {
-    FT_Memory  memory;
+    FT_TS_Memory  memory;
 
 
     if ( !library )
-      return FT_THROW( Invalid_Library_Handle );
+      return FT_TS_THROW( Invalid_Library_Handle );
 
     memory = library->memory;
 
     /* Discard the library object */
-    FT_Done_Library( library );
+    FT_TS_Done_Library( library );
 
     /* discard memory manager */
-    FT_Done_Memory( memory );
+    FT_TS_Done_Memory( memory );
 
-#ifdef FT_DEBUG_LOGGING
+#ifdef FT_TS_DEBUG_LOGGING
     ft_logging_deinit();
 #endif
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 

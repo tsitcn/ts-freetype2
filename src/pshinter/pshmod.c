@@ -25,7 +25,7 @@
   /* the Postscript Hinter module structure */
   typedef struct  PS_Hinter_Module_Rec_
   {
-    FT_ModuleRec          root;
+    FT_TS_ModuleRec          root;
     PS_HintsRec           ps_hints;
 
     PSH_Globals_FuncsRec  globals_funcs;
@@ -36,7 +36,7 @@
 
 
   /* finalize module */
-  FT_CALLBACK_DEF( void )
+  FT_TS_CALLBACK_DEF( void )
   ps_hinter_done( PS_Hinter_Module  module )
   {
     module->t1_funcs.hints = NULL;
@@ -47,10 +47,10 @@
 
 
   /* initialize module, create hints recorder and the interface */
-  FT_CALLBACK_DEF( FT_Error )
+  FT_TS_CALLBACK_DEF( FT_TS_Error )
   ps_hinter_init( PS_Hinter_Module  module )
   {
-    FT_Memory  memory = module->root.memory;
+    FT_TS_Memory  memory = module->root.memory;
     void*      ph     = &module->ps_hints;
 
 
@@ -69,30 +69,30 @@
 
 
   /* returns global hints interface */
-  FT_CALLBACK_DEF( PSH_Globals_Funcs )
-  pshinter_get_globals_funcs( FT_Module  module )
+  FT_TS_CALLBACK_DEF( PSH_Globals_Funcs )
+  pshinter_get_globals_funcs( FT_TS_Module  module )
   {
     return &((PS_Hinter_Module)module)->globals_funcs;
   }
 
 
   /* return Type 1 hints interface */
-  FT_CALLBACK_DEF( T1_Hints_Funcs )
-  pshinter_get_t1_funcs( FT_Module  module )
+  FT_TS_CALLBACK_DEF( T1_Hints_Funcs )
+  pshinter_get_t1_funcs( FT_TS_Module  module )
   {
     return &((PS_Hinter_Module)module)->t1_funcs;
   }
 
 
   /* return Type 2 hints interface */
-  FT_CALLBACK_DEF( T2_Hints_Funcs )
-  pshinter_get_t2_funcs( FT_Module  module )
+  FT_TS_CALLBACK_DEF( T2_Hints_Funcs )
+  pshinter_get_t2_funcs( FT_TS_Module  module )
   {
     return &((PS_Hinter_Module)module)->t2_funcs;
   }
 
 
-  FT_DEFINE_PSHINTER_INTERFACE(
+  FT_TS_DEFINE_PSHINTER_INTERFACE(
     pshinter_interface,
 
     pshinter_get_globals_funcs,
@@ -101,7 +101,7 @@
   )
 
 
-  FT_DEFINE_MODULE(
+  FT_TS_DEFINE_MODULE(
     pshinter_module_class,
 
     0,
@@ -112,9 +112,9 @@
 
     &pshinter_interface,        /* module-specific interface */
 
-    (FT_Module_Constructor)ps_hinter_init,  /* module_init   */
-    (FT_Module_Destructor) ps_hinter_done,  /* module_done   */
-    (FT_Module_Requester)  NULL             /* get_interface */
+    (FT_TS_Module_Constructor)ps_hinter_init,  /* module_init   */
+    (FT_TS_Module_Destructor) ps_hinter_done,  /* module_done   */
+    (FT_TS_Module_Requester)  NULL             /* get_interface */
   )
 
 /* END */

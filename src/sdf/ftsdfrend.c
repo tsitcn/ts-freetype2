@@ -31,12 +31,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  sdf
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  sdf
 
 
   /**************************************************************************
@@ -54,75 +54,75 @@
    */
 
   /* property setter function */
-  static FT_Error
-  sdf_property_set( FT_Module    module,
+  static FT_TS_Error
+  sdf_property_set( FT_TS_Module    module,
                     const char*  property_name,
                     const void*  value,
-                    FT_Bool      value_is_string )
+                    FT_TS_Bool      value_is_string )
   {
-    FT_Error      error  = FT_Err_Ok;
-    SDF_Renderer  render = SDF_RENDERER( FT_RENDERER( module ) );
+    FT_TS_Error      error  = FT_TS_Err_Ok;
+    SDF_Renderer  render = SDF_RENDERER( FT_TS_RENDERER( module ) );
 
-    FT_UNUSED( value_is_string );
+    FT_TS_UNUSED( value_is_string );
 
 
     if ( ft_strcmp( property_name, "spread" ) == 0 )
     {
-      FT_Int  val = *(const FT_Int*)value;
+      FT_TS_Int  val = *(const FT_TS_Int*)value;
 
 
       if ( val > MAX_SPREAD || val < MIN_SPREAD )
       {
-        FT_TRACE0(( "[sdf] sdf_property_set:"
+        FT_TS_TRACE0(( "[sdf] sdf_property_set:"
                     " the `spread' property can have a value\n" ));
-        FT_TRACE0(( "                       "
+        FT_TS_TRACE0(( "                       "
                     " within range [%d, %d] (value provided: %d)\n",
                     MIN_SPREAD, MAX_SPREAD, val ));
 
-        error = FT_THROW( Invalid_Argument );
+        error = FT_TS_THROW( Invalid_Argument );
         goto Exit;
       }
 
-      render->spread = (FT_UInt)val;
-      FT_TRACE7(( "[sdf] sdf_property_set:"
+      render->spread = (FT_TS_UInt)val;
+      FT_TS_TRACE7(( "[sdf] sdf_property_set:"
                   " updated property `spread' to %d\n", val ));
     }
 
     else if ( ft_strcmp( property_name, "flip_sign" ) == 0 )
     {
-      FT_Int  val = *(const FT_Int*)value;
+      FT_TS_Int  val = *(const FT_TS_Int*)value;
 
 
       render->flip_sign = val ? 1 : 0;
-      FT_TRACE7(( "[sdf] sdf_property_set:"
+      FT_TS_TRACE7(( "[sdf] sdf_property_set:"
                   " updated property `flip_sign' to %d\n", val ));
     }
 
     else if ( ft_strcmp( property_name, "flip_y" ) == 0 )
     {
-      FT_Int  val = *(const FT_Int*)value;
+      FT_TS_Int  val = *(const FT_TS_Int*)value;
 
 
       render->flip_y = val ? 1 : 0;
-      FT_TRACE7(( "[sdf] sdf_property_set:"
+      FT_TS_TRACE7(( "[sdf] sdf_property_set:"
                   " updated property `flip_y' to %d\n", val ));
     }
 
     else if ( ft_strcmp( property_name, "overlaps" ) == 0 )
     {
-      FT_Bool  val = *(const FT_Bool*)value;
+      FT_TS_Bool  val = *(const FT_TS_Bool*)value;
 
 
       render->overlaps = val;
-      FT_TRACE7(( "[sdf] sdf_property_set:"
+      FT_TS_TRACE7(( "[sdf] sdf_property_set:"
                   " updated property `overlaps' to %d\n", val ));
     }
 
     else
     {
-      FT_TRACE0(( "[sdf] sdf_property_set:"
+      FT_TS_TRACE0(( "[sdf] sdf_property_set:"
                   " missing property `%s'\n", property_name ));
-      error = FT_THROW( Missing_Property );
+      error = FT_TS_THROW( Missing_Property );
     }
 
   Exit:
@@ -131,18 +131,18 @@
 
 
   /* property getter function */
-  static FT_Error
-  sdf_property_get( FT_Module    module,
+  static FT_TS_Error
+  sdf_property_get( FT_TS_Module    module,
                     const char*  property_name,
                     void*        value )
   {
-    FT_Error      error  = FT_Err_Ok;
-    SDF_Renderer  render = SDF_RENDERER( FT_RENDERER( module ) );
+    FT_TS_Error      error  = FT_TS_Err_Ok;
+    SDF_Renderer  render = SDF_RENDERER( FT_TS_RENDERER( module ) );
 
 
     if ( ft_strcmp( property_name, "spread" ) == 0 )
     {
-      FT_UInt*  val = (FT_UInt*)value;
+      FT_TS_UInt*  val = (FT_TS_UInt*)value;
 
 
       *val = render->spread;
@@ -150,7 +150,7 @@
 
     else if ( ft_strcmp( property_name, "flip_sign" ) == 0 )
     {
-      FT_Int*  val = (FT_Int*)value;
+      FT_TS_Int*  val = (FT_TS_Int*)value;
 
 
       *val = render->flip_sign;
@@ -158,7 +158,7 @@
 
     else if ( ft_strcmp( property_name, "flip_y" ) == 0 )
     {
-      FT_Int*  val = (FT_Int*)value;
+      FT_TS_Int*  val = (FT_TS_Int*)value;
 
 
       *val = render->flip_y;
@@ -166,7 +166,7 @@
 
     else if ( ft_strcmp( property_name, "overlaps" ) == 0 )
     {
-      FT_Int*  val = (FT_Int*)value;
+      FT_TS_Int*  val = (FT_TS_Int*)value;
 
 
       *val = render->overlaps;
@@ -174,33 +174,33 @@
 
     else
     {
-      FT_TRACE0(( "[sdf] sdf_property_get:"
+      FT_TS_TRACE0(( "[sdf] sdf_property_get:"
                   " missing property `%s'\n", property_name ));
-      error = FT_THROW( Missing_Property );
+      error = FT_TS_THROW( Missing_Property );
     }
 
     return error;
   }
 
 
-  FT_DEFINE_SERVICE_PROPERTIESREC(
+  FT_TS_DEFINE_SERVICE_PROPERTIESREC(
     sdf_service_properties,
 
-    (FT_Properties_SetFunc)sdf_property_set,        /* set_property */
-    (FT_Properties_GetFunc)sdf_property_get )       /* get_property */
+    (FT_TS_Properties_SetFunc)sdf_property_set,        /* set_property */
+    (FT_TS_Properties_GetFunc)sdf_property_get )       /* get_property */
 
 
-  FT_DEFINE_SERVICEDESCREC1(
+  FT_TS_DEFINE_SERVICEDESCREC1(
     sdf_services,
 
-    FT_SERVICE_ID_PROPERTIES, &sdf_service_properties )
+    FT_TS_SERVICE_ID_PROPERTIES, &sdf_service_properties )
 
 
-  static FT_Module_Interface
-  ft_sdf_requester( FT_Renderer  render,
+  static FT_TS_Module_Interface
+  ft_sdf_requester( FT_TS_Renderer  render,
                     const char*  module_interface )
   {
-    FT_UNUSED( render );
+    FT_TS_UNUSED( render );
 
     return ft_service_list_lookup( sdf_services, module_interface );
   }
@@ -220,8 +220,8 @@
    *
    */
 
-  static FT_Error
-  ft_sdf_init( FT_Renderer  render )
+  static FT_TS_Error
+  ft_sdf_init( FT_TS_Renderer  render )
   {
     SDF_Renderer  sdf_render = SDF_RENDERER( render );
 
@@ -231,35 +231,35 @@
     sdf_render->flip_y    = 0;
     sdf_render->overlaps  = 0;
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 
   static void
-  ft_sdf_done( FT_Renderer  render )
+  ft_sdf_done( FT_TS_Renderer  render )
   {
-    FT_UNUSED( render );
+    FT_TS_UNUSED( render );
   }
 
 
   /* generate signed distance field from a glyph's slot image */
-  static FT_Error
-  ft_sdf_render( FT_Renderer       module,
-                 FT_GlyphSlot      slot,
-                 FT_Render_Mode    mode,
-                 const FT_Vector*  origin )
+  static FT_TS_Error
+  ft_sdf_render( FT_TS_Renderer       module,
+                 FT_TS_GlyphSlot      slot,
+                 FT_TS_Render_Mode    mode,
+                 const FT_TS_Vector*  origin )
   {
-    FT_Error     error   = FT_Err_Ok;
-    FT_Outline*  outline = &slot->outline;
-    FT_Bitmap*   bitmap  = &slot->bitmap;
-    FT_Memory    memory  = NULL;
-    FT_Renderer  render  = NULL;
+    FT_TS_Error     error   = FT_TS_Err_Ok;
+    FT_TS_Outline*  outline = &slot->outline;
+    FT_TS_Bitmap*   bitmap  = &slot->bitmap;
+    FT_TS_Memory    memory  = NULL;
+    FT_TS_Renderer  render  = NULL;
 
-    FT_Pos  x_shift = 0;
-    FT_Pos  y_shift = 0;
+    FT_TS_Pos  x_shift = 0;
+    FT_TS_Pos  y_shift = 0;
 
-    FT_Pos  x_pad = 0;
-    FT_Pos  y_pad = 0;
+    FT_TS_Pos  x_pad = 0;
+    FT_TS_Pos  y_pad = 0;
 
     SDF_Raster_Params  params;
     SDF_Renderer       sdf_module = SDF_RENDERER( module );
@@ -271,30 +271,30 @@
     /* check whether slot format is correct before rendering */
     if ( slot->format != render->glyph_format )
     {
-      error = FT_THROW( Invalid_Glyph_Format );
+      error = FT_TS_THROW( Invalid_Glyph_Format );
       goto Exit;
     }
 
     /* check whether render mode is correct */
-    if ( mode != FT_RENDER_MODE_SDF )
+    if ( mode != FT_TS_RENDER_MODE_SDF )
     {
-      error = FT_THROW( Cannot_Render_Glyph );
+      error = FT_TS_THROW( Cannot_Render_Glyph );
       goto Exit;
     }
 
     /* deallocate the previously allocated bitmap */
-    if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
+    if ( slot->internal->flags & FT_TS_GLYPH_OWN_BITMAP )
     {
-      FT_FREE( bitmap->buffer );
-      slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
+      FT_TS_FREE( bitmap->buffer );
+      slot->internal->flags &= ~FT_TS_GLYPH_OWN_BITMAP;
     }
 
     /* preset the bitmap using the glyph's outline;         */
     /* the sdf bitmap is similar to an anti-aliased bitmap  */
     /* with a slightly bigger size and different pixel mode */
-    if ( ft_glyphslot_preset_bitmap( slot, FT_RENDER_MODE_NORMAL, origin ) )
+    if ( ft_glyphslot_preset_bitmap( slot, FT_TS_RENDER_MODE_NORMAL, origin ) )
     {
-      error = FT_THROW( Raster_Overflow );
+      error = FT_TS_THROW( Raster_Overflow );
       goto Exit;
     }
 
@@ -302,9 +302,9 @@
     /* bitmap using outline                                  */
     if ( !bitmap->rows || !bitmap->pitch )
     {
-      FT_ERROR(( "ft_sdf_render: failed to preset bitmap\n" ));
+      FT_TS_ERROR(( "ft_sdf_render: failed to preset bitmap\n" ));
 
-      error = FT_THROW( Cannot_Render_Glyph );
+      error = FT_TS_THROW( Cannot_Render_Glyph );
       goto Exit;
     }
 
@@ -317,22 +317,22 @@
     bitmap->width += x_pad * 2;
 
     /* ignore the pitch, pixel mode and set custom */
-    bitmap->pixel_mode = FT_PIXEL_MODE_GRAY;
+    bitmap->pixel_mode = FT_TS_PIXEL_MODE_GRAY;
     bitmap->pitch      = (int)( bitmap->width );
     bitmap->num_grays  = 255;
 
     /* allocate new buffer */
-    if ( FT_ALLOC_MULT( bitmap->buffer, bitmap->rows, bitmap->pitch ) )
+    if ( FT_TS_ALLOC_MULT( bitmap->buffer, bitmap->rows, bitmap->pitch ) )
       goto Exit;
 
-    slot->internal->flags |= FT_GLYPH_OWN_BITMAP;
+    slot->internal->flags |= FT_TS_GLYPH_OWN_BITMAP;
 
     slot->bitmap_top  += y_pad;
     slot->bitmap_left -= x_pad;
 
     x_shift  = 64 * -slot->bitmap_left;
     y_shift  = 64 * -slot->bitmap_top;
-    y_shift += 64 * (FT_Int)bitmap->rows;
+    y_shift += 64 * (FT_TS_Int)bitmap->rows;
 
     if ( origin )
     {
@@ -342,12 +342,12 @@
 
     /* translate outline to render it into the bitmap */
     if ( x_shift || y_shift )
-      FT_Outline_Translate( outline, x_shift, y_shift );
+      FT_TS_Outline_Translate( outline, x_shift, y_shift );
 
     /* set up parameters */
     params.root.target = bitmap;
     params.root.source = outline;
-    params.root.flags  = FT_RASTER_FLAG_SDF;
+    params.root.flags  = FT_TS_RASTER_FLAG_SDF;
     params.spread      = sdf_module->spread;
     params.flip_sign   = sdf_module->flip_sign;
     params.flip_y      = sdf_module->flip_y;
@@ -355,22 +355,22 @@
 
     /* render the outline */
     error = render->raster_render( render->raster,
-                                   (const FT_Raster_Params*)&params );
+                                   (const FT_TS_Raster_Params*)&params );
 
     /* transform the outline back to the original state */
     if ( x_shift || y_shift )
-      FT_Outline_Translate( outline, -x_shift, -y_shift );
+      FT_TS_Outline_Translate( outline, -x_shift, -y_shift );
 
   Exit:
     if ( !error )
     {
       /* the glyph is successfully rendered to a bitmap */
-      slot->format = FT_GLYPH_FORMAT_BITMAP;
+      slot->format = FT_TS_GLYPH_FORMAT_BITMAP;
     }
-    else if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
+    else if ( slot->internal->flags & FT_TS_GLYPH_OWN_BITMAP )
     {
-      FT_FREE( bitmap->buffer );
-      slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
+      FT_TS_FREE( bitmap->buffer );
+      slot->internal->flags &= ~FT_TS_GLYPH_OWN_BITMAP;
     }
 
     return error;
@@ -378,26 +378,26 @@
 
 
   /* transform the glyph using matrix and/or delta */
-  static FT_Error
-  ft_sdf_transform( FT_Renderer       render,
-                    FT_GlyphSlot      slot,
-                    const FT_Matrix*  matrix,
-                    const FT_Vector*  delta )
+  static FT_TS_Error
+  ft_sdf_transform( FT_TS_Renderer       render,
+                    FT_TS_GlyphSlot      slot,
+                    const FT_TS_Matrix*  matrix,
+                    const FT_TS_Vector*  delta )
   {
-    FT_Error  error = FT_Err_Ok;
+    FT_TS_Error  error = FT_TS_Err_Ok;
 
 
     if ( slot->format != render->glyph_format )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( matrix )
-      FT_Outline_Transform( &slot->outline, matrix );
+      FT_TS_Outline_Transform( &slot->outline, matrix );
 
     if ( delta )
-      FT_Outline_Translate( &slot->outline, delta->x, delta->y );
+      FT_TS_Outline_Translate( &slot->outline, delta->x, delta->y );
 
   Exit:
     return error;
@@ -406,22 +406,22 @@
 
   /* return the control box of a glyph's outline */
   static void
-  ft_sdf_get_cbox( FT_Renderer   render,
-                   FT_GlyphSlot  slot,
-                   FT_BBox*      cbox )
+  ft_sdf_get_cbox( FT_TS_Renderer   render,
+                   FT_TS_GlyphSlot  slot,
+                   FT_TS_BBox*      cbox )
   {
-    FT_ZERO( cbox );
+    FT_TS_ZERO( cbox );
 
     if ( slot->format == render->glyph_format )
-      FT_Outline_Get_CBox( &slot->outline, cbox );
+      FT_TS_Outline_Get_CBox( &slot->outline, cbox );
   }
 
 
   /* set render specific modes or attributes */
-  static FT_Error
-  ft_sdf_set_mode( FT_Renderer  render,
-                   FT_ULong     mode_tag,
-                   FT_Pointer   data )
+  static FT_TS_Error
+  ft_sdf_set_mode( FT_TS_Renderer  render,
+                   FT_TS_ULong     mode_tag,
+                   FT_TS_Pointer   data )
   {
     /* pass it to the rasterizer */
     return render->clazz->raster_class->raster_set_mode( render->raster,
@@ -430,10 +430,10 @@
   }
 
 
-  FT_DEFINE_RENDERER(
+  FT_TS_DEFINE_RENDERER(
     ft_sdf_renderer_class,
 
-    FT_MODULE_RENDERER,
+    FT_TS_MODULE_RENDERER,
     sizeof ( SDF_Renderer_Module ),
 
     "sdf",
@@ -442,18 +442,18 @@
 
     NULL,
 
-    (FT_Module_Constructor)ft_sdf_init,
-    (FT_Module_Destructor) ft_sdf_done,
-    (FT_Module_Requester)  ft_sdf_requester,
+    (FT_TS_Module_Constructor)ft_sdf_init,
+    (FT_TS_Module_Destructor) ft_sdf_done,
+    (FT_TS_Module_Requester)  ft_sdf_requester,
 
-    FT_GLYPH_FORMAT_OUTLINE,
+    FT_TS_GLYPH_FORMAT_OUTLINE,
 
-    (FT_Renderer_RenderFunc)   ft_sdf_render,     /* render_glyph    */
-    (FT_Renderer_TransformFunc)ft_sdf_transform,  /* transform_glyph */
-    (FT_Renderer_GetCBoxFunc)  ft_sdf_get_cbox,   /* get_glyph_cbox  */
-    (FT_Renderer_SetModeFunc)  ft_sdf_set_mode,   /* set_mode        */
+    (FT_TS_Renderer_RenderFunc)   ft_sdf_render,     /* render_glyph    */
+    (FT_TS_Renderer_TransformFunc)ft_sdf_transform,  /* transform_glyph */
+    (FT_TS_Renderer_GetCBoxFunc)  ft_sdf_get_cbox,   /* get_glyph_cbox  */
+    (FT_TS_Renderer_SetModeFunc)  ft_sdf_set_mode,   /* set_mode        */
 
-    (FT_Raster_Funcs*)&ft_sdf_raster              /* raster_class    */
+    (FT_TS_Raster_Funcs*)&ft_sdf_raster              /* raster_class    */
   )
 
 
@@ -466,28 +466,28 @@
   /*************************************************************************/
 
   /* generate signed distance field from glyph's bitmap */
-  static FT_Error
-  ft_bsdf_render( FT_Renderer       module,
-                  FT_GlyphSlot      slot,
-                  FT_Render_Mode    mode,
-                  const FT_Vector*  origin )
+  static FT_TS_Error
+  ft_bsdf_render( FT_TS_Renderer       module,
+                  FT_TS_GlyphSlot      slot,
+                  FT_TS_Render_Mode    mode,
+                  const FT_TS_Vector*  origin )
   {
-    FT_Error   error  = FT_Err_Ok;
-    FT_Memory  memory = NULL;
+    FT_TS_Error   error  = FT_TS_Err_Ok;
+    FT_TS_Memory  memory = NULL;
 
-    FT_Bitmap*   bitmap  = &slot->bitmap;
-    FT_Renderer  render  = NULL;
-    FT_Bitmap    target;
+    FT_TS_Bitmap*   bitmap  = &slot->bitmap;
+    FT_TS_Renderer  render  = NULL;
+    FT_TS_Bitmap    target;
 
-    FT_Pos  x_pad = 0;
-    FT_Pos  y_pad = 0;
+    FT_TS_Pos  x_pad = 0;
+    FT_TS_Pos  y_pad = 0;
 
     SDF_Raster_Params  params;
     SDF_Renderer       sdf_module = SDF_RENDERER( module );
 
 
     /* initialize the bitmap in case any error occurs */
-    FT_Bitmap_Init( &target );
+    FT_TS_Bitmap_Init( &target );
 
     render = &sdf_module->root;
     memory = render->root.memory;
@@ -495,45 +495,45 @@
     /* check whether slot format is correct before rendering */
     if ( slot->format != render->glyph_format )
     {
-      error = FT_THROW( Invalid_Glyph_Format );
+      error = FT_TS_THROW( Invalid_Glyph_Format );
       goto Exit;
     }
 
     /* check whether render mode is correct */
-    if ( mode != FT_RENDER_MODE_SDF )
+    if ( mode != FT_TS_RENDER_MODE_SDF )
     {
-      error = FT_THROW( Cannot_Render_Glyph );
+      error = FT_TS_THROW( Cannot_Render_Glyph );
       goto Exit;
     }
 
     if ( origin )
     {
-      FT_ERROR(( "ft_bsdf_render: can't translate the bitmap\n" ));
+      FT_TS_ERROR(( "ft_bsdf_render: can't translate the bitmap\n" ));
 
-      error = FT_THROW( Unimplemented_Feature );
+      error = FT_TS_THROW( Unimplemented_Feature );
       goto Exit;
     }
 
     /* Do not generate SDF if the bitmap is not owned by the       */
     /* glyph: it might be that the source buffer is already freed. */
-    if ( !( slot->internal->flags & FT_GLYPH_OWN_BITMAP ) )
+    if ( !( slot->internal->flags & FT_TS_GLYPH_OWN_BITMAP ) )
     {
-      FT_ERROR(( "ft_bsdf_render: can't generate SDF from"
+      FT_TS_ERROR(( "ft_bsdf_render: can't generate SDF from"
                  " unowned source bitmap\n" ));
 
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( !bitmap->rows || !bitmap->pitch )
     {
-      FT_ERROR(( "ft_bsdf_render: invalid bitmap size\n" ));
+      FT_TS_ERROR(( "ft_bsdf_render: invalid bitmap size\n" ));
 
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    FT_Bitmap_New( &target );
+    FT_TS_Bitmap_New( &target );
 
     /* padding will simply be equal to `spread` */
     x_pad = sdf_module->spread;
@@ -544,50 +544,50 @@
     target.width = bitmap->width + x_pad * 2;
 
     /* set up the target bitmap */
-    target.pixel_mode = FT_PIXEL_MODE_GRAY;
+    target.pixel_mode = FT_TS_PIXEL_MODE_GRAY;
     target.pitch      = (int)( target.width );
     target.num_grays  = 255;
 
-    if ( FT_ALLOC_MULT( target.buffer, target.rows, target.pitch ) )
+    if ( FT_TS_ALLOC_MULT( target.buffer, target.rows, target.pitch ) )
       goto Exit;
 
     /* set up parameters */
     params.root.target = &target;
     params.root.source = bitmap;
-    params.root.flags  = FT_RASTER_FLAG_SDF;
+    params.root.flags  = FT_TS_RASTER_FLAG_SDF;
     params.spread      = sdf_module->spread;
     params.flip_sign   = sdf_module->flip_sign;
     params.flip_y      = sdf_module->flip_y;
 
     error = render->raster_render( render->raster,
-                                   (const FT_Raster_Params*)&params );
+                                   (const FT_TS_Raster_Params*)&params );
 
   Exit:
     if ( !error )
     {
       /* the glyph is successfully converted to a SDF */
-      if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
+      if ( slot->internal->flags & FT_TS_GLYPH_OWN_BITMAP )
       {
-        FT_FREE( bitmap->buffer );
-        slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
+        FT_TS_FREE( bitmap->buffer );
+        slot->internal->flags &= ~FT_TS_GLYPH_OWN_BITMAP;
       }
 
       slot->bitmap           = target;
       slot->bitmap_top      += y_pad;
       slot->bitmap_left     -= x_pad;
-      slot->internal->flags |= FT_GLYPH_OWN_BITMAP;
+      slot->internal->flags |= FT_TS_GLYPH_OWN_BITMAP;
     }
     else if ( target.buffer )
-      FT_FREE( target.buffer );
+      FT_TS_FREE( target.buffer );
 
     return error;
   }
 
 
-  FT_DEFINE_RENDERER(
+  FT_TS_DEFINE_RENDERER(
     ft_bitmap_sdf_renderer_class,
 
-    FT_MODULE_RENDERER,
+    FT_TS_MODULE_RENDERER,
     sizeof ( SDF_Renderer_Module ),
 
     "bsdf",
@@ -596,18 +596,18 @@
 
     NULL,
 
-    (FT_Module_Constructor)ft_sdf_init,
-    (FT_Module_Destructor) ft_sdf_done,
-    (FT_Module_Requester)  ft_sdf_requester,
+    (FT_TS_Module_Constructor)ft_sdf_init,
+    (FT_TS_Module_Destructor) ft_sdf_done,
+    (FT_TS_Module_Requester)  ft_sdf_requester,
 
-    FT_GLYPH_FORMAT_BITMAP,
+    FT_TS_GLYPH_FORMAT_BITMAP,
 
-    (FT_Renderer_RenderFunc)   ft_bsdf_render,    /* render_glyph    */
-    (FT_Renderer_TransformFunc)ft_sdf_transform,  /* transform_glyph */
-    (FT_Renderer_GetCBoxFunc)  ft_sdf_get_cbox,   /* get_glyph_cbox  */
-    (FT_Renderer_SetModeFunc)  ft_sdf_set_mode,   /* set_mode        */
+    (FT_TS_Renderer_RenderFunc)   ft_bsdf_render,    /* render_glyph    */
+    (FT_TS_Renderer_TransformFunc)ft_sdf_transform,  /* transform_glyph */
+    (FT_TS_Renderer_GetCBoxFunc)  ft_sdf_get_cbox,   /* get_glyph_cbox  */
+    (FT_TS_Renderer_SetModeFunc)  ft_sdf_set_mode,   /* set_mode        */
 
-    (FT_Raster_Funcs*)&ft_bitmap_sdf_raster       /* raster_class    */
+    (FT_TS_Raster_Funcs*)&ft_bitmap_sdf_raster       /* raster_class    */
   )
 
 

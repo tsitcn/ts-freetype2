@@ -39,7 +39,7 @@
 #ifndef PSHINT_H_
 #define PSHINT_H_
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   enum
@@ -69,22 +69,22 @@ FT_BEGIN_HEADER
 
   typedef struct  CF2_HintMaskRec_
   {
-    FT_Error*  error;
+    FT_TS_Error*  error;
 
-    FT_Bool  isValid;
-    FT_Bool  isNew;
+    FT_TS_Bool  isValid;
+    FT_TS_Bool  isNew;
 
     size_t  bitCount;
     size_t  byteCount;
 
-    FT_Byte  mask[( CF2_MAX_HINTS + 7 ) / 8];
+    FT_TS_Byte  mask[( CF2_MAX_HINTS + 7 ) / 8];
 
   } CF2_HintMaskRec, *CF2_HintMask;
 
 
   typedef struct  CF2_StemHintRec_
   {
-    FT_Bool  used;     /* DS positions are valid         */
+    FT_TS_Bool  used;     /* DS positions are valid         */
 
     CF2_Fixed  min;    /* original character space value */
     CF2_Fixed  max;
@@ -133,8 +133,8 @@ FT_BEGIN_HEADER
     /* working storage for 2nd pass adjustHints */
     CF2_ArrStack  hintMoves;
 
-    FT_Bool  isValid;
-    FT_Bool  hinted;
+    FT_TS_Bool  isValid;
+    FT_TS_Bool  hinted;
 
     CF2_Fixed  scale;
     CF2_UInt   count;
@@ -147,29 +147,29 @@ FT_BEGIN_HEADER
   } CF2_HintMapRec, *CF2_HintMap;
 
 
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   cf2_hint_isValid( const CF2_Hint  hint );
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   cf2_hint_isTop( const CF2_Hint  hint );
-  FT_LOCAL( FT_Bool )
+  FT_TS_LOCAL( FT_TS_Bool )
   cf2_hint_isBottom( const CF2_Hint  hint );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_hint_lock( CF2_Hint  hint );
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_hintmap_init( CF2_HintMap   hintmap,
                     CF2_Font      font,
                     CF2_HintMap   initialMap,
                     CF2_ArrStack  hintMoves,
                     CF2_Fixed     scale );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_hintmap_build( CF2_HintMap   hintmap,
                      CF2_ArrStack  hStemHintArray,
                      CF2_ArrStack  vStemHintArray,
                      CF2_HintMask  hintMask,
                      CF2_Fixed     hintOrigin,
-                     FT_Bool       initialMap );
+                     FT_TS_Bool       initialMap );
 
 
   /*
@@ -196,16 +196,16 @@ FT_BEGIN_HEADER
     CF2_Fixed  scaleC;         /* matrix c */
     CF2_Fixed  scaleY;         /* matrix d */
 
-    FT_Vector  fractionalTranslation;  /* including deviceXScale */
+    FT_TS_Vector  fractionalTranslation;  /* including deviceXScale */
 #if 0
     CF2_Fixed  hShift;    /* character space horizontal shift */
                           /* (for fauxing)                    */
 #endif
 
-    FT_Bool  pathIsOpen;     /* true after MoveTo                     */
-    FT_Bool  pathIsClosing;  /* true when synthesizing closepath line */
-    FT_Bool  darken;         /* true if stem darkening                */
-    FT_Bool  moveIsPending;  /* true between MoveTo and offset MoveTo */
+    FT_TS_Bool  pathIsOpen;     /* true after MoveTo                     */
+    FT_TS_Bool  pathIsClosing;  /* true when synthesizing closepath line */
+    FT_TS_Bool  darken;         /* true if stem darkening                */
+    FT_TS_Bool  moveIsPending;  /* true between MoveTo and offset MoveTo */
 
     /* references used to call `cf2_hintmap_build', if necessary */
     CF2_ArrStack         hStemHintArray;
@@ -222,29 +222,29 @@ FT_BEGIN_HEADER
     /* vertical/horizontal snap distance in character space */
     CF2_Fixed  snapThreshold;
 
-    FT_Vector  offsetStart0;  /* first and second points of first */
-    FT_Vector  offsetStart1;  /* element with offset applied      */
+    FT_TS_Vector  offsetStart0;  /* first and second points of first */
+    FT_TS_Vector  offsetStart1;  /* element with offset applied      */
 
     /* current point, character space, before offset */
-    FT_Vector  currentCS;
+    FT_TS_Vector  currentCS;
     /* current point, device space */
-    FT_Vector  currentDS;
+    FT_TS_Vector  currentDS;
     /* start point of subpath, character space */
-    FT_Vector  start;
+    FT_TS_Vector  start;
 
     /* the following members constitute the `queue' of one element */
-    FT_Bool  elemIsQueued;
+    FT_TS_Bool  elemIsQueued;
     CF2_Int  prevElemOp;
 
-    FT_Vector  prevElemP0;
-    FT_Vector  prevElemP1;
-    FT_Vector  prevElemP2;
-    FT_Vector  prevElemP3;
+    FT_TS_Vector  prevElemP0;
+    FT_TS_Vector  prevElemP1;
+    FT_TS_Vector  prevElemP2;
+    FT_TS_Vector  prevElemP3;
 
   } CF2_GlyphPathRec, *CF2_GlyphPath;
 
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_glyphpath_init( CF2_GlyphPath         glyphpath,
                       CF2_Font              font,
                       CF2_OutlineCallbacks  callbacks,
@@ -255,19 +255,19 @@ FT_BEGIN_HEADER
                       CF2_HintMask          hintMask,
                       CF2_Fixed             hintOrigin,
                       const CF2_Blues       blues,
-                      const FT_Vector*      fractionalTranslation );
-  FT_LOCAL( void )
+                      const FT_TS_Vector*      fractionalTranslation );
+  FT_TS_LOCAL( void )
   cf2_glyphpath_finalize( CF2_GlyphPath  glyphpath );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_glyphpath_moveTo( CF2_GlyphPath  glyphpath,
                         CF2_Fixed      x,
                         CF2_Fixed      y );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_glyphpath_lineTo( CF2_GlyphPath  glyphpath,
                         CF2_Fixed      x,
                         CF2_Fixed      y );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_glyphpath_curveTo( CF2_GlyphPath  glyphpath,
                          CF2_Fixed      x1,
                          CF2_Fixed      y1,
@@ -275,11 +275,11 @@ FT_BEGIN_HEADER
                          CF2_Fixed      y2,
                          CF2_Fixed      x3,
                          CF2_Fixed      y3 );
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   cf2_glyphpath_closeOpenPath( CF2_GlyphPath  glyphpath );
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSHINT_H_ */

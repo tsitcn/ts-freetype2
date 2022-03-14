@@ -26,21 +26,21 @@
 
 
   static int
-  ft_lzwstate_refill( FT_LzwState  state )
+  ft_lzwstate_refill( FT_TS_LzwState  state )
   {
-    FT_ULong  count;
+    FT_TS_ULong  count;
 
 
     if ( state->in_eof )
       return -1;
 
-    count = FT_Stream_TryRead( state->source,
+    count = FT_TS_Stream_TryRead( state->source,
                                state->buf_tab,
                                state->num_bits );  /* WHY? */
 
-    state->buf_size   = (FT_UInt)count;
+    state->buf_size   = (FT_TS_UInt)count;
     state->buf_total += count;
-    state->in_eof     = FT_BOOL( count < state->num_bits );
+    state->in_eof     = FT_TS_BOOL( count < state->num_bits );
     state->buf_offset = 0;
 
     state->buf_size <<= 3;
@@ -56,13 +56,13 @@
   }
 
 
-  static FT_Int32
-  ft_lzwstate_get_code( FT_LzwState  state )
+  static FT_TS_Int32
+  ft_lzwstate_get_code( FT_TS_LzwState  state )
   {
-    FT_UInt   num_bits = state->num_bits;
-    FT_UInt   offset   = state->buf_offset;
-    FT_Byte*  p;
-    FT_Int    result;
+    FT_TS_UInt   num_bits = state->num_bits;
+    FT_TS_UInt   offset   = state->buf_offset;
+    FT_TS_Byte*  p;
+    FT_TS_Int    result;
 
 
     if ( state->buf_clear                    ||
@@ -76,14 +76,14 @@
           return -1;
 
         state->free_bits = state->num_bits < state->max_bits
-                           ? (FT_UInt)( ( 1UL << num_bits ) - 256 )
+                           ? (FT_TS_UInt)( ( 1UL << num_bits ) - 256 )
                            : state->max_free + 1;
       }
 
       if ( state->buf_clear )
       {
         state->num_bits  = num_bits = LZW_INIT_BITS;
-        state->free_bits = (FT_UInt)( ( 1UL << num_bits ) - 256 );
+        state->free_bits = (FT_TS_UInt)( ( 1UL << num_bits ) - 256 );
         state->buf_clear = 0;
       }
 
@@ -116,14 +116,14 @@
 
   /* grow the character stack */
   static int
-  ft_lzwstate_stack_grow( FT_LzwState  state )
+  ft_lzwstate_stack_grow( FT_TS_LzwState  state )
   {
     if ( state->stack_top >= state->stack_size )
     {
-      FT_Memory  memory = state->memory;
-      FT_Error   error;
-      FT_Offset  old_size = state->stack_size;
-      FT_Offset  new_size = old_size;
+      FT_TS_Memory  memory = state->memory;
+      FT_TS_Error   error;
+      FT_TS_Offset  old_size = state->stack_size;
+      FT_TS_Offset  new_size = old_size;
 
       new_size = new_size + ( new_size >> 1 ) + 4;
 
@@ -143,12 +143,12 @@
           return -1;
       }
 
-      if ( FT_QRENEW_ARRAY( state->stack, old_size, new_size ) )
+      if ( FT_TS_QRENEW_ARRAY( state->stack, old_size, new_size ) )
         return -1;
 
       /* if relocating to heap */
       if ( old_size == 0 )
-        FT_MEM_COPY( state->stack, state->stack_0, FT_LZW_DEFAULT_STACK_SIZE );
+        FT_TS_MEM_COPY( state->stack, state->stack_0, FT_TS_LZW_DEFAULT_STACK_SIZE );
 
       state->stack_size = new_size;
     }
@@ -158,12 +158,12 @@
 
   /* grow the prefix/suffix arrays */
   static int
-  ft_lzwstate_prefix_grow( FT_LzwState  state )
+  ft_lzwstate_prefix_grow( FT_TS_LzwState  state )
   {
-    FT_UInt    old_size = state->prefix_size;
-    FT_UInt    new_size = old_size;
-    FT_Memory  memory   = state->memory;
-    FT_Error   error;
+    FT_TS_UInt    old_size = state->prefix_size;
+    FT_TS_UInt    new_size = old_size;
+    FT_TS_Memory  memory   = state->memory;
+    FT_TS_Error   error;
 
 
     if ( new_size == 0 )  /* first allocation -> 9 bits */
@@ -175,28 +175,28 @@
      * Note that the `suffix' array is located in the same memory block
      * pointed to by `prefix'.
      *
-     * I know that sizeof(FT_Byte) == 1 by definition, but it is clearer
+     * I know that sizeof(FT_TS_Byte) == 1 by definition, but it is clearer
      * to write it literally.
      *
      */
-    if ( FT_REALLOC_MULT( state->prefix, old_size, new_size,
-                          sizeof ( FT_UShort ) + sizeof ( FT_Byte ) ) )
+    if ( FT_TS_REALLOC_MULT( state->prefix, old_size, new_size,
+                          sizeof ( FT_TS_UShort ) + sizeof ( FT_TS_Byte ) ) )
       return -1;
 
     /* now adjust `suffix' and move the data accordingly */
-    state->suffix = (FT_Byte*)( state->prefix + new_size );
+    state->suffix = (FT_TS_Byte*)( state->prefix + new_size );
 
-    FT_MEM_MOVE( state->suffix,
+    FT_TS_MEM_MOVE( state->suffix,
                  state->prefix + old_size,
-                 old_size * sizeof ( FT_Byte ) );
+                 old_size * sizeof ( FT_TS_Byte ) );
 
     state->prefix_size = new_size;
     return 0;
   }
 
 
-  FT_LOCAL_DEF( void )
-  ft_lzwstate_reset( FT_LzwState  state )
+  FT_TS_LOCAL_DEF( void )
+  ft_lzwstate_reset( FT_TS_LzwState  state )
   {
     state->in_eof     = 0;
     state->buf_offset = 0;
@@ -205,15 +205,15 @@
     state->buf_total  = 0;
     state->stack_top  = 0;
     state->num_bits   = LZW_INIT_BITS;
-    state->phase      = FT_LZW_PHASE_START;
+    state->phase      = FT_TS_LZW_PHASE_START;
   }
 
 
-  FT_LOCAL_DEF( void )
-  ft_lzwstate_init( FT_LzwState  state,
-                    FT_Stream    source )
+  FT_TS_LOCAL_DEF( void )
+  ft_lzwstate_init( FT_TS_LzwState  state,
+                    FT_TS_Stream    source )
   {
-    FT_ZERO( state );
+    FT_TS_ZERO( state );
 
     state->source = source;
     state->memory = source->memory;
@@ -229,44 +229,44 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  ft_lzwstate_done( FT_LzwState  state )
+  FT_TS_LOCAL_DEF( void )
+  ft_lzwstate_done( FT_TS_LzwState  state )
   {
-    FT_Memory  memory = state->memory;
+    FT_TS_Memory  memory = state->memory;
 
 
     ft_lzwstate_reset( state );
 
     if ( state->stack != state->stack_0 )
-      FT_FREE( state->stack );
+      FT_TS_FREE( state->stack );
 
-    FT_FREE( state->prefix );
+    FT_TS_FREE( state->prefix );
     state->suffix = NULL;
 
-    FT_ZERO( state );
+    FT_TS_ZERO( state );
   }
 
 
 #define FTLZW_STACK_PUSH( c )                        \
-  FT_BEGIN_STMNT                                     \
+  FT_TS_BEGIN_STMNT                                     \
     if ( state->stack_top >= state->stack_size &&    \
          ft_lzwstate_stack_grow( state ) < 0   )     \
       goto Eof;                                      \
                                                      \
-    state->stack[state->stack_top++] = (FT_Byte)(c); \
-  FT_END_STMNT
+    state->stack[state->stack_top++] = (FT_TS_Byte)(c); \
+  FT_TS_END_STMNT
 
 
-  FT_LOCAL_DEF( FT_ULong )
-  ft_lzwstate_io( FT_LzwState  state,
-                  FT_Byte*     buffer,
-                  FT_ULong     out_size )
+  FT_TS_LOCAL_DEF( FT_TS_ULong )
+  ft_lzwstate_io( FT_TS_LzwState  state,
+                  FT_TS_Byte*     buffer,
+                  FT_TS_ULong     out_size )
   {
-    FT_ULong  result = 0;
+    FT_TS_ULong  result = 0;
 
-    FT_UInt  old_char = state->old_char;
-    FT_UInt  old_code = state->old_code;
-    FT_UInt  in_code  = state->in_code;
+    FT_TS_UInt  old_char = state->old_char;
+    FT_TS_UInt  old_code = state->old_code;
+    FT_TS_UInt  in_code  = state->in_code;
 
 
     if ( out_size == 0 )
@@ -274,20 +274,20 @@
 
     switch ( state->phase )
     {
-    case FT_LZW_PHASE_START:
+    case FT_TS_LZW_PHASE_START:
       {
-        FT_Byte   max_bits;
-        FT_Int32  c;
+        FT_TS_Byte   max_bits;
+        FT_TS_Int32  c;
 
 
         /* skip magic bytes, and read max_bits + block_flag */
-        if ( FT_Stream_Seek( state->source, 2 ) != 0               ||
-             FT_Stream_TryRead( state->source, &max_bits, 1 ) != 1 )
+        if ( FT_TS_Stream_Seek( state->source, 2 ) != 0               ||
+             FT_TS_Stream_TryRead( state->source, &max_bits, 1 ) != 1 )
           goto Eof;
 
         state->max_bits   = max_bits & LZW_BIT_MASK;
         state->block_mode = max_bits & LZW_BLOCK_MASK;
-        state->max_free   = (FT_UInt)( ( 1UL << state->max_bits ) - 256 );
+        state->max_free   = (FT_TS_UInt)( ( 1UL << state->max_bits ) - 256 );
 
         if ( state->max_bits > LZW_MAX_BITS )
           goto Eof;
@@ -298,29 +298,29 @@
         in_code  = 0;
 
         state->free_bits = state->num_bits < state->max_bits
-                           ? (FT_UInt)( ( 1UL << state->num_bits ) - 256 )
+                           ? (FT_TS_UInt)( ( 1UL << state->num_bits ) - 256 )
                            : state->max_free + 1;
 
         c = ft_lzwstate_get_code( state );
         if ( c < 0 || c > 255 )
           goto Eof;
 
-        old_code = old_char = (FT_UInt)c;
+        old_code = old_char = (FT_TS_UInt)c;
 
         if ( buffer )
-          buffer[result] = (FT_Byte)old_char;
+          buffer[result] = (FT_TS_Byte)old_char;
 
         if ( ++result >= out_size )
           goto Exit;
 
-        state->phase = FT_LZW_PHASE_CODE;
+        state->phase = FT_TS_LZW_PHASE_CODE;
       }
       /* fall-through */
 
-    case FT_LZW_PHASE_CODE:
+    case FT_TS_LZW_PHASE_CODE:
       {
-        FT_Int32  c;
-        FT_UInt   code;
+        FT_TS_Int32  c;
+        FT_TS_UInt   code;
 
 
       NextCode:
@@ -328,7 +328,7 @@
         if ( c < 0 )
           goto Eof;
 
-        code = (FT_UInt)c;
+        code = (FT_TS_UInt)c;
 
         if ( code == LZW_CLEAR && state->block_mode )
         {
@@ -371,11 +371,11 @@
         old_char = code;
         FTLZW_STACK_PUSH( old_char );
 
-        state->phase = FT_LZW_PHASE_STACK;
+        state->phase = FT_TS_LZW_PHASE_STACK;
       }
       /* fall-through */
 
-    case FT_LZW_PHASE_STACK:
+    case FT_TS_LZW_PHASE_STACK:
       {
         while ( state->stack_top > 0 )
         {
@@ -395,17 +395,17 @@
                ft_lzwstate_prefix_grow( state ) < 0  )
             goto Eof;
 
-          FT_ASSERT( state->free_ent < state->prefix_size );
+          FT_TS_ASSERT( state->free_ent < state->prefix_size );
 
-          state->prefix[state->free_ent] = (FT_UShort)old_code;
-          state->suffix[state->free_ent] = (FT_Byte)  old_char;
+          state->prefix[state->free_ent] = (FT_TS_UShort)old_code;
+          state->suffix[state->free_ent] = (FT_TS_Byte)  old_char;
 
           state->free_ent += 1;
         }
 
         old_code = in_code;
 
-        state->phase = FT_LZW_PHASE_CODE;
+        state->phase = FT_TS_LZW_PHASE_CODE;
         goto NextCode;
       }
 
@@ -421,7 +421,7 @@
     return result;
 
   Eof:
-    state->phase = FT_LZW_PHASE_EOF;
+    state->phase = FT_TS_LZW_PHASE_EOF;
     goto Exit;
   }
 

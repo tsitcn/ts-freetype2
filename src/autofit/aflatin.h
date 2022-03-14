@@ -23,7 +23,7 @@
 #include "afhints.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
   /* the `latin' writing system */
 
@@ -32,7 +32,7 @@ FT_BEGIN_HEADER
 
   /* constants are given with units_per_em == 2048 in mind */
 #define AF_LATIN_CONSTANT( metrics, c )                                      \
-  ( ( (c) * (FT_Long)( (AF_LatinMetrics)(metrics) )->units_per_em ) / 2048 )
+  ( ( (c) * (FT_TS_Long)( (AF_LatinMetrics)(metrics) )->units_per_em ) / 2048 )
 
 
   /*************************************************************************/
@@ -78,30 +78,30 @@ FT_BEGIN_HEADER
   {
     AF_WidthRec  ref;
     AF_WidthRec  shoot;
-    FT_Pos       ascender;
-    FT_Pos       descender;
-    FT_UInt      flags;
+    FT_TS_Pos       ascender;
+    FT_TS_Pos       descender;
+    FT_TS_UInt      flags;
 
   } AF_LatinBlueRec, *AF_LatinBlue;
 
 
   typedef struct  AF_LatinAxisRec_
   {
-    FT_Fixed         scale;
-    FT_Pos           delta;
+    FT_TS_Fixed         scale;
+    FT_TS_Pos           delta;
 
-    FT_UInt          width_count;                 /* number of used widths */
+    FT_TS_UInt          width_count;                 /* number of used widths */
     AF_WidthRec      widths[AF_LATIN_MAX_WIDTHS]; /* widths array          */
-    FT_Pos           edge_distance_threshold;   /* used for creating edges */
-    FT_Pos           standard_width;         /* the default stem thickness */
-    FT_Bool          extra_light;         /* is standard width very light? */
+    FT_TS_Pos           edge_distance_threshold;   /* used for creating edges */
+    FT_TS_Pos           standard_width;         /* the default stem thickness */
+    FT_TS_Bool          extra_light;         /* is standard width very light? */
 
     /* ignored for horizontal metrics */
-    FT_UInt          blue_count;
+    FT_TS_UInt          blue_count;
     AF_LatinBlueRec  blues[AF_BLUE_STRINGSET_MAX];
 
-    FT_Fixed         org_scale;
-    FT_Pos           org_delta;
+    FT_TS_Fixed         org_scale;
+    FT_TS_Pos           org_delta;
 
   } AF_LatinAxisRec, *AF_LatinAxis;
 
@@ -109,27 +109,27 @@ FT_BEGIN_HEADER
   typedef struct  AF_LatinMetricsRec_
   {
     AF_StyleMetricsRec  root;
-    FT_UInt             units_per_em;
+    FT_TS_UInt             units_per_em;
     AF_LatinAxisRec     axis[AF_DIMENSION_MAX];
 
   } AF_LatinMetricsRec, *AF_LatinMetrics;
 
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_latin_metrics_init( AF_LatinMetrics  metrics,
-                         FT_Face          face );
+                         FT_TS_Face          face );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_latin_metrics_scale( AF_LatinMetrics  metrics,
                           AF_Scaler        scaler );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_latin_metrics_init_widths( AF_LatinMetrics  metrics,
-                                FT_Face          face );
+                                FT_TS_Face          face );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_latin_metrics_check_digits( AF_LatinMetrics  metrics,
-                                 FT_Face          face );
+                                 FT_TS_Face          face );
 
 
   /*************************************************************************/
@@ -164,29 +164,29 @@ FT_BEGIN_HEADER
    * The next functions shouldn't normally be exported.  However, other
    * writing systems might like to use these functions as-is.
    */
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_latin_hints_compute_segments( AF_GlyphHints  hints,
                                    AF_Dimension   dim );
 
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   af_latin_hints_link_segments( AF_GlyphHints  hints,
-                                FT_UInt        width_count,
+                                FT_TS_UInt        width_count,
                                 AF_WidthRec*   widths,
                                 AF_Dimension   dim );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_latin_hints_compute_edges( AF_GlyphHints  hints,
                                 AF_Dimension   dim );
 
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   af_latin_hints_detect_features( AF_GlyphHints  hints,
-                                  FT_UInt        width_count,
+                                  FT_TS_UInt        width_count,
                                   AF_WidthRec*   widths,
                                   AF_Dimension   dim );
 
 /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFLATIN_H_ */
 

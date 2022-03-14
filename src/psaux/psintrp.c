@@ -54,41 +54,41 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  cf2interp
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  cf2interp
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_hintmask_init( CF2_HintMask  hintmask,
-                     FT_Error*     error )
+                     FT_TS_Error*     error )
   {
-    FT_ZERO( hintmask );
+    FT_TS_ZERO( hintmask );
 
     hintmask->error = error;
   }
 
 
-  FT_LOCAL_DEF( FT_Bool )
+  FT_TS_LOCAL_DEF( FT_TS_Bool )
   cf2_hintmask_isValid( const CF2_HintMask  hintmask )
   {
     return hintmask->isValid;
   }
 
 
-  FT_LOCAL_DEF( FT_Bool )
+  FT_TS_LOCAL_DEF( FT_TS_Bool )
   cf2_hintmask_isNew( const CF2_HintMask  hintmask )
   {
     return hintmask->isNew;
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_hintmask_setNew( CF2_HintMask  hintmask,
-                       FT_Bool       val )
+                       FT_TS_Bool       val )
   {
     hintmask->isNew = val;
   }
@@ -97,7 +97,7 @@
   /* clients call `getMaskPtr' in order to iterate */
   /* through hint mask                             */
 
-  FT_LOCAL_DEF( FT_Byte* )
+  FT_TS_LOCAL_DEF( FT_TS_Byte* )
   cf2_hintmask_getMaskPtr( CF2_HintMask  hintmask )
   {
     return hintmask->mask;
@@ -146,30 +146,30 @@
     if ( cf2_hintmask_setCounts( hintmask, bitCount ) == 0 )
       return;
 
-    FT_ASSERT( hintmask->byteCount > 0 );
+    FT_TS_ASSERT( hintmask->byteCount > 0 );
 
-    FT_TRACE4(( " (maskbytes:" ));
+    FT_TS_TRACE4(( " (maskbytes:" ));
 
     /* set mask and advance interpreter's charstring pointer */
     for ( i = 0; i < hintmask->byteCount; i++ )
     {
-      hintmask->mask[i] = (FT_Byte)cf2_buf_readByte( charstring );
-      FT_TRACE4(( " 0x%02X", hintmask->mask[i] ));
+      hintmask->mask[i] = (FT_TS_Byte)cf2_buf_readByte( charstring );
+      FT_TS_TRACE4(( " 0x%02X", hintmask->mask[i] ));
     }
 
-    FT_TRACE4(( ")\n" ));
+    FT_TS_TRACE4(( ")\n" ));
 
     /* assert any unused bits in last byte are zero unless there's a prior */
     /* error                                                               */
     /* bitCount -> mask, 0 -> 0, 1 -> 7f, 2 -> 3f, ... 6 -> 3, 7 -> 1      */
 #ifndef CF2_NDEBUG
-    FT_ASSERT( ( hintmask->mask[hintmask->byteCount - 1] & mask ) == 0 ||
+    FT_TS_ASSERT( ( hintmask->mask[hintmask->byteCount - 1] & mask ) == 0 ||
                *hintmask->error                                        );
 #endif
   }
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_hintmask_setAll( CF2_HintMask  hintmask,
                        size_t        bitCount )
   {
@@ -181,8 +181,8 @@
     if ( cf2_hintmask_setCounts( hintmask, bitCount ) == 0 )
       return;
 
-    FT_ASSERT( hintmask->byteCount > 0 );
-    FT_ASSERT( hintmask->byteCount <=
+    FT_TS_ASSERT( hintmask->byteCount > 0 );
+    FT_TS_ASSERT( hintmask->byteCount <=
                  sizeof ( hintmask->mask ) / sizeof ( hintmask->mask[0] ) );
 
     /* set mask to all ones */
@@ -282,18 +282,18 @@
                CF2_Stack       opStack,
                CF2_ArrStack    stemHintArray,
                CF2_Fixed*      width,
-               FT_Bool*        haveWidth,
+               FT_TS_Bool*        haveWidth,
                CF2_Fixed       hintOffset )
   {
     CF2_UInt  i;
     CF2_UInt  count       = cf2_stack_count( opStack );
-    FT_Bool   hasWidthArg = FT_BOOL( count & 1 );
+    FT_TS_Bool   hasWidthArg = FT_TS_BOOL( count & 1 );
 
     /* variable accumulates delta values from operand stack */
     CF2_Fixed  position = hintOffset;
 
     if ( font->isT1 && !font->decoder->flex_state && !*haveWidth )
-      FT_ERROR(( "cf2_doStems (Type 1 mode):"
+      FT_TS_ERROR(( "cf2_doStems (Type 1 mode):"
                  " No width. Use hsbw/sbw as first op\n" ));
 
     if ( !font->isT1 && hasWidthArg && !*haveWidth )
@@ -336,19 +336,19 @@
               CF2_Fixed*      curX,
               CF2_Fixed*      curY,
               CF2_GlyphPath   glyphPath,
-              const FT_Bool*  readFromStack,
-              FT_Bool         doConditionalLastRead )
+              const FT_TS_Bool*  readFromStack,
+              FT_TS_Bool         doConditionalLastRead )
   {
     CF2_Fixed  vals[14];
     CF2_UInt   idx;
-    FT_Bool    isHFlex;
+    FT_TS_Bool    isHFlex;
     CF2_Int    top, i, j;
 
 
     vals[0] = *curX;
     vals[1] = *curY;
     idx     = 0;
-    isHFlex = FT_BOOL( readFromStack[9] == FALSE );
+    isHFlex = FT_TS_BOOL( readFromStack[9] == FALSE );
     top     = isHFlex ? 9 : 10;
 
     for ( i = 0; i < top; i++ )
@@ -364,7 +364,7 @@
 
     if ( doConditionalLastRead )
     {
-      FT_Bool    lastIsX = FT_BOOL(
+      FT_TS_Bool    lastIsX = FT_TS_BOOL(
                              cf2_fixedAbs( SUB_INT32( vals[10], *curX ) ) >
                              cf2_fixedAbs( SUB_INT32( vals[11], *curY ) ) );
       CF2_Fixed  lastVal = cf2_stack_getReal( opStack, idx );
@@ -438,7 +438,7 @@
 
       for ( j = 1; j < blend->lenBV; j++ )
         sum = ADD_INT32( sum,
-                         FT_MulFix( *weight++,
+                         FT_TS_MulFix( *weight++,
                                     cf2_stack_getReal( opStack,
                                                        delta++ ) ) );
 
@@ -467,53 +467,53 @@
    * Unimplemented opcodes are ignored.
    *
    */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   cf2_interpT2CharString( CF2_Font              font,
                           const CF2_Buffer      buf,
                           CF2_OutlineCallbacks  callbacks,
-                          const FT_Vector*      translation,
-                          FT_Bool               doingSeac,
+                          const FT_TS_Vector*      translation,
+                          FT_TS_Bool               doingSeac,
                           CF2_Fixed             curX,
                           CF2_Fixed             curY,
                           CF2_Fixed*            width )
   {
     /* lastError is used for errors that are immediately tested */
-    FT_Error  lastError = FT_Err_Ok;
+    FT_TS_Error  lastError = FT_TS_Err_Ok;
 
     /* pointer to parsed font object */
     PS_Decoder*  decoder = font->decoder;
 
-    FT_Error*  error  = &font->error;
-    FT_Memory  memory = font->memory;
+    FT_TS_Error*  error  = &font->error;
+    FT_TS_Memory  memory = font->memory;
 
     CF2_Fixed  scaleY        = font->innerTransform.d;
     CF2_Fixed  nominalWidthX = cf2_getNominalWidthX( decoder );
 
     /* stuff for Type 1 */
-    FT_Int   known_othersubr_result_cnt = 0;
-    FT_Bool  large_int                  = FALSE;
-    FT_Bool  initial_map_ready          = FALSE;
+    FT_TS_Int   known_othersubr_result_cnt = 0;
+    FT_TS_Bool  large_int                  = FALSE;
+    FT_TS_Bool  initial_map_ready          = FALSE;
 
 #define PS_STORAGE_SIZE 3
     CF2_F16Dot16  results[PS_STORAGE_SIZE];   /* for othersubr results */
-    FT_Int        result_cnt = 0;
+    FT_TS_Int        result_cnt = 0;
 
     /* save this for hinting seac accents */
     CF2_Fixed  hintOriginY = curY;
 
     CF2_Stack  opStack = NULL;
-    FT_UInt    stackSize;
-    FT_Byte    op1;                       /* first opcode byte */
+    FT_TS_UInt    stackSize;
+    FT_TS_Byte    op1;                       /* first opcode byte */
 
     CF2_F16Dot16  storage[CF2_STORAGE_SIZE];    /* for `put' and `get' */
     CF2_F16Dot16  flexStore[6];                 /* for Type 1 flex     */
 
     /* instruction limit; 20,000,000 matches Avalon */
-    FT_UInt32  instructionLimit = 20000000UL;
+    FT_TS_UInt32  instructionLimit = 20000000UL;
 
     CF2_ArrStackRec  subrStack;
 
-    FT_Bool     haveWidth;
+    FT_TS_Bool     haveWidth;
     CF2_Buffer  charstring = NULL;
 
     CF2_Int  charstringIndex = -1;       /* initialize to empty */
@@ -528,9 +528,9 @@
     CF2_GlyphPathRec  glyphPath;
 
 
-    FT_ZERO( &storage );
-    FT_ZERO( &results );
-    FT_ZERO( &flexStore );
+    FT_TS_ZERO( &storage );
+    FT_TS_ZERO( &results );
+    FT_TS_ZERO( &flexStore );
 
     /* initialize the remaining objects */
     cf2_arrstack_init( &subrStack,
@@ -601,7 +601,7 @@
 
     if ( !opStack )
     {
-      lastError = FT_THROW( Out_Of_Memory );
+      lastError = FT_TS_THROW( Out_Of_Memory );
       goto exit;
     }
 
@@ -624,7 +624,7 @@
     while ( 1 )
     {
       if ( font->isT1 )
-        FT_ASSERT( known_othersubr_result_cnt == 0 ||
+        FT_TS_ASSERT( known_othersubr_result_cnt == 0 ||
                    result_cnt == 0                 );
 
       if ( cf2_buf_isEnd( charstring ) )
@@ -639,7 +639,7 @@
       }
       else
       {
-        op1 = (FT_Byte)cf2_buf_readByte( charstring );
+        op1 = (FT_TS_Byte)cf2_buf_readByte( charstring );
 
         /* Explicit RETURN and ENDCHAR in CFF2 should be ignored. */
         /* Note: Trace message will report 0 instead of 11 or 14. */
@@ -663,7 +663,7 @@
           /* Skip outline commands first time round.       */
           /* `endchar' will trigger initial hintmap build  */
           /* and rewind the charstring.                    */
-          FT_TRACE4(( " <outline command skipped>\n" ));
+          FT_TS_TRACE4(( " <outline command skipped>\n" ));
           cf2_stack_clear( opStack );
           continue;
         }
@@ -680,7 +680,7 @@
 
         if ( large_int && !( op1 >= 32 || op1 == cf2_escDIV ) )
         {
-          FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+          FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                      " no `div' after large integer\n" ));
 
           large_int = FALSE;
@@ -694,7 +694,7 @@
       instructionLimit--;
       if ( instructionLimit == 0 )
       {
-        lastError = FT_THROW( Invalid_Glyph_Format );
+        lastError = FT_TS_THROW( Invalid_Glyph_Format );
         goto exit;
       }
 
@@ -704,11 +704,11 @@
       case cf2_cmdRESERVED_2:
       case cf2_cmdRESERVED_17:
         /* we may get here if we have a prior error */
-        FT_TRACE4(( " unknown op (%d)\n", op1 ));
+        FT_TS_TRACE4(( " unknown op (%d)\n", op1 ));
         break;
 
       case cf2_cmdVSINDEX:
-        FT_TRACE4(( " vsindex\n" ));
+        FT_TS_TRACE4(( " vsindex\n" ));
 
         if ( !font->isCFF2 )
           break;    /* clear stack & ignore */
@@ -716,25 +716,25 @@
         if ( font->blend.usedBV )
         {
           /* vsindex not allowed after blend */
-          lastError = FT_THROW( Invalid_Glyph_Format );
+          lastError = FT_TS_THROW( Invalid_Glyph_Format );
           goto exit;
         }
 
         {
-          FT_Int  temp = cf2_stack_popInt( opStack );
+          FT_TS_Int  temp = cf2_stack_popInt( opStack );
 
 
           if ( temp >= 0 )
-            font->vsindex = (FT_UInt)temp;
+            font->vsindex = (FT_TS_UInt)temp;
         }
         break;
 
       case cf2_cmdBLEND:
         {
-          FT_UInt  numBlends;
+          FT_TS_UInt  numBlends;
 
 
-          FT_TRACE4(( " blend\n" ));
+          FT_TS_TRACE4(( " blend\n" ));
 
           if ( !font->isCFF2 )
             break;    /* clear stack & ignore */
@@ -742,7 +742,7 @@
           /* do we have a `blend' op in a non-variant font? */
           if ( !font->blend.font )
           {
-            lastError = FT_THROW( Invalid_Glyph_Format );
+            lastError = FT_TS_THROW( Invalid_Glyph_Format );
             goto exit;
           }
 
@@ -761,10 +761,10 @@
           }
 
           /* do the blend */
-          numBlends = (FT_UInt)cf2_stack_popInt( opStack );
+          numBlends = (FT_TS_UInt)cf2_stack_popInt( opStack );
           if ( numBlends > stackSize )
           {
-            lastError = FT_THROW( Invalid_Glyph_Format );
+            lastError = FT_TS_THROW( Invalid_Glyph_Format );
             goto exit;
           }
 
@@ -776,7 +776,7 @@
 
       case cf2_cmdHSTEMHM:
       case cf2_cmdHSTEM:
-        FT_TRACE4(( "%s\n", op1 == cf2_cmdHSTEMHM ? " hstemhm"
+        FT_TS_TRACE4(( "%s\n", op1 == cf2_cmdHSTEMHM ? " hstemhm"
                                                   : " hstem" ));
 
         if ( !font->isT1 )
@@ -785,7 +785,7 @@
           /* except if in Type 1 mode (no hintmask op)  */
           if ( cf2_hintmask_isValid( &hintMask ) )
           {
-            FT_TRACE4(( "cf2_interpT2CharString:"
+            FT_TS_TRACE4(( "cf2_interpT2CharString:"
                         " invalid horizontal hint mask\n" ));
             break;
           }
@@ -807,7 +807,7 @@
 
       case cf2_cmdVSTEMHM:
       case cf2_cmdVSTEM:
-        FT_TRACE4(( "%s\n", op1 == cf2_cmdVSTEMHM ? " vstemhm"
+        FT_TS_TRACE4(( "%s\n", op1 == cf2_cmdVSTEMHM ? " vstemhm"
                                                   : " vstem" ));
 
         if ( !font->isT1 )
@@ -816,7 +816,7 @@
           /* except if in Type 1 mode (no hintmask op)  */
           if ( cf2_hintmask_isValid( &hintMask ) )
           {
-            FT_TRACE4(( "cf2_interpT2CharString:"
+            FT_TS_TRACE4(( "cf2_interpT2CharString:"
                         " invalid vertical hint mask\n" ));
             break;
           }
@@ -837,10 +837,10 @@
         break;
 
       case cf2_cmdVMOVETO:
-        FT_TRACE4(( " vmoveto\n" ));
+        FT_TS_TRACE4(( " vmoveto\n" ));
 
         if ( font->isT1 && !decoder->flex_state && !haveWidth )
-          FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+          FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                      " No width. Use hsbw/sbw as first op\n" ));
 
         if ( cf2_stack_count( opStack ) > 1 && !haveWidth )
@@ -866,7 +866,7 @@
           CF2_UInt  count = cf2_stack_count( opStack );
 
 
-          FT_TRACE4(( " rlineto\n" ));
+          FT_TS_TRACE4(( " rlineto\n" ));
 
           for ( idx = 0; idx < count; idx += 2 )
           {
@@ -888,10 +888,10 @@
           CF2_UInt  idx;
           CF2_UInt  count = cf2_stack_count( opStack );
 
-          FT_Bool  isX = FT_BOOL( op1 == cf2_cmdHLINETO );
+          FT_TS_Bool  isX = FT_TS_BOOL( op1 == cf2_cmdHLINETO );
 
 
-          FT_TRACE4(( "%s\n", isX ? " hlineto" : " vlineto" ));
+          FT_TS_TRACE4(( "%s\n", isX ? " hlineto" : " vlineto" ));
 
           for ( idx = 0; idx < count; idx++ )
           {
@@ -919,7 +919,7 @@
           CF2_UInt  idx   = 0;
 
 
-          FT_TRACE4(( "%s\n", op1 == cf2_cmdRCURVELINE ? " rcurveline"
+          FT_TS_TRACE4(( "%s\n", op1 == cf2_cmdRCURVELINE ? " rcurveline"
                                                        : " rrcurveto" ));
 
           while ( idx + 6 <= count )
@@ -957,10 +957,10 @@
 
       case cf2_cmdCLOSEPATH:
         if ( !font->isT1 )
-          FT_TRACE4(( " unknown op (%d)\n", op1 ));
+          FT_TS_TRACE4(( " unknown op (%d)\n", op1 ));
         else
         {
-          FT_TRACE4(( " closepath\n" ));
+          FT_TS_TRACE4(( " closepath\n" ));
 
           /* if there is no path, `closepath' is a no-op */
           cf2_glyphpath_closeOpenPath( &glyphPath );
@@ -975,14 +975,14 @@
           CF2_Int  subrNum;
 
 
-          FT_TRACE4(( "%s", op1 == cf2_cmdCALLGSUBR ? " callgsubr"
+          FT_TS_TRACE4(( "%s", op1 == cf2_cmdCALLGSUBR ? " callgsubr"
                                                     : " callsubr" ));
 
           if ( ( !font->isT1 && charstringIndex > CF2_MAX_SUBR )       ||
                (  font->isT1 && charstringIndex > T1_MAX_SUBRS_CALLS ) )
           {
             /* max subr plus one for charstring */
-            lastError = FT_THROW( Invalid_Glyph_Format );
+            lastError = FT_TS_THROW( Invalid_Glyph_Format );
             goto exit;                      /* overflow of stack */
           }
 
@@ -1010,7 +1010,7 @@
           switch ( op1 )
           {
           case cf2_cmdCALLGSUBR:
-            FT_TRACE4(( " (idx %d, entering level %d)\n",
+            FT_TS_TRACE4(( " (idx %d, entering level %d)\n",
                         subrNum + decoder->globals_bias,
                         charstringIndex + 1 ));
 
@@ -1018,14 +1018,14 @@
                                              subrNum,
                                              charstring ) )
             {
-              lastError = FT_THROW( Invalid_Glyph_Format );
+              lastError = FT_TS_THROW( Invalid_Glyph_Format );
               goto exit;  /* subroutine lookup or stream error */
             }
             break;
 
           default:
             /* cf2_cmdCALLSUBR */
-            FT_TRACE4(( " (idx %d, entering level %d)\n",
+            FT_TS_TRACE4(( " (idx %d, entering level %d)\n",
                         subrNum + decoder->locals_bias,
                         charstringIndex + 1 ));
 
@@ -1033,7 +1033,7 @@
                                             subrNum,
                                             charstring ) )
             {
-              lastError = FT_THROW( Invalid_Glyph_Format );
+              lastError = FT_TS_THROW( Invalid_Glyph_Format );
               goto exit;  /* subroutine lookup or stream error */
             }
           }
@@ -1043,12 +1043,12 @@
         continue; /* do not clear the stack */
 
       case cf2_cmdRETURN:
-        FT_TRACE4(( " return (leaving level %d)\n", charstringIndex ));
+        FT_TS_TRACE4(( " return (leaving level %d)\n", charstringIndex ));
 
         if ( charstringIndex < 1 )
         {
           /* Note: cannot return from top charstring */
-          lastError = FT_THROW( Invalid_Glyph_Format );
+          lastError = FT_TS_THROW( Invalid_Glyph_Format );
           goto exit;                      /* underflow of stack */
         }
 
@@ -1061,7 +1061,7 @@
 
       case cf2_cmdESC:
         {
-          FT_Byte  op2 = (FT_Byte)cf2_buf_readByte( charstring );
+          FT_TS_Byte  op2 = (FT_TS_Byte)cf2_buf_readByte( charstring );
 
 
           /* first switch for 2-byte operators handles CFF2      */
@@ -1070,7 +1070,7 @@
           {
           case cf2_escHFLEX:
             {
-              static const FT_Bool  readFromStack[12] =
+              static const FT_TS_Bool  readFromStack[12] =
               {
                 TRUE /* dx1 */, FALSE /* dy1 */,
                 TRUE /* dx2 */, TRUE  /* dy2 */,
@@ -1081,7 +1081,7 @@
               };
 
 
-              FT_TRACE4(( " hflex\n" ));
+              FT_TS_TRACE4(( " hflex\n" ));
 
               cf2_doFlex( opStack,
                           &curX,
@@ -1094,7 +1094,7 @@
 
           case cf2_escFLEX:
             {
-              static const FT_Bool  readFromStack[12] =
+              static const FT_TS_Bool  readFromStack[12] =
               {
                 TRUE /* dx1 */, TRUE /* dy1 */,
                 TRUE /* dx2 */, TRUE /* dy2 */,
@@ -1105,7 +1105,7 @@
               };
 
 
-              FT_TRACE4(( " flex\n" ));
+              FT_TS_TRACE4(( " flex\n" ));
 
               cf2_doFlex( opStack,
                           &curX,
@@ -1118,7 +1118,7 @@
 
           case cf2_escHFLEX1:
             {
-              static const FT_Bool  readFromStack[12] =
+              static const FT_TS_Bool  readFromStack[12] =
               {
                 TRUE /* dx1 */, TRUE  /* dy1 */,
                 TRUE /* dx2 */, TRUE  /* dy2 */,
@@ -1129,7 +1129,7 @@
               };
 
 
-              FT_TRACE4(( " hflex1\n" ));
+              FT_TS_TRACE4(( " hflex1\n" ));
 
               cf2_doFlex( opStack,
                           &curX,
@@ -1142,7 +1142,7 @@
 
           case cf2_escFLEX1:
             {
-              static const FT_Bool  readFromStack[12] =
+              static const FT_TS_Bool  readFromStack[12] =
               {
                 TRUE  /* dx1 */, TRUE  /* dy1 */,
                 TRUE  /* dx2 */, TRUE  /* dy2 */,
@@ -1153,7 +1153,7 @@
               };
 
 
-              FT_TRACE4(( " flex1\n" ));
+              FT_TS_TRACE4(( " flex1\n" ));
 
               cf2_doFlex( opStack,
                           &curX,
@@ -1171,13 +1171,13 @@
           case cf2_escRESERVED_25:
           case cf2_escRESERVED_31:
           case cf2_escRESERVED_32:
-            FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+            FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
             break;
 
           default:
             {
               if ( font->isCFF2 || op2 >= cf2_escRESERVED_38 )
-                FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+                FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
               else if ( font->isT1 && result_cnt > 0 && op2 != cf2_escPOP )
               {
                 /* all operands have been transferred by previous pops */
@@ -1192,7 +1192,7 @@
 
                 case cf2_escDOTSECTION:
                   /* something about `flip type of locking' -- ignore it */
-                  FT_TRACE4(( " dotsection\n" ));
+                  FT_TS_TRACE4(( " dotsection\n" ));
 
                   break;
 
@@ -1207,18 +1207,18 @@
                    */
                   {
                     if ( !font->isT1 )
-                      FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+                      FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
                     else
                     {
                       CF2_F16Dot16  v0, v1, v2;
 
-                      FT_Bool  isV = FT_BOOL( op2 == cf2_escVSTEM3 );
+                      FT_TS_Bool  isV = FT_TS_BOOL( op2 == cf2_escVSTEM3 );
 
 
-                      FT_TRACE4(( "%s\n", isV ? " vstem3"
+                      FT_TS_TRACE4(( "%s\n", isV ? " vstem3"
                                               : " hstem3" ));
 
-                      FT_ASSERT( cf2_stack_count( opStack ) == 6 );
+                      FT_TS_ASSERT( cf2_stack_count( opStack ) == 6 );
 
                       v0 = cf2_stack_getReal( opStack, 0 );
                       v1 = cf2_stack_getReal( opStack, 2 );
@@ -1254,7 +1254,7 @@
                     CF2_F16Dot16  arg2;
 
 
-                    FT_TRACE4(( " and\n" ));
+                    FT_TS_TRACE4(( " and\n" ));
 
                     arg2 = cf2_stack_popFixed( opStack );
                     arg1 = cf2_stack_popFixed( opStack );
@@ -1269,7 +1269,7 @@
                     CF2_F16Dot16  arg2;
 
 
-                    FT_TRACE4(( " or\n" ));
+                    FT_TS_TRACE4(( " or\n" ));
 
                     arg2 = cf2_stack_popFixed( opStack );
                     arg1 = cf2_stack_popFixed( opStack );
@@ -1283,7 +1283,7 @@
                     CF2_F16Dot16  arg;
 
 
-                    FT_TRACE4(( " not\n" ));
+                    FT_TS_TRACE4(( " not\n" ));
 
                     arg = cf2_stack_popFixed( opStack );
 
@@ -1293,14 +1293,14 @@
 
                 case cf2_escSEAC:
                   if ( !font->isT1 )
-                    FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+                    FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
                   else
                   {
-                    FT_Error   error2;
+                    FT_TS_Error   error2;
                     CF2_Int    bchar_index, achar_index;
-                    FT_Vector  left_bearing, advance;
+                    FT_TS_Vector  left_bearing, advance;
 
-#ifdef FT_CONFIG_OPTION_INCREMENTAL
+#ifdef FT_TS_CONFIG_OPTION_INCREMENTAL
                     T1_Face  face = (T1_Face)decoder->builder.face;
 #endif
                     CF2_BufferRec  component;
@@ -1309,48 +1309,48 @@
                     CF2_Int  achar = cf2_stack_popInt( opStack );
                     CF2_Int  bchar = cf2_stack_popInt( opStack );
 
-                    FT_Pos  ady = cf2_stack_popFixed ( opStack );
-                    FT_Pos  adx = cf2_stack_popFixed ( opStack );
-                    FT_Pos  asb = cf2_stack_popFixed ( opStack );
+                    FT_TS_Pos  ady = cf2_stack_popFixed ( opStack );
+                    FT_TS_Pos  adx = cf2_stack_popFixed ( opStack );
+                    FT_TS_Pos  asb = cf2_stack_popFixed ( opStack );
 
 
-                    FT_TRACE4(( " seac\n" ));
+                    FT_TS_TRACE4(( " seac\n" ));
 
                     if ( doingSeac )
                     {
-                      FT_ERROR(( " nested seac\n" ));
-                      lastError = FT_THROW( Invalid_Glyph_Format );
+                      FT_TS_ERROR(( " nested seac\n" ));
+                      lastError = FT_TS_THROW( Invalid_Glyph_Format );
                       goto exit;      /* nested seac */
                     }
 
                     if ( decoder->builder.metrics_only )
                     {
-                      FT_ERROR(( " unexpected seac\n" ));
-                      lastError = FT_THROW( Invalid_Glyph_Format );
+                      FT_TS_ERROR(( " unexpected seac\n" ));
+                      lastError = FT_TS_THROW( Invalid_Glyph_Format );
                       goto exit;      /* unexpected seac */
                     }
 
                     /* `glyph_names' is set to 0 for CID fonts which do */
                     /* not include an encoding.  How can we deal with   */
                     /* these?                                           */
-#ifdef FT_CONFIG_OPTION_INCREMENTAL
+#ifdef FT_TS_CONFIG_OPTION_INCREMENTAL
                     if ( decoder->glyph_names == 0                   &&
                          !face->root.internal->incremental_interface )
 #else
                       if ( decoder->glyph_names == 0 )
-#endif /* FT_CONFIG_OPTION_INCREMENTAL */
+#endif /* FT_TS_CONFIG_OPTION_INCREMENTAL */
                       {
-                        FT_ERROR(( "cf2_interpT2CharString:\n" ));
-                        FT_ERROR(( "  (Type 1 seac) glyph names table"
+                        FT_TS_ERROR(( "cf2_interpT2CharString:\n" ));
+                        FT_TS_ERROR(( "  (Type 1 seac) glyph names table"
                                    " not available in this font\n" ));
-                        lastError = FT_THROW( Invalid_Glyph_Format );
+                        lastError = FT_TS_THROW( Invalid_Glyph_Format );
                         goto exit;
                       }
 
                     /* seac weirdness */
                     adx += decoder->builder.left_bearing->x;
 
-#ifdef FT_CONFIG_OPTION_INCREMENTAL
+#ifdef FT_TS_CONFIG_OPTION_INCREMENTAL
                     if ( face->root.internal->incremental_interface )
                     {
                       /* the caller must handle the font encoding also */
@@ -1368,10 +1368,10 @@
 
                     if ( bchar_index < 0 || achar_index < 0 )
                     {
-                      FT_ERROR(( "cf2_interpT2CharString:\n" ));
-                      FT_ERROR(( "  (Type 1 seac) invalid"
+                      FT_TS_ERROR(( "cf2_interpT2CharString:\n" ));
+                      FT_TS_ERROR(( "  (Type 1 seac) invalid"
                                  " seac character code arguments\n" ));
-                      lastError = FT_THROW( Invalid_Glyph_Format );
+                      lastError = FT_TS_THROW( Invalid_Glyph_Format );
                       goto exit;
                     }
 
@@ -1380,13 +1380,13 @@
                     /* the array of subglyphs.                     */
                     if ( decoder->builder.no_recurse )
                     {
-                      FT_GlyphSlot    glyph  = (FT_GlyphSlot)decoder->builder.glyph;
-                      FT_GlyphLoader  loader = glyph->internal->loader;
-                      FT_SubGlyph     subg;
+                      FT_TS_GlyphSlot    glyph  = (FT_TS_GlyphSlot)decoder->builder.glyph;
+                      FT_TS_GlyphLoader  loader = glyph->internal->loader;
+                      FT_TS_SubGlyph     subg;
 
 
                       /* reallocate subglyph array if necessary */
-                      error2 = FT_GlyphLoader_CheckSubGlyphs( loader, 2 );
+                      error2 = FT_TS_GlyphLoader_CheckSubGlyphs( loader, 2 );
                       if ( error2 )
                       {
                         lastError = error2; /* pass FreeType error through */
@@ -1397,22 +1397,22 @@
 
                       /* subglyph 0 = base character */
                       subg->index = bchar_index;
-                      subg->flags = FT_SUBGLYPH_FLAG_ARGS_ARE_XY_VALUES |
-                                    FT_SUBGLYPH_FLAG_USE_MY_METRICS;
+                      subg->flags = FT_TS_SUBGLYPH_FLAG_ARGS_ARE_XY_VALUES |
+                                    FT_TS_SUBGLYPH_FLAG_USE_MY_METRICS;
                       subg->arg1  = 0;
                       subg->arg2  = 0;
                       subg++;
 
                       /* subglyph 1 = accent character */
                       subg->index = achar_index;
-                      subg->flags = FT_SUBGLYPH_FLAG_ARGS_ARE_XY_VALUES;
-                      subg->arg1  = (FT_Int)FIXED_TO_INT( adx - asb );
-                      subg->arg2  = (FT_Int)FIXED_TO_INT( ady );
+                      subg->flags = FT_TS_SUBGLYPH_FLAG_ARGS_ARE_XY_VALUES;
+                      subg->arg1  = (FT_TS_Int)FIXED_TO_INT( adx - asb );
+                      subg->arg2  = (FT_TS_Int)FIXED_TO_INT( ady );
 
                       /* set up remaining glyph fields */
                       glyph->num_subglyphs = 2;
                       glyph->subglyphs     = loader->base.subglyphs;
-                      glyph->format        = FT_GLYPH_FORMAT_COMPOSITE;
+                      glyph->format        = FT_TS_GLYPH_FORMAT_COMPOSITE;
 
                       loader->current.num_subglyphs = 2;
 
@@ -1423,10 +1423,10 @@
                     /* now load the unscaled outline */
 
                     /* prepare loader */
-                    FT_GlyphLoader_Prepare( decoder->builder.loader );
+                    FT_TS_GlyphLoader_Prepare( decoder->builder.loader );
 
                     error2 = cf2_getT1SeacComponent( decoder,
-                                                     (FT_UInt)bchar_index,
+                                                     (FT_TS_UInt)bchar_index,
                                                      &component );
                     if ( error2 )
                     {
@@ -1466,7 +1466,7 @@
                     /* the base outline           */
 
                     error2 = cf2_getT1SeacComponent( decoder,
-                                                     (FT_UInt)achar_index,
+                                                     (FT_TS_UInt)achar_index,
                                                      &component );
                     if ( error2 )
                     {
@@ -1495,14 +1495,14 @@
 
                 case cf2_escSBW:
                   if ( !font->isT1 )
-                    FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+                    FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
                   else
                   {
                     CF2_Fixed    lsb_x, lsb_y;
                     PS_Builder*  builder;
 
 
-                    FT_TRACE4(( " sbw" ));
+                    FT_TS_TRACE4(( " sbw" ));
 
                     builder = &decoder->builder;
 
@@ -1539,14 +1539,14 @@
                     CF2_F16Dot16  arg;
 
 
-                    FT_TRACE4(( " abs\n" ));
+                    FT_TS_TRACE4(( " abs\n" ));
 
                     arg = cf2_stack_popFixed( opStack );
 
                     if ( arg < -CF2_FIXED_MAX )
                       cf2_stack_pushFixed( opStack, CF2_FIXED_MAX );
                     else
-                      cf2_stack_pushFixed( opStack, FT_ABS( arg ) );
+                      cf2_stack_pushFixed( opStack, FT_TS_ABS( arg ) );
                   }
                   continue; /* do not clear the stack */
 
@@ -1556,7 +1556,7 @@
                     CF2_F16Dot16  summand2;
 
 
-                    FT_TRACE4(( " add\n" ));
+                    FT_TS_TRACE4(( " add\n" ));
 
                     summand2 = cf2_stack_popFixed( opStack );
                     summand1 = cf2_stack_popFixed( opStack );
@@ -1573,7 +1573,7 @@
                     CF2_F16Dot16  subtrahend;
 
 
-                    FT_TRACE4(( " sub\n" ));
+                    FT_TS_TRACE4(( " sub\n" ));
 
                     subtrahend = cf2_stack_popFixed( opStack );
                     minuend    = cf2_stack_popFixed( opStack );
@@ -1589,7 +1589,7 @@
                     CF2_F16Dot16  divisor;
 
 
-                    FT_TRACE4(( " div\n" ));
+                    FT_TS_TRACE4(( " div\n" ));
 
                     if ( font->isT1 && large_int )
                     {
@@ -1605,7 +1605,7 @@
                     }
 
                     cf2_stack_pushFixed( opStack,
-                                         FT_DivFix( dividend, divisor ) );
+                                         FT_TS_DivFix( dividend, divisor ) );
 
                   }
                   continue; /* do not clear the stack */
@@ -1615,7 +1615,7 @@
                     CF2_F16Dot16  arg;
 
 
-                    FT_TRACE4(( " neg\n" ));
+                    FT_TS_TRACE4(( " neg\n" ));
 
                     arg = cf2_stack_popFixed( opStack );
 
@@ -1632,7 +1632,7 @@
                     CF2_F16Dot16  arg2;
 
 
-                    FT_TRACE4(( " eq\n" ));
+                    FT_TS_TRACE4(( " eq\n" ));
 
                     arg2 = cf2_stack_popFixed( opStack );
                     arg1 = cf2_stack_popFixed( opStack );
@@ -1643,7 +1643,7 @@
 
                 case cf2_escCALLOTHERSUBR:
                   if ( !font->isT1 )
-                    FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+                    FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
                   else
                   {
                     CF2_Int   subr_no;
@@ -1652,7 +1652,7 @@
                     CF2_UInt  opIdx = 0;
 
 
-                    FT_TRACE4(( " callothersubr\n" ));
+                    FT_TS_TRACE4(( " callothersubr\n" ));
 
                     subr_no = cf2_stack_popInt( opStack );
                     arg_cnt = cf2_stack_popInt( opStack );
@@ -1672,9 +1672,9 @@
                     count = cf2_stack_count( opStack );
                     if ( (CF2_UInt)arg_cnt > count )
                     {
-                      FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+                      FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                                  " stack underflow\n" ));
-                      lastError = FT_THROW( Invalid_Glyph_Format );
+                      lastError = FT_TS_THROW( Invalid_Glyph_Format );
                       goto exit;
                     }
 
@@ -1711,9 +1711,9 @@
                            ( !decoder->flex_state           ||
                              decoder->num_flex_vectors != 7 ) )
                       {
-                        FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+                        FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                                    " unexpected flex end\n" ));
-                        lastError = FT_THROW( Invalid_Glyph_Format );
+                        lastError = FT_TS_THROW( Invalid_Glyph_Format );
                         goto exit;
                       }
 
@@ -1740,8 +1740,8 @@
 
                     case 2:                     /* add flex vectors */
                       {
-                        FT_Int  idx;
-                        FT_Int  idx2;
+                        FT_TS_Int  idx;
+                        FT_TS_Int  idx2;
 
 
                         if ( arg_cnt != 0 )
@@ -1752,9 +1752,9 @@
 
                         if ( !decoder->flex_state )
                         {
-                          FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+                          FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                                      " missing flex start\n" ));
-                          lastError = FT_THROW( Invalid_Glyph_Format );
+                          lastError = FT_TS_THROW( Invalid_Glyph_Format );
                           goto exit;
                         }
 
@@ -1773,7 +1773,7 @@
                           if ( ps_builder_check_points( &decoder->builder,
                                                         1 ) )
                           {
-                            lastError = FT_THROW( Invalid_Glyph_Format );
+                            lastError = FT_TS_THROW( Invalid_Glyph_Format );
                             goto exit;
                           }
 
@@ -1827,29 +1827,29 @@
                     case 18:                    /* multiple masters */
                       {
                         PS_Blend  blend = decoder->blend;
-                        FT_UInt   num_points, nn, mm;
+                        FT_TS_UInt   num_points, nn, mm;
                         CF2_UInt  delta;
                         CF2_UInt  values;
 
 
                         if ( !blend )
                         {
-                          FT_ERROR((
+                          FT_TS_ERROR((
                             "cf2_interpT2CharString:"
                             " unexpected multiple masters operator\n" ));
-                          lastError = FT_THROW( Invalid_Glyph_Format );
+                          lastError = FT_TS_THROW( Invalid_Glyph_Format );
                           goto exit;
                         }
 
-                        num_points = (FT_UInt)subr_no - 13 +
+                        num_points = (FT_TS_UInt)subr_no - 13 +
                                        ( subr_no == 18 );
-                        if ( arg_cnt != (FT_Int)( num_points *
+                        if ( arg_cnt != (FT_TS_Int)( num_points *
                                                   blend->num_designs ) )
                         {
-                          FT_ERROR((
+                          FT_TS_ERROR((
                             "cf2_interpT2CharString:"
                             " incorrect number of multiple masters arguments\n" ));
-                          lastError = FT_THROW( Invalid_Glyph_Format );
+                          lastError = FT_TS_THROW( Invalid_Glyph_Format );
                           goto exit;
                         }
 
@@ -1879,7 +1879,7 @@
 
                           for ( mm = 1; mm < blend->num_designs; mm++ )
                             tmp = ADD_INT32( tmp,
-                                             FT_MulFix(
+                                             FT_TS_MulFix(
                                                cf2_stack_getReal( opStack,
                                                                   delta++ ),
                                                blend->weight_vector[mm] ) );
@@ -1889,7 +1889,7 @@
                         cf2_stack_pop( opStack,
                                        (CF2_UInt)arg_cnt - num_points );
 
-                        known_othersubr_result_cnt = (FT_Int)num_points;
+                        known_othersubr_result_cnt = (FT_TS_Int)num_points;
                         break;
                       }
 
@@ -1899,14 +1899,14 @@
                       /*     cvi( <idx> ) of BuildCharArray with  */
                       /*     WeightVector                         */
                       {
-                        FT_UInt   idx;
+                        FT_TS_UInt   idx;
                         PS_Blend  blend = decoder->blend;
 
 
                         if ( arg_cnt != 1 || !blend )
                           goto Unexpected_OtherSubr;
 
-                        idx = (FT_UInt)cf2_stack_popInt( opStack );
+                        idx = (FT_TS_UInt)cf2_stack_popInt( opStack );
 
                         if ( idx + blend->num_designs >
                                decoder->len_buildchar   )
@@ -1976,7 +1976,7 @@
                         factor1 = cf2_stack_popFixed( opStack );
 
                         cf2_stack_pushFixed( opStack,
-                                             FT_MulFix( factor1, factor2 ) );
+                                             FT_TS_MulFix( factor1, factor2 ) );
                         known_othersubr_result_cnt = 1;
                       }
                       break;
@@ -1999,7 +1999,7 @@
                           goto Unexpected_OtherSubr;
 
                         cf2_stack_pushFixed( opStack,
-                                             FT_DivFix( dividend,
+                                             FT_TS_DivFix( dividend,
                                                         divisor ) );
                         known_othersubr_result_cnt = 1;
                       }
@@ -2113,10 +2113,10 @@
                     default:
                       if ( arg_cnt >= 0 && subr_no >= 0 )
                       {
-                        FT_Int  i;
+                        FT_TS_Int  i;
 
 
-                        FT_ERROR((
+                        FT_TS_ERROR((
                           "cf2_interpT2CharString (Type 1 mode):"
                           " unknown othersubr [%d %d], wish me luck\n",
                           arg_cnt, subr_no ));
@@ -2137,10 +2137,10 @@
                       /* fall through */
 
                     Unexpected_OtherSubr:
-                      FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+                      FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                                  " invalid othersubr [%d %d]\n",
                                  arg_cnt, subr_no ));
-                      lastError = FT_THROW( Invalid_Glyph_Format );
+                      lastError = FT_TS_THROW( Invalid_Glyph_Format );
                       goto exit;
                     }
                   }
@@ -2148,10 +2148,10 @@
 
                 case cf2_escPOP:
                   if ( !font->isT1 )
-                    FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+                    FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
                   else
                   {
-                    FT_TRACE4(( " pop" ));
+                    FT_TS_TRACE4(( " pop" ));
 
                     if ( known_othersubr_result_cnt > 0 )
                     {
@@ -2162,9 +2162,9 @@
 
                     if ( result_cnt == 0 )
                     {
-                      FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+                      FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                                  " no more operands for othersubr\n" ));
-                      lastError = FT_THROW( Invalid_Glyph_Format );
+                      lastError = FT_TS_THROW( Invalid_Glyph_Format );
                       goto exit;
                     }
 
@@ -2174,7 +2174,7 @@
                   continue; /* do not clear the stack */
 
                 case cf2_escDROP:
-                  FT_TRACE4(( " drop\n" ));
+                  FT_TS_TRACE4(( " drop\n" ));
 
                   (void)cf2_stack_popFixed( opStack );
                   continue; /* do not clear the stack */
@@ -2185,7 +2185,7 @@
                     CF2_UInt      idx;
 
 
-                    FT_TRACE4(( " put\n" ));
+                    FT_TS_TRACE4(( " put\n" ));
 
                     idx = (CF2_UInt)cf2_stack_popInt( opStack );
                     val = cf2_stack_popFixed( opStack );
@@ -2200,7 +2200,7 @@
                     CF2_UInt  idx;
 
 
-                    FT_TRACE4(( " get\n" ));
+                    FT_TS_TRACE4(( " get\n" ));
 
                     idx = (CF2_UInt)cf2_stack_popInt( opStack );
 
@@ -2217,7 +2217,7 @@
                     CF2_F16Dot16  cond2;
 
 
-                    FT_TRACE4(( " ifelse\n" ));
+                    FT_TS_TRACE4(( " ifelse\n" ));
 
                     cond2 = cf2_stack_popFixed( opStack );
                     cond1 = cf2_stack_popFixed( opStack );
@@ -2234,7 +2234,7 @@
                     CF2_F16Dot16  r;
 
 
-                    FT_TRACE4(( " random\n" ));
+                    FT_TS_TRACE4(( " random\n" ));
 
                     /* only use the lower 16 bits of `random'  */
                     /* to generate a number in the range (0;1] */
@@ -2254,13 +2254,13 @@
                     CF2_F16Dot16  factor2;
 
 
-                    FT_TRACE4(( " mul\n" ));
+                    FT_TS_TRACE4(( " mul\n" ));
 
                     factor2 = cf2_stack_popFixed( opStack );
                     factor1 = cf2_stack_popFixed( opStack );
 
                     cf2_stack_pushFixed( opStack,
-                                         FT_MulFix( factor1, factor2 ) );
+                                         FT_TS_MulFix( factor1, factor2 ) );
                   }
                   continue; /* do not clear the stack */
 
@@ -2269,21 +2269,21 @@
                     CF2_F16Dot16  arg;
 
 
-                    FT_TRACE4(( " sqrt\n" ));
+                    FT_TS_TRACE4(( " sqrt\n" ));
 
                     arg = cf2_stack_popFixed( opStack );
                     if ( arg > 0 )
                     {
                       /* use a start value that doesn't make */
                       /* the algorithm's addition overflow   */
-                      FT_Fixed  root = arg < 10 ? arg : arg >> 1;
-                      FT_Fixed  new_root;
+                      FT_TS_Fixed  root = arg < 10 ? arg : arg >> 1;
+                      FT_TS_Fixed  new_root;
 
 
                       /* Babylonian method */
                       for (;;)
                       {
-                        new_root = ( root + FT_DivFix( arg, root ) + 1 ) >> 1;
+                        new_root = ( root + FT_TS_DivFix( arg, root ) + 1 ) >> 1;
                         if ( new_root == root )
                           break;
                         root = new_root;
@@ -2302,7 +2302,7 @@
                     CF2_F16Dot16  arg;
 
 
-                    FT_TRACE4(( " dup\n" ));
+                    FT_TS_TRACE4(( " dup\n" ));
 
                     arg = cf2_stack_popFixed( opStack );
 
@@ -2317,7 +2317,7 @@
                     CF2_F16Dot16  arg2;
 
 
-                    FT_TRACE4(( " exch\n" ));
+                    FT_TS_TRACE4(( " exch\n" ));
 
                     arg2 = cf2_stack_popFixed( opStack );
                     arg1 = cf2_stack_popFixed( opStack );
@@ -2333,7 +2333,7 @@
                     CF2_UInt  size;
 
 
-                    FT_TRACE4(( " index\n" ));
+                    FT_TS_TRACE4(( " index\n" ));
 
                     idx  = cf2_stack_popInt( opStack );
                     size = cf2_stack_count( opStack );
@@ -2365,7 +2365,7 @@
                     CF2_Int  count;
 
 
-                    FT_TRACE4(( " roll\n" ));
+                    FT_TS_TRACE4(( " roll\n" ));
 
                     idx   = cf2_stack_popInt( opStack );
                     count = cf2_stack_popInt( opStack );
@@ -2376,10 +2376,10 @@
 
                 case cf2_escSETCURRENTPT:
                   if ( !font->isT1 )
-                    FT_TRACE4(( " unknown op (12, %d)\n", op2 ));
+                    FT_TS_TRACE4(( " unknown op (12, %d)\n", op2 ));
                   else
                   {
-                    FT_TRACE4(( " setcurrentpoint" ));
+                    FT_TS_TRACE4(( " setcurrentpoint" ));
 
                     if ( !initial_map_ready )
                       break;
@@ -2401,7 +2401,7 @@
 
                     if ( decoder->flex_state != 1 )
                     {
-                      FT_ERROR(( "cf2_interpT2CharString:"
+                      FT_TS_ERROR(( "cf2_interpT2CharString:"
                                  " unexpected `setcurrentpoint'\n" ));
                       goto Syntax_Error;
                     }
@@ -2426,14 +2426,14 @@
 
       case cf2_cmdHSBW:
         if ( !font->isT1 )
-          FT_TRACE4(( " unknown op (%d)\n", op1 ));
+          FT_TS_TRACE4(( " unknown op (%d)\n", op1 ));
         else
         {
           CF2_Fixed    lsb_x;
           PS_Builder*  builder;
 
 
-          FT_TRACE4(( " hsbw\n" ));
+          FT_TS_TRACE4(( " hsbw\n" ));
 
           builder = &decoder->builder;
 
@@ -2459,11 +2459,11 @@
         break;
 
       case cf2_cmdENDCHAR:
-        FT_TRACE4(( " endchar\n" ));
+        FT_TS_TRACE4(( " endchar\n" ));
 
         if ( font->isT1 && !initial_map_ready )
         {
-          FT_TRACE5(( "cf2_interpT2CharString (Type 1 mode): "
+          FT_TS_TRACE5(( "cf2_interpT2CharString (Type 1 mode): "
                       "Build initial hintmap, rewinding...\n" ));
 
           /* trigger initial hintmap build */
@@ -2485,7 +2485,7 @@
           /* charstring                                                */
           while ( charstringIndex > 0 )
           {
-            FT_TRACE4(( " return (leaving level %d)\n", charstringIndex ));
+            FT_TS_TRACE4(( " return (leaving level %d)\n", charstringIndex ));
 
             /* restore position in previous charstring */
             charstring = (CF2_Buffer)
@@ -2526,12 +2526,12 @@
           CF2_Int        bchar;
           CF2_BufferRec  component;
           CF2_Fixed      dummyWidth;   /* ignore component width */
-          FT_Error       error2;
+          FT_TS_Error       error2;
 
 
           if ( doingSeac )
           {
-            lastError = FT_THROW( Invalid_Glyph_Format );
+            lastError = FT_TS_THROW( Invalid_Glyph_Format );
             goto exit;      /* nested seac */
           }
 
@@ -2579,13 +2579,13 @@
       case cf2_cmdHINTMASK:
         /* the final \n in the tracing message gets added in      */
         /* `cf2_hintmask_read' (which also traces the mask bytes) */
-        FT_TRACE4(( "%s", op1 == cf2_cmdCNTRMASK ? " cntrmask" : " hintmask" ));
+        FT_TS_TRACE4(( "%s", op1 == cf2_cmdCNTRMASK ? " cntrmask" : " hintmask" ));
 
         /* never add hints after the mask is computed */
         if ( cf2_stack_count( opStack ) > 1    &&
              cf2_hintmask_isValid( &hintMask ) )
         {
-          FT_TRACE4(( "cf2_interpT2CharString: invalid hint mask\n" ));
+          FT_TS_TRACE4(( "cf2_interpT2CharString: invalid hint mask\n" ));
           break;
         }
 
@@ -2649,10 +2649,10 @@
         break;
 
       case cf2_cmdRMOVETO:
-        FT_TRACE4(( " rmoveto\n" ));
+        FT_TS_TRACE4(( " rmoveto\n" ));
 
         if ( font->isT1 && !decoder->flex_state && !haveWidth )
-          FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+          FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                      " No width. Use hsbw/sbw as first op\n" ));
 
         if ( cf2_stack_count( opStack ) > 2 && !haveWidth )
@@ -2674,10 +2674,10 @@
         break;
 
       case cf2_cmdHMOVETO:
-        FT_TRACE4(( " hmoveto\n" ));
+        FT_TS_TRACE4(( " hmoveto\n" ));
 
         if ( font->isT1 && !decoder->flex_state && !haveWidth )
-          FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+          FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                      " No width. Use hsbw/sbw as first op\n" ));
 
         if ( cf2_stack_count( opStack ) > 1 && !haveWidth )
@@ -2703,7 +2703,7 @@
           CF2_UInt  idx   = 0;
 
 
-          FT_TRACE4(( " rlinecurve\n" ));
+          FT_TS_TRACE4(( " rlinecurve\n" ));
 
           while ( idx + 6 < count )
           {
@@ -2751,7 +2751,7 @@
           count = count1 & ~2U;
           idx  += count1 - count;
 
-          FT_TRACE4(( " vvcurveto\n" ));
+          FT_TS_TRACE4(( " vvcurveto\n" ));
 
           while ( idx < count )
           {
@@ -2796,7 +2796,7 @@
           count = count1 & ~2U;
           idx  += count1 - count;
 
-          FT_TRACE4(( " hhcurveto\n" ));
+          FT_TS_TRACE4(( " hhcurveto\n" ));
 
           while ( idx < count )
           {
@@ -2835,7 +2835,7 @@
           CF2_UInt  count, count1 = cf2_stack_count( opStack );
           CF2_UInt  idx = 0;
 
-          FT_Bool  alternate = FT_BOOL( op1 == cf2_cmdHVCURVETO );
+          FT_TS_Bool  alternate = FT_TS_BOOL( op1 == cf2_cmdHVCURVETO );
 
 
           /* if `cf2_stack_count' isn't of the form 8n, 8n+1, */
@@ -2845,7 +2845,7 @@
           count = count1 & ~2U;
           idx  += count1 - count;
 
-          FT_TRACE4(( "%s\n", alternate ? " hvcurveto" : " vhcurveto" ));
+          FT_TS_TRACE4(( "%s\n", alternate ? " hvcurveto" : " vhcurveto" ));
 
           while ( idx < count )
           {
@@ -2910,10 +2910,10 @@
           CF2_Int  byte2 = cf2_buf_readByte( charstring );
 
 
-          v = (FT_Short)( ( byte1 << 8 ) |
+          v = (FT_TS_Short)( ( byte1 << 8 ) |
                             byte2        );
 
-          FT_TRACE4(( " %d", v ));
+          FT_TS_TRACE4(( " %d", v ));
 
           cf2_stack_pushInt( opStack, v );
         }
@@ -2929,7 +2929,7 @@
 
             v = op1 - 139;
 
-            FT_TRACE4(( " %d", v ));
+            FT_TS_TRACE4(( " %d", v ));
 
             /* -107 .. 107 */
             cf2_stack_pushInt( opStack, v );
@@ -2946,7 +2946,7 @@
             v += cf2_buf_readByte( charstring );
             v += 108;
 
-            FT_TRACE4(( " %d", v ));
+            FT_TS_TRACE4(( " %d", v ));
 
             /* 108 .. 1131 */
             cf2_stack_pushInt( opStack, v );
@@ -2963,7 +2963,7 @@
             v += cf2_buf_readByte( charstring );
             v  = -v - 108;
 
-            FT_TRACE4(( " %d", v ));
+            FT_TS_TRACE4(( " %d", v ));
 
             /* -1131 .. -108 */
             cf2_stack_pushInt( opStack, v );
@@ -2973,10 +2973,10 @@
           {
             CF2_Fixed  v;
 
-            FT_UInt32  byte1 = (FT_UInt32)cf2_buf_readByte( charstring );
-            FT_UInt32  byte2 = (FT_UInt32)cf2_buf_readByte( charstring );
-            FT_UInt32  byte3 = (FT_UInt32)cf2_buf_readByte( charstring );
-            FT_UInt32  byte4 = (FT_UInt32)cf2_buf_readByte( charstring );
+            FT_TS_UInt32  byte1 = (FT_TS_UInt32)cf2_buf_readByte( charstring );
+            FT_TS_UInt32  byte2 = (FT_TS_UInt32)cf2_buf_readByte( charstring );
+            FT_TS_UInt32  byte3 = (FT_TS_UInt32)cf2_buf_readByte( charstring );
+            FT_TS_UInt32  byte4 = (FT_TS_UInt32)cf2_buf_readByte( charstring );
 
 
             v = (CF2_Fixed)( ( byte1 << 24 ) |
@@ -3004,19 +3004,19 @@
               if ( v > 32000 || v < -32000 )
               {
                 if ( large_int )
-                  FT_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
+                  FT_TS_ERROR(( "cf2_interpT2CharString (Type 1 mode):"
                              " no `div' after large integer\n" ));
                 else
                   large_int = TRUE;
               }
 
-              FT_TRACE4(( " %d", v ));
+              FT_TS_TRACE4(( " %d", v ));
 
               cf2_stack_pushInt( opStack, (CF2_Int)v );
             }
             else
             {
-              FT_TRACE4(( " %.5fF", v / 65536.0 ));
+              FT_TS_TRACE4(( " %.5fF", v / 65536.0 ));
 
               cf2_stack_pushFixed( opStack, v );
             }
@@ -3031,7 +3031,7 @@
     } /* end of main interpreter loop */
 
     /* we get here if the charstring ends without cf2_cmdENDCHAR */
-    FT_TRACE4(( "cf2_interpT2CharString:"
+    FT_TS_TRACE4(( "cf2_interpT2CharString:"
                 "  charstring ends without ENDCHAR\n" ));
 
   exit:
@@ -3039,7 +3039,7 @@
     cf2_setError( error, lastError );
 
     if ( *error )
-      FT_TRACE4(( "charstring error %d\n", *error ));
+      FT_TS_TRACE4(( "charstring error %d\n", *error ));
 
     /* free resources from objects we've used */
     cf2_glyphpath_finalize( &glyphPath );
@@ -3048,7 +3048,7 @@
     cf2_arrstack_finalize( &subrStack );
     cf2_stack_free( opStack );
 
-    FT_TRACE4(( "\n" ));
+    FT_TS_TRACE4(( "\n" ));
 
     return;
   }

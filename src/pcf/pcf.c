@@ -25,7 +25,7 @@ THE SOFTWARE.
 */
 
 
-#define FT_MAKE_OPTION_SINGLE_OBJECT
+#define FT_TS_MAKE_OPTION_SINGLE_OBJECT
 
 #include "pcfdrivr.c"
 #include "pcfread.c"

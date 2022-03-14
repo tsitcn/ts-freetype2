@@ -39,12 +39,12 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  ttmtx
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  ttmtx
 
 
   /**************************************************************************
@@ -68,15 +68,15 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_hmtx( TT_Face    face,
-                     FT_Stream  stream,
-                     FT_Bool    vertical )
+                     FT_TS_Stream  stream,
+                     FT_TS_Bool    vertical )
   {
-    FT_Error   error;
-    FT_ULong   tag, table_size;
-    FT_ULong*  ptable_offset;
-    FT_ULong*  ptable_size;
+    FT_TS_Error   error;
+    FT_TS_ULong   tag, table_size;
+    FT_TS_ULong*  ptable_offset;
+    FT_TS_ULong*  ptable_size;
 
 
     if ( vertical )
@@ -97,7 +97,7 @@
       goto Fail;
 
     *ptable_size   = table_size;
-    *ptable_offset = FT_STREAM_POS();
+    *ptable_offset = FT_TS_STREAM_POS();
 
   Fail:
     return error;
@@ -125,38 +125,38 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_load_hhea( TT_Face    face,
-                     FT_Stream  stream,
-                     FT_Bool    vertical )
+                     FT_TS_Stream  stream,
+                     FT_TS_Bool    vertical )
   {
-    FT_Error        error;
+    FT_TS_Error        error;
     TT_HoriHeader*  header;
 
-    static const FT_Frame_Field  metrics_header_fields[] =
+    static const FT_TS_Frame_Field  metrics_header_fields[] =
     {
-#undef  FT_STRUCTURE
-#define FT_STRUCTURE  TT_HoriHeader
+#undef  FT_TS_STRUCTURE
+#define FT_TS_STRUCTURE  TT_HoriHeader
 
-      FT_FRAME_START( 36 ),
-        FT_FRAME_ULONG ( Version ),
-        FT_FRAME_SHORT ( Ascender ),
-        FT_FRAME_SHORT ( Descender ),
-        FT_FRAME_SHORT ( Line_Gap ),
-        FT_FRAME_USHORT( advance_Width_Max ),
-        FT_FRAME_SHORT ( min_Left_Side_Bearing ),
-        FT_FRAME_SHORT ( min_Right_Side_Bearing ),
-        FT_FRAME_SHORT ( xMax_Extent ),
-        FT_FRAME_SHORT ( caret_Slope_Rise ),
-        FT_FRAME_SHORT ( caret_Slope_Run ),
-        FT_FRAME_SHORT ( caret_Offset ),
-        FT_FRAME_SHORT ( Reserved[0] ),
-        FT_FRAME_SHORT ( Reserved[1] ),
-        FT_FRAME_SHORT ( Reserved[2] ),
-        FT_FRAME_SHORT ( Reserved[3] ),
-        FT_FRAME_SHORT ( metric_Data_Format ),
-        FT_FRAME_USHORT( number_Of_HMetrics ),
-      FT_FRAME_END
+      FT_TS_FRAME_START( 36 ),
+        FT_TS_FRAME_ULONG ( Version ),
+        FT_TS_FRAME_SHORT ( Ascender ),
+        FT_TS_FRAME_SHORT ( Descender ),
+        FT_TS_FRAME_SHORT ( Line_Gap ),
+        FT_TS_FRAME_USHORT( advance_Width_Max ),
+        FT_TS_FRAME_SHORT ( min_Left_Side_Bearing ),
+        FT_TS_FRAME_SHORT ( min_Right_Side_Bearing ),
+        FT_TS_FRAME_SHORT ( xMax_Extent ),
+        FT_TS_FRAME_SHORT ( caret_Slope_Rise ),
+        FT_TS_FRAME_SHORT ( caret_Slope_Run ),
+        FT_TS_FRAME_SHORT ( caret_Offset ),
+        FT_TS_FRAME_SHORT ( Reserved[0] ),
+        FT_TS_FRAME_SHORT ( Reserved[1] ),
+        FT_TS_FRAME_SHORT ( Reserved[2] ),
+        FT_TS_FRAME_SHORT ( Reserved[3] ),
+        FT_TS_FRAME_SHORT ( metric_Data_Format ),
+        FT_TS_FRAME_USHORT( number_Of_HMetrics ),
+      FT_TS_FRAME_END
     };
 
 
@@ -180,12 +180,12 @@
       header = &face->horizontal;
     }
 
-    if ( FT_STREAM_READ_FIELDS( metrics_header_fields, header ) )
+    if ( FT_TS_STREAM_READ_FIELDS( metrics_header_fields, header ) )
       goto Fail;
 
-    FT_TRACE3(( "Ascender:          %5d\n", header->Ascender ));
-    FT_TRACE3(( "Descender:         %5d\n", header->Descender ));
-    FT_TRACE3(( "number_Of_Metrics: %5u\n", header->number_Of_HMetrics ));
+    FT_TS_TRACE3(( "Ascender:          %5d\n", header->Ascender ));
+    FT_TS_TRACE3(( "Descender:         %5d\n", header->Descender ));
+    FT_TS_TRACE3(( "number_Of_Metrics: %5u\n", header->number_Of_HMetrics ));
 
     header->long_metrics  = NULL;
     header->short_metrics = NULL;
@@ -224,22 +224,22 @@
    *     The advance width or advance height, depending on
    *     the `vertical' flag.
    */
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   tt_face_get_metrics( TT_Face     face,
-                       FT_Bool     vertical,
-                       FT_UInt     gindex,
-                       FT_Short   *abearing,
-                       FT_UShort  *aadvance )
+                       FT_TS_Bool     vertical,
+                       FT_TS_UInt     gindex,
+                       FT_TS_Short   *abearing,
+                       FT_TS_UShort  *aadvance )
   {
-    FT_Error        error;
-    FT_Stream       stream = face->root.stream;
+    FT_TS_Error        error;
+    FT_TS_Stream       stream = face->root.stream;
     TT_HoriHeader*  header;
-    FT_ULong        table_pos, table_size, table_end;
-    FT_UShort       k;
+    FT_TS_ULong        table_pos, table_size, table_end;
+    FT_TS_UShort       k;
 
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
-    FT_Service_MetricsVariations  var =
-      (FT_Service_MetricsVariations)face->var;
+    FT_TS_Service_MetricsVariations  var =
+      (FT_TS_Service_MetricsVariations)face->var;
 #endif
 
 
@@ -265,15 +265,15 @@
 
     if ( k > 0 )
     {
-      if ( gindex < (FT_UInt)k )
+      if ( gindex < (FT_TS_UInt)k )
       {
         table_pos += 4 * gindex;
         if ( table_pos + 4 > table_end )
           goto NoData;
 
-        if ( FT_STREAM_SEEK( table_pos ) ||
-             FT_READ_USHORT( *aadvance ) ||
-             FT_READ_SHORT( *abearing )  )
+        if ( FT_TS_STREAM_SEEK( table_pos ) ||
+             FT_TS_READ_USHORT( *aadvance ) ||
+             FT_TS_READ_SHORT( *abearing )  )
           goto NoData;
       }
       else
@@ -282,8 +282,8 @@
         if ( table_pos + 2 > table_end )
           goto NoData;
 
-        if ( FT_STREAM_SEEK( table_pos ) ||
-             FT_READ_USHORT( *aadvance ) )
+        if ( FT_TS_STREAM_SEEK( table_pos ) ||
+             FT_TS_READ_USHORT( *aadvance ) )
           goto NoData;
 
         table_pos += 4 + 2 * ( gindex - k );
@@ -291,10 +291,10 @@
           *abearing = 0;
         else
         {
-          if ( FT_STREAM_SEEK( table_pos ) )
+          if ( FT_TS_STREAM_SEEK( table_pos ) )
             *abearing = 0;
           else
-            (void)FT_READ_SHORT( *abearing );
+            (void)FT_TS_READ_SHORT( *abearing );
         }
       }
     }
@@ -308,9 +308,9 @@
 #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
     if ( var )
     {
-      FT_Face  f = FT_FACE( face );
-      FT_Int   a = (FT_Int)*aadvance;
-      FT_Int   b = (FT_Int)*abearing;
+      FT_TS_Face  f = FT_TS_FACE( face );
+      FT_TS_Int   a = (FT_TS_Int)*aadvance;
+      FT_TS_Int   b = (FT_TS_Int)*abearing;
 
 
       if ( vertical )
@@ -328,8 +328,8 @@
           var->lsb_adjust( f, gindex, &b );
       }
 
-      *aadvance = (FT_UShort)a;
-      *abearing = (FT_Short)b;
+      *aadvance = (FT_TS_UShort)a;
+      *abearing = (FT_TS_Short)b;
     }
 #endif
   }

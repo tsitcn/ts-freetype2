@@ -34,14 +34,14 @@
 #endif
 #if defined( __LP64__ ) && \
     ( MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4 )
-#undef FT_MACINTOSH
+#undef FT_TS_MACINTOSH
 #endif
 
 #elif defined( __SC__ ) || defined( __MRC__ )
   /* Classic MacOS compilers */
 #include "ConditionalMacros.h"
 #if TARGET_OS_MAC
-#define FT_MACINTOSH 1
+#define FT_TS_MACINTOSH 1
 #endif
 
 #endif  /* Mac support */

@@ -28,15 +28,15 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  ttbdf
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  ttbdf
 
 
-  FT_LOCAL_DEF( void )
+  FT_TS_LOCAL_DEF( void )
   tt_face_free_bdf_props( TT_Face  face )
   {
     TT_BDF  bdf = &face->bdf;
@@ -44,11 +44,11 @@
 
     if ( bdf->loaded )
     {
-      FT_Stream  stream = FT_FACE( face )->stream;
+      FT_TS_Stream  stream = FT_TS_FACE( face )->stream;
 
 
       if ( bdf->table )
-        FT_FRAME_RELEASE( bdf->table );
+        FT_TS_FRAME_RELEASE( bdf->table );
 
       bdf->table_end    = NULL;
       bdf->strings      = NULL;
@@ -57,35 +57,35 @@
   }
 
 
-  static FT_Error
+  static FT_TS_Error
   tt_face_load_bdf_props( TT_Face    face,
-                          FT_Stream  stream )
+                          FT_TS_Stream  stream )
   {
     TT_BDF    bdf = &face->bdf;
-    FT_ULong  length;
-    FT_Error  error;
+    FT_TS_ULong  length;
+    FT_TS_Error  error;
 
 
-    FT_ZERO( bdf );
+    FT_TS_ZERO( bdf );
 
     error = tt_face_goto_table( face, TTAG_BDF, stream, &length );
     if ( error                                  ||
          length < 8                             ||
-         FT_FRAME_EXTRACT( length, bdf->table ) )
+         FT_TS_FRAME_EXTRACT( length, bdf->table ) )
     {
-      error = FT_THROW( Invalid_Table );
+      error = FT_TS_THROW( Invalid_Table );
       goto Exit;
     }
 
     bdf->table_end = bdf->table + length;
 
     {
-      FT_Byte*   p           = bdf->table;
-      FT_UInt    version     = FT_NEXT_USHORT( p );
-      FT_UInt    num_strikes = FT_NEXT_USHORT( p );
-      FT_ULong   strings     = FT_NEXT_ULONG ( p );
-      FT_UInt    count;
-      FT_Byte*   strike;
+      FT_TS_Byte*   p           = bdf->table;
+      FT_TS_UInt    version     = FT_TS_NEXT_USHORT( p );
+      FT_TS_UInt    num_strikes = FT_TS_NEXT_USHORT( p );
+      FT_TS_ULong   strings     = FT_TS_NEXT_ULONG ( p );
+      FT_TS_UInt    count;
+      FT_TS_Byte*   strike;
 
 
       if ( version != 0x0001                 ||
@@ -107,7 +107,7 @@
 
       for ( ; count > 0; count-- )
       {
-        FT_UInt  num_items = FT_PEEK_USHORT( p + 2 );
+        FT_TS_UInt  num_items = FT_TS_PEEK_USHORT( p + 2 );
 
         /*
          * We don't need to check the value sets themselves, since this
@@ -128,32 +128,32 @@
     return error;
 
   BadTable:
-    FT_FRAME_RELEASE( bdf->table );
-    FT_ZERO( bdf );
-    error = FT_THROW( Invalid_Table );
+    FT_TS_FRAME_RELEASE( bdf->table );
+    FT_TS_ZERO( bdf );
+    error = FT_TS_THROW( Invalid_Table );
     goto Exit;
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
+  FT_TS_LOCAL_DEF( FT_TS_Error )
   tt_face_find_bdf_prop( TT_Face           face,
                          const char*       property_name,
                          BDF_PropertyRec  *aprop )
   {
     TT_BDF     bdf   = &face->bdf;
-    FT_Size    size  = FT_FACE( face )->size;
-    FT_Error   error = FT_Err_Ok;
-    FT_Byte*   p;
-    FT_UInt    count;
-    FT_Byte*   strike;
-    FT_Offset  property_len;
+    FT_TS_Size    size  = FT_TS_FACE( face )->size;
+    FT_TS_Error   error = FT_TS_Err_Ok;
+    FT_TS_Byte*   p;
+    FT_TS_UInt    count;
+    FT_TS_Byte*   strike;
+    FT_TS_Offset  property_len;
 
 
     aprop->type = BDF_PROPERTY_TYPE_NONE;
 
     if ( bdf->loaded == 0 )
     {
-      error = tt_face_load_bdf_props( face, FT_FACE( face )->stream );
+      error = tt_face_load_bdf_props( face, FT_TS_FACE( face )->stream );
       if ( error )
         goto Exit;
     }
@@ -162,7 +162,7 @@
     p      = bdf->table + 8;
     strike = p + 4 * count;
 
-    error = FT_ERR( Invalid_Argument );
+    error = FT_TS_ERR( Invalid_Argument );
 
     if ( !size || !property_name )
       goto Exit;
@@ -173,8 +173,8 @@
 
     for ( ; count > 0; count-- )
     {
-      FT_UInt  _ppem  = FT_NEXT_USHORT( p );
-      FT_UInt  _count = FT_NEXT_USHORT( p );
+      FT_TS_UInt  _ppem  = FT_TS_NEXT_USHORT( p );
+      FT_TS_UInt  _count = FT_TS_NEXT_USHORT( p );
 
 
       if ( _ppem == size->metrics.y_ppem )
@@ -191,13 +191,13 @@
     p = strike;
     for ( ; count > 0; count-- )
     {
-      FT_UInt  type = FT_PEEK_USHORT( p + 4 );
+      FT_TS_UInt  type = FT_TS_PEEK_USHORT( p + 4 );
 
 
       if ( ( type & 0x10 ) != 0 )
       {
-        FT_UInt32  name_offset = FT_PEEK_ULONG( p     );
-        FT_UInt32  value       = FT_PEEK_ULONG( p + 6 );
+        FT_TS_UInt32  name_offset = FT_TS_PEEK_ULONG( p     );
+        FT_TS_UInt32  value       = FT_TS_PEEK_ULONG( p + 6 );
 
         /* be a bit paranoid for invalid entries here */
         if ( name_offset < bdf->strings_size                    &&
@@ -216,21 +216,21 @@
             {
               aprop->type   = BDF_PROPERTY_TYPE_ATOM;
               aprop->u.atom = (const char*)bdf->strings + value;
-              error         = FT_Err_Ok;
+              error         = FT_TS_Err_Ok;
               goto Exit;
             }
             break;
 
           case 0x02:
             aprop->type      = BDF_PROPERTY_TYPE_INTEGER;
-            aprop->u.integer = (FT_Int32)value;
-            error            = FT_Err_Ok;
+            aprop->u.integer = (FT_TS_Int32)value;
+            error            = FT_TS_Err_Ok;
             goto Exit;
 
           case 0x03:
             aprop->type       = BDF_PROPERTY_TYPE_CARDINAL;
             aprop->u.cardinal = value;
-            error             = FT_Err_Ok;
+            error             = FT_TS_Err_Ok;
             goto Exit;
 
           default:

@@ -44,9 +44,9 @@
 
 #undef FTERRORS_H_
 
-#undef  FT_ERR_PREFIX
-#define FT_ERR_PREFIX  CF2_Err_
-#define FT_ERR_BASE    FT_Mod_Err_CF2
+#undef  FT_TS_ERR_PREFIX
+#define FT_TS_ERR_PREFIX  CF2_Err_
+#define FT_TS_ERR_BASE    FT_TS_Mod_Err_CF2
 
 
 #include <freetype/fterrors.h>
@@ -54,7 +54,7 @@
 #include "psft.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*
@@ -69,7 +69,7 @@ FT_BEGIN_HEADER
    *
    * The preservation of an error code is done by coding convention.
    * Upon a function call if the error code is anything other than
-   * `FT_Err_Ok', which is guaranteed to be zero, we
+   * `FT_TS_Err_Ok', which is guaranteed to be zero, we
    * will return without altering that error.  This will allow the
    * error to propagate and be handled at the appropriate location in
    * the code.
@@ -79,25 +79,25 @@ FT_BEGIN_HEADER
    * being checked after the block.  If a new error occurs, the original
    * error will be preserved and a functional no-op should result in any
    * subsequent function that has an initial error code not equal to
-   * `FT_Err_Ok'.
+   * `FT_TS_Err_Ok'.
    *
-   * Errors are encoded by calling the `FT_THROW' macro.  For example,
+   * Errors are encoded by calling the `FT_TS_THROW' macro.  For example,
    *
    * {
-   *   FT_Error  e;
+   *   FT_TS_Error  e;
    *
    *
    *   ...
-   *   e = FT_THROW( Out_Of_Memory );
+   *   e = FT_TS_THROW( Out_Of_Memory );
    * }
    *
    */
 
 
   /* Set error code to a particular value. */
-  FT_LOCAL( void )
-  cf2_setError( FT_Error*  error,
-                FT_Error   value );
+  FT_TS_LOCAL( void )
+  cf2_setError( FT_TS_Error*  error,
+                FT_TS_Error   value );
 
 
   /*
@@ -108,10 +108,10 @@ FT_BEGIN_HEADER
    *
   */
 #define CF2_SET_ERROR( error, e )              \
-          cf2_setError( error, FT_THROW( e ) )
+          cf2_setError( error, FT_TS_THROW( e ) )
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSERROR_H_ */

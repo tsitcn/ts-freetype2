@@ -59,22 +59,22 @@
 
 #include <limits.h>
 
-#define FT_CHAR_BIT    CHAR_BIT
-#define FT_USHORT_MAX  USHRT_MAX
-#define FT_INT_MAX     INT_MAX
-#define FT_INT_MIN     INT_MIN
-#define FT_UINT_MAX    UINT_MAX
-#define FT_LONG_MIN    LONG_MIN
-#define FT_LONG_MAX    LONG_MAX
-#define FT_ULONG_MAX   ULONG_MAX
+#define FT_TS_CHAR_BIT    CHAR_BIT
+#define FT_TS_USHORT_MAX  USHRT_MAX
+#define FT_TS_INT_MAX     INT_MAX
+#define FT_TS_INT_MIN     INT_MIN
+#define FT_TS_UINT_MAX    UINT_MAX
+#define FT_TS_LONG_MIN    LONG_MIN
+#define FT_TS_LONG_MAX    LONG_MAX
+#define FT_TS_ULONG_MAX   ULONG_MAX
 #ifdef LLONG_MAX
-#define FT_LLONG_MAX   LLONG_MAX
+#define FT_TS_LLONG_MAX   LLONG_MAX
 #endif
 #ifdef LLONG_MIN
-#define FT_LLONG_MIN   LLONG_MIN
+#define FT_TS_LLONG_MIN   LLONG_MIN
 #endif
 #ifdef ULLONG_MAX
-#define FT_ULLONG_MAX  ULLONG_MAX
+#define FT_TS_ULLONG_MAX  ULLONG_MAX
 #endif
 
 
@@ -111,7 +111,7 @@
 
 #include <stdio.h>
 
-#define FT_FILE     FILE
+#define FT_TS_FILE     FILE
 #define ft_fclose   fclose
 #define ft_fopen    fopen
 #define ft_fread    fread
@@ -174,7 +174,7 @@
 
 
   /* The following is only used for debugging purposes, i.e., if   */
-  /* `FT_DEBUG_LEVEL_ERROR` or `FT_DEBUG_LEVEL_TRACE` are defined. */
+  /* `FT_TS_DEBUG_LEVEL_ERROR` or `FT_TS_DEBUG_LEVEL_TRACE` are defined. */
 
 #include <stdarg.h>
 

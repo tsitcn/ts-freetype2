@@ -31,11 +31,11 @@ THE SOFTWARE.
 #include <freetype/internal/ftdrv.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
-  FT_EXPORT_VAR( const FT_Driver_ClassRec )  pcf_driver_class;
+  FT_TS_EXPORT_VAR( const FT_TS_Driver_ClassRec )  pcf_driver_class;
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PCFDRIVR_H_ */

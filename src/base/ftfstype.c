@@ -23,8 +23,8 @@
 
   /* documentation is in freetype.h */
 
-  FT_EXPORT_DEF( FT_UShort )
-  FT_Get_FSType_Flags( FT_Face  face )
+  FT_TS_EXPORT_DEF( FT_TS_UShort )
+  FT_TS_Get_FSType_Flags( FT_TS_Face  face )
   {
     TT_OS2*  os2;
 
@@ -32,10 +32,10 @@
     /* first, try to get the fs_type directly from the font */
     if ( face )
     {
-      FT_Service_PsInfo  service = NULL;
+      FT_TS_Service_PsInfo  service = NULL;
 
 
-      FT_FACE_FIND_SERVICE( face, service, POSTSCRIPT_INFO );
+      FT_TS_FACE_FIND_SERVICE( face, service, POSTSCRIPT_INFO );
 
       if ( service && service->ps_get_font_extra )
       {
@@ -50,7 +50,7 @@
 
     /* look at FSType before fsType for Type42 */
 
-    if ( ( os2 = (TT_OS2*)FT_Get_Sfnt_Table( face, FT_SFNT_OS2 ) ) != NULL &&
+    if ( ( os2 = (TT_OS2*)FT_TS_Get_Sfnt_Table( face, FT_TS_SFNT_OS2 ) ) != NULL &&
          os2->version != 0xFFFFU                                           )
       return os2->fsType;
 

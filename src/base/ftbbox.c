@@ -35,14 +35,14 @@
 
   typedef struct  TBBox_Rec_
   {
-    FT_Vector  last;
-    FT_BBox    bbox;
+    FT_TS_Vector  last;
+    FT_TS_BBox    bbox;
 
   } TBBox_Rec;
 
 
-#define FT_UPDATE_BBOX( p, bbox ) \
-  FT_BEGIN_STMNT                  \
+#define FT_TS_UPDATE_BBOX( p, bbox ) \
+  FT_TS_BEGIN_STMNT                  \
     if ( p->x < bbox.xMin )       \
       bbox.xMin = p->x;           \
     if ( p->x > bbox.xMax )       \
@@ -51,7 +51,7 @@
       bbox.yMin = p->y;           \
     if ( p->y > bbox.yMax )       \
       bbox.yMax = p->y;           \
-  FT_END_STMNT
+  FT_TS_END_STMNT
 
 #define CHECK_X( p, bbox )                         \
           ( p->x < bbox.xMin || p->x > bbox.xMax )
@@ -67,7 +67,7 @@
    *
    * @Description:
    *   This function is used as a `move_to' emitter during
-   *   FT_Outline_Decompose().  It simply records the destination point
+   *   FT_TS_Outline_Decompose().  It simply records the destination point
    *   in `user->last'. We also update bbox in case contour starts with
    *   an implicit `on' point.
    *
@@ -83,10 +83,10 @@
    *   Always 0.  Needed for the interface only.
    */
   static int
-  BBox_Move_To( FT_Vector*  to,
+  BBox_Move_To( FT_TS_Vector*  to,
                 TBBox_Rec*  user )
   {
-    FT_UPDATE_BBOX( to, user->bbox );
+    FT_TS_UPDATE_BBOX( to, user->bbox );
 
     user->last = *to;
 
@@ -101,7 +101,7 @@
    *
    * @Description:
    *   This function is used as a `line_to' emitter during
-   *   FT_Outline_Decompose().  It simply records the destination point
+   *   FT_TS_Outline_Decompose().  It simply records the destination point
    *   in `user->last'; no further computations are necessary because
    *   bbox already contains both explicit ends of the line segment.
    *
@@ -117,7 +117,7 @@
    *   Always 0.  Needed for the interface only.
    */
   static int
-  BBox_Line_To( FT_Vector*  to,
+  BBox_Line_To( FT_TS_Vector*  to,
                 TBBox_Rec*  user )
   {
     user->last = *to;
@@ -154,11 +154,11 @@
    *     The address of the current maximum.
    */
   static void
-  BBox_Conic_Check( FT_Pos   y1,
-                    FT_Pos   y2,
-                    FT_Pos   y3,
-                    FT_Pos*  min,
-                    FT_Pos*  max )
+  BBox_Conic_Check( FT_TS_Pos   y1,
+                    FT_TS_Pos   y2,
+                    FT_TS_Pos   y3,
+                    FT_TS_Pos*  min,
+                    FT_TS_Pos*  max )
   {
     /* This function is only called when a control off-point is outside */
     /* the bbox that contains all on-points.  It finds a local extremum */
@@ -167,7 +167,7 @@
 
     y1 -= y2;
     y3 -= y2;
-    y2 += FT_MulDiv( y1, y3, y1 + y3 );
+    y2 += FT_TS_MulDiv( y1, y3, y1 + y3 );
 
     if ( y2 < *min )
       *min = y2;
@@ -183,7 +183,7 @@
    *
    * @Description:
    *   This function is used as a `conic_to' emitter during
-   *   FT_Outline_Decompose().  It checks a conic Bezier curve with the
+   *   FT_TS_Outline_Decompose().  It checks a conic Bezier curve with the
    *   current bounding box, and computes its extrema if necessary to
    *   update it.
    *
@@ -206,12 +206,12 @@
    *   extremum coordinates, as it is sufficiently fast.
    */
   static int
-  BBox_Conic_To( FT_Vector*  control,
-                 FT_Vector*  to,
+  BBox_Conic_To( FT_TS_Vector*  control,
+                 FT_TS_Vector*  to,
                  TBBox_Rec*  user )
   {
     /* in case `to' is implicit and not included in bbox yet */
-    FT_UPDATE_BBOX( to, user->bbox );
+    FT_TS_UPDATE_BBOX( to, user->bbox );
 
     if ( CHECK_X( control, user->bbox ) )
       BBox_Conic_Check( user->last.x,
@@ -263,14 +263,14 @@
    *   max ::
    *     The address of the current maximum.
    */
-  static FT_Pos
-  cubic_peak( FT_Pos  q1,
-              FT_Pos  q2,
-              FT_Pos  q3,
-              FT_Pos  q4 )
+  static FT_TS_Pos
+  cubic_peak( FT_TS_Pos  q1,
+              FT_TS_Pos  q2,
+              FT_TS_Pos  q3,
+              FT_TS_Pos  q4 )
   {
-    FT_Pos  peak = 0;
-    FT_Int  shift;
+    FT_TS_Pos  peak = 0;
+    FT_TS_Int  shift;
 
 
     /* This function finds a peak of a cubic segment if it is above 0    */
@@ -280,12 +280,12 @@
     /* we upscale the segment if there is room.  Large values may need   */
     /* to be downscaled to avoid overflows during bisection.             */
     /* It is called with either q2 or q3 positive, which is necessary    */
-    /* for the peak to exist and avoids undefined FT_MSB.                */
+    /* for the peak to exist and avoids undefined FT_TS_MSB.                */
 
-    shift = 27 - FT_MSB( (FT_UInt32)( FT_ABS( q1 ) |
-                                      FT_ABS( q2 ) |
-                                      FT_ABS( q3 ) |
-                                      FT_ABS( q4 ) ) );
+    shift = 27 - FT_TS_MSB( (FT_TS_UInt32)( FT_TS_ABS( q1 ) |
+                                      FT_TS_ABS( q2 ) |
+                                      FT_TS_ABS( q3 ) |
+                                      FT_TS_ABS( q4 ) ) );
 
     if ( shift > 0 )
     {
@@ -357,12 +357,12 @@
 
 
   static void
-  BBox_Cubic_Check( FT_Pos   p1,
-                    FT_Pos   p2,
-                    FT_Pos   p3,
-                    FT_Pos   p4,
-                    FT_Pos*  min,
-                    FT_Pos*  max )
+  BBox_Cubic_Check( FT_TS_Pos   p1,
+                    FT_TS_Pos   p2,
+                    FT_TS_Pos   p3,
+                    FT_TS_Pos   p4,
+                    FT_TS_Pos*  min,
+                    FT_TS_Pos*  max )
   {
     /* This function is only called when a control off-point is outside  */
     /* the bbox that contains all on-points.  So at least one of the     */
@@ -385,7 +385,7 @@
    *
    * @Description:
    *   This function is used as a `cubic_to' emitter during
-   *   FT_Outline_Decompose().  It checks a cubic Bezier curve with the
+   *   FT_TS_Outline_Decompose().  It checks a cubic Bezier curve with the
    *   current bounding box, and computes its extrema if necessary to
    *   update it.
    *
@@ -411,9 +411,9 @@
    *   extremum coordinates, we subdivide instead.
    */
   static int
-  BBox_Cubic_To( FT_Vector*  control1,
-                 FT_Vector*  control2,
-                 FT_Vector*  to,
+  BBox_Cubic_To( FT_TS_Vector*  control1,
+                 FT_TS_Vector*  control2,
+                 FT_TS_Vector*  to,
                  TBBox_Rec*  user )
   {
     /* We don't need to check `to' since it is always an on-point,    */
@@ -444,13 +444,13 @@
   }
 
 
-  FT_DEFINE_OUTLINE_FUNCS(
+  FT_TS_DEFINE_OUTLINE_FUNCS(
     bbox_interface,
 
-    (FT_Outline_MoveTo_Func) BBox_Move_To,   /* move_to  */
-    (FT_Outline_LineTo_Func) BBox_Line_To,   /* line_to  */
-    (FT_Outline_ConicTo_Func)BBox_Conic_To,  /* conic_to */
-    (FT_Outline_CubicTo_Func)BBox_Cubic_To,  /* cubic_to */
+    (FT_TS_Outline_MoveTo_Func) BBox_Move_To,   /* move_to  */
+    (FT_TS_Outline_LineTo_Func) BBox_Line_To,   /* line_to  */
+    (FT_TS_Outline_ConicTo_Func)BBox_Conic_To,  /* conic_to */
+    (FT_TS_Outline_CubicTo_Func)BBox_Cubic_To,  /* cubic_to */
     0,                                       /* shift    */
     0                                        /* delta    */
   )
@@ -458,23 +458,23 @@
 
   /* documentation is in ftbbox.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Outline_Get_BBox( FT_Outline*  outline,
-                       FT_BBox     *abbox )
+  FT_TS_EXPORT_DEF( FT_TS_Error )
+  FT_TS_Outline_Get_BBox( FT_TS_Outline*  outline,
+                       FT_TS_BBox     *abbox )
   {
-    FT_BBox     cbox = {  0x7FFFFFFFL,  0x7FFFFFFFL,
+    FT_TS_BBox     cbox = {  0x7FFFFFFFL,  0x7FFFFFFFL,
                          -0x7FFFFFFFL, -0x7FFFFFFFL };
-    FT_BBox     bbox = {  0x7FFFFFFFL,  0x7FFFFFFFL,
+    FT_TS_BBox     bbox = {  0x7FFFFFFFL,  0x7FFFFFFFL,
                          -0x7FFFFFFFL, -0x7FFFFFFFL };
-    FT_Vector*  vec;
-    FT_UShort   n;
+    FT_TS_Vector*  vec;
+    FT_TS_UShort   n;
 
 
     if ( !abbox )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     if ( !outline )
-      return FT_THROW( Invalid_Outline );
+      return FT_TS_THROW( Invalid_Outline );
 
     /* if outline is empty, return (0,0,0,0) */
     if ( outline->n_points == 0 || outline->n_contours <= 0 )
@@ -493,10 +493,10 @@
 
     for ( n = 0; n < outline->n_points; n++ )
     {
-      FT_UPDATE_BBOX( vec, cbox );
+      FT_TS_UPDATE_BBOX( vec, cbox );
 
-      if ( FT_CURVE_TAG( outline->tags[n] ) == FT_CURVE_TAG_ON )
-        FT_UPDATE_BBOX( vec, bbox );
+      if ( FT_TS_CURVE_TAG( outline->tags[n] ) == FT_TS_CURVE_TAG_ON )
+        FT_TS_UPDATE_BBOX( vec, bbox );
 
       vec++;
     }
@@ -508,13 +508,13 @@
       /* the two boxes are different, now walk over the outline to */
       /* get the Bezier arc extrema.                               */
 
-      FT_Error   error;
+      FT_TS_Error   error;
       TBBox_Rec  user;
 
 
       user.bbox = bbox;
 
-      error = FT_Outline_Decompose( outline, &bbox_interface, &user );
+      error = FT_TS_Outline_Decompose( outline, &bbox_interface, &user );
       if ( error )
         return error;
 
@@ -523,7 +523,7 @@
     else
       *abbox = bbox;
 
-    return FT_Err_Ok;
+    return FT_TS_Err_Ok;
   }
 
 

@@ -28,7 +28,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -43,7 +43,7 @@ FT_BEGIN_HEADER
    *   Retrieving TrueType 'gasp' table entries.
    *
    * @description:
-   *   The function @FT_Get_Gasp can be used to query a TrueType or OpenType
+   *   The function @FT_TS_Get_Gasp can be used to query a TrueType or OpenType
    *   font for specific entries in its 'gasp' table, if any.  This is mainly
    *   useful when implementing native TrueType hinting with the bytecode
    *   interpreter to duplicate the Windows text rendering results.
@@ -52,38 +52,38 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @enum:
-   *   FT_GASP_XXX
+   *   FT_TS_GASP_XXX
    *
    * @description:
-   *   A list of values and/or bit-flags returned by the @FT_Get_Gasp
+   *   A list of values and/or bit-flags returned by the @FT_TS_Get_Gasp
    *   function.
    *
    * @values:
-   *   FT_GASP_NO_TABLE ::
+   *   FT_TS_GASP_NO_TABLE ::
    *     This special value means that there is no GASP table in this face.
    *     It is up to the client to decide what to do.
    *
-   *   FT_GASP_DO_GRIDFIT ::
+   *   FT_TS_GASP_DO_GRIDFIT ::
    *     Grid-fitting and hinting should be performed at the specified ppem.
    *     This **really** means TrueType bytecode interpretation.  If this bit
    *     is not set, no hinting gets applied.
    *
-   *   FT_GASP_DO_GRAY ::
+   *   FT_TS_GASP_DO_GRAY ::
    *     Anti-aliased rendering should be performed at the specified ppem.
    *     If not set, do monochrome rendering.
    *
-   *   FT_GASP_SYMMETRIC_SMOOTHING ::
+   *   FT_TS_GASP_SYMMETRIC_SMOOTHING ::
    *     If set, smoothing along multiple axes must be used with ClearType.
    *
-   *   FT_GASP_SYMMETRIC_GRIDFIT ::
+   *   FT_TS_GASP_SYMMETRIC_GRIDFIT ::
    *     Grid-fitting must be used with ClearType's symmetric smoothing.
    *
    * @note:
-   *   The bit-flags `FT_GASP_DO_GRIDFIT` and `FT_GASP_DO_GRAY` are to be
+   *   The bit-flags `FT_TS_GASP_DO_GRIDFIT` and `FT_TS_GASP_DO_GRAY` are to be
    *   used for standard font rasterization only.  Independently of that,
-   *   `FT_GASP_SYMMETRIC_SMOOTHING` and `FT_GASP_SYMMETRIC_GRIDFIT` are to
-   *   be used if ClearType is enabled (and `FT_GASP_DO_GRIDFIT` and
-   *   `FT_GASP_DO_GRAY` are consequently ignored).
+   *   `FT_TS_GASP_SYMMETRIC_SMOOTHING` and `FT_TS_GASP_SYMMETRIC_GRIDFIT` are to
+   *   be used if ClearType is enabled (and `FT_TS_GASP_DO_GRIDFIT` and
+   *   `FT_TS_GASP_DO_GRAY` are consequently ignored).
    *
    *   'ClearType' is Microsoft's implementation of LCD rendering, partly
    *   protected by patents.
@@ -91,17 +91,17 @@ FT_BEGIN_HEADER
    * @since:
    *   2.3.0
    */
-#define FT_GASP_NO_TABLE               -1
-#define FT_GASP_DO_GRIDFIT           0x01
-#define FT_GASP_DO_GRAY              0x02
-#define FT_GASP_SYMMETRIC_GRIDFIT    0x04
-#define FT_GASP_SYMMETRIC_SMOOTHING  0x08
+#define FT_TS_GASP_NO_TABLE               -1
+#define FT_TS_GASP_DO_GRIDFIT           0x01
+#define FT_TS_GASP_DO_GRAY              0x02
+#define FT_TS_GASP_SYMMETRIC_GRIDFIT    0x04
+#define FT_TS_GASP_SYMMETRIC_SMOOTHING  0x08
 
 
   /**************************************************************************
    *
    * @function:
-   *   FT_Get_Gasp
+   *   FT_TS_Get_Gasp
    *
    * @description:
    *   For a TrueType or OpenType font file, return the rasterizer behaviour
@@ -116,26 +116,26 @@ FT_BEGIN_HEADER
    *     The vertical character pixel size.
    *
    * @return:
-   *   Bit flags (see @FT_GASP_XXX), or @FT_GASP_NO_TABLE if there is no
+   *   Bit flags (see @FT_TS_GASP_XXX), or @FT_TS_GASP_NO_TABLE if there is no
    *   'gasp' table in the face.
    *
    * @note:
    *   If you want to use the MM functionality of OpenType variation fonts
-   *   (i.e., using @FT_Set_Var_Design_Coordinates and friends), call this
+   *   (i.e., using @FT_TS_Set_Var_Design_Coordinates and friends), call this
    *   function **after** setting an instance since the return values can
    *   change.
    *
    * @since:
    *   2.3.0
    */
-  FT_EXPORT( FT_Int )
-  FT_Get_Gasp( FT_Face  face,
-               FT_UInt  ppem );
+  FT_TS_EXPORT( FT_TS_Int )
+  FT_TS_Get_Gasp( FT_TS_Face  face,
+               FT_TS_UInt  ppem );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTGASP_H_ */
 

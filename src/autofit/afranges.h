@@ -23,7 +23,7 @@
 #include "aftypes.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 #undef  SCRIPT
 #define SCRIPT( s, S, d, h, H, ss )                                     \
@@ -39,7 +39,7 @@ FT_BEGIN_HEADER
 
  /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* AFRANGES_H_ */
 

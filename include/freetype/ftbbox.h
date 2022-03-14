@@ -40,7 +40,7 @@
 #endif
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -54,7 +54,7 @@ FT_BEGIN_HEADER
   /**************************************************************************
    *
    * @function:
-   *   FT_Outline_Get_BBox
+   *   FT_TS_Outline_Get_BBox
    *
    * @description:
    *   Compute the exact bounding box of an outline.  This is slower than
@@ -75,20 +75,20 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   If the font is tricky and the glyph has been loaded with
-   *   @FT_LOAD_NO_SCALE, the resulting BBox is meaningless.  To get
+   *   @FT_TS_LOAD_NO_SCALE, the resulting BBox is meaningless.  To get
    *   reasonable values for the BBox it is necessary to load the glyph at a
    *   large ppem value (so that the hinting instructions can properly shift
    *   and scale the subglyphs), then extracting the BBox, which can be
    *   eventually converted back to font units.
    */
-  FT_EXPORT( FT_Error )
-  FT_Outline_Get_BBox( FT_Outline*  outline,
-                       FT_BBox     *abbox );
+  FT_TS_EXPORT( FT_TS_Error )
+  FT_TS_Outline_Get_BBox( FT_TS_Outline*  outline,
+                       FT_TS_BBox     *abbox );
 
   /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTBBOX_H_ */
 

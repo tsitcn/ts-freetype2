@@ -28,7 +28,7 @@
 #include <freetype/internal/services/svpscmap.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*************************************************************************/
@@ -71,12 +71,12 @@ FT_BEGIN_HEADER
    */
   typedef struct  T1_EncodingRecRec_
   {
-    FT_Int       num_chars;
-    FT_Int       code_first;
-    FT_Int       code_last;
+    FT_TS_Int       num_chars;
+    FT_TS_Int       code_first;
+    FT_TS_Int       code_last;
 
-    FT_UShort*         char_index;
-    const FT_String**  char_name;
+    FT_TS_UShort*         char_index;
+    const FT_TS_String**  char_name;
 
   } T1_EncodingRec, *T1_Encoding;
 
@@ -88,7 +88,7 @@ FT_BEGIN_HEADER
    */
   typedef struct  PS_FontExtraRec_
   {
-    FT_UShort  fs_type;
+    FT_TS_UShort  fs_type;
 
   } PS_FontExtraRec;
 
@@ -98,41 +98,41 @@ FT_BEGIN_HEADER
     PS_FontInfoRec   font_info;         /* font info dictionary   */
     PS_FontExtraRec  font_extra;        /* font info extra fields */
     PS_PrivateRec    private_dict;      /* private dictionary     */
-    FT_String*       font_name;         /* top-level dictionary   */
+    FT_TS_String*       font_name;         /* top-level dictionary   */
 
     T1_EncodingType  encoding_type;
     T1_EncodingRec   encoding;
 
-    FT_Byte*         subrs_block;
-    FT_Byte*         charstrings_block;
-    FT_Byte*         glyph_names_block;
+    FT_TS_Byte*         subrs_block;
+    FT_TS_Byte*         charstrings_block;
+    FT_TS_Byte*         glyph_names_block;
 
-    FT_Int           num_subrs;
-    FT_Byte**        subrs;
-    FT_UInt*         subrs_len;
-    FT_Hash          subrs_hash;
+    FT_TS_Int           num_subrs;
+    FT_TS_Byte**        subrs;
+    FT_TS_UInt*         subrs_len;
+    FT_TS_Hash          subrs_hash;
 
-    FT_Int           num_glyphs;
-    FT_String**      glyph_names;       /* array of glyph names       */
-    FT_Byte**        charstrings;       /* array of glyph charstrings */
-    FT_UInt*         charstrings_len;
+    FT_TS_Int           num_glyphs;
+    FT_TS_String**      glyph_names;       /* array of glyph names       */
+    FT_TS_Byte**        charstrings;       /* array of glyph charstrings */
+    FT_TS_UInt*         charstrings_len;
 
-    FT_Byte          paint_type;
-    FT_Byte          font_type;
-    FT_Matrix        font_matrix;
-    FT_Vector        font_offset;
-    FT_BBox          font_bbox;
-    FT_Long          font_id;
+    FT_TS_Byte          paint_type;
+    FT_TS_Byte          font_type;
+    FT_TS_Matrix        font_matrix;
+    FT_TS_Vector        font_offset;
+    FT_TS_BBox          font_bbox;
+    FT_TS_Long          font_id;
 
-    FT_Fixed         stroke_width;
+    FT_TS_Fixed         stroke_width;
 
   } T1_FontRec, *T1_Font;
 
 
   typedef struct  CID_SubrsRec_
   {
-    FT_Int     num_subrs;
-    FT_Byte**  code;
+    FT_TS_Int     num_subrs;
+    FT_TS_Byte**  code;
 
   } CID_SubrsRec, *CID_Subrs;
 
@@ -151,33 +151,33 @@ FT_BEGIN_HEADER
 
   typedef struct  AFM_TrackKernRec_
   {
-    FT_Int    degree;
-    FT_Fixed  min_ptsize;
-    FT_Fixed  min_kern;
-    FT_Fixed  max_ptsize;
-    FT_Fixed  max_kern;
+    FT_TS_Int    degree;
+    FT_TS_Fixed  min_ptsize;
+    FT_TS_Fixed  min_kern;
+    FT_TS_Fixed  max_ptsize;
+    FT_TS_Fixed  max_kern;
 
   } AFM_TrackKernRec, *AFM_TrackKern;
 
   typedef struct  AFM_KernPairRec_
   {
-    FT_UInt  index1;
-    FT_UInt  index2;
-    FT_Int   x;
-    FT_Int   y;
+    FT_TS_UInt  index1;
+    FT_TS_UInt  index2;
+    FT_TS_Int   x;
+    FT_TS_Int   y;
 
   } AFM_KernPairRec, *AFM_KernPair;
 
   typedef struct  AFM_FontInfoRec_
   {
-    FT_Bool        IsCIDFont;
-    FT_BBox        FontBBox;
-    FT_Fixed       Ascender;
-    FT_Fixed       Descender;
+    FT_TS_Bool        IsCIDFont;
+    FT_TS_BBox        FontBBox;
+    FT_TS_Fixed       Ascender;
+    FT_TS_Fixed       Descender;
     AFM_TrackKern  TrackKerns;   /* free if non-NULL */
-    FT_UInt        NumTrackKern;
+    FT_TS_UInt        NumTrackKern;
     AFM_KernPair   KernPairs;    /* free if non-NULL */
-    FT_UInt        NumKernPair;
+    FT_TS_UInt        NumKernPair;
 
   } AFM_FontInfoRec, *AFM_FontInfo;
 
@@ -201,13 +201,13 @@ FT_BEGIN_HEADER
 
   typedef struct  T1_FaceRec_
   {
-    FT_FaceRec      root;
+    FT_TS_FaceRec      root;
     T1_FontRec      type1;
     const void*     psnames;
     const void*     psaux;
     const void*     afm_data;
-    FT_CharMapRec   charmaprecs[2];
-    FT_CharMap      charmaps[2];
+    FT_TS_CharMapRec   charmaprecs[2];
+    FT_TS_CharMap      charmaps[2];
 
     /* support for Multiple Masters fonts */
     PS_Blend        blend;
@@ -215,13 +215,13 @@ FT_BEGIN_HEADER
     /* undocumented, optional: indices of subroutines that express      */
     /* the NormalizeDesignVector and the ConvertDesignVector procedure, */
     /* respectively, as Type 2 charstrings; -1 if keywords not present  */
-    FT_Int           ndv_idx;
-    FT_Int           cdv_idx;
+    FT_TS_Int           ndv_idx;
+    FT_TS_Int           cdv_idx;
 
     /* undocumented, optional: has the same meaning as len_buildchar */
     /* for Type 2 fonts; manipulated by othersubrs 19, 24, and 25    */
-    FT_UInt          len_buildchar;
-    FT_Long*         buildchar;
+    FT_TS_UInt          len_buildchar;
+    FT_TS_Long*         buildchar;
 
     /* since version 2.1 - interface to PostScript hinter */
     const void*     pshinter;
@@ -231,7 +231,7 @@ FT_BEGIN_HEADER
 
   typedef struct  CID_FaceRec_
   {
-    FT_FaceRec       root;
+    FT_TS_FaceRec       root;
     void*            psnames;
     void*            psaux;
     CID_FaceInfoRec  cid;
@@ -245,13 +245,13 @@ FT_BEGIN_HEADER
     void*            pshinter;
 
     /* since version 2.1.8, but was originally positioned after `afm_data' */
-    FT_Byte*         binary_data; /* used if hex data has been converted */
-    FT_Stream        cid_stream;
+    FT_TS_Byte*         binary_data; /* used if hex data has been converted */
+    FT_TS_Stream        cid_stream;
 
   } CID_FaceRec;
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* T1TYPES_H_ */
 

@@ -20,11 +20,11 @@
 #include <freetype/internal/ftdebug.h>
 #include <freetype/internal/ftstream.h>
 #include <freetype/tttags.h>
-#include FT_CONFIG_STANDARD_LIBRARY_H
+#include FT_TS_CONFIG_STANDARD_LIBRARY_H
 
 
 #if defined( TT_CONFIG_OPTION_EMBEDDED_BITMAPS ) && \
-    defined( FT_CONFIG_OPTION_USE_PNG )
+    defined( FT_TS_CONFIG_OPTION_USE_PNG )
 
   /* We always include <setjmp.h>, so make libpng shut up! */
 #define PNG_SKIP_SETJMP_CHECK 1
@@ -129,7 +129,7 @@
     }
 #endif /* use `vector_size' */
 
-    FT_UNUSED( png );
+    FT_TS_UNUSED( png );
 
     limit = row_info->rowbytes;
     for ( ; i < limit; i += 4 )
@@ -172,7 +172,7 @@
   {
     unsigned int  i;
 
-    FT_UNUSED( png );
+    FT_TS_UNUSED( png );
 
 
     for ( i = 0; i < row_info->rowbytes; i += 4 )
@@ -196,12 +196,12 @@
   error_callback( png_structp      png,
                   png_const_charp  error_msg )
   {
-    FT_Error*  error = (FT_Error*)png_get_error_ptr( png );
+    FT_TS_Error*  error = (FT_TS_Error*)png_get_error_ptr( png );
 
-    FT_UNUSED( error_msg );
+    FT_TS_UNUSED( error_msg );
 
 
-    *error = FT_THROW( Out_Of_Memory );
+    *error = FT_TS_THROW( Out_Of_Memory );
 #ifdef PNG_SETJMP_SUPPORTED
     ft_longjmp( png_jmpbuf( png ), 1 );
 #endif
@@ -214,29 +214,29 @@
   warning_callback( png_structp      png,
                     png_const_charp  error_msg )
   {
-    FT_UNUSED( png );
-    FT_UNUSED( error_msg );
+    FT_TS_UNUSED( png );
+    FT_TS_UNUSED( error_msg );
 
     /* Just ignore warnings. */
   }
 
 
   static void
-  read_data_from_FT_Stream( png_structp  png,
+  read_data_from_FT_TS_Stream( png_structp  png,
                             png_bytep    data,
                             png_size_t   length )
   {
-    FT_Error   error;
+    FT_TS_Error   error;
     png_voidp  p      = png_get_io_ptr( png );
-    FT_Stream  stream = (FT_Stream)p;
+    FT_TS_Stream  stream = (FT_TS_Stream)p;
 
 
-    if ( FT_FRAME_ENTER( length ) )
+    if ( FT_TS_FRAME_ENTER( length ) )
     {
-      FT_Error*  e = (FT_Error*)png_get_error_ptr( png );
+      FT_TS_Error*  e = (FT_TS_Error*)png_get_error_ptr( png );
 
 
-      *e = FT_THROW( Invalid_Stream_Read );
+      *e = FT_TS_THROW( Invalid_Stream_Read );
       png_error( png, NULL );
 
       return;
@@ -244,32 +244,32 @@
 
     ft_memcpy( data, stream->cursor, length );
 
-    FT_FRAME_EXIT();
+    FT_TS_FRAME_EXIT();
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  Load_SBit_Png( FT_GlyphSlot     slot,
-                 FT_Int           x_offset,
-                 FT_Int           y_offset,
-                 FT_Int           pix_bits,
+  FT_TS_LOCAL_DEF( FT_TS_Error )
+  Load_SBit_Png( FT_TS_GlyphSlot     slot,
+                 FT_TS_Int           x_offset,
+                 FT_TS_Int           y_offset,
+                 FT_TS_Int           pix_bits,
                  TT_SBit_Metrics  metrics,
-                 FT_Memory        memory,
-                 FT_Byte*         data,
-                 FT_UInt          png_len,
-                 FT_Bool          populate_map_and_metrics,
-                 FT_Bool          metrics_only )
+                 FT_TS_Memory        memory,
+                 FT_TS_Byte*         data,
+                 FT_TS_UInt          png_len,
+                 FT_TS_Bool          populate_map_and_metrics,
+                 FT_TS_Bool          metrics_only )
   {
-    FT_Bitmap    *map   = &slot->bitmap;
-    FT_Error      error = FT_Err_Ok;
-    FT_StreamRec  stream;
+    FT_TS_Bitmap    *map   = &slot->bitmap;
+    FT_TS_Error      error = FT_TS_Err_Ok;
+    FT_TS_StreamRec  stream;
 
     png_structp  png;
     png_infop    info;
     png_uint_32  imgWidth, imgHeight;
 
     int         bitdepth, color_type, interlace;
-    FT_Int      i;
+    FT_TS_Int      i;
 
     /* `rows` gets modified within a 'setjmp' scope; */
     /* we thus need the `volatile` keyword.          */
@@ -279,21 +279,21 @@
     if ( x_offset < 0 ||
          y_offset < 0 )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
     if ( !populate_map_and_metrics                            &&
-         ( (FT_UInt)x_offset + metrics->width  > map->width ||
-           (FT_UInt)y_offset + metrics->height > map->rows  ||
+         ( (FT_TS_UInt)x_offset + metrics->width  > map->width ||
+           (FT_TS_UInt)y_offset + metrics->height > map->rows  ||
            pix_bits != 32                                   ||
-           map->pixel_mode != FT_PIXEL_MODE_BGRA            ) )
+           map->pixel_mode != FT_TS_PIXEL_MODE_BGRA            ) )
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_TS_THROW( Invalid_Argument );
       goto Exit;
     }
 
-    FT_Stream_OpenMemory( &stream, data, png_len );
+    FT_TS_Stream_OpenMemory( &stream, data, png_len );
 
     png = png_create_read_struct( PNG_LIBPNG_VER_STRING,
                                   &error,
@@ -301,25 +301,25 @@
                                   warning_callback );
     if ( !png )
     {
-      error = FT_THROW( Out_Of_Memory );
+      error = FT_TS_THROW( Out_Of_Memory );
       goto Exit;
     }
 
     info = png_create_info_struct( png );
     if ( !info )
     {
-      error = FT_THROW( Out_Of_Memory );
+      error = FT_TS_THROW( Out_Of_Memory );
       png_destroy_read_struct( &png, NULL, NULL );
       goto Exit;
     }
 
     if ( ft_setjmp( png_jmpbuf( png ) ) )
     {
-      error = FT_THROW( Invalid_File_Format );
+      error = FT_TS_THROW( Invalid_File_Format );
       goto DestroyExit;
     }
 
-    png_set_read_fn( png, &stream, read_data_from_FT_Stream );
+    png_set_read_fn( png, &stream, read_data_from_FT_TS_Stream );
 
     png_read_info( png, info );
     png_get_IHDR( png, info,
@@ -329,8 +329,8 @@
 
     if ( error                                        ||
          ( !populate_map_and_metrics                &&
-           ( (FT_Int)imgWidth  != metrics->width  ||
-             (FT_Int)imgHeight != metrics->height ) ) )
+           ( (FT_TS_Int)imgWidth  != metrics->width  ||
+             (FT_TS_Int)imgHeight != metrics->height ) ) )
       goto DestroyExit;
 
     if ( populate_map_and_metrics )
@@ -338,16 +338,16 @@
       /* reject too large bitmaps similarly to the rasterizer */
       if ( imgHeight > 0x7FFF || imgWidth > 0x7FFF )
       {
-        error = FT_THROW( Array_Too_Large );
+        error = FT_TS_THROW( Array_Too_Large );
         goto DestroyExit;
       }
 
-      metrics->width  = (FT_UShort)imgWidth;
-      metrics->height = (FT_UShort)imgHeight;
+      metrics->width  = (FT_TS_UShort)imgWidth;
+      metrics->height = (FT_TS_UShort)imgHeight;
 
       map->width      = metrics->width;
       map->rows       = metrics->height;
-      map->pixel_mode = FT_PIXEL_MODE_BGRA;
+      map->pixel_mode = FT_TS_PIXEL_MODE_BGRA;
       map->pitch      = (int)( map->width * 4 );
       map->num_grays  = 256;
     }
@@ -397,7 +397,7 @@
         !( color_type == PNG_COLOR_TYPE_RGB       ||
            color_type == PNG_COLOR_TYPE_RGB_ALPHA ) )
     {
-      error = FT_THROW( Invalid_File_Format );
+      error = FT_TS_THROW( Invalid_File_Format );
       goto DestroyExit;
     }
 
@@ -422,7 +422,7 @@
     if ( populate_map_and_metrics )
     {
       /* this doesn't overflow: 0x7FFF * 0x7FFF * 4 < 2^32 */
-      FT_ULong  size = map->rows * (FT_ULong)map->pitch;
+      FT_TS_ULong  size = map->rows * (FT_TS_ULong)map->pitch;
 
 
       error = ft_glyphslot_alloc_bitmap( slot, size );
@@ -430,13 +430,13 @@
         goto DestroyExit;
     }
 
-    if ( FT_QNEW_ARRAY( rows, imgHeight ) )
+    if ( FT_TS_QNEW_ARRAY( rows, imgHeight ) )
     {
-      error = FT_THROW( Out_Of_Memory );
+      error = FT_TS_THROW( Out_Of_Memory );
       goto DestroyExit;
     }
 
-    for ( i = 0; i < (FT_Int)imgHeight; i++ )
+    for ( i = 0; i < (FT_TS_Int)imgHeight; i++ )
       rows[i] = map->buffer + ( y_offset + i ) * map->pitch + x_offset * 4;
 
     png_read_image( png, rows );
@@ -445,20 +445,20 @@
 
   DestroyExit:
     /* even if reading fails with longjmp, rows must be freed */
-    FT_FREE( rows );
+    FT_TS_FREE( rows );
     png_destroy_read_struct( &png, &info, NULL );
-    FT_Stream_Close( &stream );
+    FT_TS_Stream_Close( &stream );
 
   Exit:
     return error;
   }
 
-#else /* !(TT_CONFIG_OPTION_EMBEDDED_BITMAPS && FT_CONFIG_OPTION_USE_PNG) */
+#else /* !(TT_CONFIG_OPTION_EMBEDDED_BITMAPS && FT_TS_CONFIG_OPTION_USE_PNG) */
 
   /* ANSI C doesn't like empty source files */
   typedef int  _pngshim_dummy;
 
-#endif /* !(TT_CONFIG_OPTION_EMBEDDED_BITMAPS && FT_CONFIG_OPTION_USE_PNG) */
+#endif /* !(TT_CONFIG_OPTION_EMBEDDED_BITMAPS && FT_TS_CONFIG_OPTION_USE_PNG) */
 
 
 /* END */

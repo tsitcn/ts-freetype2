@@ -36,7 +36,7 @@
 #include "pshglob.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /*************************************************************************/
@@ -67,9 +67,9 @@ FT_BEGIN_HEADER
   /* hint descriptor */
   typedef struct  PS_HintRec_
   {
-    FT_Int   pos;
-    FT_Int   len;
-    FT_UInt  flags;
+    FT_TS_Int   pos;
+    FT_TS_Int   len;
+    FT_TS_UInt  flags;
 
   } PS_HintRec;
 
@@ -82,8 +82,8 @@ FT_BEGIN_HEADER
   /* hints table descriptor */
   typedef struct  PS_Hint_TableRec_
   {
-    FT_UInt  num_hints;
-    FT_UInt  max_hints;
+    FT_TS_UInt  num_hints;
+    FT_TS_UInt  max_hints;
     PS_Hint  hints;
 
   } PS_Hint_TableRec, *PS_Hint_Table;
@@ -92,10 +92,10 @@ FT_BEGIN_HEADER
   /* hint and counter mask descriptor */
   typedef struct  PS_MaskRec_
   {
-    FT_UInt   num_bits;
-    FT_UInt   max_bits;
-    FT_Byte*  bytes;
-    FT_UInt   end_point;
+    FT_TS_UInt   num_bits;
+    FT_TS_UInt   max_bits;
+    FT_TS_Byte*  bytes;
+    FT_TS_UInt   end_point;
 
   } PS_MaskRec, *PS_Mask;
 
@@ -103,8 +103,8 @@ FT_BEGIN_HEADER
   /* masks and counters table descriptor */
   typedef struct  PS_Mask_TableRec_
   {
-    FT_UInt  num_masks;
-    FT_UInt  max_masks;
+    FT_TS_UInt  num_masks;
+    FT_TS_UInt  max_masks;
     PS_Mask  masks;
 
   } PS_Mask_TableRec, *PS_Mask_Table;
@@ -125,9 +125,9 @@ FT_BEGIN_HEADER
   /* dimension 1 => Y coordinates + horizontal hints/stems */
   typedef struct  PS_HintsRec_
   {
-    FT_Memory        memory;
-    FT_Error         error;
-    FT_UInt32        magic;
+    FT_TS_Memory        memory;
+    FT_TS_Error         error;
+    FT_TS_UInt32        magic;
     PS_Hint_Type     hint_type;
     PS_DimensionRec  dimension[2];
 
@@ -136,20 +136,20 @@ FT_BEGIN_HEADER
   /* */
 
   /* initialize hints recorder */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   ps_hints_init( PS_Hints   hints,
-                 FT_Memory  memory );
+                 FT_TS_Memory  memory );
 
   /* finalize hints recorder */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   ps_hints_done( PS_Hints  hints );
 
   /* initialize Type1 hints recorder interface */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   t1_hints_funcs_init( T1_Hints_FuncsRec*  funcs );
 
   /* initialize Type2 hints recorder interface */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   t2_hints_funcs_init( T2_Hints_FuncsRec*  funcs );
 
 
@@ -162,7 +162,7 @@ FT_BEGIN_HEADER
  /* */
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 
 #endif /* PSHREC_H_ */

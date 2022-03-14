@@ -51,9 +51,9 @@
 
   /* The size in bytes of the render pool used by the scan-line converter  */
   /* to do all of its work.                                                */
-#define FT_RENDER_POOL_SIZE  16384L
+#define FT_TS_RENDER_POOL_SIZE  16384L
 
-#define FT_CONFIG_STANDARD_LIBRARY_H  <stdlib.h>
+#define FT_TS_CONFIG_STANDARD_LIBRARY_H  <stdlib.h>
 
 #include <string.h>           /* for memset */
 
@@ -63,8 +63,8 @@
 #else /* !STANDALONE_ */
 
 #include "ftraster.h"
-#include <freetype/internal/ftcalc.h> /* for FT_MulDiv and FT_MulDiv_No_Round */
-#include <freetype/ftoutln.h>         /* for FT_Outline_Get_CBox              */
+#include <freetype/internal/ftcalc.h> /* for FT_TS_MulDiv and FT_TS_MulDiv_No_Round */
+#include <freetype/ftoutln.h>         /* for FT_TS_Outline_Get_CBox              */
 
 #endif /* !STANDALONE_ */
 
@@ -160,41 +160,41 @@
 
   /**************************************************************************
    *
-   * The macro FT_COMPONENT is used in trace mode.  It is an implicit
-   * parameter of the FT_TRACE() and FT_ERROR() macros, used to print/log
+   * The macro FT_TS_COMPONENT is used in trace mode.  It is an implicit
+   * parameter of the FT_TS_TRACE() and FT_TS_ERROR() macros, used to print/log
    * messages during execution.
    */
-#undef  FT_COMPONENT
-#define FT_COMPONENT  raster
+#undef  FT_TS_COMPONENT
+#define FT_TS_COMPONENT  raster
 
 
 #ifdef STANDALONE_
 
   /* Auxiliary macros for token concatenation. */
-#define FT_ERR_XCAT( x, y )  x ## y
-#define FT_ERR_CAT( x, y )   FT_ERR_XCAT( x, y )
+#define FT_TS_ERR_XCAT( x, y )  x ## y
+#define FT_TS_ERR_CAT( x, y )   FT_TS_ERR_XCAT( x, y )
 
   /* This macro is used to indicate that a function parameter is unused. */
   /* Its purpose is simply to reduce compiler warnings.  Note also that  */
   /* simply defining it as `(void)x' doesn't avoid warnings with certain */
   /* ANSI compilers (e.g. LCC).                                          */
-#define FT_UNUSED( x )  (x) = (x)
+#define FT_TS_UNUSED( x )  (x) = (x)
 
   /* Disable the tracing mechanism for simplicity -- developers can      */
   /* activate it easily by redefining these macros.                      */
-#ifndef FT_ERROR
-#define FT_ERROR( x )  do { } while ( 0 )     /* nothing */
+#ifndef FT_TS_ERROR
+#define FT_TS_ERROR( x )  do { } while ( 0 )     /* nothing */
 #endif
 
-#ifndef FT_TRACE
-#define FT_TRACE( x )   do { } while ( 0 )    /* nothing */
-#define FT_TRACE1( x )  do { } while ( 0 )    /* nothing */
-#define FT_TRACE6( x )  do { } while ( 0 )    /* nothing */
-#define FT_TRACE7( x )  do { } while ( 0 )    /* nothing */
+#ifndef FT_TS_TRACE
+#define FT_TS_TRACE( x )   do { } while ( 0 )    /* nothing */
+#define FT_TS_TRACE1( x )  do { } while ( 0 )    /* nothing */
+#define FT_TS_TRACE6( x )  do { } while ( 0 )    /* nothing */
+#define FT_TS_TRACE7( x )  do { } while ( 0 )    /* nothing */
 #endif
 
-#ifndef FT_THROW
-#define FT_THROW( e )  FT_ERR_CAT( Raster_Err_, e )
+#ifndef FT_TS_THROW
+#define FT_TS_THROW( e )  FT_TS_ERR_CAT( Raster_Err_, e )
 #endif
 
 #define Raster_Err_Ok                       0
@@ -207,10 +207,10 @@
 
 #define ft_memset  memset
 
-#define FT_DEFINE_RASTER_FUNCS( class_, glyph_format_, raster_new_, \
+#define FT_TS_DEFINE_RASTER_FUNCS( class_, glyph_format_, raster_new_, \
                                 raster_reset_, raster_set_mode_,    \
                                 raster_render_, raster_done_ )      \
-          const FT_Raster_Funcs class_ =                            \
+          const FT_TS_Raster_Funcs class_ =                            \
           {                                                         \
             glyph_format_,                                          \
             raster_new_,                                            \
@@ -224,7 +224,7 @@
 
 
 #include <freetype/internal/ftobjs.h>
-#include <freetype/internal/ftdebug.h> /* for FT_TRACE, FT_ERROR, and FT_THROW */
+#include <freetype/internal/ftdebug.h> /* for FT_TS_TRACE, FT_TS_ERROR, and FT_TS_THROW */
 
 #include "rasterrs.h"
 
@@ -232,16 +232,16 @@
 #endif /* !STANDALONE_ */
 
 
-#ifndef FT_MEM_SET
-#define FT_MEM_SET( d, s, c )  ft_memset( d, s, c )
+#ifndef FT_TS_MEM_SET
+#define FT_TS_MEM_SET( d, s, c )  ft_memset( d, s, c )
 #endif
 
-#ifndef FT_MEM_ZERO
-#define FT_MEM_ZERO( dest, count )  FT_MEM_SET( dest, 0, count )
+#ifndef FT_TS_MEM_ZERO
+#define FT_TS_MEM_ZERO( dest, count )  FT_TS_MEM_SET( dest, 0, count )
 #endif
 
-#ifndef FT_ZERO
-#define FT_ZERO( p )  FT_MEM_ZERO( p, sizeof ( *(p) ) )
+#ifndef FT_TS_ZERO
+#define FT_TS_ZERO( p )  FT_TS_MEM_ZERO( p, sizeof ( *(p) ) )
 #endif
 
   /* FMulDiv means `Fast MulDiv'; it is used in case where `b' is       */
@@ -250,10 +250,10 @@
 #define FMulDiv( a, b, c )  ( (a) * (b) / (c) )
 
   /* On the other hand, SMulDiv means `Slow MulDiv', and is used typically */
-  /* for clipping computations.  It simply uses the FT_MulDiv() function   */
+  /* for clipping computations.  It simply uses the FT_TS_MulDiv() function   */
   /* defined in `ftcalc.h'.                                                */
-#define SMulDiv           FT_MulDiv
-#define SMulDiv_No_Round  FT_MulDiv_No_Round
+#define SMulDiv           FT_TS_MulDiv
+#define SMulDiv_No_Round  FT_TS_MulDiv_No_Round
 
   /* The rasterizer is a very general purpose component; please leave */
   /* the following redefinitions there (you never know your target    */
@@ -345,7 +345,7 @@
 
   struct  TProfile_
   {
-    FT_F26Dot6  X;           /* current coordinate during sweep          */
+    FT_TS_F26Dot6  X;           /* current coordinate during sweep          */
     PProfile    link;        /* link to next profile (various purposes)  */
     PLong       offset;      /* start of profile's data in render pool   */
     UShort      flags;       /* Bit 0-2: drop-out mode                   */
@@ -375,7 +375,7 @@
 #undef RAS_VAR
 #undef RAS_VARS
 
-#ifdef FT_STATIC_RASTER
+#ifdef FT_TS_STATIC_RASTER
 
 
 #define RAS_ARGS       /* void */
@@ -384,10 +384,10 @@
 #define RAS_VARS       /* void */
 #define RAS_VAR        /* void */
 
-#define FT_UNUSED_RASTER  do { } while ( 0 )
+#define FT_TS_UNUSED_RASTER  do { } while ( 0 )
 
 
-#else /* !FT_STATIC_RASTER */
+#else /* !FT_TS_STATIC_RASTER */
 
 
 #define RAS_ARGS       black_PWorker  worker,
@@ -396,10 +396,10 @@
 #define RAS_VARS       worker,
 #define RAS_VAR        worker
 
-#define FT_UNUSED_RASTER  FT_UNUSED( worker )
+#define FT_TS_UNUSED_RASTER  FT_TS_UNUSED( worker )
 
 
-#endif /* !FT_STATIC_RASTER */
+#endif /* !FT_TS_STATIC_RASTER */
 
 
   typedef struct black_TWorker_  black_TWorker, *black_PWorker;
@@ -412,8 +412,8 @@
 
   typedef void
   Function_Sweep_Span( RAS_ARGS Short       y,
-                                FT_F26Dot6  x1,
-                                FT_F26Dot6  x2,
+                                FT_TS_F26Dot6  x1,
+                                FT_TS_F26Dot6  x2,
                                 PProfile    left,
                                 PProfile    right );
 
@@ -445,10 +445,10 @@
   /* precision.                                                         */
 #define SMART( p, q )  FLOOR( ( (p) + (q) + ras.precision * 63 / 64 ) >> 1 )
 
-#if FT_RENDER_POOL_SIZE > 2048
-#define FT_MAX_BLACK_POOL  ( FT_RENDER_POOL_SIZE / sizeof ( Long ) )
+#if FT_TS_RENDER_POOL_SIZE > 2048
+#define FT_TS_MAX_BLACK_POOL  ( FT_TS_RENDER_POOL_SIZE / sizeof ( Long ) )
 #else
-#define FT_MAX_BLACK_POOL  ( 2048 / sizeof ( Long ) )
+#define FT_TS_MAX_BLACK_POOL  ( 2048 / sizeof ( Long ) )
 #endif
 
   /* The most used variables are positioned at the top of the structure. */
@@ -469,7 +469,7 @@
     PLong       maxBuff;            /* Profiles buffer size                */
     PLong       top;                /* Current cursor in buffer            */
 
-    FT_Error    error;
+    FT_TS_Error    error;
 
     Int         numTurns;           /* number of Y-turns in outline        */
 
@@ -496,8 +496,8 @@
 
     TStates     state;              /* rendering state                     */
 
-    FT_Bitmap   target;             /* description of target bit/pixmap    */
-    FT_Outline  outline;
+    FT_TS_Bitmap   target;             /* description of target bit/pixmap    */
+    FT_TS_Outline  outline;
 
     /* dispatch variables */
 
@@ -515,15 +515,15 @@
 
   } black_TRaster, *black_PRaster;
 
-#ifdef FT_STATIC_RASTER
+#ifdef FT_TS_STATIC_RASTER
 
   static black_TWorker  ras;
 
-#else /* !FT_STATIC_RASTER */
+#else /* !FT_TS_STATIC_RASTER */
 
 #define ras  (*worker)
 
-#endif /* !FT_STATIC_RASTER */
+#endif /* !FT_TS_STATIC_RASTER */
 
 
   /*************************************************************************/
@@ -586,7 +586,7 @@
       ras.precision_jitter = 2;
     }
 
-    FT_TRACE6(( "Set_High_Precision(%s)\n", High ? "true" : "false" ));
+    FT_TS_TRACE6(( "Set_High_Precision(%s)\n", High ? "true" : "false" ));
 
     ras.precision       = 1 << ras.precision_bits;
     ras.precision_half  = ras.precision >> 1;
@@ -627,7 +627,7 @@
 
     if ( ras.top >= ras.maxBuff )
     {
-      ras.error = FT_THROW( Raster_Overflow );
+      ras.error = FT_TS_THROW( Raster_Overflow );
       return FAILURE;
     }
 
@@ -645,18 +645,18 @@
       if ( overshoot )
         ras.cProfile->flags |= Overshoot_Bottom;
 
-      FT_TRACE6(( "  new ascending profile = %p\n", (void *)ras.cProfile ));
+      FT_TS_TRACE6(( "  new ascending profile = %p\n", (void *)ras.cProfile ));
       break;
 
     case Descending_State:
       if ( overshoot )
         ras.cProfile->flags |= Overshoot_Top;
-      FT_TRACE6(( "  new descending profile = %p\n", (void *)ras.cProfile ));
+      FT_TS_TRACE6(( "  new descending profile = %p\n", (void *)ras.cProfile ));
       break;
 
     default:
-      FT_ERROR(( "New_Profile: invalid profile direction\n" ));
-      ras.error = FT_THROW( Invalid_Outline );
+      FT_TS_ERROR(( "New_Profile: invalid profile direction\n" ));
+      ras.error = FT_TS_THROW( Invalid_Outline );
       return FAILURE;
     }
 
@@ -697,8 +697,8 @@
 
     if ( h < 0 )
     {
-      FT_ERROR(( "End_Profile: negative height encountered\n" ));
-      ras.error = FT_THROW( Raster_Negative_Height );
+      FT_TS_ERROR(( "End_Profile: negative height encountered\n" ));
+      ras.error = FT_TS_THROW( Raster_Negative_Height );
       return FAILURE;
     }
 
@@ -707,7 +707,7 @@
       PProfile  oldProfile;
 
 
-      FT_TRACE6(( "  ending profile %p, start = %ld, height = %ld\n",
+      FT_TS_TRACE6(( "  ending profile %p, start = %ld, height = %ld\n",
                   (void *)ras.cProfile, ras.cProfile->start, h ));
 
       ras.cProfile->height = h;
@@ -733,8 +733,8 @@
 
     if ( ras.top >= ras.maxBuff )
     {
-      FT_TRACE1(( "overflow in End_Profile\n" ));
-      ras.error = FT_THROW( Raster_Overflow );
+      FT_TS_TRACE1(( "overflow in End_Profile\n" ));
+      ras.error = FT_TS_THROW( Raster_Overflow );
       return FAILURE;
     }
 
@@ -789,7 +789,7 @@
       ras.maxBuff--;
       if ( ras.maxBuff <= ras.top )
       {
-        ras.error = FT_THROW( Raster_Overflow );
+        ras.error = FT_TS_THROW( Raster_Overflow );
         return FAILURE;
       }
       ras.numTurns++;
@@ -1053,7 +1053,7 @@
     size = e2 - e1 + 1;
     if ( ras.top + size >= ras.maxBuff )
     {
-      ras.error = FT_THROW( Raster_Overflow );
+      ras.error = FT_TS_THROW( Raster_Overflow );
       return FAILURE;
     }
 
@@ -1237,7 +1237,7 @@
     if ( ( top + TRUNC( e2 - e ) + 1 ) >= ras.maxBuff )
     {
       ras.top   = top;
-      ras.error = FT_THROW( Raster_Overflow );
+      ras.error = FT_TS_THROW( Raster_Overflow );
       return FAILURE;
     }
 
@@ -1746,13 +1746,13 @@
                             UShort  last,
                             Int     flipped )
   {
-    FT_Vector   v_last;
-    FT_Vector   v_control;
-    FT_Vector   v_start;
+    FT_TS_Vector   v_last;
+    FT_TS_Vector   v_control;
+    FT_TS_Vector   v_start;
 
-    FT_Vector*  points;
-    FT_Vector*  point;
-    FT_Vector*  limit;
+    FT_TS_Vector*  points;
+    FT_TS_Vector*  point;
+    FT_TS_Vector*  limit;
     char*       tags;
 
     UInt        tag;       /* current point's state           */
@@ -1778,20 +1778,20 @@
     tags  = ras.outline.tags + first;
 
     /* set scan mode if necessary */
-    if ( tags[0] & FT_CURVE_TAG_HAS_SCANMODE )
+    if ( tags[0] & FT_TS_CURVE_TAG_HAS_SCANMODE )
       ras.dropOutControl = (Byte)tags[0] >> 5;
 
-    tag = FT_CURVE_TAG( tags[0] );
+    tag = FT_TS_CURVE_TAG( tags[0] );
 
     /* A contour cannot start with a cubic control point! */
-    if ( tag == FT_CURVE_TAG_CUBIC )
+    if ( tag == FT_TS_CURVE_TAG_CUBIC )
       goto Invalid_Outline;
 
     /* check first point to determine origin */
-    if ( tag == FT_CURVE_TAG_CONIC )
+    if ( tag == FT_TS_CURVE_TAG_CONIC )
     {
       /* first point is conic control.  Yes, this happens. */
-      if ( FT_CURVE_TAG( ras.outline.tags[last] ) == FT_CURVE_TAG_ON )
+      if ( FT_TS_CURVE_TAG( ras.outline.tags[last] ) == FT_TS_CURVE_TAG_ON )
       {
         /* start at last point if it is on the curve */
         v_start = v_last;
@@ -1819,11 +1819,11 @@
       point++;
       tags++;
 
-      tag = FT_CURVE_TAG( tags[0] );
+      tag = FT_TS_CURVE_TAG( tags[0] );
 
       switch ( tag )
       {
-      case FT_CURVE_TAG_ON:  /* emit a single line_to */
+      case FT_TS_CURVE_TAG_ON:  /* emit a single line_to */
         {
           Long  x, y;
 
@@ -1838,7 +1838,7 @@
           continue;
         }
 
-      case FT_CURVE_TAG_CONIC:  /* consume conic arcs */
+      case FT_TS_CURVE_TAG_CONIC:  /* consume conic arcs */
         v_control.x = SCALED( point[0].x );
         v_control.y = SCALED( point[0].y );
 
@@ -1848,13 +1848,13 @@
       Do_Conic:
         if ( point < limit )
         {
-          FT_Vector  v_middle;
+          FT_TS_Vector  v_middle;
           Long       x, y;
 
 
           point++;
           tags++;
-          tag = FT_CURVE_TAG( tags[0] );
+          tag = FT_TS_CURVE_TAG( tags[0] );
 
           x = SCALED( point[0].x );
           y = SCALED( point[0].y );
@@ -1862,14 +1862,14 @@
           if ( flipped )
             SWAP_( x, y );
 
-          if ( tag == FT_CURVE_TAG_ON )
+          if ( tag == FT_TS_CURVE_TAG_ON )
           {
             if ( Conic_To( RAS_VARS v_control.x, v_control.y, x, y ) )
               goto Fail;
             continue;
           }
 
-          if ( tag != FT_CURVE_TAG_CONIC )
+          if ( tag != FT_TS_CURVE_TAG_CONIC )
             goto Invalid_Outline;
 
           v_middle.x = ( v_control.x + x ) / 2;
@@ -1891,13 +1891,13 @@
 
         goto Close;
 
-      default:  /* FT_CURVE_TAG_CUBIC */
+      default:  /* FT_TS_CURVE_TAG_CUBIC */
         {
           Long  x1, y1, x2, y2, x3, y3;
 
 
           if ( point + 1 > limit                             ||
-               FT_CURVE_TAG( tags[1] ) != FT_CURVE_TAG_CUBIC )
+               FT_TS_CURVE_TAG( tags[1] ) != FT_TS_CURVE_TAG_CUBIC )
             goto Invalid_Outline;
 
           point += 2;
@@ -1942,7 +1942,7 @@
     return SUCCESS;
 
   Invalid_Outline:
-    ras.error = FT_THROW( Invalid_Outline );
+    ras.error = FT_TS_THROW( Invalid_Outline );
 
   Fail:
     return FAILURE;
@@ -2192,7 +2192,7 @@
   Vertical_Sweep_Init( RAS_ARGS Short  min,
                                 Short  max )
   {
-    FT_UNUSED( max );
+    FT_TS_UNUSED( max );
 
 
     ras.bLine = ras.bOrigin - min * ras.target.pitch;
@@ -2201,8 +2201,8 @@
 
   static void
   Vertical_Sweep_Span( RAS_ARGS Short       y,
-                                FT_F26Dot6  x1,
-                                FT_F26Dot6  x2,
+                                FT_TS_F26Dot6  x1,
+                                FT_TS_F26Dot6  x2,
                                 PProfile    left,
                                 PProfile    right )
   {
@@ -2210,14 +2210,14 @@
 
     Int  dropOutControl = left->flags & 7;
 
-    FT_UNUSED( y );
-    FT_UNUSED( left );
-    FT_UNUSED( right );
+    FT_TS_UNUSED( y );
+    FT_TS_UNUSED( left );
+    FT_TS_UNUSED( right );
 
 
     /* in high-precision mode, we need 12 digits after the comma to */
     /* represent multiples of 1/(1<<12) = 1/4096                    */
-    FT_TRACE7(( "  y=%d x=[% .12f;% .12f]",
+    FT_TS_TRACE7(( "  y=%d x=[% .12f;% .12f]",
                 y,
                 x1 / (double)ras.precision,
                 x2 / (double)ras.precision ));
@@ -2250,7 +2250,7 @@
       if ( e2 >= ras.bWidth )
         e2 = ras.bWidth - 1;
 
-      FT_TRACE7(( " -> x=[%ld;%ld]", e1, e2 ));
+      FT_TS_TRACE7(( " -> x=[%ld;%ld]", e1, e2 ));
 
       c1 = (Short)( e1 >> 3 );
       c2 = (Short)( e2 >> 3 );
@@ -2277,14 +2277,14 @@
         *target |= ( f1 & f2 );
     }
 
-    FT_TRACE7(( "\n" ));
+    FT_TS_TRACE7(( "\n" ));
   }
 
 
   static void
   Vertical_Sweep_Drop( RAS_ARGS Short       y,
-                                FT_F26Dot6  x1,
-                                FT_F26Dot6  x2,
+                                FT_TS_F26Dot6  x1,
+                                FT_TS_F26Dot6  x2,
                                 PProfile    left,
                                 PProfile    right )
   {
@@ -2292,7 +2292,7 @@
     Short  c1, f1;
 
 
-    FT_TRACE7(( "  y=%d x=[% .12f;% .12f]",
+    FT_TS_TRACE7(( "  y=%d x=[% .12f;% .12f]",
                 y,
                 x1 / (double)ras.precision,
                 x2 / (double)ras.precision ));
@@ -2422,7 +2422,7 @@
 
     if ( e1 >= 0 && e1 < ras.bWidth )
     {
-      FT_TRACE7(( " -> x=%ld", e1 ));
+      FT_TS_TRACE7(( " -> x=%ld", e1 ));
 
       c1 = (Short)( e1 >> 3 );
       f1 = (Short)( e1 & 7 );
@@ -2431,7 +2431,7 @@
     }
 
   Exit:
-    FT_TRACE7(( " dropout=%d\n", left->flags & 7 ));
+    FT_TS_TRACE7(( " dropout=%d\n", left->flags & 7 ));
   }
 
 
@@ -2456,26 +2456,26 @@
                                   Short  max )
   {
     /* nothing, really */
-    FT_UNUSED_RASTER;
-    FT_UNUSED( min );
-    FT_UNUSED( max );
+    FT_TS_UNUSED_RASTER;
+    FT_TS_UNUSED( min );
+    FT_TS_UNUSED( max );
   }
 
 
   static void
   Horizontal_Sweep_Span( RAS_ARGS Short       y,
-                                  FT_F26Dot6  x1,
-                                  FT_F26Dot6  x2,
+                                  FT_TS_F26Dot6  x1,
+                                  FT_TS_F26Dot6  x2,
                                   PProfile    left,
                                   PProfile    right )
   {
     Long  e1, e2;
 
-    FT_UNUSED( left );
-    FT_UNUSED( right );
+    FT_TS_UNUSED( left );
+    FT_TS_UNUSED( right );
 
 
-    FT_TRACE7(( "  x=%d y=[% .12f;% .12f]",
+    FT_TS_TRACE7(( "  x=%d y=[% .12f;% .12f]",
                 y,
                 x1 / (double)ras.precision,
                 x2 / (double)ras.precision ));
@@ -2501,7 +2501,7 @@
         bits = ras.bOrigin + ( y >> 3 ) - e1 * ras.target.pitch;
         f1   = (Byte)( 0x80 >> ( y & 7 ) );
 
-        FT_TRACE7(( bits[0] & f1 ? " redundant"
+        FT_TS_TRACE7(( bits[0] & f1 ? " redundant"
                                  : " -> y=%ld edge", e1 ));
 
         bits[0] |= f1;
@@ -2523,21 +2523,21 @@
         bits = ras.bOrigin + ( y >> 3 ) - e2 * ras.target.pitch;
         f1   = (Byte)( 0x80 >> ( y & 7 ) );
 
-        FT_TRACE7(( bits[0] & f1 ? " redundant"
+        FT_TS_TRACE7(( bits[0] & f1 ? " redundant"
                                  : " -> y=%ld edge", e2 ));
 
         bits[0] |= f1;
       }
     }
 
-    FT_TRACE7(( "\n" ));
+    FT_TS_TRACE7(( "\n" ));
   }
 
 
   static void
   Horizontal_Sweep_Drop( RAS_ARGS Short       y,
-                                  FT_F26Dot6  x1,
-                                  FT_F26Dot6  x2,
+                                  FT_TS_F26Dot6  x1,
+                                  FT_TS_F26Dot6  x2,
                                   PProfile    left,
                                   PProfile    right )
   {
@@ -2546,7 +2546,7 @@
     Byte   f1;
 
 
-    FT_TRACE7(( "  x=%d y=[% .12f;% .12f]",
+    FT_TS_TRACE7(( "  x=%d y=[% .12f;% .12f]",
                 y,
                 x1 / (double)ras.precision,
                 x2 / (double)ras.precision ));
@@ -2641,7 +2641,7 @@
 
     if ( e1 >= 0 && (ULong)e1 < ras.target.rows )
     {
-      FT_TRACE7(( " -> y=%ld", e1 ));
+      FT_TS_TRACE7(( " -> y=%ld", e1 ));
 
       bits  = ras.bOrigin + ( y >> 3 ) - e1 * ras.target.pitch;
       f1    = (Byte)( 0x80 >> ( y & 7 ) );
@@ -2650,7 +2650,7 @@
     }
 
   Exit:
-    FT_TRACE7(( " dropout=%d\n", left->flags & 7 ));
+    FT_TS_TRACE7(( " dropout=%d\n", left->flags & 7 ));
   }
 
 
@@ -2658,7 +2658,7 @@
   Horizontal_Sweep_Step( RAS_ARG )
   {
     /* Nothing, really */
-    FT_UNUSED_RASTER;
+    FT_TS_UNUSED_RASTER;
   }
 
 
@@ -2717,7 +2717,7 @@
     /* check the Y-turns */
     if ( ras.numTurns == 0 )
     {
-      ras.error = FT_THROW( Invalid_Outline );
+      ras.error = FT_TS_THROW( Invalid_Outline );
       return FAILURE;
     }
 
@@ -2920,7 +2920,7 @@
   /**************************************************************************
    *
    * @Function:
-   *   FT_Outline_Get_CBox
+   *   FT_TS_Outline_Get_CBox
    *
    * @Description:
    *   Return an outline's `control box'.  The control box encloses all
@@ -2943,12 +2943,12 @@
    *     The outline's control box.
    *
    * @Note:
-   *   See @FT_Glyph_Get_CBox for a discussion of tricky fonts.
+   *   See @FT_TS_Glyph_Get_CBox for a discussion of tricky fonts.
    */
 
   static void
-  FT_Outline_Get_CBox( const FT_Outline*  outline,
-                       FT_BBox           *acbox )
+  FT_TS_Outline_Get_CBox( const FT_TS_Outline*  outline,
+                       FT_TS_BBox           *acbox )
   {
     if ( outline && acbox )
     {
@@ -2964,8 +2964,8 @@
       }
       else
       {
-        FT_Vector*  vec   = outline->points;
-        FT_Vector*  limit = vec + outline->n_points;
+        FT_TS_Vector*  vec   = outline->points;
+        FT_TS_Vector*  limit = vec + outline->n_points;
 
 
         xMin = xMax = vec->x;
@@ -3074,30 +3074,30 @@
    * @Return:
    *   FreeType error code.  0 means success.
    */
-  static FT_Error
+  static FT_TS_Error
   Render_Glyph( RAS_ARG )
   {
-    FT_Error  error;
+    FT_TS_Error  error;
 
 
     Set_High_Precision( RAS_VARS ras.outline.flags &
-                                 FT_OUTLINE_HIGH_PRECISION );
+                                 FT_TS_OUTLINE_HIGH_PRECISION );
 
-    if ( ras.outline.flags & FT_OUTLINE_IGNORE_DROPOUTS )
+    if ( ras.outline.flags & FT_TS_OUTLINE_IGNORE_DROPOUTS )
       ras.dropOutControl = 2;
     else
     {
-      if ( ras.outline.flags & FT_OUTLINE_SMART_DROPOUTS )
+      if ( ras.outline.flags & FT_TS_OUTLINE_SMART_DROPOUTS )
         ras.dropOutControl = 4;
       else
         ras.dropOutControl = 0;
 
-      if ( !( ras.outline.flags & FT_OUTLINE_INCLUDE_STUBS ) )
+      if ( !( ras.outline.flags & FT_TS_OUTLINE_INCLUDE_STUBS ) )
         ras.dropOutControl += 1;
     }
 
     /* Vertical Sweep */
-    FT_TRACE7(( "Vertical pass (ftraster)\n" ));
+    FT_TS_TRACE7(( "Vertical pass (ftraster)\n" ));
 
     ras.Proc_Sweep_Init = Vertical_Sweep_Init;
     ras.Proc_Sweep_Span = Vertical_Sweep_Span;
@@ -3115,9 +3115,9 @@
       return error;
 
     /* Horizontal Sweep */
-    if ( !( ras.outline.flags & FT_OUTLINE_SINGLE_PASS ) )
+    if ( !( ras.outline.flags & FT_TS_OUTLINE_SINGLE_PASS ) )
     {
-      FT_TRACE7(( "Horizontal pass (ftraster)\n" ));
+      FT_TS_TRACE7(( "Horizontal pass (ftraster)\n" ));
 
       ras.Proc_Sweep_Init = Horizontal_Sweep_Init;
       ras.Proc_Sweep_Span = Horizontal_Sweep_Span;
@@ -3142,24 +3142,24 @@
 
   static int
   ft_black_new( void*       memory,
-                FT_Raster  *araster )
+                FT_TS_Raster  *araster )
   {
      static black_TRaster  the_raster;
-     FT_UNUSED( memory );
+     FT_TS_UNUSED( memory );
 
 
-     *araster = (FT_Raster)&the_raster;
-     FT_ZERO( &the_raster );
+     *araster = (FT_TS_Raster)&the_raster;
+     FT_TS_ZERO( &the_raster );
 
      return 0;
   }
 
 
   static void
-  ft_black_done( FT_Raster  raster )
+  ft_black_done( FT_TS_Raster  raster )
   {
     /* nothing */
-    FT_UNUSED( raster );
+    FT_TS_UNUSED( raster );
   }
 
 
@@ -3167,14 +3167,14 @@
 
 
   static int
-  ft_black_new( FT_Memory       memory,
+  ft_black_new( FT_TS_Memory       memory,
                 black_PRaster  *araster )
   {
-    FT_Error       error;
+    FT_TS_Error       error;
     black_PRaster  raster = NULL;
 
 
-    if ( !FT_NEW( raster ) )
+    if ( !FT_TS_NEW( raster ) )
       raster->memory = memory;
 
     *araster = raster;
@@ -3186,10 +3186,10 @@
   static void
   ft_black_done( black_PRaster  raster )
   {
-    FT_Memory  memory = (FT_Memory)raster->memory;
+    FT_TS_Memory  memory = (FT_TS_Memory)raster->memory;
 
 
-    FT_FREE( raster );
+    FT_TS_FREE( raster );
   }
 
 
@@ -3197,74 +3197,74 @@
 
 
   static void
-  ft_black_reset( FT_Raster  raster,
+  ft_black_reset( FT_TS_Raster  raster,
                   PByte      pool_base,
                   ULong      pool_size )
   {
-    FT_UNUSED( raster );
-    FT_UNUSED( pool_base );
-    FT_UNUSED( pool_size );
+    FT_TS_UNUSED( raster );
+    FT_TS_UNUSED( pool_base );
+    FT_TS_UNUSED( pool_size );
   }
 
 
   static int
-  ft_black_set_mode( FT_Raster  raster,
+  ft_black_set_mode( FT_TS_Raster  raster,
                      ULong      mode,
                      void*      args )
   {
-    FT_UNUSED( raster );
-    FT_UNUSED( mode );
-    FT_UNUSED( args );
+    FT_TS_UNUSED( raster );
+    FT_TS_UNUSED( mode );
+    FT_TS_UNUSED( args );
 
     return 0;
   }
 
 
   static int
-  ft_black_render( FT_Raster                raster,
-                   const FT_Raster_Params*  params )
+  ft_black_render( FT_TS_Raster                raster,
+                   const FT_TS_Raster_Params*  params )
   {
-    const FT_Outline*  outline    = (const FT_Outline*)params->source;
-    const FT_Bitmap*   target_map = params->target;
+    const FT_TS_Outline*  outline    = (const FT_TS_Outline*)params->source;
+    const FT_TS_Bitmap*   target_map = params->target;
 
-#ifndef FT_STATIC_RASTER
+#ifndef FT_TS_STATIC_RASTER
     black_TWorker  worker[1];
 #endif
 
-    Long  buffer[FT_MAX_BLACK_POOL];
+    Long  buffer[FT_TS_MAX_BLACK_POOL];
 
 
     if ( !raster )
-      return FT_THROW( Raster_Uninitialized );
+      return FT_TS_THROW( Raster_Uninitialized );
 
     if ( !outline )
-      return FT_THROW( Invalid_Outline );
+      return FT_TS_THROW( Invalid_Outline );
 
     /* return immediately if the outline is empty */
     if ( outline->n_points == 0 || outline->n_contours <= 0 )
       return Raster_Err_Ok;
 
     if ( !outline->contours || !outline->points )
-      return FT_THROW( Invalid_Outline );
+      return FT_TS_THROW( Invalid_Outline );
 
     if ( outline->n_points !=
            outline->contours[outline->n_contours - 1] + 1 )
-      return FT_THROW( Invalid_Outline );
+      return FT_TS_THROW( Invalid_Outline );
 
     /* this version of the raster does not support direct rendering, sorry */
-    if ( params->flags & FT_RASTER_FLAG_DIRECT ||
-         params->flags & FT_RASTER_FLAG_AA     )
-      return FT_THROW( Cannot_Render_Glyph );
+    if ( params->flags & FT_TS_RASTER_FLAG_DIRECT ||
+         params->flags & FT_TS_RASTER_FLAG_AA     )
+      return FT_TS_THROW( Cannot_Render_Glyph );
 
     if ( !target_map )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     /* nothing to do */
     if ( !target_map->width || !target_map->rows )
       return Raster_Err_Ok;
 
     if ( !target_map->buffer )
-      return FT_THROW( Invalid_Argument );
+      return FT_TS_THROW( Invalid_Argument );
 
     ras.outline = *outline;
     ras.target  = *target_map;
@@ -3276,16 +3276,16 @@
   }
 
 
-  FT_DEFINE_RASTER_FUNCS(
+  FT_TS_DEFINE_RASTER_FUNCS(
     ft_standard_raster,
 
-    FT_GLYPH_FORMAT_OUTLINE,
+    FT_TS_GLYPH_FORMAT_OUTLINE,
 
-    (FT_Raster_New_Func)     ft_black_new,       /* raster_new      */
-    (FT_Raster_Reset_Func)   ft_black_reset,     /* raster_reset    */
-    (FT_Raster_Set_Mode_Func)ft_black_set_mode,  /* raster_set_mode */
-    (FT_Raster_Render_Func)  ft_black_render,    /* raster_render   */
-    (FT_Raster_Done_Func)    ft_black_done       /* raster_done     */
+    (FT_TS_Raster_New_Func)     ft_black_new,       /* raster_new      */
+    (FT_TS_Raster_Reset_Func)   ft_black_reset,     /* raster_reset    */
+    (FT_TS_Raster_Set_Mode_Func)ft_black_set_mode,  /* raster_set_mode */
+    (FT_TS_Raster_Render_Func)  ft_black_render,    /* raster_render   */
+    (FT_TS_Raster_Done_Func)    ft_black_done       /* raster_done     */
   )
 
 

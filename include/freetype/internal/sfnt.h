@@ -25,7 +25,7 @@
 #include <freetype/internal/wofftypes.h>
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -68,12 +68,12 @@ FT_BEGIN_HEADER
    *   then call the TT_Load_Face_Func() callback to read the rest of the
    *   SFNT tables in the object.
    */
-  typedef FT_Error
-  (*TT_Init_Face_Func)( FT_Stream      stream,
+  typedef FT_TS_Error
+  (*TT_Init_Face_Func)( FT_TS_Stream      stream,
                         TT_Face        face,
-                        FT_Int         face_index,
-                        FT_Int         num_params,
-                        FT_Parameter*  params );
+                        FT_TS_Int         face_index,
+                        FT_TS_Int         num_params,
+                        FT_TS_Parameter*  params );
 
 
   /**************************************************************************
@@ -110,12 +110,12 @@ FT_BEGIN_HEADER
    * @note:
    *   This function must be called after TT_Init_Face_Func().
    */
-  typedef FT_Error
-  (*TT_Load_Face_Func)( FT_Stream      stream,
+  typedef FT_TS_Error
+  (*TT_Load_Face_Func)( FT_TS_Stream      stream,
                         TT_Face        face,
-                        FT_Int         face_index,
-                        FT_Int         num_params,
-                        FT_Parameter*  params );
+                        FT_TS_Int         face_index,
+                        FT_TS_Int         num_params,
+                        FT_TS_Parameter*  params );
 
 
   /**************************************************************************
@@ -176,12 +176,12 @@ FT_BEGIN_HEADER
    * @return:
    *   TrueType error code.  0 means success.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Load_Any_Func)( TT_Face    face,
-                       FT_ULong   tag,
-                       FT_Long    offset,
-                       FT_Byte   *buffer,
-                       FT_ULong*  length );
+                       FT_TS_ULong   tag,
+                       FT_TS_Long    offset,
+                       FT_TS_Byte   *buffer,
+                       FT_TS_ULong*  length );
 
 
   /**************************************************************************
@@ -217,13 +217,13 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0 means success.  Returns
    *   SFNT_Err_Invalid_Argument if no sbit exists for the requested glyph.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Find_SBit_Image_Func)( TT_Face          face,
-                              FT_UInt          glyph_index,
-                              FT_ULong         strike_index,
+                              FT_TS_UInt          glyph_index,
+                              FT_TS_ULong         strike_index,
                               TT_SBit_Range   *arange,
                               TT_SBit_Strike  *astrike,
-                              FT_ULong        *aglyph_offset );
+                              FT_TS_ULong        *aglyph_offset );
 
 
   /**************************************************************************
@@ -256,8 +256,8 @@ FT_BEGIN_HEADER
    *   positioned just after the metrics header in the 'EBDT' table on
    *   function exit.
    */
-  typedef FT_Error
-  (*TT_Load_SBit_Metrics_Func)( FT_Stream        stream,
+  typedef FT_TS_Error
+  (*TT_Load_SBit_Metrics_Func)( FT_TS_Stream        stream,
                                 TT_SBit_Range    range,
                                 TT_SBit_Metrics  metrics );
 
@@ -301,13 +301,13 @@ FT_BEGIN_HEADER
    * @note:
    *   The `map.buffer` field is always freed before the glyph is loaded.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Load_SBit_Image_Func)( TT_Face              face,
-                              FT_ULong             strike_index,
-                              FT_UInt              glyph_index,
-                              FT_UInt              load_flags,
-                              FT_Stream            stream,
-                              FT_Bitmap           *amap,
+                              FT_TS_ULong             strike_index,
+                              FT_TS_UInt              glyph_index,
+                              FT_TS_UInt              load_flags,
+                              FT_TS_Stream            stream,
+                              FT_TS_Bitmap           *amap,
                               TT_SBit_MetricsRec  *ametrics );
 
 
@@ -334,10 +334,10 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0 means success.  Returns an error if no sbit
    *   strike exists for the selected ppem values.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Set_SBit_Strike_Func)( TT_Face          face,
-                              FT_Size_Request  req,
-                              FT_ULong*        astrike_index );
+                              FT_TS_Size_Request  req,
+                              FT_TS_ULong*        astrike_index );
 
 
   /**************************************************************************
@@ -363,10 +363,10 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0 means success.  Returns an error if no such
    *   sbit strike exists.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Load_Strike_Metrics_Func)( TT_Face           face,
-                                  FT_ULong          strike_index,
-                                  FT_Size_Metrics*  metrics );
+                                  FT_TS_ULong          strike_index,
+                                  FT_TS_Size_Metrics*  metrics );
 
 
   /**************************************************************************
@@ -390,10 +390,10 @@ FT_BEGIN_HEADER
    * @output:
    *   FreeType error code.  0 means success.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Get_PS_Name_Func)( TT_Face      face,
-                          FT_UInt      idx,
-                          FT_String**  PSname );
+                          FT_TS_UInt      idx,
+                          FT_TS_String**  PSname );
 
 
   /**************************************************************************
@@ -418,10 +418,10 @@ FT_BEGIN_HEADER
    * @return:
    *   FreeType error code.  0 means success.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Load_Metrics_Func)( TT_Face    face,
-                           FT_Stream  stream,
-                           FT_Bool    vertical );
+                           FT_TS_Stream  stream,
+                           FT_TS_Bool    vertical );
 
 
   /**************************************************************************
@@ -451,10 +451,10 @@ FT_BEGIN_HEADER
    */
   typedef void
   (*TT_Get_Metrics_Func)( TT_Face     face,
-                          FT_Bool     vertical,
-                          FT_UInt     gindex,
-                          FT_Short*   abearing,
-                          FT_UShort*  aadvance );
+                          FT_TS_Bool     vertical,
+                          FT_TS_UInt     gindex,
+                          FT_TS_Short*   abearing,
+                          FT_TS_UShort*  aadvance );
 
 
   /**************************************************************************
@@ -475,9 +475,9 @@ FT_BEGIN_HEADER
    * @return:
    *   FreeType error code.  0 means success.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Set_Palette_Func)( TT_Face  face,
-                          FT_UInt  idx );
+                          FT_TS_UInt  idx );
 
 
   /**************************************************************************
@@ -497,7 +497,7 @@ FT_BEGIN_HEADER
    *
    * @inout:
    *   iterator ::
-   *     An @FT_LayerIterator object.  For the first call you should set
+   *     An @FT_TS_LayerIterator object.  For the first call you should set
    *     `iterator->p` to `NULL`.  For all following calls, simply use the
    *     same object again.
    *
@@ -516,12 +516,12 @@ FT_BEGIN_HEADER
    *   are no layers at all), value~0 gets returned.  In case of an error,
    *   value~0 is returned also.
    */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   (*TT_Get_Colr_Layer_Func)( TT_Face            face,
-                             FT_UInt            base_glyph,
-                             FT_UInt           *aglyph_index,
-                             FT_UInt           *acolor_index,
-                             FT_LayerIterator*  iterator );
+                             FT_TS_UInt            base_glyph,
+                             FT_TS_UInt           *aglyph_index,
+                             FT_TS_UInt           *acolor_index,
+                             FT_TS_LayerIterator*  iterator );
 
 
   /**************************************************************************
@@ -530,7 +530,7 @@ FT_BEGIN_HEADER
    *   TT_Get_Color_Glyph_Paint_Func
    *
    * @description:
-   *   Find the root @FT_OpaquePaint object for a given glyph ID.
+   *   Find the root @FT_TS_OpaquePaint object for a given glyph ID.
    *
    * @input:
    *   face ::
@@ -541,18 +541,18 @@ FT_BEGIN_HEADER
    *
    * @output:
    *   paint ::
-   *     The root @FT_OpaquePaint object.
+   *     The root @FT_TS_OpaquePaint object.
    *
    * @return:
    *   Value~1 if everything is OK.  If no color glyph is found, or the root
    *   paint could not be retrieved, value~0 gets returned.  In case of an
    *   error, value~0 is returned also.
    */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   ( *TT_Get_Color_Glyph_Paint_Func )( TT_Face                   face,
-                                      FT_UInt                   base_glyph,
-                                      FT_Color_Root_Transform   root_transform,
-                                      FT_OpaquePaint           *paint );
+                                      FT_TS_UInt                   base_glyph,
+                                      FT_TS_Color_Root_Transform   root_transform,
+                                      FT_TS_OpaquePaint           *paint );
 
 
   /**************************************************************************
@@ -576,21 +576,21 @@ FT_BEGIN_HEADER
    *   clip_box ::
    *     The clip box for the requested `base_glyph` if one is found.  The
    *     clip box is computed taking scale and transformations configured on
-   *     the @FT_Face into account.  @FT_ClipBox contains @FT_Vector values
+   *     the @FT_TS_Face into account.  @FT_TS_ClipBox contains @FT_TS_Vector values
    *     in 26.6 format.
    *
    * @note:
    *     To retrieve the clip box in font units, reset scale to units-per-em
-   *     and remove transforms configured using @FT_Set_Transform.
+   *     and remove transforms configured using @FT_TS_Set_Transform.
    *
    * @return:
    *   Value~1 if a ClipBox is found.  If no clip box is found or an
    *   error occured, value~0 is returned.
    */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   ( *TT_Get_Color_Glyph_ClipBox_Func )( TT_Face      face,
-                                        FT_UInt      base_glyph,
-                                        FT_ClipBox*  clip_box );
+                                        FT_TS_UInt      base_glyph,
+                                        FT_TS_ClipBox*  clip_box );
 
 
   /**************************************************************************
@@ -607,23 +607,23 @@ FT_BEGIN_HEADER
    *
    * @inout:
    *   iterator ::
-   *     The @FT_LayerIterator from an @FT_PaintColrLayers object, for which
+   *     The @FT_TS_LayerIterator from an @FT_TS_PaintColrLayers object, for which
    *     the layers are to be retrieved.  The internal state of the iterator
    *     is incremented after one call to this function for retrieving one
    *     layer.
    *
    * @output:
    *   paint ::
-   *     The root @FT_OpaquePaint object referencing the actual paint table.
+   *     The root @FT_TS_OpaquePaint object referencing the actual paint table.
    *
    * @return:
    *   Value~1 if everything is OK.  Value~0 gets returned when the paint
    *   object can not be retrieved or any other error occurs.
    */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   ( *TT_Get_Paint_Layers_Func )( TT_Face            face,
-                                 FT_LayerIterator*  iterator,
-                                 FT_OpaquePaint    *paint );
+                                 FT_TS_LayerIterator*  iterator,
+                                 FT_TS_OpaquePaint    *paint );
 
 
   /**************************************************************************
@@ -640,7 +640,7 @@ FT_BEGIN_HEADER
    *
    * @inout:
    *   iterator ::
-   *     An @FT_ColorStopIterator object.  For the first call you should set
+   *     An @FT_TS_ColorStopIterator object.  For the first call you should set
    *     `iterator->p` to `NULL`.  For all following calls, simply use the
    *     same object again.
    *
@@ -653,10 +653,10 @@ FT_BEGIN_HEADER
    *   value~0 gets returned.  In case of an error, value~0 is returned
    *   also.
    */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   ( *TT_Get_Colorline_Stops_Func )( TT_Face                face,
-                                    FT_ColorStop          *color_stop,
-                                    FT_ColorStopIterator*  iterator );
+                                    FT_TS_ColorStop          *color_stop,
+                                    FT_TS_ColorStopIterator*  iterator );
 
 
   /**************************************************************************
@@ -665,27 +665,27 @@ FT_BEGIN_HEADER
    *   TT_Get_Paint_Func
    *
    * @description:
-   *   Get the paint details for a given @FT_OpaquePaint object.
+   *   Get the paint details for a given @FT_TS_OpaquePaint object.
    *
    * @input:
    *   face ::
    *     The target face object.
    *
    *   opaque_paint ::
-   *     The @FT_OpaquePaint object.
+   *     The @FT_TS_OpaquePaint object.
    *
    * @output:
    *   paint ::
-   *     An @FT_COLR_Paint object holding the details on `opaque_paint`.
+   *     An @FT_TS_COLR_Paint object holding the details on `opaque_paint`.
    *
    * @return:
    *   Value~1 if everything is OK.  Value~0 if no details can be found for
    *   this paint or any other error occured.
    */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   ( *TT_Get_Paint_Func )( TT_Face         face,
-                          FT_OpaquePaint  opaque_paint,
-                          FT_COLR_Paint  *paint );
+                          FT_TS_OpaquePaint  opaque_paint,
+                          FT_TS_COLR_Paint  *paint );
 
 
   /**************************************************************************
@@ -698,7 +698,7 @@ FT_BEGIN_HEADER
    *   specified by `color_index`.  If `color_index` is 0xFFFF, use
    *   `face->foreground_color` if `face->have_foreground_color` is set.
    *   Otherwise check `face->palette_data.palette_flags`: If present and
-   *   @FT_PALETTE_FOR_DARK_BACKGROUND is set, use BGRA value 0xFFFFFFFF
+   *   @FT_TS_PALETTE_FOR_DARK_BACKGROUND is set, use BGRA value 0xFFFFFFFF
    *   (white opaque).  Otherwise use BGRA value 0x000000FF (black opaque).
    *
    * @input:
@@ -719,11 +719,11 @@ FT_BEGIN_HEADER
    *   FreeType error code.  0 means success.  Returns an error if
    *   color_index is invalid or reallocation fails.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Blend_Colr_Func)( TT_Face       face,
-                         FT_UInt       color_index,
-                         FT_GlyphSlot  base_glyph,
-                         FT_GlyphSlot  new_glyph );
+                         FT_TS_UInt       color_index,
+                         FT_TS_GlyphSlot  base_glyph,
+                         FT_TS_GlyphSlot  new_glyph );
 
 
   /**************************************************************************
@@ -749,10 +749,10 @@ FT_BEGIN_HEADER
    * @return:
    *   FreeType error code.  0 means success.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Get_Name_Func)( TT_Face      face,
-                       FT_UShort    nameid,
-                       FT_String**  name );
+                       FT_TS_UShort    nameid,
+                       FT_TS_String**  name );
 
 
   /**************************************************************************
@@ -783,11 +783,11 @@ FT_BEGIN_HEADER
    * @return:
    *   1 if there is either a win or apple entry (or both), 0 otheriwse.
    */
-  typedef FT_Bool
+  typedef FT_TS_Bool
   (*TT_Get_Name_ID_Func)( TT_Face    face,
-                          FT_UShort  nameid,
-                          FT_Int    *win,
-                          FT_Int    *apple );
+                          FT_TS_UShort  nameid,
+                          FT_TS_Int    *win,
+                          FT_TS_Int    *apple );
 
 
   /**************************************************************************
@@ -812,9 +812,9 @@ FT_BEGIN_HEADER
    *   The function uses `face->goto_table` to seek the stream to the start
    *   of the table, except while loading the font directory.
    */
-  typedef FT_Error
+  typedef FT_TS_Error
   (*TT_Load_Table_Func)( TT_Face    face,
-                         FT_Stream  stream );
+                         FT_TS_Stream  stream );
 
 
   /**************************************************************************
@@ -853,10 +853,10 @@ FT_BEGIN_HEADER
    * @return:
    *    The kerning value in font units.
    */
-  typedef FT_Int
+  typedef FT_TS_Int
   (*TT_Face_GetKerningFunc)( TT_Face  face,
-                             FT_UInt  left_glyph,
-                             FT_UInt  right_glyph );
+                             FT_TS_UInt  left_glyph,
+                             FT_TS_UInt  right_glyph );
 
 
   /**************************************************************************
@@ -878,7 +878,7 @@ FT_BEGIN_HEADER
     TT_Init_Face_Func    init_face;
     TT_Load_Face_Func    load_face;
     TT_Done_Face_Func    done_face;
-    FT_Module_Requester  get_interface;
+    FT_TS_Module_Requester  get_interface;
 
     TT_Load_Any_Func  load_any;
 
@@ -953,7 +953,7 @@ FT_BEGIN_HEADER
   typedef SFNT_Interface*   SFNT_Service;
 
 
-#define FT_DEFINE_SFNT_INTERFACE(        \
+#define FT_TS_DEFINE_SFNT_INTERFACE(        \
           class_,                        \
           goto_table_,                   \
           init_face_,                    \
@@ -1046,7 +1046,7 @@ FT_BEGIN_HEADER
   };
 
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* SFNT_H_ */
 

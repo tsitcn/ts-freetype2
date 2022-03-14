@@ -20,15 +20,15 @@
    *
    * A cache manager is in charge of the following:
    *
-   * - Maintain a mapping between generic FTC_FaceIDs and live FT_Face
+   * - Maintain a mapping between generic FTC_FaceIDs and live FT_TS_Face
    *   objects.  The mapping itself is performed through a user-provided
-   *   callback.  However, the manager maintains a small cache of FT_Face
-   *   and FT_Size objects in order to speed up things considerably.
+   *   callback.  However, the manager maintains a small cache of FT_TS_Face
+   *   and FT_TS_Size objects in order to speed up things considerably.
    *
    * - Manage one or more cache objects.  Each cache is in charge of
    *   holding a varying number of `cache nodes'.  Each cache node
    *   represents a minimal amount of individually accessible cached
-   *   data.  For example, a cache node can be an FT_Glyph image
+   *   data.  For example, a cache node can be an FT_TS_Glyph image
    *   containing a vector outline, or some glyph metrics, or anything
    *   else.
    *
@@ -68,7 +68,7 @@
 #include "ftccache.h"
 
 
-FT_BEGIN_HEADER
+FT_TS_BEGIN_HEADER
 
 
   /**************************************************************************
@@ -89,21 +89,21 @@ FT_BEGIN_HEADER
 
   typedef struct  FTC_ManagerRec_
   {
-    FT_Library          library;
-    FT_Memory           memory;
+    FT_TS_Library          library;
+    FT_TS_Memory           memory;
 
     FTC_Node            nodes_list;
-    FT_Offset           max_weight;
-    FT_Offset           cur_weight;
-    FT_UInt             num_nodes;
+    FT_TS_Offset           max_weight;
+    FT_TS_Offset           cur_weight;
+    FT_TS_UInt             num_nodes;
 
     FTC_Cache           caches[FTC_MAX_CACHES];
-    FT_UInt             num_caches;
+    FT_TS_UInt             num_caches;
 
     FTC_MruListRec      faces;
     FTC_MruListRec      sizes;
 
-    FT_Pointer          request_data;
+    FT_TS_Pointer          request_data;
     FTC_Face_Requester  request_face;
 
   } FTC_ManagerRec;
@@ -131,20 +131,20 @@ FT_BEGIN_HEADER
    *   The reason this function is exported is to allow client-specific
    *   cache classes.
    */
-  FT_LOCAL( void )
+  FT_TS_LOCAL( void )
   FTC_Manager_Compress( FTC_Manager  manager );
 
 
   /* try to flush `count' old nodes from the cache; return the number
    * of really flushed nodes
    */
-  FT_LOCAL( FT_UInt )
+  FT_TS_LOCAL( FT_TS_UInt )
   FTC_Manager_FlushN( FTC_Manager  manager,
-                      FT_UInt      count );
+                      FT_TS_UInt      count );
 
 
   /* this must be used internally for the moment */
-  FT_LOCAL( FT_Error )
+  FT_TS_LOCAL( FT_TS_Error )
   FTC_Manager_RegisterCache( FTC_Manager      manager,
                              FTC_CacheClass   clazz,
                              FTC_Cache       *acache );
@@ -167,7 +167,7 @@ FT_BEGIN_HEADER
 
  /* */
 
-FT_END_HEADER
+FT_TS_END_HEADER
 
 #endif /* FTCMANAG_H_ */
 

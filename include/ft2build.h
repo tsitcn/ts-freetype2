@@ -47,15 +47,15 @@
 #include <math.h>
 /* #include <unistd.h> */
 
-#ifndef FT_LOG_FILE_NAME
+#ifndef FT_TS_LOG_FILE_NAME
 
-#define FT_LOG_FILE_NAME               "tsfreetype.log"
+#define FT_TS_LOG_FILE_NAME               "tsfreetype.log"
 #if defined(_WINDOWS) || defined(WIN32)
 #define __FUNC__    __FUNCTION__
-#define FT_LOG_FILE_PATH               "D:\\"  FT_LOG_FILE_NAME
+#define FT_TS_LOG_FILE_PATH               "D:\\"  FT_TS_LOG_FILE_NAME
 #else
 #define __FUNC__    __func__
-#define FT_LOG_FILE_PATH               "/tmp/" FT_LOG_FILE_NAME
+#define FT_TS_LOG_FILE_PATH               "/tmp/" FT_TS_LOG_FILE_NAME
 #endif
 //defined(_WINDOWS) || defined(WIN32)
 
@@ -72,7 +72,7 @@
 #define LOG_HERE()              LOG_TO_OUTPUT("");
 
 #define LOG_TO_FILE(FMT, ...)   {LOG_TEXT_ONLY(FMT, ##__VA_ARGS__) \
-                                {FILE* log_fp = fopen(FT_LOG_FILE_PATH, "a+"); \
+                                {FILE* log_fp = fopen(FT_TS_LOG_FILE_PATH, "a+"); \
 								fwrite(log_text, 1, strlen(log_text), log_fp); fclose(log_fp);}}
 
 #define DEBUG_FORMAT(FMT, ...)  LOG_TO_FILE(FMT, ##__VA_ARGS__)
@@ -88,7 +88,7 @@
 #define FILE_HERE               DEBUG_HERE
 
 #endif
-//FT_LOG_FILE_NAME
+//FT_TS_LOG_FILE_NAME
 
 /**
  TSIT }}}}}}}}}}
