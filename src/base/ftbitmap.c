@@ -303,12 +303,39 @@
 
   /* documentation is in ftbitmap.h */
 
+/**
+ TSIT {{{{{{{{{{
+ */
+
   FT_EXPORT_DEF( FT_Error )
   FT_Bitmap_Embolden( FT_Library  library,
+                      FT_Bitmap*  bitmap,
+                      FT_Pos      strength )
+  {
+    /* check the value ? */
+    return FT_Bitmap_WeightXY(library, bitmap, strength, strength);
+  }
+  
+  FT_EXPORT_DEF( FT_Error )
+  FT_Bitmap_EmboldenXY( FT_Library  library,
                       FT_Bitmap*  bitmap,
                       FT_Pos      xStrength,
                       FT_Pos      yStrength )
   {
+    return FT_Bitmap_WeightXY(library, bitmap, xStrength, xStrength);
+  }
+  
+  FT_EXPORT( FT_Error )
+  FT_Bitmap_WeightXY( FT_Library  library,
+                      FT_Bitmap*  bitmap,
+                      FT_Pos      xStrength,
+                      FT_Pos      yStrength )
+  {
+
+/**
+ TSIT }}}}}}}}}}
+ */
+
     FT_Error        error;
     unsigned char*  p;
     FT_Int          i, x, pitch;

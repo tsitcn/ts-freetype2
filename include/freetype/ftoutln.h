@@ -393,6 +393,27 @@ FT_BEGIN_HEADER
                          FT_Pos       xstrength,
                          FT_Pos       ystrength );
 
+/**
+ TSIT {{{{{{{{{{
+ */
+
+  /**************************************************************************
+   *
+   * @function:
+   *   FT_Outline_WeightXY
+   *
+   * @description:
+   *   Embolden or slim an outline.
+   *
+   */
+  FT_EXPORT( FT_Error )
+  FT_Outline_WeightXY( FT_Outline*  outline,
+                          FT_Pos       xstrength,
+                          FT_Pos       ystrength );
+
+/**
+ TSIT }}}}}}}}}}
+ */
 
   /**************************************************************************
    *

@@ -890,11 +890,15 @@
 
   /* documentation is in ftoutln.h */
 
+/**
+ TSIT {{{{{{{{{{
+ */
+ 
   FT_EXPORT_DEF( FT_Error )
   FT_Outline_Embolden( FT_Outline*  outline,
                        FT_Pos       strength )
   {
-    return FT_Outline_EmboldenXY( outline, strength, strength );
+    return FT_Outline_WeightXY( outline, strength, strength );
   }
 
 
@@ -905,6 +909,18 @@
                          FT_Pos       xstrength,
                          FT_Pos       ystrength )
   {
+    /* check value ? */
+  	return FT_Outline_WeightXY( outline, xstrength, ystrength );
+  }
+  
+  FT_EXPORT( FT_Error )
+  FT_Outline_WeightXY( FT_Outline*  outline,
+                          FT_Pos       xstrength,
+                          FT_Pos       ystrength )
+  {
+/**
+ TSIT }}}}}}}}}}
+ */  
     FT_Vector*      points;
     FT_Int          c, first, last;
     FT_Orientation  orientation;

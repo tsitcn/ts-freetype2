@@ -43,36 +43,122 @@
 
   /* documentation is in ftsynth.h */
 
+/**
+ TSIT {{{{{{{{{{
+ */
+
+  FT_EXPORT_DEF( int )
+  FT_GlyphSlot_Get_Matrix_Degree(FT_Matrix* pMatrix)
+  {
+    if (!pMatrix)
+    {
+        return 0;
+    }
+
+    if (  pMatrix->xx ==  0
+       && pMatrix->xy ==  0x10000
+       && pMatrix->yx == -0x10000
+       && pMatrix->yy ==  0)
+    {
+       return 90;
+    }
+
+    if (pMatrix->xx ==  0
+     && pMatrix->xy == -0x10000
+     && pMatrix->yx ==  0x10000
+     && pMatrix->yy ==  0 )
+    {
+       return -90;
+    }
+    return 0;
+  }
+
   FT_EXPORT_DEF( void )
   FT_GlyphSlot_Oblique( FT_GlyphSlot  slot )
   {
+    FT_GlyphSlot_Oblique_Direction(slot, FT_FONT_ITALIC_VALUE, FT_POSTURE_TO_RIGHT);
+  }
+
+  FT_EXPORT_DEF( void )
+  FT_GlyphSlot_Oblique_Direction( FT_GlyphSlot  slot, float oblique, int flags )
+  {
     FT_Matrix    transform;
     FT_Outline*  outline;
-
+    FT_Library   library;
+    FT_Face      face;
+    FT_Pos       xstr, ystr;
+    int          to_bottom;
+    int          degree;
+    int          transvalue;
 
     if ( !slot )
       return;
 
-    outline = &slot->outline;
-
-    /* only oblique outline glyphs */
+    face    = slot->face;
     if ( slot->format != FT_GLYPH_FORMAT_OUTLINE )
-      return;
+    {
+        return;
+    }
 
     /* we don't touch the advance width */
 
     /* For italic, simply apply a shear transform, with an angle */
     /* of about 12 degrees.                                      */
+    /* if text both have directory and italic,
+       text directory is solid attibute.
+       italic is temporary attribute.
 
-    transform.xx = 0x10000L;
-    transform.yx = 0x00000L;
+       so, I must change transform for directory.
+       0x0366AL/0x10000L=0.21
+     */
+    degree     = FT_GlyphSlot_Get_Matrix_Degree( &(face->internal->transform_matrix));
+    to_bottom  = FT_POSTURE_TO_BOTTOM_CHECK(flags);
+    /* if is oblique=0.21256, transvalue=0x0366AL*/
+    transvalue = (int)(0x10000L*oblique);
+    if (   degree ==   0 &&  to_bottom
+        || degree ==  90 && !to_bottom
+        || degree == -90 && !to_bottom )
+    {
+        transform.xx =  0x10000L;
+        transform.yx = -transvalue;
+        transform.xy =  0x00000L;
+        transform.yy =  0x10000L;
+    }
+    else
+    {
+        transform.xx =  0x10000L;
+        transform.yx =  0x00000L;
+        transform.xy =  transvalue;
+        transform.yy =  0x10000L;
+    }
 
-    transform.xy = 0x0366AL;
-    transform.yy = 0x10000L;
-
+    outline = &slot->outline;
     FT_Outline_Transform( outline, &transform );
   }
 
+  FT_EXPORT_DEF( void )
+  FT_GlyphSlot_Transform( FT_GlyphSlot  slot )
+  {
+    FT_Matrix    transform;
+    FT_Outline*  outline;
+    FT_Library   library;
+    FT_Face      face;
+    FT_Pos       xstr, ystr;
+    int degree = 0;
+
+    if ( !slot )
+      return;
+
+    face    = slot->face;
+
+    if ( slot->format != FT_GLYPH_FORMAT_OUTLINE )
+    {
+        return;
+    }
+
+    outline = &slot->outline;
+    FT_Outline_Transform( outline, &transform );
+  }
 
   /*************************************************************************/
   /*************************************************************************/
@@ -88,11 +174,17 @@
   FT_EXPORT_DEF( void )
   FT_GlyphSlot_Embolden( FT_GlyphSlot  slot )
   {
+    FT_GlyphSlot_Weight(slot, FT_WEIGHT_BOLD, FT_WEIGHT_BOLD, 0);
+  }
+
+  FT_EXPORT_DEF( void )
+  FT_GlyphSlot_Weight( FT_GlyphSlot  slot, float weight_x, float weight_y, int flags )
+  {
     FT_Library  library;
     FT_Face     face;
     FT_Error    error;
     FT_Pos      xstr, ystr;
-
+    int            changex, changey;
 
     if ( !slot )
       return;
@@ -109,16 +201,28 @@
                       face->size->metrics.y_scale ) / 24;
     ystr = xstr;
 
-    if ( slot->format == FT_GLYPH_FORMAT_OUTLINE )
-      FT_Outline_EmboldenXY( &slot->outline, xstr, ystr );
+    /* different weight cause different thick.
+     * weight plain(1) means no process, so we minus it.
+     */
+    weight_x = weight_x - FT_WEIGHT_PLAIN;
+    xstr     = (int)(xstr * weight_x);
+    weight_y = weight_y - FT_WEIGHT_PLAIN;
+    ystr     = (int)(ystr * weight_y);
 
+    if ( slot->format == FT_GLYPH_FORMAT_OUTLINE )
+    {
+      FT_Outline_WeightXY( &slot->outline, xstr, ystr );
+    }
     else /* slot->format == FT_GLYPH_FORMAT_BITMAP */
     {
       /* round to full pixels */
       xstr &= ~63;
       if ( xstr == 0 )
         xstr = 1 << 6;
+	  xstr     = (int)(xstr * weight_x);
+
       ystr &= ~63;
+	  ystr     = (int)(ystr * weight_y);
 
       /*
        * XXX: overflow check for 16-bit system, for compatibility
@@ -136,7 +240,7 @@
       if ( error )
         return;
 
-      error = FT_Bitmap_Embolden( library, &slot->bitmap, xstr, ystr );
+      error = FT_Bitmap_WeightXY( library, &slot->bitmap, xstr, ystr );
       if ( error )
         return;
     }
@@ -157,6 +261,10 @@
     if ( slot->format == FT_GLYPH_FORMAT_BITMAP )
       slot->bitmap_top += (FT_Int)( ystr >> 6 );
   }
+
+/**
+ TSIT }}}}}}}}}}
+ */
 
 
 /* END */

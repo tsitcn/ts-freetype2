@@ -113,11 +113,53 @@ FT_BEGIN_HEADER
                   const FT_Bitmap  *source,
                   FT_Bitmap        *target );
 
+/**
+  TSIT {{{{{{{{{{
+  */
 
   /**************************************************************************
    *
    * @function:
    *   FT_Bitmap_Embolden
+   *
+   * @description:
+   *   Embolden a bitmap.  Use same value for wider and higher. 
+   *   The left and bottom borders are kept unchanged.
+   *
+   * @input:
+   *   library ::
+   *     A handle to a library object.
+   *
+   *   strength ::
+   *     How strong the glyph is emboldened horizontally and vertically.  Expressed in 26.6
+   *     pixel format.
+   *
+   * @inout:
+   *   bitmap ::
+   *     A handle to the target bitmap.
+   *
+   * @return:
+   *   FreeType error code.  0~means success.
+   *
+   * @note:
+   *   The current implementation restricts `xStrength` to be less than or
+   *   equal to~8 if bitmap is of pixel_mode @FT_PIXEL_MODE_MONO.
+   *
+   *   If you want to embolden the bitmap owned by a @FT_GlyphSlotRec, you
+   *   should call @FT_GlyphSlot_Own_Bitmap on the slot first.
+   *
+   *   Bitmaps in @FT_PIXEL_MODE_GRAY2 and @FT_PIXEL_MODE_GRAY@ format are
+   *   converted to @FT_PIXEL_MODE_GRAY format (i.e., 8bpp).
+   */
+  FT_EXPORT( FT_Error )
+  FT_Bitmap_Embolden( FT_Library  library,
+                      FT_Bitmap*  bitmap,
+                      FT_Pos      strength );
+
+  /**************************************************************************
+   *
+   * @function:
+   *   FT_Bitmap_EmboldenXY
    *
    * @description:
    *   Embolden a bitmap.  The new bitmap will be about `xStrength` pixels
@@ -154,11 +196,50 @@ FT_BEGIN_HEADER
    *   converted to @FT_PIXEL_MODE_GRAY format (i.e., 8bpp).
    */
   FT_EXPORT( FT_Error )
-  FT_Bitmap_Embolden( FT_Library  library,
+  FT_Bitmap_EmboldenXY(
+                      FT_Library  library,
+                      FT_Bitmap*  bitmap,
+                      FT_Pos      xStrength,
+                      FT_Pos      yStrength );
+					  
+  /**************************************************************************
+   *
+   * @function:
+   *   FT_Bitmap_WeightXY
+   *
+   * @description:
+   *   This function can embolden/slim a bitmap.
+   *
+   * @input:
+   *   library ::
+   *     A handle to a library object.
+   *
+   *   xStrength ::
+   *     How strong the glyph is emboldened horizontally.  Expressed in 26.6
+   *     pixel format.
+   *
+   *   yStrength ::
+   *     How strong the glyph is emboldened vertically.  Expressed in 26.6
+   *     pixel format.
+   *
+   * @inout:
+   *   bitmap ::
+   *     A handle to the target bitmap.
+   *
+   * @return:
+   *   FreeType error code.  0~means success.
+   *
+   */
+  FT_EXPORT( FT_Error )
+  FT_Bitmap_WeightXY(
+                      FT_Library  library,
                       FT_Bitmap*  bitmap,
                       FT_Pos      xStrength,
                       FT_Pos      yStrength );
 
+/**
+  TSIT }}}}}}}}}}
+  */
 
   /**************************************************************************
    *

@@ -29,6 +29,36 @@
 FT_BEGIN_HEADER
 
 
+/**
+  TSIT {{{{{{{{{{
+ */
+
+/**
+ This direction is relative, we suppose char head is top direction.
+ LTR: next char appear at right position.
+ TTB: next char appear at bottom position.
+ */
+#define FT_POSTURE_TO_RIGHT           0
+#define FT_POSTURE_TO_BOTTOM         (0x01 << 0)
+
+/**
+ Make it easy to use.
+ */
+#define FT_POSTURE_TO_BOTTOM_CHECK(flags)         (flags & FT_POSTURE_TO_BOTTOM)
+
+/**
+ plain: the boldness not change.
+ bold:  the boldness is larger.
+ */
+#define FT_WEIGHT_PLAIN        1.00F
+#define FT_WEIGHT_BOLD         2.00F
+  
+/** sin(12)=0.2 */
+#define FT_FONT_ITALIC_VALUE   0.20F
+
+/**
+  TSIT }}}}}}}}}}
+ */
 
   /**************************************************************************
    *

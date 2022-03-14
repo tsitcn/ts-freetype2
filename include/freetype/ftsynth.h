@@ -74,6 +74,37 @@ FT_BEGIN_HEADER
 
   /* */
 
+/**
+ TSIT {{{{{{{{{{
+ */
+
+  /**
+   * Italic a slot for LTR or TTB
+   */
+  FT_EXPORT( void )
+  FT_GlyphSlot_Oblique_Direction( FT_GlyphSlot  slot, float oblique, int flags);
+
+  /**
+   * Transform a slot.
+   */
+  FT_EXPORT( void )
+  FT_GlyphSlot_Transform( FT_GlyphSlot  slot);
+
+  /**
+   * From pMatrix get degree.
+   */
+  FT_EXPORT( int )
+  FT_GlyphSlot_Get_Matrix_Degree(FT_Matrix* pMatrix);
+
+  /**
+   * Embolden or slim a slot.
+   */
+  FT_EXPORT( void )
+  FT_GlyphSlot_Weight(   FT_GlyphSlot  slot, float weight_x, float weight_y, int flags );
+
+/**
+ TSIT }}}}}}}}}}
+ */
 
 FT_END_HEADER
 

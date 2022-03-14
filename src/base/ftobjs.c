@@ -1039,6 +1039,9 @@
     {
       FT_Face_Internal  internal = face->internal;
 
+/**
+ TSIT {{{{{{{{{{
+ */
 
       /* now, transform the glyph image if needed */
       if ( internal->transform_flags )
@@ -1064,7 +1067,17 @@
                                   internal->transform_delta.x,
                                   internal->transform_delta.y );
         }
+        else
+        {
+            /* slot->outline.points = NULL, so no action. */
+            /* FT_Outline_Transform( &slot->outline, &internal->transform_matrix); */
+            FT_GlyphSlot_Transform(slot);
+        }
 
+/**
+ TSIT }}}}}}}}}}
+ */
+ 
         /* transform advance */
         FT_Vector_Transform( &slot->advance, &internal->transform_matrix );
       }
