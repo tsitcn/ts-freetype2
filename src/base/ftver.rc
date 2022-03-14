@@ -30,10 +30,10 @@ FILEFLAGS            VS_FF_DEBUG
 #endif
 #ifdef DLL_EXPORT
 FILETYPE             VFT_DLL
-#define FT_FILENAME  "freetype.dll"
+#define FT_FILENAME  "tsfreetype.dll"
 #else
 FILETYPE             VFT_STATIC_LIB
-#define FT_FILENAME  "freetype.lib"
+#define FT_FILENAME  "tsfreetype.lib"
 #endif
 BEGIN
   BLOCK "StringFileInfo"
@@ -46,7 +46,7 @@ BEGIN
       VALUE "ProductName",      "FreeType"
       VALUE "ProductVersion",   FT_VERSION_STR
       VALUE "LegalCopyright",   "\251 2000-2021 The FreeType Project www.freetype.org. All rights reserved."
-      VALUE "InternalName",     "freetype"
+      VALUE "InternalName",     "tsfreetype"
       VALUE "OriginalFilename", FT_FILENAME
     END
   END

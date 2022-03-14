@@ -113,7 +113,8 @@ if test $inode_src != $inode_dst; then
   echo "  include \$(TOP_DIR)/Makefile"          >> Makefile
   echo "else"                                    >> Makefile
   echo "  TOP_DIR_2 := \$(TOP_DIR)/../ft2demos"  >> Makefile
-  echo "  PROJECT   := freetype"                 >> Makefile
+  # TSIT
+  echo "  PROJECT   := tsfreetype"               >> Makefile
   echo "  CONFIG_MK := \$(OBJ_DIR)/config.mk"    >> Makefile
   echo "  include \$(TOP_DIR_2)/Makefile"        >> Makefile
   echo "endif"                                   >> Makefile

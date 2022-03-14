@@ -15,8 +15,9 @@
 
 # Project names
 #
-PROJECT       := freetype
-PROJECT_TITLE := FreeType
+# TSIT
+PROJECT       := tsfreetype
+PROJECT_TITLE := tsFreeType
 
 # The variable TOP_DIR holds the path to the topmost directory in the project
 # engine source hierarchy.  If it is not defined, default it to `.'.
