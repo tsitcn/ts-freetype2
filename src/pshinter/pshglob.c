@@ -5,7 +5,7 @@
  *   PostScript hinter global hinting management (body).
  *   Inspired by the new auto-hinter module.
  *
- * Copyright (C) 2001-2021 by
+ * Copyright (C) 2001-2022 by
  * David Turner, Robert Wilhelm, and Werner Lemberg.
  *
  * This file is part of the FreeType project, and may only be used
@@ -650,7 +650,7 @@
     FT_TS_Error     error;
 
 
-    if ( !FT_TS_NEW( globals ) )
+    if ( !FT_TS_QNEW( globals ) )
     {
       FT_TS_UInt    count;
       FT_TS_Short*  read;

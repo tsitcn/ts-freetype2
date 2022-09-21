@@ -5,7 +5,7 @@
  *   FreeType glyph image formats and default raster interface
  *   (specification).
  *
- * Copyright (C) 1996-2021 by
+ * Copyright (C) 1996-2022 by
  * David Turner, Robert Wilhelm, and Werner Lemberg.
  *
  * This file is part of the FreeType project, and may only be used,
@@ -237,6 +237,9 @@ FT_TS_BEGIN_HEADER
    *     functions to directly render to the application's surface; see the
    *     file `example2.cpp` in the tutorial for a demonstration.
    *
+   *   degree ::
+   *     0, 90, 180, 270
+   *
    *   buffer ::
    *     A typeless pointer to the bitmap buffer.  This value should be
    *     aligned on 32-bit boundaries in most cases.
@@ -262,6 +265,7 @@ FT_TS_BEGIN_HEADER
     unsigned int    rows;
     unsigned int    width;
     int             pitch;
+
     unsigned char*  buffer;
     unsigned short  num_grays;
     unsigned char   pixel_mode;
@@ -401,11 +405,11 @@ FT_TS_BEGIN_HEADER
    *     information.
    *
    *   FT_TS_OUTLINE_OVERLAP ::
-   *     This flag indicates that this outline contains overlapping contrours
-   *     and the anti-aliased renderer should perform oversampling to
-   *     mitigate possible artifacts.  This flag should _not_ be set for
-   *     well designed glyphs without overlaps because it quadruples the
-   *     rendering time.
+   *     [Since 2.10.3] This flag indicates that this outline contains
+   *     overlapping contours and the anti-aliased renderer should perform
+   *     oversampling to mitigate possible artifacts.  This flag should _not_
+   *     be set for well designed glyphs without overlaps because it quadruples
+   *     the rendering time.
    *
    *   FT_TS_OUTLINE_HIGH_PRECISION ::
    *     This flag indicates that the scan-line converter should try to
@@ -741,6 +745,10 @@ FT_TS_BEGIN_HEADER
    *     contours.  Some Type~1 fonts, like those in the Hershey family,
    *     contain glyphs in this format.  These are described as @FT_TS_Outline,
    *     but FreeType isn't currently capable of rendering them correctly.
+   *
+   *   FT_TS_GLYPH_FORMAT_SVG ::
+   *     [Since 2.12] The glyph is represented by an SVG document in the
+   *     'SVG~' table.
    */
   typedef enum  FT_TS_Glyph_Format_
   {
@@ -749,7 +757,8 @@ FT_TS_BEGIN_HEADER
     FT_TS_IMAGE_TAG( FT_TS_GLYPH_FORMAT_COMPOSITE, 'c', 'o', 'm', 'p' ),
     FT_TS_IMAGE_TAG( FT_TS_GLYPH_FORMAT_BITMAP,    'b', 'i', 't', 's' ),
     FT_TS_IMAGE_TAG( FT_TS_GLYPH_FORMAT_OUTLINE,   'o', 'u', 't', 'l' ),
-    FT_TS_IMAGE_TAG( FT_TS_GLYPH_FORMAT_PLOTTER,   'p', 'l', 'o', 't' )
+    FT_TS_IMAGE_TAG( FT_TS_GLYPH_FORMAT_PLOTTER,   'p', 'l', 'o', 't' ),
+    FT_TS_IMAGE_TAG( FT_TS_GLYPH_FORMAT_SVG,       'S', 'V', 'G', ' ' )
 
   } FT_TS_Glyph_Format;
 

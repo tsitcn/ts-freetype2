@@ -4,7 +4,7 @@
  *
  *   FreeType sbits manager (body).
  *
- * Copyright (C) 2000-2021 by
+ * Copyright (C) 2000-2022 by
  * David Turner, Robert Wilhelm, and Werner Lemberg.
  *
  * This file is part of the FreeType project, and may only be used,
@@ -171,7 +171,7 @@
       sbit->xadvance  = (FT_TS_Char)xadvance;
       sbit->yadvance  = (FT_TS_Char)yadvance;
       sbit->format    = (FT_TS_Byte)bitmap->pixel_mode;
-      sbit->max_grays = (FT_TS_Byte)(bitmap->num_grays - 1);
+      sbit->max_grays = (FT_TS_Byte)( bitmap->num_grays - 1 );
 
       if ( slot->internal->flags & FT_TS_GLYPH_OWN_BITMAP )
       {
@@ -233,7 +233,7 @@
       goto Exit;
     }
 
-    if ( !FT_TS_NEW( snode ) )
+    if ( !FT_TS_QNEW( snode ) )
     {
       FT_TS_UInt  count, start;
 
@@ -248,7 +248,9 @@
       snode->count = count;
       for ( node_count = 0; node_count < count; node_count++ )
       {
-        snode->sbits[node_count].width = 255;
+        snode->sbits[node_count].width  = 255;
+        snode->sbits[node_count].height = 0;
+        snode->sbits[node_count].buffer = NULL;
       }
 
       error = ftc_snode_load( snode,

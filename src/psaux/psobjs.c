@@ -4,7 +4,7 @@
  *
  *   Auxiliary functions for PostScript fonts (body).
  *
- * Copyright (C) 1996-2021 by
+ * Copyright (C) 1996-2022 by
  * David Turner, Robert Wilhelm, and Werner Lemberg.
  *
  * This file is part of the FreeType project, and may only be used,
@@ -99,45 +99,31 @@
   }
 
 
-  static void
-  shift_elements( PS_Table  table,
-                  FT_TS_Byte*  old_base )
-  {
-    FT_TS_PtrDist  delta  = table->block - old_base;
-    FT_TS_Byte**   offset = table->elements;
-    FT_TS_Byte**   limit  = offset + table->max_elems;
-
-
-    for ( ; offset < limit; offset++ )
-    {
-      if ( offset[0] )
-        offset[0] += delta;
-    }
-  }
-
-
   static FT_TS_Error
-  reallocate_t1_table( PS_Table   table,
-                       FT_TS_Offset  new_size )
+  ps_table_realloc( PS_Table   table,
+                    FT_TS_Offset  new_size )
   {
     FT_TS_Memory  memory   = table->memory;
     FT_TS_Byte*   old_base = table->block;
     FT_TS_Error   error;
 
 
-    /* allocate new base block */
-    if ( FT_TS_ALLOC( table->block, new_size ) )
-    {
-      table->block = old_base;
+    /* (re)allocate the base block */
+    if ( FT_TS_REALLOC( table->block, table->capacity, new_size ) )
       return error;
-    }
 
-    /* copy elements and shift offsets */
-    if ( old_base )
+    /* rebase offsets if necessary */
+    if ( old_base && table->block != old_base )
     {
-      FT_TS_MEM_COPY( table->block, old_base, table->capacity );
-      shift_elements( table, old_base );
-      FT_TS_FREE( old_base );
+      FT_TS_Byte**   offset = table->elements;
+      FT_TS_Byte**   limit  = offset + table->max_elems;
+
+
+      for ( ; offset < limit; offset++ )
+      {
+        if ( *offset )
+          *offset = table->block + ( *offset - old_base );
+      }
     }
 
     table->capacity = new_size;
@@ -204,7 +190,7 @@
         new_size  = FT_TS_PAD_CEIL( new_size, 1024 );
       }
 
-      error = reallocate_t1_table( table, new_size );
+      error = ps_table_realloc( table, new_size );
       if ( error )
         return error;
 
@@ -234,32 +220,12 @@
    * @InOut:
    *   table ::
    *     The target table.
-   *
-   * @Note:
-   *   This function does NOT release the heap's memory block.  It is up
-   *   to the caller to clean it, or reference it in its own structures.
    */
   FT_TS_LOCAL_DEF( void )
   ps_table_done( PS_Table  table )
   {
-    FT_TS_Memory  memory = table->memory;
-    FT_TS_Error   error;
-    FT_TS_Byte*   old_base = table->block;
-
-
-    /* should never fail, because rec.cursor <= rec.size */
-    if ( !old_base )
-      return;
-
-    if ( FT_TS_QALLOC( table->block, table->cursor ) )
-      return;
-    FT_TS_MEM_COPY( table->block, old_base, table->cursor );
-    shift_elements( table, old_base );
-
-    table->capacity = table->cursor;
-    FT_TS_FREE( old_base );
-
-    FT_TS_UNUSED( error );
+    /* no problem if shrinking fails */
+    ps_table_realloc( table, table->cursor );
   }
 
 
@@ -552,7 +518,7 @@
 
     if ( *cur == '<' )                              /* <...> */
     {
-      if ( cur + 1 < limit && *(cur + 1) == '<' )   /* << */
+      if ( cur + 1 < limit && *( cur + 1 ) == '<' ) /* << */
       {
         cur++;
         cur++;
@@ -1098,7 +1064,6 @@
     {
       FT_TS_Byte*    q      = (FT_TS_Byte*)objects[idx] + field->offset;
       FT_TS_Long     val;
-      FT_TS_String*  string = NULL;
 
 
       skip_spaces( &cur, limit );
@@ -1148,8 +1113,9 @@
       case T1_FIELD_TYPE_STRING:
       case T1_FIELD_TYPE_KEY:
         {
-          FT_TS_Memory  memory = parser->memory;
-          FT_TS_UInt    len    = (FT_TS_UInt)( limit - cur );
+          FT_TS_Memory   memory = parser->memory;
+          FT_TS_UInt     len    = (FT_TS_UInt)( limit - cur );
+          FT_TS_String*  string = NULL;
 
 
           if ( cur >= limit )
@@ -1190,7 +1156,6 @@
             FT_TS_TRACE0(( "ps_parser_load_field: overwriting field %s\n",
                         field->ident ));
             FT_TS_FREE( *(FT_TS_String**)q );
-            *(FT_TS_String**)q = NULL;
           }
 
           if ( FT_TS_QALLOC( string, len + 1 ) )

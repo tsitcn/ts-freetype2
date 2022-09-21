@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  You can use this file to build tsfreetype with MSBuild as follows
+  You can use this file to build FreeType with MSBuild as follows
 
     MSBuild.exe -t:Rebuild
                 -p:Configuration=Debug
                 -p:Platform=x64
                 -p:UserDefines=FT_DEBUG_LOGGING
-                   builds/windows/vc2010/tsfreetype.vcxproj
+                   builds/windows/vc2010/freetype.vcxproj
 
   or with different appropriate switches. It also works with Visual Studio.
-  Additional customization can be made in `tsfreetype.user.props`.
+  Additional customization can be made in `freetype.user.props`.
 -->
 <Project DefaultTargets="DlgCopy;Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
@@ -64,7 +64,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{78B079BD-9FC7-4B9E-B4A6-96DA0F00248B}</ProjectGuid>
-    <RootNamespace>tsfreetype</RootNamespace>
+    <RootNamespace>FreeType</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="PlatformToolset">
@@ -127,9 +127,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
-    <TargetName>tsfreetype</TargetName>
+    <TargetName>freetype</TargetName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\tsfreetype.user.props" Condition="exists('$(SolutionDir)\tsfreetype.user.props')" Label="UserProperties" />
+  <Import Project="$(SolutionDir)\freetype.user.props" Condition="exists('$(SolutionDir)\freetype.user.props')" Label="UserProperties" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -485,6 +485,7 @@
     <ClCompile Include="..\..\..\src\sfnt\sfnt.c" />
     <ClCompile Include="..\..\..\src\smooth\smooth.c" />
     <ClCompile Include="..\..\..\src\sdf\sdf.c" />
+    <ClCompile Include="..\..\..\src\svg\svg.c" />
     <ClCompile Include="..\..\..\src\truetype\truetype.c" />
     <ClCompile Include="..\..\..\src\type1\type1.c" />
     <ClCompile Include="..\..\..\src\type42\type42.c" />
@@ -519,6 +520,6 @@
       <TargetFiles Include="$(TargetDir)$(TargetName).*" />
     </ItemGroup>
     <Copy SourceFiles="@(TargetFiles)" DestinationFolder="..\..\..\objs" />
-    <Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="..\..\..\..\tsfreetype-demos\bin" Condition="'$(TargetExt)'=='.dll'" />
+    <Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="..\..\..\..\freetype-demos\bin" Condition="'$(TargetExt)'=='.dll'" />
   </Target>
 </Project>
