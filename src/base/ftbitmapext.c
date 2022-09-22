@@ -527,7 +527,7 @@ int FT_TS_Bitmap_Italic_Hor(FT_TS_Bitmap* pBitmapDst, const int degree, const in
         }
     }
 
-    //调整插槽位置。
+    // slot tuning
     if (isCCW)
     {
         if (slotOffset > 0)
@@ -539,6 +539,7 @@ int FT_TS_Bitmap_Italic_Hor(FT_TS_Bitmap* pBitmapDst, const int degree, const in
             slotOffset = totalItalic + slotOffset;
         }
     }
+
     if (slotOffset != 0)
     {
         slot->bitmap_left -= slotOffset;
@@ -677,11 +678,12 @@ int FT_TS_Bitmap_Italic_Ver(FT_TS_Bitmap* pDstBitmap, const int degree, const in
         }
     }
 
-    //调整插槽位置。
+    // slot tuning
     if (isCCW)
     {
-        if (   degree ==  90 && !to_bottom
-            || degree ==   0 &&  to_bottom
+        if (   degree ==   0 &&  to_bottom
+            || degree ==  90 && !to_bottom
+            || degree == 180 &&  to_bottom
             || degree == 270)
         {
             slotOffset = -(totalItalic + slotOffset);
