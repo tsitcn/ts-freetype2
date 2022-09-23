@@ -72,43 +72,43 @@ typedef struct FT_TS_Bitmap_Rotate_90N
 
 
 #define    NAME_FT_TS_BITMAP_ROTATE_INIT_4_90(count)         FT_TS_Bitmap_Rotate_Init_4_90_##count
-#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_90(count)         int NAME_FT_TS_BITMAP_ROTATE_INIT_4_90(##count)( \
+#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_90(count)         int NAME_FT_TS_BITMAP_ROTATE_INIT_4_90(count)( \
                                                              FT_TS_Bitmap* pDst, const FT_TS_Bitmap* pSrc, const FT_TS_Bitmap_Pixel_MN*   pPixelFuncs)
 #define    NAME_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(count)  FT_TS_Bitmap_Rotate_Init_4_Italic_90_##count
-#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(count)  int NAME_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(##count)( \
+#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(count)  int NAME_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(count)( \
                                                              FT_TS_Bitmap* pDst, const FT_TS_Bitmap* pSrc, const FT_TS_Bitmap_Pixel_MN*   pPixelFuncs)
 #define    NAME_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(count)    FT_TS_Bitmap_Rotate_Init_4_Bold_90_##count
-#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(count)    int NAME_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(##count)( \
+#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(count)    int NAME_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(count)( \
                                                              FT_TS_Bitmap* pDst, const FT_TS_Bitmap* pSrc, const FT_TS_Bitmap_Pixel_MN*   pPixelFuncs)
 
 #define    NAME_FT_TS_BITMAP_ROTATE_DST_COORDS_90(count)     FT_TS_Bitmap_Rotate_Dst_Coords_90_##count
-#define DECLARE_FT_TS_BITMAP_ROTATE_DST_COORDS_90(count)     int NAME_FT_TS_BITMAP_ROTATE_DST_COORDS_90(##count)( \
+#define DECLARE_FT_TS_BITMAP_ROTATE_DST_COORDS_90(count)     int NAME_FT_TS_BITMAP_ROTATE_DST_COORDS_90(count)( \
                                                              int* pDstCoords, int xSrc, int ySrc, int src_width, int src_rows, const FT_TS_Bitmap_Pixel_MN*   pPixelFuncs)
 #define    NAME_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(count)  FT_TS_Bitmap_Rotate_Slot_Position_90_##count
-#define DECLARE_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(count)  int NAME_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(##count)( \
+#define DECLARE_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(count)  int NAME_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(count)( \
                                                              FT_TS_GlyphSlot slot, const FT_TS_Bitmap* pSrc, const int flags,  const FT_TS_Bitmap_Pixel_MN*   pPixelFuncs)
 
 #define    NAME_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(count)  FT_TS_Bitmap_Rotate_Italic_Action_90_##count
-#define DECLARE_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(count)  int NAME_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(##count)( \
+#define DECLARE_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(count)  int NAME_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(count)( \
                                                              FT_TS_Bitmap* pDst, const int to_bottom, const int degree, const float oblique, FT_TS_Bitmap* pSrc, FT_TS_GlyphSlot slot, const FT_TS_Bitmap_Pixel_MN*   pPixelFuncs)
 
 #define    NAME_FT_TS_BITMAP_ROTATE_INIT_90(count)           FT_TS_Bitmap_Rotate_Init_90_##count()
 
-#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_90(count)           DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_90(##count);  \
-                                                             DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(##count); \
-                                                             DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(##count); \
-                                                             DECLARE_FT_TS_BITMAP_ROTATE_DST_COORDS_90(##count); \
-                                                             DECLARE_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(##count); \
-                                                             DECLARE_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(##count); \
+#define DECLARE_FT_TS_BITMAP_ROTATE_INIT_90(count)           DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_90(count);  \
+                                                             DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(count); \
+                                                             DECLARE_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(count); \
+                                                             DECLARE_FT_TS_BITMAP_ROTATE_DST_COORDS_90(count); \
+                                                             DECLARE_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(count); \
+                                                             DECLARE_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(count); \
                                                              static FT_TS_Bitmap_Rotate_90N FT_TS_Bitmap_RotateFuncs##count = { \
-                                                                 NAME_FT_TS_BITMAP_ROTATE_INIT_4_90(##count), \
-                                                                 NAME_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(##count), \
-                                                                 NAME_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(##count), \
-                                                                 NAME_FT_TS_BITMAP_ROTATE_DST_COORDS_90(##count), \
-                                                                 NAME_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(##count), \
-                                                                 NAME_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(##count), \
+                                                                 NAME_FT_TS_BITMAP_ROTATE_INIT_4_90(count), \
+                                                                 NAME_FT_TS_BITMAP_ROTATE_INIT_4_ITALIC_90(count), \
+                                                                 NAME_FT_TS_BITMAP_ROTATE_INIT_4_BOLD_90(count), \
+                                                                 NAME_FT_TS_BITMAP_ROTATE_DST_COORDS_90(count), \
+                                                                 NAME_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(count), \
+                                                                 NAME_FT_TS_BITMAP_ROTATE_ITALIC_ACTION_90(count), \
                                                              }; \
-                                                             FT_TS_Bitmap_Rotate_90N* NAME_FT_TS_BITMAP_ROTATE_INIT_90(##count) \
+                                                             FT_TS_Bitmap_Rotate_90N* NAME_FT_TS_BITMAP_ROTATE_INIT_90(count) \
                                                              { \
                                                                  return &(FT_TS_Bitmap_RotateFuncs##count); \
                                                              }

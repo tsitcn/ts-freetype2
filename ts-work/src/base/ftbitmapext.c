@@ -271,8 +271,7 @@
 
       memcpy(&oFliped, pBitmap, sizeof(FT_TS_Bitmap));
       oFliped.buffer = NULL;
-      pPixelFuncs->init_buffer((&oFliped));
-
+      size = pPixelFuncs->init_buffer((&oFliped));
       if (FT_TS_CHECK_FLIP_L2R(flags))
       {
           memset(oFliped.buffer, 0, size);
@@ -336,7 +335,6 @@
 
   static UCHAR* FT_TS_Bitmap_Rotate(FT_TS_Bitmap* pBitmap, int degree, FT_TS_GlyphSlot slot, const int flags)
   {
-      int size;
       FT_TS_Bitmap oRotated = {0};
       FT_TS_Bitmap_Pixel_MN*   pPixelFuncs;
       FT_TS_Bitmap_Rotate_90N* pRotateFuncs;
@@ -529,7 +527,7 @@ int FT_TS_Bitmap_Italic_Hor(FT_TS_Bitmap* pBitmapDst, const int degree, const in
         }
     }
 
-    //调整插槽位置。
+    // slot
     if (isCCW)
     {
         if (slotOffset > 0)
@@ -541,6 +539,7 @@ int FT_TS_Bitmap_Italic_Hor(FT_TS_Bitmap* pBitmapDst, const int degree, const in
             slotOffset = totalItalic + slotOffset;
         }
     }
+
     if (slotOffset != 0)
     {
         slot->bitmap_left -= slotOffset;
@@ -679,11 +678,12 @@ int FT_TS_Bitmap_Italic_Ver(FT_TS_Bitmap* pDstBitmap, const int degree, const in
         }
     }
 
-    //调整插槽位置。
+    // slot
     if (isCCW)
     {
-        if (   degree ==  90 && !to_bottom
-            || degree ==   0 &&  to_bottom
+        if (   degree ==   0 &&  to_bottom
+            || degree ==  90 && !to_bottom
+            || degree == 180 &&  to_bottom
             || degree == 270)
         {
             slotOffset = -(totalItalic + slotOffset);

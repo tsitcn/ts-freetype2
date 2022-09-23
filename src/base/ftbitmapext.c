@@ -527,7 +527,7 @@ int FT_TS_Bitmap_Italic_Hor(FT_TS_Bitmap* pBitmapDst, const int degree, const in
         }
     }
 
-    // slot tuning
+    // slot
     if (isCCW)
     {
         if (slotOffset > 0)
@@ -678,7 +678,7 @@ int FT_TS_Bitmap_Italic_Ver(FT_TS_Bitmap* pDstBitmap, const int degree, const in
         }
     }
 
-    // slot tuning
+    // slot
     if (isCCW)
     {
         if (   degree ==   0 &&  to_bottom

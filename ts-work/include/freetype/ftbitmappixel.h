@@ -113,135 +113,135 @@ FT_TS_Bitmap_Pixel_MN* FT_TS_Bitmap_Get_PixelFuncsByMode(const int nMode);
 
 
 #define    NAME_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(bits, mode)        FT_TS_Bitmap_Pixel_Init_With_Bitmap_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(bits, mode)        int NAME_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(bits, mode)        int NAME_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(bits, mode)( \
                                                                             FT_TS_Bitmap* pDst, const FT_TS_Bitmap* pSrc)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_GET_WIDTH(bits, mode)               FT_TS_Bitmap_Pixel_Get_Width_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_GET_WIDTH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_GET_WIDTH(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_GET_WIDTH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_GET_WIDTH(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmap)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_SET_WIDTH(bits, mode)               FT_TS_Bitmap_Pixel_Set_Width_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_SET_WIDTH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_SET_WIDTH(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_SET_WIDTH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_SET_WIDTH(bits, mode)( \
                                                                             FT_TS_Bitmap* pBitmap, const int width)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_GET_ROWS(bits, mode)                FT_TS_Bitmap_Pixel_Get_Rows_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_GET_ROWS(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_GET_ROWS(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_GET_ROWS(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_GET_ROWS(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmap)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)                FT_TS_Bitmap_Pixel_Set_Rows_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)( \
                                                                             FT_TS_Bitmap* pBitmap, const int rows)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)                FT_TS_Bitmap_Pixel_Set_Rows_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode)( \
                                                                             FT_TS_Bitmap* pBitmap, const int rows)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_GET_PITCH(bits, mode)               FT_TS_Bitmap_Pixel_Get_Pitch_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_GET_PITCH(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_GET_PITCH(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmap)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_SET_PITCH(bits, mode)               FT_TS_Bitmap_Pixel_Set_Pitch_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_SET_PITCH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_SET_PITCH(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_SET_PITCH(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_SET_PITCH(bits, mode)( \
                                                                             FT_TS_Bitmap* pBitmap, const int pitch)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_COPY_ROW(bits, mode)                FT_TS_Bitmap_Pixel_Copy_Row_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_COPY_ROW(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW(bits, mode)                int NAME_FT_TS_BITMAP_PIXEL_COPY_ROW(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmapSrc, UCHAR** pBufferSrc, \
                                                                             const FT_TS_Bitmap* pBitmapDst, UCHAR** pBufferDst)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_COPY_ROW2(bits, mode)               FT_TS_Bitmap_Pixel_Copy_Row2_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW2(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_COPY_ROW2(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW2(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_COPY_ROW2(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmapSrc, UCHAR** pBufferSrc, const int aheadSrc, \
                                                                             const FT_TS_Bitmap* pBitmapDst, UCHAR** pBufferDst, const int aheadDst)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(bits, mode)          FT_TS_Bitmap_Pixel_Get_Pitch_Full_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(bits, mode)          int NAME_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(bits, mode)          int NAME_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmap)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_MOVE_ROW(bits, mode)                FT_TS_Bitmap_Pixel_Move_Row_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_MOVE_ROW(bits, mode)                UCHAR* NAME_FT_TS_BITMAP_PIXEL_MOVE_ROW(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_MOVE_ROW(bits, mode)                UCHAR* NAME_FT_TS_BITMAP_PIXEL_MOVE_ROW(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmap, UCHAR* pBuffer)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_GET_VALUE_X(bits, mode)             FT_TS_Bitmap_Pixel_Get_Value_X_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_GET_VALUE_X(bits, mode)             int NAME_FT_TS_BITMAP_PIXEL_GET_VALUE_X(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_GET_VALUE_X(bits, mode)             int NAME_FT_TS_BITMAP_PIXEL_GET_VALUE_X(bits, mode)( \
                                                                             const UCHAR* pSrc, const int xSrc)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_SET_VALUE_X(bits, mode)             FT_TS_Bitmap_Pixel_Set_Value_X_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_SET_VALUE_X(bits, mode)             int NAME_FT_TS_BITMAP_PIXEL_SET_VALUE_X(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_SET_VALUE_X(bits, mode)             int NAME_FT_TS_BITMAP_PIXEL_SET_VALUE_X(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmapSrc, UCHAR* pSrc, const int xSrc, const UCHAR value)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_COPY_XY(bits, mode)                 FT_TS_Bitmap_Pixel_Copy_XY_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_COPY_XY(bits, mode)                 int NAME_FT_TS_BITMAP_PIXEL_COPY_XY(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_COPY_XY(bits, mode)                 int NAME_FT_TS_BITMAP_PIXEL_COPY_XY(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmapSrc, UCHAR* pSrc, int xSrc, int ySrc, \
                                                                             const FT_TS_Bitmap* pBitmapDst, UCHAR* pDst, int xDst, int yDst)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_SWAP_XY(bits, mode)                 FT_TS_Bitmap_Pixel_Swap_XY_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_SWAP_XY(bits, mode)                 int NAME_FT_TS_BITMAP_PIXEL_SWAP_XY(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_SWAP_XY(bits, mode)                 int NAME_FT_TS_BITMAP_PIXEL_SWAP_XY(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmapSrc, UCHAR* pSrc, int xSrc, int ySrc, \
                                                                             const FT_TS_Bitmap* pBitmapDst, UCHAR* pDst, int xDst, int yDst)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_CONVERT_FROM(bits, mode)            FT_TS_Bitmap_Pixel_Convert_From_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_CONVERT_FROM(bits, mode)            int NAME_FT_TS_BITMAP_PIXEL_CONVERT_FROM(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_CONVERT_FROM(bits, mode)            int NAME_FT_TS_BITMAP_PIXEL_CONVERT_FROM(bits, mode)( \
                                                                             const UCHAR pixelSrc, const UCHAR* pSrc, const int x, \
                                                                             const FT_TS_Bitmap* pBitmapDst, UCHAR* pDst)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_DUMP_DATA(bits, mode)               FT_TS_Bitmap_Pixel_Dump_Data_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_DUMP_DATA(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_DUMP_DATA(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_DUMP_DATA(bits, mode)               int NAME_FT_TS_BITMAP_PIXEL_DUMP_DATA(bits, mode)( \
                                                                             const FT_TS_Bitmap* pBitmap, UCHAR* pData, const int x, UCHAR* pBuffer, const int pos)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_INIT_PITCH(bits, mode)              FT_TS_Bitmap_Pixel_Init_Pitch_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_INIT_PITCH(bits, mode)              int NAME_FT_TS_BITMAP_PIXEL_INIT_PITCH(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_INIT_PITCH(bits, mode)              int NAME_FT_TS_BITMAP_PIXEL_INIT_PITCH(bits, mode)( \
                                                                             FT_TS_Bitmap* pBitmap)
 
 #define    NAME_FT_TS_BITMAP_PIXEL_INIT_BUFFER(bits, mode)             FT_TS_Bitmap_Pixel_Init_Buffer_##bits_##mode
-#define DECLARE_FT_TS_BITMAP_PIXEL_INIT_BUFFER(bits, mode)             int NAME_FT_TS_BITMAP_PIXEL_INIT_BUFFER(##bits, ##mode)( \
+#define DECLARE_FT_TS_BITMAP_PIXEL_INIT_BUFFER(bits, mode)             int NAME_FT_TS_BITMAP_PIXEL_INIT_BUFFER(bits, mode)( \
                                                                             FT_TS_Bitmap* pBitmap)
 
 
 
 #define    NAME_FT_TS_BITMAP_PIXEL_INIT(bits, mode)          FT_TS_Bitmap_Pixel_Init_##bits_##mode()
 
-#define DECLARE_FT_TS_BITMAP_PIXEL_INIT(bits, mode)          DECLARE_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_WIDTH(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_WIDTH(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_ROWS(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_ROWS(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_PITCH(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW2(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_MOVE_ROW(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_VALUE_X(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_VALUE_X(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_COPY_XY(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_SWAP_XY(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_CONVERT_FROM(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_DUMP_DATA(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_INIT_PITCH(##bits, ##mode);  \
-                                                             DECLARE_FT_TS_BITMAP_PIXEL_INIT_BUFFER(##bits, ##mode);  \
+#define DECLARE_FT_TS_BITMAP_PIXEL_INIT(bits, mode)          DECLARE_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_WIDTH(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_WIDTH(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_ROWS(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_PITCH(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_COPY_ROW2(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_MOVE_ROW(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_GET_VALUE_X(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_SET_VALUE_X(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_COPY_XY(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_SWAP_XY(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_CONVERT_FROM(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_DUMP_DATA(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_INIT_PITCH(bits, mode);  \
+                                                             DECLARE_FT_TS_BITMAP_PIXEL_INIT_BUFFER(bits, mode);  \
                                                              static FT_TS_Bitmap_Pixel_MN FT_TS_Bitmap_PixelFuncs_##bits_##mode = { \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(##bits, ##mode),  \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_WIDTH(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_WIDTH(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_ROWS(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_PITCH(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_PITCH(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_COPY_ROW(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_COPY_ROW2(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_MOVE_ROW(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_VALUE_X(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_VALUE_X(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_COPY_XY(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_SWAP_XY(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_CONVERT_FROM(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_DUMP_DATA(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_INIT_PITCH(##bits, ##mode), \
-                                                                 NAME_FT_TS_BITMAP_PIXEL_INIT_BUFFER(##bits, ##mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_INIT_WITH_BITMAP(bits, mode),  \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_WIDTH(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_WIDTH(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_ROWS(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_ROWS(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_PITCH(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_PITCH(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_COPY_ROW(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_COPY_ROW2(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_PITCH_FULL(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_MOVE_ROW(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_GET_VALUE_X(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_SET_VALUE_X(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_COPY_XY(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_SWAP_XY(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_CONVERT_FROM(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_DUMP_DATA(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_INIT_PITCH(bits, mode), \
+                                                                 NAME_FT_TS_BITMAP_PIXEL_INIT_BUFFER(bits, mode), \
                                                              }; \
-                                                             FT_TS_Bitmap_Pixel_MN* NAME_FT_TS_BITMAP_PIXEL_INIT(##bits, ##mode) \
+                                                             FT_TS_Bitmap_Pixel_MN* NAME_FT_TS_BITMAP_PIXEL_INIT(bits, mode) \
                                                              { \
                                                                  return &(FT_TS_Bitmap_PixelFuncs_##bits_##mode); \
                                                              }

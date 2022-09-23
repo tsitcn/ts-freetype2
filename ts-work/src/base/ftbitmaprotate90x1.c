@@ -64,18 +64,6 @@ DECLARE_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(1)
     slot->bitmap_top  = -slot->bitmap_left;
     /** 这样视觉效果最好。 */
     slot->bitmap_left = top - pPixelFuncs->get_rows(pSrc);
-    if (FT_TS_CHECK_BITMAP_SLOT_TUNING(flags))
-    {
-        switch (slot->face->size->metrics.height)
-        {
-            case FONT_SIZE_17:
-                break;
-
-            default:
-                slot->bitmap_left ++;
-                break;
-        }
-    }
     return 0;
 }
 

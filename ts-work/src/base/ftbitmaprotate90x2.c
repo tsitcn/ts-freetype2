@@ -62,26 +62,6 @@ DECLARE_FT_TS_BITMAP_ROTATE_SLOT_POSITION_90(2)
 {
     //slot->bitmap_top  = -slot->bitmap_top;
     slot->bitmap_top  =  pPixelFuncs->get_rows(pSrc) - slot->bitmap_top;
-    if (FT_TS_CHECK_BITMAP_SLOT_TUNING(flags))
-    {
-        switch (slot->face->size->metrics.height)
-        {
-            case FONT_SIZE_12:
-            case FONT_SIZE_13:
-            case FONT_SIZE_14:
-                slot->bitmap_top --;
-                break;
-
-            case FONT_SIZE_15:
-            case FONT_SIZE_17:
-                slot->bitmap_left --;
-                break;
-
-            default:
-                break;
-        }
-    }
-
     slot->bitmap_left = 0 - (pPixelFuncs->get_width(pSrc) + 1 + slot->bitmap_left);
     return 0;
 }

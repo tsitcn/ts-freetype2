@@ -59,41 +59,34 @@ FT_TS_BEGIN_HEADER
 #define FT_TS_CHECK_CHANGE_SIZE_Y_ENABLE(flags)         !(flags & FT_TS_SOLID_SIZE_Y_ENABLE)
 
 /**
- * Slot tunning.
- */
-#define FT_TS_BITMAP_SLOT_TUNING_DISABLE                  0
-#define FT_TS_BITMAP_SLOT_TUNING_ENABLE                  (0x01 <<  4)
-#define FT_TS_CHECK_BITMAP_SLOT_TUNING(flags)            (flags & FT_TS_BITMAP_SLOT_TUNING_ENABLE)
-
-/**
  * Gray bold. 4 directions all.
  */
 #define FT_TS_BITMAP_BOLD_GRAY_DISABLE                    0
-#define FT_TS_BITMAP_BOLD_GRAY_ENABLE                    (0x01 <<  5)
+#define FT_TS_BITMAP_BOLD_GRAY_ENABLE                    (0x01 <<  4)
 #define FT_TS_CHECK_BITMAP_BOLD_GRAY(flags)              (flags & FT_TS_BITMAP_BOLD_GRAY_ENABLE)
 
 #define FT_TS_BITMAP_BOLD_GRAY_NORTH_DISABLE              0
-#define FT_TS_BITMAP_BOLD_GRAY_NORTH_ENABLE              (0x01 <<  6)
+#define FT_TS_BITMAP_BOLD_GRAY_NORTH_ENABLE              (0x01 <<  5)
 #define FT_TS_CHECK_BITMAP_BOLD_GRAY_NORTH(flags)        (flags & FT_TS_BITMAP_BOLD_GRAY_NORTH_ENABLE)
 
 #define FT_TS_BITMAP_BOLD_GRAY_EAST_DISABLE               0
-#define FT_TS_BITMAP_BOLD_GRAY_EAST_ENABLE               (0x01 <<  7)
+#define FT_TS_BITMAP_BOLD_GRAY_EAST_ENABLE               (0x01 <<  6)
 #define FT_TS_CHECK_BITMAP_BOLD_GRAY_EAST(flags)         (flags & FT_TS_BITMAP_BOLD_GRAY_EAST_ENABLE)
 
 #define FT_TS_BITMAP_BOLD_GRAY_SORTH_DISABLE              0
-#define FT_TS_BITMAP_BOLD_GRAY_SORTH_ENABLE              (0x01 <<  8)
+#define FT_TS_BITMAP_BOLD_GRAY_SORTH_ENABLE              (0x01 <<  7)
 #define FT_TS_CHECK_BITMAP_BOLD_GRAY_SORTH(flags)        (flags & FT_TS_BITMAP_BOLD_GRAY_SORTH_ENABLE)
 
 #define FT_TS_BITMAP_BOLD_GRAY_WEST_DISABLE               0
-#define FT_TS_BITMAP_BOLD_GRAY_WEST_ENABLE               (0x01 <<  9)
+#define FT_TS_BITMAP_BOLD_GRAY_WEST_ENABLE               (0x01 <<  8)
 #define FT_TS_CHECK_BITMAP_BOLD_GRAY_WEST(flags)         (flags & FT_TS_BITMAP_BOLD_GRAY_WEST_ENABLE)
 
 #define FT_TS_FLIP_L2R_DISABLE                            0
-#define FT_TS_FLIP_L2R_ENABLE                            (0x01 << 10)
+#define FT_TS_FLIP_L2R_ENABLE                            (0x01 <<  9)
 #define FT_TS_CHECK_FLIP_L2R(flags)                      (flags & FT_TS_FLIP_L2R_ENABLE)
 
 #define FT_TS_FLIP_T2B_DISABLE                            0
-#define FT_TS_FLIP_T2B_ENABLE                            (0x01 << 11)
+#define FT_TS_FLIP_T2B_ENABLE                            (0x01 << 10)
 #define FT_TS_CHECK_FLIP_T2B(flags)                      (flags & FT_TS_FLIP_T2B_ENABLE)
 
 
